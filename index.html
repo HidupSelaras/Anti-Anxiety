@@ -750,53 +750,73 @@
                     </p>
                 </div>
 
-                <div class="space-y-4">
+                <!-- Kategori: Rangkaian Waktu -->
+                <div class="mb-6">
+                    <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+                        <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Rangkaian Waktu
+                    </h4>
                     
-                    <!-- Audio 1 -->
-                    <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="sun" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
+                    <div class="space-y-4">
+                        <!-- Audio Pagi -->
+                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="sun" class="w-6 h-6 text-amber-600 dark:text-amber-400"></i>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Pagi</h4>
+                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Mulai harimu dengan energi yang tenang dan penuh rasa syukur.</p>
+                                <audio controls class="w-full mt-3 h-10 rounded-lg">
+                                    <source src="afirmasi-pagi.mp3" type="audio/mpeg">
+                                    Browser Anda tidak mendukung pemutar audio.
+                                </audio>
+                            </div>
                         </div>
-                        <div class="flex-1 w-full">
-                            <h4 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Pagi Hari</h4>
-                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Mulai harimu dengan pikiran yang tenang dan penuh rasa syukur.</p>
-                            <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                <source src="audio-afirmasi-pagi.mp3" type="audio/mpeg">
-                                Browser Anda tidak mendukung pemutar audio.
-                            </audio>
+
+                        <!-- Audio Siang -->
+                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="sun-medium" class="w-6 h-6 text-sky-600 dark:text-sky-400"></i>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Siang</h4>
+                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.</p>
+                                <audio controls class="w-full mt-3 h-10 rounded-lg">
+                                    <source src="afirmasi-siang.mp3" type="audio/mpeg">
+                                    Browser Anda tidak mendukung pemutar audio.
+                                </audio>
+                            </div>
+                        </div>
+
+                        <!-- Audio Sore -->
+                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="sunset" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Sore</h4>
+                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Lepaskan sisa-sisa stres hari ini dan bersiaplah untuk bersantai.</p>
+                                <audio controls class="w-full mt-3 h-10 rounded-lg">
+                                    <source src="afirmasi-sore.mp3" type="audio/mpeg">
+                                    Browser Anda tidak mendukung pemutar audio.
+                                </audio>
+                            </div>
+                        </div>
+
+                        <!-- Audio Malam -->
+                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="moon" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Malam</h4>
+                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Menenangkan pikiran, memaafkan diri, dan bersiap untuk tidur nyenyak.</p>
+                                <audio controls class="w-full mt-3 h-10 rounded-lg">
+                                    <source src="afirmasi-malam.mp3" type="audio/mpeg">
+                                    Browser Anda tidak mendukung pemutar audio.
+                                </audio>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Audio 2 -->
-                    <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="moon" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
-                        </div>
-                        <div class="flex-1 w-full">
-                            <h4 class="text-base font-bold text-slate-800 dark:text-slate-100">Relaksasi Tidur Nyenyak</h4>
-                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Menuntun tubuh dan pikiranmu untuk beristirahat total di malam hari.</p>
-                            <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                <source src="audio-tidur-nyenyak.mp3" type="audio/mpeg">
-                                Browser Anda tidak mendukung pemutar audio.
-                            </audio>
-                        </div>
-                    </div>
-
-                    <!-- Audio 3 -->
-                    <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center flex-shrink-0">
-                            <i data-lucide="heart-pulse" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
-                        </div>
-                        <div class="flex-1 w-full">
-                            <h4 class="text-base font-bold text-slate-800 dark:text-slate-100">Pelepasan Emosi</h4>
-                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Panduan audio untuk membantu memproses beban emosi yang tertahan.</p>
-                            <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                <source src="audio-pelepasan-emosi.mp3" type="audio/mpeg">
-                                Browser Anda tidak mendukung pemutar audio.
-                            </audio>
-                        </div>
-                    </div>
-
                 </div>
                 
                 <p class="text-[11px] font-medium text-slate-500 text-center mt-8">
