@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Tidak Ditemukan - Anti Anxiety</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { calm: { 500: '#14b8a6', 600: '#0d9488' } } } } }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #eaf5ef; background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.7) 0%, rgba(214, 236, 226, 0.8) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center; background-attachment: fixed; }
+        html.dark body { background-color: #0a1b17; background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.8) 0%, rgba(12, 35, 30, 0.9) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-slate-800 dark:text-slate-100 px-4">
+    <div class="bg-white/90 dark:bg-slate-800/90 p-10 rounded-3xl shadow-xl text-center max-w-md w-full border border-slate-200 dark:border-slate-700">
+        <div class="w-20 h-20 mx-auto bg-rose-100 dark:bg-rose-900/50 rounded-full flex items-center justify-center mb-6 text-rose-500">
+            <i data-lucide="compass" class="w-10 h-10"></i>
+        </div>
+        <h1 class="text-4xl font-black text-slate-800 dark:text-slate-100 mb-2">404</h1>
+        <h2 class="text-xl font-bold mb-4">Tersesat di Hutan?</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-8">Halaman yang Anda cari tidak ditemukan. Mari kembali ke ruang aman Anda.</p>
+        <a href="index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-calm-500 hover:bg-calm-600 text-white font-bold rounded-xl transition shadow-md">
+            <i data-lucide="home" class="w-5 h-5"></i> Kembali ke Beranda
+        </a>
+    </div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
