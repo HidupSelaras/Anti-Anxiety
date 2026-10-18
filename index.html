@@ -27,11 +27,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        html {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
-        }
+        html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -64,14 +60,8 @@
         html.dark .text-sharp { text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.10); }
 
         h1, h2, h3 { letter-spacing: -0.02em; }
-
         main { position: relative; isolation: isolate; }
-
-        /* Mencegah halaman meluber ke kanan */
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-        }
+        html, body { overflow-x: hidden; width: 100%; }
 
         .dashboard-welcome {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%);
@@ -86,14 +76,59 @@
             border: 1px solid rgba(45, 212, 191, 0.15);
         }
 
+        /* ============ BREATHING VISUAL CONTAINERS ============ */
+        #breathVisualStage {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+        }
+        .breath-visual {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            pointer-events: none;
+        }
+        .breath-visual.visual-hidden {
+            opacity: 0;
+            transform: scale(0.9);
+            pointer-events: none;
+        }
+        .breath-visual.visual-active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
         .breath-circle {
             transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease;
             will-change: transform;
         }
-        #breathMainCircle.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
+        .breath-visual.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
+
+        /* Bunga */
+        #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
+        /* Lilin */
+        #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
+        /* Balon */
+        #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
+        /* Kotak */
+        #boxOutline { transition: none; }
+        #boxMarker { transition: transform 4s ease-in-out; will-change: transform; }
+        /* Bintang */
+        #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
 
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+        @keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .twinkle-star { animation: twinkle 2s ease-in-out infinite; }
 
         .perspective { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -108,180 +143,113 @@
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-        @keyframes slide-hint {
-            0%, 100% { transform: translateX(0); opacity: 0.6; }
-            50% { transform: translateX(4px); opacity: 1; }
-        }
+        @keyframes slide-hint { 0%, 100% { transform: translateX(0); opacity: 0.6; } 50% { transform: translateX(4px); opacity: 1; } }
         .slide-hint-icon { animation: slide-hint 1.6s ease-in-out infinite; }
 
-        .streak-cell {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
+        .streak-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .streak-active { background: #14b8a6; color: white; }
         .streak-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .streak-empty { background: rgba(148, 163, 184, 0.10); }
         .streak-today { outline: 2px solid #0d9488; outline-offset: 1px; }
 
-        .grat-cell {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 10px;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
+        .grat-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .grat-active { background: #ec4899; color: white; }
         .grat-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .grat-empty { background: rgba(148, 163, 184, 0.10); }
         .grat-today { outline: 2px solid #be185d; outline-offset: 1px; }
 
-        /* FIX: nama class diselaraskan dengan HTML (.mood-slider-wrap). Rule .mood-slider ganda dihapus. */
         .mood-slider-wrap { position: relative; width: 100%; height: 24px; }
-        .mood-slider-track {
-            position: absolute; top: 50%; left: 0; right: 0; height: 10px;
-            transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: flex;
-            z-index: 1;
-        }
+        .mood-slider-track { position: absolute; top: 50%; left: 0; right: 0; height: 10px; transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: flex; z-index: 1; }
         .mood-seg { flex: 1; transition: filter 0.2s ease, opacity 0.2s ease; }
         .mood-seg.muted { filter: grayscale(1); opacity: 0.35; }
-        .mood-slider-bg {
-            position: absolute; top: 50%; left: 0; right: 0; height: 10px;
-            transform: translateY(-50%); border-radius: 999px;
-            background: rgba(148, 163, 184, 0.20);
-        }
-        input[type="range"].mood-range {
-            position: absolute; top: 0; left: 0; width: 100%; height: 24px;
-            -webkit-appearance: none; appearance: none; background: transparent;
-            outline: none; margin: 0; z-index: 3; cursor: pointer;
-        }
-        input[type="range"].mood-range::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none;
-            width: 22px; height: 22px; border-radius: 50%;
-            background: #ffffff; border: 3px solid #14b8a6; cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            transition: border-color 0.2s ease, transform 0.15s ease;
-            margin-top: 0;
-        }
+        .mood-slider-bg { position: absolute; top: 50%; left: 0; right: 0; height: 10px; transform: translateY(-50%); border-radius: 999px; background: rgba(148, 163, 184, 0.20); }
+        input[type="range"].mood-range { position: absolute; top: 0; left: 0; width: 100%; height: 24px; -webkit-appearance: none; appearance: none; background: transparent; outline: none; margin: 0; z-index: 3; cursor: pointer; }
+        input[type="range"].mood-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); transition: border-color 0.2s ease, transform 0.15s ease; margin-top: 0; }
         input[type="range"].mood-range::-webkit-slider-thumb:hover { transform: scale(1.1); }
-        input[type="range"].mood-range::-moz-range-thumb {
-            width: 22px; height: 22px; border-radius: 50%;
-            background: #ffffff; border: 3px solid #14b8a6; cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
+        input[type="range"].mood-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
         input[type="range"].mood-range::-moz-range-track { background: transparent; }
 
-        #backupBubble {
+        #backupBubble { position: fixed; bottom: 24px; right: 24px; z-index: 45; transform: scale(0); opacity: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
+        #backupBubble.visible { transform: scale(1); opacity: 1; }
+        #backupBubble.collapsed { transform: scale(0.22); opacity: 0.55; }
+        #backupBubble.collapsed:hover { transform: scale(0.28); opacity: 0.85; }
+        #backupBubble .bubble-btn { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%); box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; animation: bubble-pulse 2.5s ease-in-out infinite; transition: transform 0.2s ease, box-shadow 0.2s ease; border: none; }
+        #backupBubble .bubble-btn:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(249, 115, 22, 0.55), 0 0 0 0 rgba(249, 115, 22, 0.5); }
+        @keyframes bubble-pulse { 0%, 100% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5); } 50% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 10px rgba(249, 115, 22, 0); } }
+        #backupBubble .bubble-badge { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #dc2626; color: white; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        html.dark #backupBubble .bubble-badge { border-color: #1e293b; }
+
+        #backupPopup { position: fixed; bottom: 92px; right: 24px; z-index: 46; width: 300px; background: white; border-radius: 18px; box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), 0 4px 8px rgba(0, 0, 0, 0.08); padding: 16px; transform: scale(0.85) translateY(8px); opacity: 0; pointer-events: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
+        #backupPopup.visible { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
+        #backupPopup::after { content: ''; position: absolute; bottom: -8px; right: 24px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05)); }
+        html.dark #backupPopup { background: #1e293b; }
+        html.dark #backupPopup::after { border-top-color: #1e293b; }
+
+        /* FLOATING HOME BUTTON */
+        #homeFab {
             position: fixed;
             bottom: 24px;
-            right: 24px;
+            left: 24px;
             z-index: 45;
-            transform: scale(0);
-            opacity: 0;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-        }
-        #backupBubble.visible {
-            transform: scale(1);
-            opacity: 1;
-        }
-        #backupBubble.collapsed {
-            transform: scale(0.22);
-            opacity: 0.55;
-        }
-        #backupBubble.collapsed:hover {
-            transform: scale(0.28);
-            opacity: 0.85;
-        }
-        #backupBubble .bubble-btn {
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
-            box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5);
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+            box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            position: relative;
-            animation: bubble-pulse 2.5s ease-in-out infinite;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
             border: none;
-        }
-        #backupBubble .bubble-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.55), 0 0 0 0 rgba(249, 115, 22, 0.5);
-        }
-        @keyframes bubble-pulse {
-            0%, 100% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5); }
-            50% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 10px rgba(249, 115, 22, 0); }
-        }
-        #backupBubble .bubble-badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            min-width: 20px;
-            height: 20px;
-            padding: 0 5px;
-            border-radius: 10px;
-            background: #dc2626;
             color: white;
-            font-size: 10px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-        }
-        html.dark #backupBubble .bubble-badge {
-            border-color: #1e293b;
-        }
-
-        #backupPopup {
-            position: fixed;
-            bottom: 92px;
-            right: 24px;
-            z-index: 46;
-            width: 300px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), 0 4px 8px rgba(0, 0, 0, 0.08);
-            padding: 16px;
-            transform: scale(0.85) translateY(8px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
             opacity: 0;
             pointer-events: none;
-            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
         }
-        #backupPopup.visible {
-            transform: scale(1) translateY(0);
+        #homeFab.visible {
             opacity: 1;
             pointer-events: auto;
         }
-        #backupPopup::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            right: 24px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 8px solid white;
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05));
+        #homeFab:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6);
         }
-        html.dark #backupPopup {
-            background: #1e293b;
+        #homeFab:active {
+            transform: scale(0.95);
         }
-        html.dark #backupPopup::after {
-            border-top-color: #1e293b;
+        @media (max-width: 640px) {
+            #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; }
+        }
+
+        /* HOME DASHBOARD */
+        .home-shortcut {
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            cursor: pointer;
+        }
+        .home-shortcut:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        html.dark .home-shortcut:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        }
+
+        /* SOS contacts — dibuat lebih prominent */
+        .sos-contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(20, 184, 166, 0.15);
+            border: 1px solid rgba(45, 212, 191, 0.4);
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+        .sos-contact-btn:hover {
+            background: rgba(20, 184, 166, 0.28);
+            border-color: rgba(94, 234, 212, 0.7);
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -291,9 +259,9 @@
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
             
-            <!-- Baris 1: Logo & Judul (Diperbesar) -->
+            <!-- Logo & Judul -->
             <div class="flex items-center justify-between w-full md:w-auto">
-                <div class="flex items-center gap-3">
+                <button onclick="switchTab('home')" class="flex items-center gap-3 hover:opacity-80 transition text-left" aria-label="Kembali ke beranda">
                     <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900 shadow-md shadow-calm-100 dark:shadow-none flex-shrink-0">
                         <i data-lucide="heart-handshake" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                     </div>
@@ -301,20 +269,20 @@
                         <h1 class="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent tracking-tight">Anti Anxiety</h1>
                         <p class="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Teman Tenang & Kendali Diri</p>
                     </div>
-                </div>
+                </button>
                 
-                <!-- Tombol Dark Mode Mobile -->
-                <div class="flex md:hidden items-center">
+                <div class="flex md:hidden items-center gap-1">
+                    <button onclick="switchTab('home')" aria-label="Beranda" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                        <i data-lucide="home" class="w-5 h-5"></i>
+                    </button>
                     <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                         <i data-lucide="moon" id="themeIconMobile" class="w-5 h-5"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Baris 2: Tombol Navigasi (Desktop: di kanan, Mobile: di bawah) -->
+            <!-- Navigasi -->
             <div class="flex items-center justify-between md:justify-end gap-1.5 sm:gap-3 w-full md:w-auto">
-                
-                <!-- Grup Kiri: Streak & Backup -->
                 <div class="flex items-center gap-1.5 sm:gap-2">
                     <div id="streakBadge" class="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200 dark:border-amber-800">
                         <span class="text-xs sm:text-sm">🔥</span>
@@ -331,7 +299,6 @@
                     </button>
                 </div>
 
-                <!-- Grup Kanan: SOS, Info, Dark Mode Desktop -->
                 <div class="flex items-center gap-1.5 sm:gap-2">
                     <button onclick="openSosModal()" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1 sm:gap-1.5 shadow-md shadow-rose-500/20 active:scale-95 transition">
                         <i data-lucide="shield-alert" class="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-pulse"></i>
@@ -369,7 +336,6 @@
                         <i data-lucide="moon" id="themeIconDesktop" class="w-5 h-5"></i>
                     </button>
                 </div>
-
             </div>
         </div>
     </header>
@@ -432,45 +398,13 @@
             </div>
         </div>
 
-        <!-- Welcome Banner -->
-        <section class="dashboard-welcome p-6 rounded-3xl shadow-sm relative overflow-hidden">
-            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div>
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-calm-200/90 dark:bg-teal-900/70 text-teal-800 dark:text-teal-200 mb-2">
-                        🌿 Ruang Aman Anda
-                    </span>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100 tracking-tight">Bagaimana perasaanmu saat ini?</h2>
-                    <p class="text-sm font-medium text-sharp text-slate-700 dark:text-slate-300 mt-1 max-w-xl">
-                        Tarik napas perlahan. Ingatlah bahwa perasaan cemas adalah respons alami tubuh yang pasti akan berlalu.
-                    </p>
-                </div>
-                <div class="w-full md:w-auto bg-white/90 dark:bg-slate-900/90 p-4 rounded-2xl backdrop-blur-sm border border-slate-200/60 dark:border-slate-700 flex flex-col items-center min-w-[300px]">
-                    <div class="flex justify-between w-full text-xs text-slate-600 dark:text-slate-400 mb-2 font-semibold">
-                        <span>Sangat Tenang</span>
-                        <span id="moodValueLabel" class="text-calm-600 dark:text-calm-400 font-bold">Skala: 5</span>
-                        <span>Sangat Cemas</span>
-                    </div>
-
-                    <div class="mood-slider-wrap mb-3">
-                        <div class="mood-slider-bg"></div>
-                        <div class="mood-slider-track" id="moodSliderTrack"></div>
-                        <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5" aria-label="Skala kecemasan 1 sampai 10"
-                               oninput="updateMoodLabel(this.value); updateMoodSliderColor(this.value)">
-                    </div>
-
-                    <div id="moodStatusLabel" class="text-[11px] font-bold mb-2 text-amber-600 dark:text-amber-400">Status: Sedang (Waspada)</div>
-
-                    <button onclick="saveMoodLog()" class="w-full py-2 bg-calm-600 hover:bg-calm-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
-                        <i data-lucide="check-circle-2" class="w-4 h-4"></i> Catat Mood Sekarang
-                    </button>
-                </div>
-            </div>
-        </section>
-
         <!-- Nav Tabs -->
         <div class="relative">
             <nav id="tabNav" class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
-                <button onclick="switchTab('breathing')" id="tab-breathing" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-calm-500 text-white shadow-sm">
+                <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-calm-500 text-white shadow-sm">
+                    <i data-lucide="home" class="w-4 h-4"></i> Beranda
+                </button>
+                <button onclick="switchTab('breathing')" id="tab-breathing" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-200 hover:bg-teal-200 dark:hover:bg-teal-900/60">
                     <i data-lucide="wind" class="w-4 h-4"></i> Latihan Napas
                 </button>
                 <button onclick="switchTab('grounding')" id="tab-grounding" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-200 hover:bg-teal-200 dark:hover:bg-teal-900/60">
@@ -513,26 +447,300 @@
             </div>
         </div>
 
-        <!-- SECTION 1: Breathing -->
-        <section id="sec-breathing" class="tab-content block">
+        <!-- ========== SECTION: HOME ========== -->
+        <section id="sec-home" class="tab-content block">
+            <!-- Welcome Banner -->
+            <section class="dashboard-welcome p-6 rounded-3xl shadow-sm relative overflow-hidden mb-4">
+                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div>
+                        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-calm-200/90 dark:bg-teal-900/70 text-teal-800 dark:text-teal-200 mb-2">
+                            🌿 Ruang Aman Anda
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100 tracking-tight">Bagaimana perasaanmu saat ini?</h2>
+                        <p class="text-sm font-medium text-sharp text-slate-700 dark:text-slate-300 mt-1 max-w-xl">
+                            Tarik napas perlahan. Ingatlah bahwa perasaan cemas adalah respons alami tubuh yang pasti akan berlalu.
+                        </p>
+                    </div>
+                    <div class="w-full md:w-auto bg-white/90 dark:bg-slate-900/90 p-4 rounded-2xl backdrop-blur-sm border border-slate-200/60 dark:border-slate-700 flex flex-col items-center min-w-[300px]">
+                        <div class="flex justify-between w-full text-xs text-slate-600 dark:text-slate-400 mb-2 font-semibold">
+                            <span>Sangat Tenang</span>
+                            <span id="moodValueLabel" class="text-calm-600 dark:text-calm-400 font-bold">Skala: 5</span>
+                            <span>Sangat Cemas</span>
+                        </div>
+                        <div class="mood-slider-wrap mb-3">
+                            <div class="mood-slider-bg"></div>
+                            <div class="mood-slider-track" id="moodSliderTrack"></div>
+                            <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5" aria-label="Skala kecemasan 1 sampai 10"
+                                   oninput="updateMoodLabel(this.value); updateMoodSliderColor(this.value)">
+                        </div>
+                        <div id="moodStatusLabel" class="text-[11px] font-bold mb-2 text-amber-600 dark:text-amber-400">Status: Sedang (Waspada)</div>
+                        <button onclick="saveMoodLog()" class="w-full py-2 bg-calm-600 hover:bg-calm-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i> Catat Mood Sekarang
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
+                            <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Streak</span>
+                    </div>
+                    <p id="homeStatStreak" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">hari berturut</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-calm-100 dark:bg-calm-900/40 flex items-center justify-center">
+                            <i data-lucide="activity" class="w-3.5 h-3.5 text-calm-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Mood</span>
+                    </div>
+                    <p id="homeStatMoods" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">catatan</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Jurnal</span>
+                    </div>
+                    <p id="homeStatJournals" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">catatan CBT</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                            <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Syukur</span>
+                    </div>
+                    <p id="homeStatGratitude" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">hari</p>
+                </div>
+            </div>
+
+            <!-- Shortcut Grid -->
+            <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4 text-calm-500"></i> Mulai Cepat
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+                <button onclick="switchTab('breathing')" class="home-shortcut bg-gradient-to-br from-teal-500 to-emerald-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="wind" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Latihan Napas</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Tarik napas & tenangkan diri</p>
+                </button>
+                <button onclick="switchTab('grounding')" class="home-shortcut bg-gradient-to-br from-cyan-500 to-teal-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="anchor" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Grounding</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Metode 5-4-3-2-1</p>
+                </button>
+                <button onclick="switchTab('journal')" class="home-shortcut bg-gradient-to-br from-sky-500 to-blue-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="book-open" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Jurnal CBT</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Reframing pikiran</p>
+                </button>
+                <button onclick="switchTab('release')" class="home-shortcut bg-gradient-to-br from-orange-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="unlock" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Pelepasan</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Proses emosi & trauma</p>
+                </button>
+                <button onclick="switchTab('audio')" class="home-shortcut bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="headphones" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Audio Ajaib</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Panduan suara relaksasi</p>
+                </button>
+                <button onclick="switchTab('affirmations')" class="home-shortcut bg-gradient-to-br from-purple-500 to-pink-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="sparkles" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Afirmasi</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Kartu penguat mental</p>
+                </button>
+                <button onclick="switchTab('gratitude')" class="home-shortcut bg-gradient-to-br from-pink-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="heart" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Jurnal Syukur</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">3 hal yang disyukuri</p>
+                </button>
+                <button onclick="switchTab('luck')" class="home-shortcut bg-gradient-to-br from-emerald-500 to-green-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="clover" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Keberuntungan</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Catat gain hari ini</p>
+                </button>
+            </div>
+
+            <!-- Tip Hari Ini -->
+            <div class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-6 rounded-3xl border border-calm-200 dark:border-teal-900/60">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-calm-500 flex items-center justify-center text-white flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-bold text-sharp text-calm-900 dark:text-calm-100">Tips Kesehatan Mental Hari Ini</h4>
+                        <p id="dailyTipTextHome" class="text-xs font-medium text-calm-800 dark:text-calm-300 mt-1 leading-relaxed">
+                            Minum air putih yang cukup. Dehidrasi ringan saja bisa memicu kecemasan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: Breathing -->
+        <section id="sec-breathing" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center min-h-[420px] relative overflow-hidden">
-                    <div class="text-center mb-6">
+                <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center min-h-[540px] relative overflow-hidden">
+                    <div class="text-center mb-4">
                         <h3 id="breathTechniqueTitle" class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Box Breathing (4-4-4-4)</h3>
                         <p id="breathTechniqueDesc" class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.</p>
                     </div>
 
-                    <div class="relative w-64 h-64 flex items-center justify-center my-4">
-                        <div id="breathOuterRing" class="absolute inset-0 rounded-full bg-calm-100 dark:bg-calm-950/40 border border-calm-200 dark:border-calm-800 transition-all duration-1000 scale-100"></div>
-                        <div id="breathMainCircle" class="breath-circle w-40 h-40 rounded-full bg-gradient-to-br from-calm-300 to-teal-500 shadow-xl shadow-calm-500/20 flex items-center justify-center text-white text-center p-4 z-10 scale-100">
-                            <div>
-                                <p id="breathInstruction" class="text-lg font-bold tracking-wide">SIAP</p>
-                                <p id="breathTimer" class="text-2xl font-black mt-1">4</p>
+                    <!-- VISUAL STAGE -->
+                    <div id="breathVisualStage">
+                        <!-- Lingkaran -->
+                        <div class="breath-visual visual-active" data-visual="circle">
+                            <div id="breathMainCircle" class="breath-circle w-40 h-40 rounded-full bg-gradient-to-br from-calm-300 to-teal-500 shadow-xl shadow-calm-500/20 flex items-center justify-center text-white text-center p-4 scale-100">
+                                <div>
+                                    <p id="breathInstruction" class="text-lg font-bold tracking-wide">SIAP</p>
+                                    <p id="breathTimer" class="text-2xl font-black mt-1">4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lilin -->
+                        <div class="breath-visual visual-hidden" data-visual="candle">
+                            <div class="flex flex-col items-center justify-end" style="height: 100%;">
+                                <svg id="candleFlame" viewBox="0 0 60 90" width="90" height="140" style="filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.7));">
+                                    <defs>
+                                        <radialGradient id="flameGradient" cx="50%" cy="70%" r="50%">
+                                            <stop offset="0%" stop-color="#fef3c7"/>
+                                            <stop offset="40%" stop-color="#fbbf24"/>
+                                            <stop offset="75%" stop-color="#f97316"/>
+                                            <stop offset="100%" stop-color="#dc2626"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <path d="M 30 5 Q 45 30 45 50 Q 45 75 30 80 Q 15 75 15 50 Q 15 30 30 5 Z" fill="url(#flameGradient)"/>
+                                    <ellipse cx="30" cy="55" rx="6" ry="14" fill="#fef3c7" opacity="0.9"/>
+                                </svg>
+                                <div class="w-16 h-24 rounded-t-lg bg-gradient-to-b from-amber-100 to-amber-200 dark:from-amber-200 dark:to-amber-300 shadow-lg relative">
+                                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-3 bg-slate-700"></div>
+                                </div>
+                                <div class="w-24 h-3 rounded-b-lg bg-amber-300 dark:bg-amber-400 shadow-md"></div>
+                                <div class="text-center mt-3">
+                                    <p id="candleInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
+                                    <p id="candleTimer" class="text-3xl font-black text-amber-600 dark:text-amber-400">4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bunga -->
+                        <div class="breath-visual visual-hidden" data-visual="bloom">
+                            <div class="flex flex-col items-center justify-center" style="height: 100%;">
+                                <svg id="bloomSvg" viewBox="0 0 200 200" width="240" height="240">
+                                    <defs>
+                                        <radialGradient id="petalGradient" cx="50%" cy="50%" r="50%">
+                                            <stop offset="0%" stop-color="#fce7f3"/>
+                                            <stop offset="60%" stop-color="#f472b6"/>
+                                            <stop offset="100%" stop-color="#be185d"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <g transform="translate(100,100)">
+                                        <g id="bloomPetals">
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9"/>
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(60)"/>
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(120)"/>
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(180)"/>
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(240)"/>
+                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(300)"/>
+                                        </g>
+                                        <circle cx="0" cy="0" r="20" fill="#fbbf24"/>
+                                        <circle cx="0" cy="0" r="12" fill="#f59e0b"/>
+                                    </g>
+                                </svg>
+                                <div class="text-center mt-3">
+                                    <p id="bloomInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
+                                    <p id="bloomTimer" class="text-3xl font-black text-pink-600 dark:text-pink-400">4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Balon -->
+                        <div class="breath-visual visual-hidden" data-visual="balloon">
+                            <div class="flex flex-col items-center justify-center" style="height: 100%;">
+                                <svg viewBox="0 0 120 220" width="140" height="240">
+                                    <defs>
+                                        <radialGradient id="balloonGradient" cx="35%" cy="35%" r="65%">
+                                            <stop offset="0%" stop-color="#fca5a5"/>
+                                            <stop offset="50%" stop-color="#ef4444"/>
+                                            <stop offset="100%" stop-color="#991b1b"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <g id="balloonBody">
+                                        <ellipse cx="60" cy="80" rx="50" ry="60" fill="url(#balloonGradient)"/>
+                                        <ellipse cx="45" cy="60" rx="12" ry="18" fill="#fecaca" opacity="0.6"/>
+                                        <polygon points="55,138 65,138 60,150" fill="#991b1b"/>
+                                    </g>
+                                    <path d="M 60 150 Q 50 175 60 190 Q 70 205 60 220" stroke="#6b7280" stroke-width="1.5" fill="none"/>
+                                </svg>
+                                <div class="text-center mt-1">
+                                    <p id="balloonInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
+                                    <p id="balloonTimer" class="text-3xl font-black text-rose-600 dark:text-rose-400">4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kotak -->
+                        <div class="breath-visual visual-hidden" data-visual="box">
+                            <div class="flex flex-col items-center justify-center" style="height: 100%;">
+                                <svg viewBox="0 0 200 200" width="240" height="240">
+                                    <rect x="30" y="30" width="140" height="140" rx="16" fill="none" stroke="#14b8a6" stroke-width="4" opacity="0.3"/>
+                                    <rect x="30" y="30" width="140" height="140" rx="16" fill="rgba(20,184,166,0.05)" stroke="#14b8a6" stroke-width="2" stroke-dasharray="8 6"/>
+                                    <g id="boxMarker" style="transform-origin: center;">
+                                        <circle cx="100" cy="100" r="18" fill="#14b8a6"/>
+                                        <circle cx="100" cy="100" r="10" fill="#ccfbf1"/>
+                                    </g>
+                                    <text x="100" y="20" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TARIK</text>
+                                    <text x="185" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
+                                    <text x="100" y="195" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">HEMBUS</text>
+                                    <text x="15" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
+                                </svg>
+                                <div class="text-center mt-1">
+                                    <p id="boxInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
+                                    <p id="boxTimer" class="text-3xl font-black text-teal-600 dark:text-teal-400">4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bintang -->
+                        <div class="breath-visual visual-hidden" data-visual="star">
+                            <div class="flex flex-col items-center justify-center" style="height: 100%;">
+                                <svg viewBox="0 0 200 200" width="240" height="240">
+                                    <defs>
+                                        <radialGradient id="starGradient" cx="50%" cy="50%" r="50%">
+                                            <stop offset="0%" stop-color="#fef9c3"/>
+                                            <stop offset="60%" stop-color="#fbbf24"/>
+                                            <stop offset="100%" stop-color="#f59e0b"/>
+                                        </radialGradient>
+                                    </defs>
+                                    <circle cx="30" cy="40" r="2" fill="#fbbf24" class="twinkle-star"/>
+                                    <circle cx="170" cy="50" r="2" fill="#fbbf24" class="twinkle-star" style="animation-delay: 0.5s"/>
+                                    <circle cx="50" cy="160" r="2" fill="#fbbf24" class="twinkle-star" style="animation-delay: 1s"/>
+                                    <circle cx="160" cy="170" r="2" fill="#fbbf24" class="twinkle-star" style="animation-delay: 1.5s"/>
+                                    <g id="starShape" style="transform-origin: 100px 100px; filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));">
+                                        <polygon points="100,30 122,80 175,85 135,120 148,175 100,145 52,175 65,120 25,85 78,80" fill="url(#starGradient)"/>
+                                    </g>
+                                </svg>
+                                <div class="text-center mt-1">
+                                    <p id="starInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
+                                    <p id="starTimer" class="text-3xl font-black text-amber-600 dark:text-amber-400">4</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center justify-center gap-3 mt-6">
+                    <div class="flex flex-wrap items-center justify-center gap-3 mt-4">
                         <button onclick="startBreathing()" id="btnStartBreathing" class="px-6 py-3 bg-calm-600 hover:bg-calm-700 text-white font-semibold text-sm rounded-2xl shadow-md transition flex items-center gap-2">
                             <i data-lucide="play" class="w-4 h-4"></i> Mulai Latihan
                         </button>
@@ -602,6 +810,22 @@
                         </div>
                     </div>
 
+                    <div>
+                        <h4 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
+                            <i data-lucide="palette" class="w-4 h-4 text-calm-500"></i> Gaya Visual
+                        </h4>
+                        <label class="block">
+                            <select id="visualStyleSelect" onchange="changeVisualStyle(this.value)" class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-calm-400 outline-none cursor-pointer">
+                                <option value="circle">⭕ Lingkaran</option>
+                                <option value="candle">🕯️ Lilin</option>
+                                <option value="bloom">🌸 Bunga</option>
+                                <option value="balloon">🎈 Balon</option>
+                                <option value="box">📦 Kotak</option>
+                                <option value="star">⭐ Bintang</option>
+                            </select>
+                        </label>
+                    </div>
+
                     <div class="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-200 text-xs leading-relaxed">
                         <p class="font-semibold flex items-center gap-1.5 mb-1">
                             <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600"></i> Tips Bernapas:
@@ -612,7 +836,7 @@
             </div>
         </section>
 
-        <!-- SECTION 2: Grounding -->
+        <!-- SECTION: Grounding -->
         <section id="sec-grounding" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm max-w-3xl mx-auto">
                 <div class="text-center mb-8">
@@ -640,7 +864,7 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Journal -->
+        <!-- SECTION: Journal -->
         <section id="sec-journal" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -678,10 +902,9 @@
             </div>
         </section>
 
-        <!-- SECTION BARU: Trauma Release -->
+        <!-- SECTION: Release -->
         <section id="sec-release" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-orange-200/60 dark:border-orange-900/40 shadow-sm max-w-3xl mx-auto">
-                
                 <div class="text-center mb-8">
                     <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-orange-100 dark:bg-orange-900/50 text-orange-800 dark:text-orange-200 mb-2">
                         🕊️ Ruang Pelepasan Beban
@@ -705,7 +928,6 @@
                         </label>
                         <textarea id="releaseEvent" required rows="2" placeholder="Contoh: Saya diabaikan saat membutuhkan bantuan..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
-
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-orange-200 dark:bg-orange-900 text-orange-800 dark:text-orange-200 flex items-center justify-center text-xs">2</span>
@@ -713,7 +935,6 @@
                         </label>
                         <textarea id="releaseEmotion" required rows="2" placeholder="Contoh: Rasa sakit di dada, tenggorokan tercekat, merasa tidak berharga..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
-
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-orange-200 dark:bg-orange-900 text-orange-800 dark:text-orange-200 flex items-center justify-center text-xs">3</span>
@@ -721,7 +942,6 @@
                         </label>
                         <textarea id="releaseMessage" required rows="2" placeholder="Contoh: Kamu sudah berusaha keras. Ini bukan salahmu. Aku akan menjagamu sekarang..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
-
                     <div class="pt-4 flex flex-col sm:flex-row gap-3">
                         <button type="button" onclick="clearReleaseForm()" class="w-full sm:w-1/3 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2">
                             <i data-lucide="trash-2" class="w-4 h-4"></i> Bersihkan
@@ -738,14 +958,12 @@
                     <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Tarik napas dalam-dalam. Tulisanmu telah dihancurkan dan tidak disimpan di mana pun.</p>
                     <button onclick="resetReleaseModule()" class="mt-6 px-6 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold rounded-xl hover:bg-slate-200 transition">Kembali</button>
                 </div>
-
             </div>
         </section>
 
-        <!-- SECTION BARU: Audio Ajaib -->
+        <!-- SECTION: Audio -->
         <section id="sec-audio" class="tab-content hidden">
             <div class="max-w-4xl mx-auto">
-                
                 <div class="text-center mb-8">
                     <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 mb-3">
                         ✨ Audio Ajaib
@@ -760,7 +978,6 @@
                     <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                         <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Rangkaian Waktu
                     </h4>
-                    
                     <div class="space-y-4">
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center flex-shrink-0">
@@ -775,7 +992,6 @@
                                 </audio>
                             </div>
                         </div>
-
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="sun-medium" class="w-6 h-6 text-sky-600 dark:text-sky-400"></i>
@@ -789,7 +1005,6 @@
                                 </audio>
                             </div>
                         </div>
-
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="sunset" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
@@ -803,7 +1018,6 @@
                                 </audio>
                             </div>
                         </div>
-
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="moon" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
@@ -819,14 +1033,13 @@
                         </div>
                     </div>
                 </div>
-                
                 <p class="text-[11px] font-medium text-slate-500 text-center mt-8">
                     *File audio ini bersifat privat dan hanya diputar di perangkat Anda.
                 </p>
             </div>
         </section>
 
-        <!-- SECTION 4: Affirmations -->
+        <!-- SECTION: Affirmations -->
         <section id="sec-affirmations" class="tab-content hidden">
             <div class="text-center max-w-xl mx-auto mb-8">
                 <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 text-xs font-semibold rounded-full">Penguat Mental</span>
@@ -841,7 +1054,7 @@
             </div>
         </section>
 
-        <!-- SECTION 5: Tracker -->
+        <!-- SECTION: Tracker -->
         <section id="sec-tracker" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -883,6 +1096,35 @@
                     </div>
                 </div>
 
+                <!-- Weekly stats -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+                        <i data-lucide="calendar-days" class="w-4 h-4 text-sky-500"></i> Statistik Mingguan
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Minggu Ini</p>
+                            <p id="weekMoodCount" class="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-1">0</p>
+                            <p class="text-[10px] text-slate-500">catatan mood</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Minggu Ini</p>
+                            <p id="weekMoodAvg" class="text-2xl font-bold text-calm-600 mt-1">0</p>
+                            <p class="text-[10px] text-slate-500">rata-rata</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Minggu Lalu</p>
+                            <p id="lastWeekMoodAvg" class="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-1">0</p>
+                            <p class="text-[10px] text-slate-500">rata-rata</p>
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700">
+                            <p class="text-[10px] font-bold text-slate-500 uppercase">Tren</p>
+                            <p id="weekTrend" class="text-2xl font-bold text-slate-500 mt-1">—</p>
+                            <p class="text-[10px] text-slate-500">vs minggu lalu</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
                         <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -906,9 +1148,14 @@
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <h3 class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Riwayat Skala Kecemasan</h3>
-                        <button onclick="clearMoodHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Riwayat
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportMoodsCSV()" class="text-xs text-calm-600 hover:text-calm-700 font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-calm-50 dark:bg-calm-900/30 hover:bg-calm-100 dark:hover:bg-calm-900/50 transition">
+                                <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
+                            </button>
+                            <button onclick="clearMoodHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Riwayat
+                            </button>
+                        </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse">
@@ -928,7 +1175,7 @@
             </div>
         </section>
 
-        <!-- SECTION 6: INSIGHTS -->
+        <!-- SECTION: Insights -->
         <section id="sec-insights" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -966,7 +1213,7 @@
             </div>
         </section>
 
-        <!-- SECTION 8: GRATITUDE -->
+        <!-- SECTION: Gratitude -->
         <section id="sec-gratitude" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-pink-200/60 dark:border-pink-900/40 shadow-sm">
@@ -1061,9 +1308,14 @@
                             <h3 class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Riwayat Jurnal Syukur</h3>
                             <p class="text-xs font-medium text-slate-500 mt-0.5">Semua rasa syukur yang pernah Anda tulis</p>
                         </div>
-                        <button onclick="clearGratitudeHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportGratitudeCSV()" class="text-xs text-pink-600 hover:text-pink-700 font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-pink-50 dark:bg-pink-900/30 hover:bg-pink-100 dark:hover:bg-pink-900/50 transition">
+                                <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
+                            </button>
+                            <button onclick="clearGratitudeHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
+                            </button>
+                        </div>
                     </div>
 
                     <div class="mb-6">
@@ -1080,7 +1332,7 @@
             </div>
         </section>
 
-        <!-- SECTION 9: LUCK -->
+        <!-- SECTION: Luck -->
         <section id="sec-luck" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
@@ -1186,15 +1438,34 @@
                     </div>
                 </div>
 
+                <!-- Bar chart per kategori -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i> Grafik Kategori Keberuntungan
+                    </h3>
+                    <div class="relative h-56">
+                        <canvas id="luckBarChart"></canvas>
+                        <div id="luckBarChartEmpty" class="absolute inset-0 flex flex-col items-center justify-center text-center hidden">
+                            <i data-lucide="bar-chart-3" class="w-10 h-10 text-slate-300 dark:text-slate-600 mb-2"></i>
+                            <p class="text-xs font-medium text-slate-500">Belum ada data kategori</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <div>
                             <h3 class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Riwayat Keberuntungan</h3>
                             <p class="text-xs font-medium text-slate-500 mt-0.5">Semua gain yang pernah Anda catat</p>
                         </div>
-                        <button onclick="clearLuckHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="exportLuckCSV()" class="text-xs text-emerald-600 hover:text-emerald-700 font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition">
+                                <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
+                            </button>
+                            <button onclick="clearLuckHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
+                            </button>
+                        </div>
                     </div>
                     <div id="luckHistoryList" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                         <p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan keberuntungan.</p>
@@ -1203,7 +1474,7 @@
             </div>
         </section>
 
-        <!-- SECTION 7: SETTINGS -->
+        <!-- SECTION: Settings -->
         <section id="sec-settings" class="tab-content hidden">
             <div class="space-y-6 max-w-3xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1299,22 +1570,10 @@
                         <p class="text-xs font-semibold text-amber-800 dark:text-amber-200 flex items-start gap-2">
                             <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
                             <span>
-                                <b>Aman untuk perangkat Anda.</b> Hanya menghapus data di dalam aplikasi ini (riwayat mood, jurnal, kontak, dan streak). <b>Tidak</b> menghapus file aplikasi atau file lain di HP/komputer Anda.
+                                <b>Aman untuk perangkat Anda.</b> Hanya menghapus data di dalam aplikasi ini. <b>Tidak</b> menghapus file aplikasi atau file lain di HP/komputer Anda.
                             </span>
                         </p>
                     </div>
-
-                    <div class="text-xs font-medium text-slate-600 dark:text-slate-400 space-y-1.5 mb-4">
-                        <p class="flex items-center gap-2"><i data-lucide="trash" class="w-3.5 h-3.5 text-rose-500"></i> Riwayat skala kecemasan</p>
-                        <p class="flex items-center gap-2"><i data-lucide="trash" class="w-3.5 h-3.5 text-rose-500"></i> Catatan jurnal CBT</p>
-                        <p class="flex items-center gap-2"><i data-lucide="trash" class="w-3.5 h-3.5 text-rose-500"></i> Jurnal syukur & keberuntungan</p>
-                        <p class="flex items-center gap-2"><i data-lucide="trash" class="w-3.5 h-3.5 text-rose-500"></i> Streak & hari aktif</p>
-                        <p class="flex items-center gap-2"><i data-lucide="trash" class="w-3.5 h-3.5 text-rose-500"></i> Kontak darurat pribadi</p>
-                    </div>
-
-                    <p class="text-[10px] font-semibold text-rose-600 dark:text-rose-400 mb-4 uppercase tracking-wider">
-                        ⚠️ Aksi ini tidak bisa dibatalkan
-                    </p>
 
                     <button onclick="resetAllData()" class="w-full py-3 bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/40 dark:hover:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset Data Aplikasi
@@ -1326,7 +1585,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 3.1 (Hardened)</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 4.0</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional. Jika Anda merasa dalam krisis, segera hubungi bantuan profesional.
                     </p>
@@ -1336,48 +1595,59 @@
 
     </main>
 
+    <!-- FLOATING HOME BUTTON -->
+    <button id="homeFab" onclick="switchTab('home')" title="Kembali ke Beranda" aria-label="Kembali ke beranda">
+        <i data-lucide="home" class="w-6 h-6"></i>
+    </button>
+
     <!-- SOS Modal -->
-    <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-6 sm:p-10 text-white hidden" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
-        <div class="w-full flex justify-end max-w-4xl">
+    <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 sm:p-10 text-white hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
+        <div class="w-full flex justify-between items-center max-w-4xl">
+            <button onclick="switchTab('home'); closeSosModal();" class="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-1.5 text-xs font-semibold" aria-label="Kembali ke beranda">
+                <i data-lucide="home" class="w-4 h-4"></i> Beranda
+            </button>
             <button onclick="closeSosModal()" aria-label="Tutup SOS" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
 
-        <div class="max-w-xl text-center space-y-6 my-auto w-full">
-            <div class="inline-block p-4 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400">
-                <i data-lucide="shield-alert" class="w-12 h-12 animate-pulse"></i>
+        <div class="max-w-xl text-center space-y-4 my-4 w-full">
+            <div class="inline-block p-3 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400">
+                <i data-lucide="shield-alert" class="w-10 h-10 animate-pulse"></i>
             </div>
 
-            <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-rose-400 to-rose-200 bg-clip-text text-transparent">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-rose-400 to-rose-200 bg-clip-text text-transparent">
                 SOS PANIK
             </h2>
 
-            <p class="text-xs font-semibold uppercase tracking-widest text-rose-300">
+            <p class="text-[11px] font-semibold uppercase tracking-widest text-rose-300">
                 Tarik napas, Anda aman di sini
             </p>
 
-            <p id="sosPrompt" class="text-lg sm:text-xl font-medium text-slate-200 leading-relaxed min-h-[80px] pt-2">
-                "Anda aman saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda."
+            <p id="sosPrompt" class="text-base sm:text-lg font-medium text-slate-200 leading-relaxed min-h-[60px] pt-1">
+                "Anda amat saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda."
             </p>
 
-            <div class="relative w-48 h-48 mx-auto flex items-center justify-center">
-                <div id="sosPulseCircle" class="w-32 h-32 rounded-full bg-teal-400/30 border-2 border-teal-300 flex items-center justify-center transition-all duration-1000 scale-100">
-                    <span id="sosBreathText" class="text-base font-bold text-teal-100 uppercase tracking-widest">Tarik Napas</span>
+            <div class="relative w-40 h-40 mx-auto flex items-center justify-center">
+                <div id="sosPulseCircle" class="w-28 h-28 rounded-full bg-teal-400/30 border-2 border-teal-300 flex items-center justify-center transition-all duration-1000 scale-100">
+                    <span id="sosBreathText" class="text-sm font-bold text-teal-100 uppercase tracking-widest">Tarik Napas</span>
                 </div>
             </div>
 
-            <button onclick="nextSosPrompt()" class="px-6 py-3 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded-2xl shadow-lg transition text-sm">
+            <button onclick="nextSosPrompt()" class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded-2xl shadow-lg transition text-sm">
                 Pesan Penguat Selanjutnya
             </button>
 
-            <div id="sosContactsBox" class="mt-6 w-full max-w-md mx-auto text-left">
-                <p class="text-xs font-bold uppercase tracking-wider text-slate-400 text-center mb-2">Butuh bicara dengan seseorang?</p>
+            <!-- ====== KONTAK DARURAT DIPINDAH KE ATAS (MUDAH TERLIHAT) ====== -->
+            <div id="sosContactsBox" class="mt-4 w-full max-w-md mx-auto text-left bg-slate-800/60 p-3 rounded-2xl border border-slate-700/60">
+                <p class="text-[11px] font-bold uppercase tracking-wider text-teal-300 text-center mb-2 flex items-center justify-center gap-1.5">
+                    <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> Butuh bicara dengan seseorang?
+                </p>
                 <div id="sosContactsList" class="space-y-2"></div>
             </div>
         </div>
 
-        <div class="text-xs font-medium text-slate-400 text-center max-w-md">
+        <div class="text-[10px] font-medium text-slate-400 text-center max-w-md">
             Jika dalam krisis, segera hubungi layanan kesehatan mental darurat atau orang terdekat.
         </div>
     </div>
@@ -1388,7 +1658,7 @@
         <span id="toastMsg">Notifikasi</span>
     </div>
 
-    <!-- ========== BACKUP BUBBLE ========== -->
+    <!-- Backup Bubble -->
     <div id="backupBubble">
         <button class="bubble-btn" onclick="handleBubbleClick(event)" title="Waktunya backup data!" aria-label="Pengingat backup data">
             <i data-lucide="bell-ring" class="w-6 h-6 text-white"></i>
@@ -1396,7 +1666,7 @@
         </button>
     </div>
 
-    <!-- ========== BACKUP POPUP ========== -->
+    <!-- Backup Popup -->
     <div id="backupPopup">
         <div class="flex items-start gap-2 mb-2">
             <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5"></i>
@@ -1436,14 +1706,11 @@
         lucide.createIcons();
 
         /* ========================================================
-           UTIL: Keamanan (escapeHtml, sanitizePhone) & Konstanta
+           UTIL
            ======================================================== */
         const BACKUP_REMINDER_DAYS = 7;
         const ACTIVITY_MAX_DAYS = 365;
 
-        /**
-         * FIX #1: Escape HTML untuk mencegah XSS di semua innerHTML.
-         */
         function escapeHtml(value) {
             if (value === null || value === undefined) return '';
             return String(value).replace(/[&<>"']/g, function(c) {
@@ -1451,18 +1718,11 @@
             });
         }
 
-        /**
-         * FIX #3: Sanitasi nomor telepon agar tidak bisa jadi link javascript:.
-         * Hanya izinkan digit, plus, minus, spasi, dan bintang (untuk USSD).
-         */
         function sanitizePhone(raw) {
             if (!raw) return '';
             return String(raw).replace(/[^\d+\-*#() ]/g, '').trim();
         }
 
-        /**
-         * FIX #7: Helper tanggal & streak terpusat (DRY).
-         */
         function toDateKey(d) {
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
@@ -1477,15 +1737,11 @@
             for (let i = 0; i < ACTIVITY_MAX_DAYS; i++) {
                 const key = getDateKeyOffset(i);
                 if (dayKeySet.has(key)) streak++;
-                else if (i === 0) continue; // hari ini belum aktif: lanjut cek kemarin
+                else if (i === 0) continue;
                 else break;
             }
             return streak;
         }
-
-        /**
-         * FIX #8: Fisher-Yates shuffle (unbiased).
-         */
         function shuffle(arr) {
             const a = [...arr];
             for (let i = a.length - 1; i > 0; i--) {
@@ -1516,7 +1772,6 @@
             const html = document.documentElement;
             const iconMobile = document.getElementById('themeIconMobile');
             const iconDesktop = document.getElementById('themeIconDesktop');
-            
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 if (iconMobile) iconMobile.setAttribute('data-lucide', 'moon');
@@ -1530,15 +1785,13 @@
             if (typeof renderMoodChart === 'function') renderMoodChart();
             if (typeof renderGratitudeChart === 'function') renderGratitudeChart();
             if (typeof renderLuckChart === 'function') renderLuckChart();
+            if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
 
         /* ========================================================
            MOOD SLIDER
            ======================================================== */
-        const moodSegmentColors = [
-            '#10b981', '#22c55e', '#84cc16', '#eab308', '#f59e0b',
-            '#f97316', '#ef4444', '#dc2626', '#b91c1c', '#991b1b'
-        ];
+        const moodSegmentColors = ['#10b981','#22c55e','#84cc16','#eab308','#f59e0b','#f97316','#ef4444','#dc2626','#b91c1c','#991b1b'];
 
         function initMoodSlider() {
             const track = document.getElementById('moodSliderTrack');
@@ -1551,7 +1804,6 @@
                 seg.style.background = color;
                 track.appendChild(seg);
             });
-            // FIX #14: Restore nilai slider terakhir
             const saved = parseInt(localStorage.getItem('anti_anxiety_mood_slider') || '5', 10);
             const range = document.getElementById('quickMoodRange');
             const initVal = (Number.isFinite(saved) && saved >= 1 && saved <= 10) ? saved : 5;
@@ -1564,58 +1816,35 @@
             val = parseInt(val, 10);
             const segs = document.querySelectorAll('#moodSliderTrack .mood-seg');
             segs.forEach((seg, i) => {
-                const segNum = i + 1;
-                if (segNum <= val) {
-                    seg.classList.remove('muted');
-                    seg.style.filter = 'none';
-                    seg.style.opacity = '1';
-                } else {
-                    seg.classList.add('muted');
-                }
+                if ((i + 1) <= val) { seg.classList.remove('muted'); seg.style.filter = 'none'; seg.style.opacity = '1'; }
+                else seg.classList.add('muted');
             });
-
             const color = moodSegmentColors[val - 1] || '#14b8a6';
             let styleEl = document.getElementById('moodThumbStyle');
-            if (!styleEl) {
-                styleEl = document.createElement('style');
-                styleEl.id = 'moodThumbStyle';
-                document.head.appendChild(styleEl);
-            }
-            styleEl.textContent = `
-                input[type="range"].mood-range::-webkit-slider-thumb { border-color: ${color} !important; }
-                input[type="range"].mood-range::-moz-range-thumb { border-color: ${color} !important; }
-            `;
-
+            if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'moodThumbStyle'; document.head.appendChild(styleEl); }
+            styleEl.textContent = `input[type="range"].mood-range::-webkit-slider-thumb { border-color: ${color} !important; } input[type="range"].mood-range::-moz-range-thumb { border-color: ${color} !important; }`;
             const statusEl = document.getElementById('moodStatusLabel');
             let statusText = '', statusClass = '';
-            if (val <= 3) {
-                statusText = 'Status: Rendah (Tenang) 🟢';
-                statusClass = 'text-emerald-600 dark:text-emerald-400';
-            } else if (val <= 6) {
-                statusText = 'Status: Sedang (Waspada) 🟡';
-                statusClass = 'text-amber-600 dark:text-amber-400';
-            } else {
-                statusText = 'Status: Tinggi (Cemas) 🔴';
-                statusClass = 'text-rose-600 dark:text-rose-400';
-            }
+            if (val <= 3) { statusText = 'Status: Rendah (Tenang) 🟢'; statusClass = 'text-emerald-600 dark:text-emerald-400'; }
+            else if (val <= 6) { statusText = 'Status: Sedang (Waspada) 🟡'; statusClass = 'text-amber-600 dark:text-amber-400'; }
+            else { statusText = 'Status: Tinggi (Cemas) 🔴'; statusClass = 'text-rose-600 dark:text-rose-400'; }
             statusEl.className = `text-[11px] font-bold mb-2 ${statusClass}`;
             statusEl.innerText = statusText;
-
-            // FIX #14: Persist nilai slider terakhir
             try { localStorage.setItem('anti_anxiety_mood_slider', String(val)); } catch (e) {}
         }
 
+        function updateMoodLabel(val) {
+            document.getElementById('moodValueLabel').innerText = `Skala: ${val}`;
+            updateMoodSliderColor(val);
+        }
+
         /* ========================================================
-           TAB SWITCHING — FIX #2: classList eksplisit (tidak merusak text-sm dll.)
+           TAB SWITCHING
            ======================================================== */
-        const TAB_IDS = ['breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
-
-        const TAB_BASE_CLASSES = [
-            'tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold',
-            'flex','items-center','gap-2','whitespace-nowrap','transition'
-        ];
-
+        const TAB_IDS = ['home','breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
+        const TAB_BASE_CLASSES = ['tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold','flex','items-center','gap-2','whitespace-nowrap','transition'];
         const TAB_INACTIVE_CLASSES = {
+            home:         ['bg-slate-100','dark:bg-slate-700','text-slate-700','dark:text-slate-300','hover:bg-slate-200','dark:hover:bg-slate-600'],
             breathing:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
             grounding:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
             journal:      ['bg-sky-100','dark:bg-sky-900/40','text-sky-800','dark:text-sky-200','hover:bg-sky-200','dark:hover:bg-sky-900/60'],
@@ -1628,22 +1857,19 @@
             luck:         ['bg-emerald-100','dark:bg-emerald-900/40','text-emerald-800','dark:text-emerald-200','hover:bg-emerald-200','dark:hover:bg-emerald-900/60'],
             settings:     ['bg-slate-100','dark:bg-slate-700','text-slate-700','dark:text-slate-300','hover:bg-slate-200','dark:hover:bg-slate-600']
         };
-
         const TAB_ACTIVE_CLASSES = ['bg-calm-500','text-white','shadow-sm'];
 
         function applyTabStyles() {
             TAB_IDS.forEach(id => {
                 const btn = document.getElementById(`tab-${id}`);
                 if (!btn) return;
-                // Reset: hapus semua class yang pernah kita tambahkan
                 TAB_BASE_CLASSES.forEach(c => btn.classList.remove(c));
                 Object.values(TAB_INACTIVE_CLASSES).forEach(arr => arr.forEach(c => btn.classList.remove(c)));
                 TAB_ACTIVE_CLASSES.forEach(c => btn.classList.remove(c));
-                // Tambahkan base + style awal
                 TAB_BASE_CLASSES.forEach(c => btn.classList.add(c));
                 TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.add(c));
             });
-            setActiveTab('breathing');
+            setActiveTab('home');
         }
 
         function setActiveTab(tabId) {
@@ -1651,12 +1877,10 @@
                 const btn = document.getElementById(`tab-${id}`);
                 if (!btn) return;
                 if (id === tabId) {
-                    // Hapus semua inactive class milik tab ini
                     TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.remove(c));
                     TAB_ACTIVE_CLASSES.forEach(c => btn.classList.add(c));
                 } else {
                     TAB_ACTIVE_CLASSES.forEach(c => btn.classList.remove(c));
-                    // pastikan inactive classes terpasang
                     TAB_INACTIVE_CLASSES[id].forEach(c => {
                         if (!btn.classList.contains(c)) btn.classList.add(c);
                     });
@@ -1669,16 +1893,21 @@
             setActiveTab(tabId);
             document.querySelectorAll('.tab-content').forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
             const activeContent = document.getElementById(`sec-${tabId}`);
-            if (activeContent) {
-                activeContent.classList.remove('hidden');
-                activeContent.classList.add('block');
-            }
+            if (activeContent) { activeContent.classList.remove('hidden'); activeContent.classList.add('block'); }
             setTimeout(updateScrollHint, 100);
 
-            if (tabId === 'tracker' && typeof renderMoodChart === 'function') setTimeout(renderMoodChart, 50);
+            // Show/hide home FAB
+            const homeFab = document.getElementById('homeFab');
+            if (homeFab) {
+                if (tabId === 'home') homeFab.classList.remove('visible');
+                else homeFab.classList.add('visible');
+            }
+
+            if (tabId === 'home') { updateHomeStats(); renderDailyTipHome(); }
+            if (tabId === 'tracker' && typeof renderMoodChart === 'function') setTimeout(() => { renderMoodChart(); updateWeeklyStats(); }, 50);
             if (tabId === 'insights') { renderStreakCalendar(); renderInsights(); renderDailyTip(); }
             if (tabId === 'gratitude') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
-            if (tabId === 'luck') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); }
+            if (tabId === 'luck') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart(); }
             if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); }
         }
 
@@ -1693,7 +1922,6 @@
             menu.classList.toggle('hidden');
             if (btn) btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
         }
-
         document.addEventListener('click', function(e) {
             const menu = document.getElementById('infoMenu');
             const btn = document.getElementById('infoMenuBtn');
@@ -1705,7 +1933,7 @@
         });
 
         /* ========================================================
-           AUDIO (Web Audio API)
+           AUDIO
            ======================================================== */
         let audioCtx = null;
         let activeNodes = {};
@@ -1721,10 +1949,7 @@
         function initAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) {
-                    showToast('Browser Anda tidak mendukung Web Audio.');
-                    return;
-                }
+                if (!AudioContext) { showToast('Browser Anda tidak mendukung Web Audio.'); return; }
                 audioCtx = new AudioContext();
                 masterGain = audioCtx.createGain();
                 masterGain.gain.value = 0.5;
@@ -1766,83 +1991,62 @@
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource();
-            src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass'; filter.frequency.value = 800;
+            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 800;
             const gain = audioCtx.createGain(); gain.gain.value = 0.15;
             src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start();
-            return { stop: () => src.stop() };
+            src.start(); return { stop: () => src.stop() };
         }
-
         function createRainNoise() {
             const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource();
-            src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass'; filter.frequency.value = 1200;
+            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1200;
             const gain = audioCtx.createGain(); gain.gain.value = 0.2;
             src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start();
-            return { stop: () => src.stop() };
+            src.start(); return { stop: () => src.stop() };
         }
-
         function createOceanWaves() {
             const bufferSize = audioCtx.sampleRate * 3;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource();
-            src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'bandpass'; filter.frequency.value = 400;
+            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 400;
             const gain = audioCtx.createGain(); gain.gain.value = 0.25;
             const lfo = audioCtx.createOscillator(); lfo.frequency.value = 0.12;
             const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 0.15;
             lfo.connect(lfoGain); lfoGain.connect(gain.gain);
             src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start(); lfo.start();
-            return { stop: () => { src.stop(); lfo.stop(); } };
+            src.start(); lfo.start(); return { stop: () => { src.stop(); lfo.stop(); } };
         }
-
         function createForestNoise() {
             const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource();
-            src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'lowpass'; filter.frequency.value = 500;
+            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 500;
             const gain = audioCtx.createGain(); gain.gain.value = 0.12;
             src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start();
-            return { stop: () => src.stop() };
+            src.start(); return { stop: () => src.stop() };
         }
-
         function createBinauralBeats() {
-            const oscL = audioCtx.createOscillator();
-            const oscR = audioCtx.createOscillator();
-            const gainL = audioCtx.createGain();
-            const gainR = audioCtx.createGain();
+            const oscL = audioCtx.createOscillator(); const oscR = audioCtx.createOscillator();
+            const gainL = audioCtx.createGain(); const gainR = audioCtx.createGain();
             const merger = audioCtx.createChannelMerger(2);
-            oscL.frequency.value = 200;
-            oscR.frequency.value = 206;
-            gainL.gain.value = 0.08;
-            gainR.gain.value = 0.08;
+            oscL.frequency.value = 200; oscR.frequency.value = 206;
+            gainL.gain.value = 0.08; gainR.gain.value = 0.08;
             oscL.connect(gainL); gainL.connect(merger, 0, 0);
             oscR.connect(gainR); gainR.connect(merger, 0, 1);
             merger.connect(masterGain);
-            oscL.start(); oscR.start();
-            return { stop: () => { oscL.stop(); oscR.stop(); } };
+            oscL.start(); oscR.start(); return { stop: () => { oscL.stop(); oscR.stop(); } };
         }
 
         /* ========================================================
-           VOICE GUIDE (FIX #15: race-safe)
+           VOICE GUIDE
            ======================================================== */
         let voiceGuideEnabled = false;
         let indonesianVoice = null;
@@ -1851,51 +2055,27 @@
             if (!('speechSynthesis' in window)) return null;
             const voices = window.speechSynthesis.getVoices();
             if (!voices || voices.length === 0) return null;
-
-            let v = voices.find(voice => {
-                const lang = (voice.lang || '').toLowerCase().replace('_', '-');
-                return lang === 'id-id';
-            });
+            let v = voices.find(voice => (voice.lang || '').toLowerCase().replace('_', '-') === 'id-id');
             if (v) return v;
-
-            v = voices.find(voice => {
-                const lang = (voice.lang || '').toLowerCase();
-                return lang.startsWith('id-') || lang === 'id';
-            });
+            v = voices.find(voice => { const lang = (voice.lang || '').toLowerCase(); return lang.startsWith('id-') || lang === 'id'; });
             if (v) return v;
-
             v = voices.find(voice => voice.name && voice.name.toLowerCase().includes('indonesia'));
             if (v) return v;
-
             const idNames = ['damayanti', 'andika', 'gadis', 'arif', 'ardi', 'budi', 'indah', 'siti', 'dewi', 'bayu'];
-            v = voices.find(voice => {
-                const name = (voice.name || '').toLowerCase();
-                return idNames.some(n => name.includes(n));
-            });
+            v = voices.find(voice => { const name = (voice.name || '').toLowerCase(); return idNames.some(n => name.includes(n)); });
             return v || null;
         }
 
         function ensureVoicesLoaded(callback) {
-            if (!('speechSynthesis' in window)) {
-                if (callback) callback();
-                return;
-            }
+            if (!('speechSynthesis' in window)) { if (callback) callback(); return; }
             const voices = window.speechSynthesis.getVoices();
-            if (voices && voices.length > 0) {
-                if (callback) callback();
-                return;
-            }
+            if (voices && voices.length > 0) { if (callback) callback(); return; }
             let attempts = 0;
             const iv = setInterval(() => {
                 attempts++;
                 const v = window.speechSynthesis.getVoices();
-                if (v && v.length > 0) {
-                    clearInterval(iv);
-                    if (callback) callback();
-                } else if (attempts > 20) {
-                    clearInterval(iv);
-                    if (callback) callback();
-                }
+                if (v && v.length > 0) { clearInterval(iv); if (callback) callback(); }
+                else if (attempts > 20) { clearInterval(iv); if (callback) callback(); }
             }, 100);
         }
 
@@ -1918,12 +2098,10 @@
                     text.innerHTML = `✅ Suara: <b>${escapeHtml(indonesianVoice.name)}</b> (${escapeHtml(indonesianVoice.lang)})`;
                     text.parentElement.className = 'mt-2 text-[10px] font-medium text-emerald-600 dark:text-emerald-400 text-center';
                 } else {
-                    text.innerHTML = `⚠️ Voice Indonesia tidak terdeteksi. Pastikan TTS Indonesia sudah aktif di pengaturan perangkat.`;
+                    text.innerHTML = `⚠️ Voice Indonesia tidak terdeteksi.`;
                     text.parentElement.className = 'mt-2 text-[10px] font-medium text-rose-600 dark:text-rose-400 text-center';
                 }
-            } else {
-                hint.classList.add('hidden');
-            }
+            } else hint.classList.add('hidden');
         }
 
         function toggleVoiceGuide(enabled) {
@@ -1932,11 +2110,8 @@
                 ensureVoicesLoaded(() => {
                     indonesianVoice = findIndonesianVoice();
                     updateVoiceStatusHint();
-                    if (indonesianVoice) {
-                        speak("Panduan suara aktif. Mari kita mulai dengan tenang...");
-                    } else {
-                        showToast("⚠️ Voice Indonesia tidak terdeteksi");
-                    }
+                    if (indonesianVoice) speak("Panduan suara aktif. Mari kita mulai dengan tenang...");
+                    else showToast("⚠️ Voice Indonesia tidak terdeteksi");
                 });
             } else {
                 if ('speechSynthesis' in window) window.speechSynthesis.cancel();
@@ -1948,24 +2123,19 @@
             if (!voiceGuideEnabled || !('speechSynthesis' in window)) return;
             if (!indonesianVoice) indonesianVoice = findIndonesianVoice();
             if (!indonesianVoice) return;
-
             window.speechSynthesis.cancel();
-
             const utter = new SpeechSynthesisUtterance(text);
-            utter.voice = indonesianVoice;
-            utter.lang = indonesianVoice.lang || 'id-ID';
-            utter.rate = 0.78;
-            utter.pitch = 0.95;
-            utter.volume = 0.85;
-
+            utter.voice = indonesianVoice; utter.lang = indonesianVoice.lang || 'id-ID';
+            utter.rate = 0.78; utter.pitch = 0.95; utter.volume = 0.85;
             window.speechSynthesis.speak(utter);
         }
 
         /* ========================================================
-           BREATHING — FIX #5: markActivity setelah 1 siklus penuh
+           BREATHING
            ======================================================== */
         let breathingTimer = null;
         let currentTech = 'box';
+        let currentVisual = 'circle';
         let breathStepIndex = 0;
         let breathCount = 0;
         let isPaused = false;
@@ -1973,40 +2143,166 @@
         let completedCycles = 0;
 
         const techniques = {
-            box: {
-                title: "Box Breathing (4-4-4-4)",
-                desc: "Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.",
+            box: { title: "Box Breathing (4-4-4-4)", desc: "Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan..." },
-                    { label: "TAHAN", duration: 4, scale: 1.6, voice: "Tahan, sebentar saja..." },
-                    { label: "HEMBUSKAN", duration: 4, scale: 1.0, voice: "Hembuskan, lepaskan..." },
-                    { label: "ISTIRAHAT", duration: 4, scale: 1.0, voice: "Istirahat, rileks..." }
-                ]
-            },
-            '478': {
-                title: "Relaksasi 4-7-8",
-                desc: "Membantu menurunkan detak jantung dan merangsang tidur nyenyak.",
+                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan...", boxPos: 'top' },
+                    { label: "TAHAN", duration: 4, scale: 1.6, voice: "Tahan, sebentar saja...", boxPos: 'right' },
+                    { label: "HEMBUSKAN", duration: 4, scale: 1.0, voice: "Hembuskan, lepaskan...", boxPos: 'bottom' },
+                    { label: "ISTIRAHAT", duration: 4, scale: 1.0, voice: "Istirahat, rileks...", boxPos: 'left' }
+                ]},
+            '478': { title: "Relaksasi 4-7-8", desc: "Membantu menurunkan detak jantung dan merangsang tidur nyenyak.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan..." },
-                    { label: "TAHAN", duration: 7, scale: 1.6, voice: "Tahan, tetap tenang..." },
-                    { label: "HEMBUSKAN", duration: 8, scale: 1.0, voice: "Hembuskan, perlahan sekali..." }
-                ]
-            },
-            calm: {
-                title: "Napas Dalam Seimbang (5-5)",
-                desc: "Ritme napas seimbang untuk menenangkan kecemasan ringan.",
+                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan...", boxPos: 'top' },
+                    { label: "TAHAN", duration: 7, scale: 1.6, voice: "Tahan, tetap tenang...", boxPos: 'right' },
+                    { label: "HEMBUSKAN", duration: 8, scale: 1.0, voice: "Hembuskan, perlahan sekali...", boxPos: 'bottom' }
+                ]},
+            calm: { title: "Napas Dalam Seimbang (5-5)", desc: "Ritme napas seimbang untuk menenangkan kecemasan ringan.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 5, scale: 1.6, voice: "Tarik napas, dalam dan lembut..." },
-                    { label: "HEMBUSKAN", duration: 5, scale: 1.0, voice: "Hembuskan, tenang..." }
-                ]
-            }
+                    { label: "TARIK NAPAS", duration: 5, scale: 1.6, voice: "Tarik napas, dalam dan lembut...", boxPos: 'top' },
+                    { label: "HEMBUSKAN", duration: 5, scale: 1.0, voice: "Hembuskan, tenang...", boxPos: 'bottom' }
+                ]}
         };
+
+        const VISUAL_IDS = ['circle','candle','bloom','balloon','box','star'];
+
+        function changeVisualStyle(visualId) {
+            if (!VISUAL_IDS.includes(visualId)) return;
+            currentVisual = visualId;
+            try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
+            const allVisuals = document.querySelectorAll('.breath-visual');
+            allVisuals.forEach(el => {
+                if (el.dataset.visual === visualId) {
+                    el.classList.remove('visual-hidden');
+                    el.classList.add('visual-active');
+                } else {
+                    el.classList.remove('visual-active');
+                    el.classList.add('visual-hidden');
+                }
+            });
+            // Reset scale visual saat ganti
+            resetVisualScale();
+        }
+
+        function resetVisualScale() {
+            const mainCircle = document.getElementById('breathMainCircle');
+            if (mainCircle) { mainCircle.style.transform = 'scale(1)'; mainCircle.classList.remove('paused'); }
+            const candle = document.getElementById('candleFlame');
+            if (candle) candle.style.transform = 'scale(1)';
+            const bloom = document.getElementById('bloomSvg');
+            if (bloom) bloom.style.transform = 'scale(1)';
+            const balloon = document.getElementById('balloonBody');
+            if (balloon) balloon.style.transform = 'scale(1)';
+            const star = document.getElementById('starShape');
+            if (star) { star.style.transform = 'scale(1)'; star.style.filter = 'drop-shadow(0 0 20px rgba(251, 191, 36, 0.8))'; }
+            const boxMarker = document.getElementById('boxMarker');
+            if (boxMarker) boxMarker.style.transform = '';
+        }
 
         function selectTechnique(techKey) {
             currentTech = techKey;
             document.getElementById('breathTechniqueTitle').innerText = techniques[techKey].title;
             document.getElementById('breathTechniqueDesc').innerText = techniques[techKey].desc;
             stopBreathing();
+        }
+
+        function updateVisualForStep(step, tech) {
+            // Lingkaran
+            const mainCircle = document.getElementById('breathMainCircle');
+            if (mainCircle) {
+                mainCircle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`;
+                mainCircle.style.transform = `scale(${step.scale})`;
+            }
+            // Lilin: flame scale 0.6 - 1.5
+            const candle = document.getElementById('candleFlame');
+            if (candle) {
+                const flameScale = step.scale > 1.2 ? 1.4 : 0.85;
+                candle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease`;
+                candle.style.transform = `scale(${flameScale})`;
+                candle.style.filter = step.scale > 1.2
+                    ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)'
+                    : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
+            }
+            // Bunga: petals rotate + scale
+            const bloom = document.getElementById('bloomSvg');
+            const petals = document.getElementById('bloomPetals');
+            if (bloom) {
+                const bloomScale = step.scale > 1.2 ? 1.15 : 0.85;
+                bloom.style.transition = `transform ${step.duration}s ease-in-out`;
+                bloom.style.transform = `scale(${bloomScale}) rotate(${step.scale > 1.2 ? 30 : 0}deg)`;
+            }
+            if (petals) {
+                petals.style.transition = `transform ${step.duration}s ease-in-out`;
+                petals.style.transform = step.scale > 1.2 ? 'scale(1.15)' : 'scale(0.85)';
+                petals.style.transformOrigin = '100px 100px';
+            }
+            // Balon
+            const balloon = document.getElementById('balloonBody');
+            if (balloon) {
+                const bScale = step.scale > 1.2 ? 1.25 : 0.85;
+                balloon.style.transition = `transform ${step.duration}s ease-in-out`;
+                balloon.style.transform = `scale(${bScale})`;
+                balloon.style.transformOrigin = '60px 150px';
+            }
+            // Kotak: marker bergerak mengelilingi kotak
+            const boxMarker = document.getElementById('boxMarker');
+            if (boxMarker && step.boxPos) {
+                let transform = '';
+                const positions = {
+                    top: 'translate(-70px, -70px)',
+                    right: 'translate(70px, -70px)',
+                    bottom: 'translate(70px, 70px)',
+                    left: 'translate(-70px, 70px)'
+                };
+                transform = positions[step.boxPos] || '';
+                boxMarker.style.transition = `transform ${step.duration}s ease-in-out`;
+                boxMarker.style.transform = transform;
+            }
+            // Bintang
+            const star = document.getElementById('starShape');
+            if (star) {
+                const starScale = step.scale > 1.2 ? 1.3 : 0.8;
+                star.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease`;
+                star.style.transform = `scale(${starScale})`;
+                star.style.filter = step.scale > 1.2
+                    ? 'drop-shadow(0 0 40px rgba(251, 191, 36, 1)) brightness(1.3)'
+                    : 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)) brightness(0.9)';
+            }
+        }
+
+        function updateVisualInstruction(step) {
+            const ids = {
+                circle: 'breathInstruction',
+                candle: 'candleInstruction',
+                bloom: 'bloomInstruction',
+                balloon: 'balloonInstruction',
+                box: 'boxInstruction',
+                star: 'starInstruction'
+            };
+            const timerIds = {
+                circle: 'breathTimer',
+                candle: 'candleTimer',
+                bloom: 'bloomTimer',
+                balloon: 'balloonTimer',
+                box: 'boxTimer',
+                star: 'starTimer'
+            };
+            const instructionEl = document.getElementById(ids[currentVisual]);
+            const timerEl = document.getElementById(timerIds[currentVisual]);
+            if (instructionEl) instructionEl.innerText = step.label;
+            if (timerEl) timerEl.innerText = step.duration;
+        }
+
+        function updateTimerDisplay(seconds) {
+            const timerIds = {
+                circle: 'breathTimer',
+                candle: 'candleTimer',
+                bloom: 'bloomTimer',
+                balloon: 'balloonTimer',
+                box: 'boxTimer',
+                star: 'starTimer'
+            };
+            const timerEl = document.getElementById(timerIds[currentVisual]);
+            if (timerEl) timerEl.innerText = seconds;
         }
 
         function startBreathing() {
@@ -2022,26 +2318,20 @@
             if (isPaused || !isRunning) return;
             const tech = techniques[currentTech];
             const step = tech.steps[breathStepIndex];
-            const circle = document.getElementById('breathMainCircle');
-            const label = document.getElementById('breathInstruction');
-            const timer = document.getElementById('breathTimer');
-            circle.classList.remove('paused');
-            label.innerText = step.label;
-            circle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`;
-            circle.style.transform = `scale(${step.scale})`;
+            updateVisualInstruction(step);
+            updateVisualForStep(step, tech);
             breathCount = step.duration;
-            timer.innerText = breathCount;
+            updateTimerDisplay(breathCount);
             if (voiceGuideEnabled && step.voice) speak(step.voice);
             clearInterval(breathingTimer);
             breathingTimer = setInterval(() => {
                 if (isPaused) return;
                 breathCount--;
                 if (breathCount > 0) {
-                    timer.innerText = breathCount;
+                    updateTimerDisplay(breathCount);
                 } else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
-                    // FIX #5: hitung siklus penuh
                     if (breathStepIndex === 0) {
                         completedCycles++;
                         if (completedCycles === 1) markActivityToday();
@@ -2054,7 +2344,8 @@
         function pauseBreathing() {
             if (!isRunning || isPaused) return;
             isPaused = true;
-            document.getElementById('breathMainCircle').classList.add('paused');
+            const active = document.querySelector('.breath-visual.visual-active');
+            if (active) active.classList.add('paused');
             updateBreathingUI('paused');
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             showToast("Latihan dijeda.");
@@ -2063,20 +2354,18 @@
         function resumeBreathing() {
             if (!isRunning || !isPaused) return;
             isPaused = false;
-            const circle = document.getElementById('breathMainCircle');
-            circle.classList.remove('paused');
+            const active = document.querySelector('.breath-visual.visual-active');
+            if (active) active.classList.remove('paused');
             updateBreathingUI('running');
             const tech = techniques[currentTech];
             const step = tech.steps[breathStepIndex];
-            circle.style.transition = `transform ${breathCount}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`;
-            circle.style.transform = `scale(${step.scale})`;
-            const timer = document.getElementById('breathTimer');
+            updateVisualForStep(step, tech);
             clearInterval(breathingTimer);
             breathingTimer = setInterval(() => {
                 if (isPaused) return;
                 breathCount--;
                 if (breathCount > 0) {
-                    timer.innerText = breathCount;
+                    updateTimerDisplay(breathCount);
                 } else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
@@ -2096,14 +2385,12 @@
             isRunning = false;
             updateBreathingUI('stopped');
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-            const circle = document.getElementById('breathMainCircle');
-            const label = document.getElementById('breathInstruction');
-            const timer = document.getElementById('breathTimer');
-            circle.style.transition = 'transform 0.5s ease-in-out, filter 0.4s ease, opacity 0.4s ease';
-            circle.style.transform = 'scale(1)';
-            circle.classList.remove('paused');
-            label.innerText = "SIAP";
-            timer.innerText = "4";
+            resetVisualScale();
+            const active = document.querySelector('.breath-visual.visual-active');
+            if (active) active.classList.remove('paused');
+            // Reset label & timer
+            const tech = techniques[currentTech];
+            updateVisualInstruction({ label: 'SIAP', duration: 4 });
         }
 
         function updateBreathingUI(state) {
@@ -2114,10 +2401,7 @@
             const indicator = document.getElementById('breathStatusIndicator');
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
-            [btnStart, btnPause, btnResume, btnStop].forEach(btn => {
-                if (!btn) return;
-                btn.classList.add('hidden'); btn.classList.remove('flex');
-            });
+            [btnStart, btnPause, btnResume, btnStop].forEach(btn => { if (!btn) return; btn.classList.add('hidden'); btn.classList.remove('flex'); });
             if (state === 'running') {
                 btnPause.classList.remove('hidden'); btnPause.classList.add('flex');
                 btnStop.classList.remove('hidden'); btnStop.classList.add('flex');
@@ -2181,30 +2465,21 @@
             if (currentGroundStep > 1) setGroundingStep(currentGroundStep - 1);
             else { showToast("Latihan Grounding Selesai!"); markActivityToday(); setGroundingStep(5); }
         }
-        function prevGroundingStep() {
-            if (currentGroundStep < 5) setGroundingStep(currentGroundStep + 1);
-        }
+        function prevGroundingStep() { if (currentGroundStep < 5) setGroundingStep(currentGroundStep + 1); }
 
         /* ========================================================
-           JOURNAL — FIX #1: escapeHtml di render
+           JOURNAL
            ======================================================== */
         function saveJournalEntry(e) {
             e.preventDefault();
             const thought = document.getElementById('cbtThought').value;
             const evidence = document.getElementById('cbtEvidence').value;
             const reframing = document.getElementById('cbtReframing').value;
-            const entry = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                thought, evidence, reframing
-            };
+            const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), thought, evidence, reframing };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             entries.unshift(entry);
-            try {
-                localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries));
-            } catch (err) {
-                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
-            }
+            try { localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries)); }
+            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('cbtThought').value = '';
             document.getElementById('cbtEvidence').value = '';
             document.getElementById('cbtReframing').value = '';
@@ -2217,10 +2492,7 @@
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             const container = document.getElementById('journalHistoryList');
             document.getElementById('journalCount').innerText = entries.length;
-            if (entries.length === 0) {
-                container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan jurnal.</p>`;
-                return;
-            }
+            if (entries.length === 0) { container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan jurnal.</p>`; return; }
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between text-slate-500 font-medium">
@@ -2251,7 +2523,7 @@
         }
 
         /* ========================================================
-           RELEASE (Trauma)
+           RELEASE
            ======================================================== */
         function handleReleaseSubmit(e) {
             e.preventDefault();
@@ -2263,7 +2535,6 @@
             markActivityToday();
             showToast("🕊️ Beban berhasil dilepaskan.");
         }
-
         function clearReleaseForm() {
             if (confirm("Yakin ingin menghapus tulisan ini? Tulisan tidak akan disimpan.")) {
                 document.getElementById('releaseEvent').value = '';
@@ -2271,14 +2542,13 @@
                 document.getElementById('releaseMessage').value = '';
             }
         }
-
         function resetReleaseModule() {
             document.getElementById('releaseForm').classList.remove('hidden');
             document.getElementById('releaseAnimationBox').classList.add('hidden');
         }
 
         /* ========================================================
-           AFFIRMATIONS — FIX #1 & #8
+           AFFIRMATIONS
            ======================================================== */
         const affirmationsList = [
             { text: "Perasaan cemas ini bersifat sementara dan pasti akan berlalu.", sub: "Sistem saraf Anda akan kembali seimbang." },
@@ -2289,14 +2559,14 @@
             { text: "Pelan-pelan saja, satu detik demi satu detik.", sub: "Tidak perlu terburu-buru menyelesaikan semuanya." },
             { text: "Napas saya adalah jangkar yang selalu bisa saya kembali.", sub: "Setiap tarikan napas membawa ketenangan baru ke tubuh Anda." },
             { text: "Cemas bukan berarti saya lemah. Itu artinya saya peduli.", sub: "Kecemasan menunjukkan bahwa Anda menghargai sesuatu. Validasi itu, tapi jangan biarkan menguasai Anda." },
-            { text: "Saya berhak untuk tenang dan bahagia hari ini.", sub: "Ketenangan adalah hak dasar setiap manusia, termasuk Anda. Tidak perlu izin siapa pun." },
-            { text: "Tidak semua pikiran harus ditindaklanjuti. Beberapa cukup diamati.", sub: "Anda adalah pengamat pikiran, bukan pikiran itu sendiri. Beri ruang, lalu lepaskan." },
+            { text: "Saya berhak untuk tenang dan bahagia hari ini.", sub: "Ketenangan adalah hak dasar setiap manusia, termasuk Anda." },
+            { text: "Tidak semua pikiran harus ditindaklanjuti. Beberapa cukup diamati.", sub: "Anda adalah pengamat pikiran, bukan pikiran itu sendiri." },
             { text: "Saya lebih kuat dari ketakutan yang sedang saya hadapi.", sub: "Riset menunjukkan bahwa manusia jauh lebih tahan banting dari yang sering kita duga." },
             { text: "Satu langkah kecil hari ini lebih baik dari nol langkah besar besok.", sub: "Perubahan besar dimulai dari kebiasaan kecil yang konsisten." },
-            { text: "Saya tidak harus sempurna untuk menjadi cukup.", sub: "Perfeksionisme adalah bibit kecemasan. Cukup, itu sudah lebih dari yang Anda bayangkan." },
+            { text: "Saya tidak harus sempurna untuk menjadi cukup.", sub: "Perfeksionisme adalah bibit kecemasan." },
             { text: "Pikiran saya bukan ramalan. Saya tidak bisa memprediksi masa depan.", sub: "Otak kita sering 'menebak' skenario terburuk. Tapi tebakan bukan kenyataan." },
             { text: "Hari ini saya memilih untuk menunjukkan kasih pada diri sendiri.", sub: "Berbicara pada diri sendiri seperti pada sahabat baik — dengan lembut, bukan keras." },
-            { text: "Saya di sini. Saya hidup. Saya cukup. Saat ini, itu yang penting.", sub: "Kehadiran penuh di momen sekarang adalah obat alami kecemasan. Bernapas dan hadir." }
+            { text: "Saya di sini. Saya hidup. Saya cukup. Saat ini, itu yang penting.", sub: "Kehadiran penuh di momen sekarang adalah obat alami kecemasan." }
         ];
 
         function renderAffirmations() {
@@ -2320,38 +2590,24 @@
             `).join('');
             lucide.createIcons();
         }
-
-        function flipCard(el) {
-            el.querySelector('.card-inner').classList.toggle('rotate-y-180');
-        }
+        function flipCard(el) { el.querySelector('.card-inner').classList.toggle('rotate-y-180'); }
 
         /* ========================================================
            MOOD
            ======================================================== */
-        function updateMoodLabel(val) {
-            document.getElementById('moodValueLabel').innerText = `Skala: ${val}`;
-            updateMoodSliderColor(val);
-        }
-
         function saveMoodLog() {
             const val = document.getElementById('quickMoodRange').value;
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             let status = "Rendah (Tenang)";
             if (val > 7) status = "Sangat Tinggi (Panik/Cemas)";
             else if (val > 4) status = "Sedang (Waspada)";
-            const newLog = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                score: parseInt(val, 10), status: status
-            };
+            const newLog = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), score: parseInt(val, 10), status: status };
             logs.unshift(newLog);
-            try {
-                localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs));
-            } catch (err) {
-                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
-            }
+            try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); }
+            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             loadMoodHistory();
             markActivityToday();
+            updateHomeStats();
             showToast(`Skala kecemasan (${val}/10) dicatat.`);
         }
 
@@ -2375,6 +2631,7 @@
             }
             updateStats();
             renderMoodChart();
+            updateWeeklyStats();
         }
 
         function clearMoodHistory() {
@@ -2396,65 +2653,34 @@
             if (!canvas || !window.Chart) return;
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             const data = logs.slice(0, chartRange).reverse();
-
             if (data.length === 0) {
                 emptyMsg.classList.remove('hidden');
                 canvas.style.display = 'none';
                 if (moodChart) { moodChart.destroy(); moodChart = null; }
                 return;
-            } else {
-                emptyMsg.classList.add('hidden');
-                canvas.style.display = 'block';
-            }
-
+            } else { emptyMsg.classList.add('hidden'); canvas.style.display = 'block'; }
             const labels = data.map(d => d.date);
             const values = data.map(d => parseInt(d.score, 10));
             const isDark = document.documentElement.classList.contains('dark');
             const pointColors = values.map(v => v > 7 ? '#f43f5e' : v > 4 ? '#f59e0b' : '#10b981');
-
             if (moodChart) moodChart.destroy();
             const ctx = canvas.getContext('2d');
             const grad = ctx.createLinearGradient(0, 0, 0, 280);
             grad.addColorStop(0, 'rgba(20, 184, 166, 0.35)');
             grad.addColorStop(1, 'rgba(20, 184, 166, 0.02)');
-
             moodChart = new Chart(ctx, {
                 type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Tingkat Kecemasan',
-                        data: values,
-                        borderColor: '#14b8a6',
-                        backgroundColor: grad,
-                        borderWidth: 2.5, tension: 0.35, fill: true,
-                        pointBackgroundColor: pointColors,
-                        pointBorderColor: '#ffffff', pointBorderWidth: 2,
-                        pointRadius: 5, pointHoverRadius: 7
-                    }]
-                },
+                data: { labels, datasets: [{ label: 'Tingkat Kecemasan', data: values, borderColor: '#14b8a6', backgroundColor: grad, borderWidth: 2.5, tension: 0.35, fill: true, pointBackgroundColor: pointColors, pointBorderColor: '#ffffff', pointBorderWidth: 2, pointRadius: 5, pointHoverRadius: 7 }] },
                 options: {
                     responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
-                        tooltip: {
-                            backgroundColor: isDark ? '#0f172a' : '#1e293b',
-                            titleColor: '#ffffff', bodyColor: '#e2e8f0',
-                            padding: 10, cornerRadius: 10, displayColors: false,
-                            callbacks: {
-                                label: (ctx) => {
-                                    const v = ctx.parsed.y;
-                                    const s = v > 7 ? 'Sangat Cemas' : v > 4 ? 'Waspada' : 'Tenang';
-                                    return `Skor: ${v}/10 (${s})`;
-                                }
-                            }
-                        }
+                        tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, displayColors: false,
+                            callbacks: { label: (ctx) => { const v = ctx.parsed.y; const s = v > 7 ? 'Sangat Cemas' : v > 4 ? 'Waspada' : 'Tenang'; return `Skor: ${v}/10 (${s})`; } } }
                     },
                     scales: {
-                        y: { beginAtZero: true, max: 10, ticks: { stepSize: 2, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } },
-                             grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
-                        x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 9, weight: '600' }, maxRotation: 45 },
-                             grid: { display: false } }
+                        y: { beginAtZero: true, max: 10, ticks: { stepSize: 2, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
+                        x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 9, weight: '600' }, maxRotation: 45 }, grid: { display: false } }
                     }
                 }
             });
@@ -2479,29 +2705,78 @@
             const minEl = document.getElementById('statMin');
             const maxEl = document.getElementById('statMax');
             if (!totalEl) return;
-            if (logs.length === 0) {
-                totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0';
-                return;
-            }
+            if (logs.length === 0) { totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0'; return; }
             const scores = logs.map(l => parseInt(l.score, 10)).filter(n => Number.isFinite(n));
-            if (scores.length === 0) {
-                totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0';
-                return;
-            }
+            if (scores.length === 0) { totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0'; return; }
             totalEl.innerText = scores.length;
             avgEl.innerText = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
             minEl.innerText = Math.min(...scores);
             maxEl.innerText = Math.max(...scores);
         }
 
+        function updateWeeklyStats() {
+            const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
+            if (!logs.length) {
+                const ids = ['weekMoodCount', 'weekMoodAvg', 'lastWeekMoodAvg', 'weekTrend'];
+                ids.forEach(id => { const el = document.getElementById(id); if (el) el.innerText = '0'; });
+                return;
+            }
+            const now = new Date();
+            const startOfThisWeek = new Date(now);
+            startOfThisWeek.setDate(now.getDate() - now.getDay());
+            startOfThisWeek.setHours(0,0,0,0);
+            const startOfLastWeek = new Date(startOfThisWeek);
+            startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+            
+            const thisWeekLogs = logs.filter(l => {
+                const parts = l.date.split(' ');
+                // parse tanggal Indonesia: "18 Okt 14:30"
+                try {
+                    const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
+                    const day = parseInt(parts[0], 10);
+                    const month = months[parts[1]];
+                    if (month === undefined || isNaN(day)) return false;
+                    const d = new Date(now.getFullYear(), month, day);
+                    return d >= startOfThisWeek && d <= now;
+                } catch(e) { return false; }
+            });
+            const lastWeekLogs = logs.filter(l => {
+                const parts = l.date.split(' ');
+                try {
+                    const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
+                    const day = parseInt(parts[0], 10);
+                    const month = months[parts[1]];
+                    if (month === undefined || isNaN(day)) return false;
+                    const d = new Date(now.getFullYear(), month, day);
+                    return d >= startOfLastWeek && d < startOfThisWeek;
+                } catch(e) { return false; }
+            });
+            
+            const thisAvg = thisWeekLogs.length > 0 ? (thisWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/thisWeekLogs.length) : 0;
+            const lastAvg = lastWeekLogs.length > 0 ? (lastWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/lastWeekLogs.length) : 0;
+            
+            document.getElementById('weekMoodCount').innerText = thisWeekLogs.length;
+            document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
+            document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
+            
+            const trendEl = document.getElementById('weekTrend');
+            if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) {
+                trendEl.innerText = '—';
+                trendEl.className = 'text-2xl font-bold text-slate-500 mt-1';
+            } else {
+                const diff = thisAvg - lastAvg;
+                if (diff < -0.3) { trendEl.innerText = `↓ ${Math.abs(diff).toFixed(1)}`; trendEl.className = 'text-2xl font-bold text-emerald-600 mt-1'; }
+                else if (diff > 0.3) { trendEl.innerText = `↑ ${diff.toFixed(1)}`; trendEl.className = 'text-2xl font-bold text-rose-600 mt-1'; }
+                else { trendEl.innerText = '='; trendEl.className = 'text-2xl font-bold text-sky-600 mt-1'; }
+            }
+        }
+
         /* ========================================================
-           STREAK — FIX #7: pakai computeStreak
+           STREAK
            ======================================================== */
         function markActivityToday() {
             let activities = [];
-            try {
-                activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
-            } catch (e) { activities = []; }
+            try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) { activities = []; }
             if (!Array.isArray(activities)) activities = [];
             const today = getTodayKey();
             if (!activities.includes(today)) {
@@ -2534,8 +2809,7 @@
             container.innerHTML = '';
             for (let i = 13; i >= 0; i--) {
                 const key = getDateKeyOffset(i);
-                const d = new Date();
-                d.setDate(d.getDate() - i);
+                const d = new Date(); d.setDate(d.getDate() - i);
                 const isActive = set.has(key);
                 const isToday = key === todayKey;
                 const cell = document.createElement('div');
@@ -2555,34 +2829,25 @@
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             const journals = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             const insights = [];
-
             if (logs.length === 0) {
-                insights.push({
-                    icon: 'sparkles', color: 'calm',
-                    title: 'Mulai Perjalanan Anda',
-                    text: 'Catat mood pertama Anda hari ini untuk mulai mendapatkan insight personal.'
-                });
+                insights.push({ icon: 'sparkles', color: 'calm', title: 'Mulai Perjalanan Anda', text: 'Catat mood pertama Anda hari ini untuk mulai mendapatkan insight personal.' });
             } else {
                 const scores = logs.map(l => parseInt(l.score, 10)).filter(n => Number.isFinite(n));
-                if (scores.length === 0) {
-                    insights.push({ icon: 'activity', color: 'sky', title: 'Data Tidak Lengkap', text: 'Catat mood Anda untuk analisis.' });
-                } else {
+                if (scores.length === 0) { insights.push({ icon: 'activity', color: 'sky', title: 'Data Tidak Lengkap', text: 'Catat mood Anda untuk analisis.' }); }
+                else {
                     const recent = scores.slice(0, 7);
                     const older = scores.slice(7, 14);
                     const avgRecent = recent.reduce((a, b) => a + b, 0) / recent.length;
                     const avgOlder = older.length > 0 ? older.reduce((a, b) => a + b, 0) / older.length : null;
-
                     if (avgOlder !== null) {
                         const diff = avgRecent - avgOlder;
                         if (diff < -0.5) insights.push({ icon: 'trending-down', color: 'emerald', title: 'Kecemasan Menurun!', text: `Rata-rata turun ${Math.abs(diff).toFixed(1)} poin. Pertahankan!` });
                         else if (diff > 0.5) insights.push({ icon: 'trending-up', color: 'rose', title: 'Kecemasan Meningkat', text: `Naik ${diff.toFixed(1)} poin. Coba latihan 4-7-8 lebih sering.` });
                         else insights.push({ icon: 'activity', color: 'sky', title: 'Stabil', text: `Rata-rata stabil di ${avgRecent.toFixed(1)}/10.` });
                     }
-
                     const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
                     if (avg > 6) insights.push({ icon: 'heart', color: 'rose', title: 'Anda Sedang Berat', text: 'Pertimbangkan bercerita ke orang terpercaya atau profesional.' });
                     else if (avg < 3.5) insights.push({ icon: 'sun', color: 'amber', title: 'Anda Sangat Tenang', text: 'Anda dalam kondisi baik!' });
-
                     const tinggi = scores.filter(s => s > 7).length;
                     const sedang = scores.filter(s => s > 4 && s <= 7).length;
                     const rendah = scores.filter(s => s <= 4).length;
@@ -2591,11 +2856,9 @@
                     if (maxCat === rendah) domCat = 'rendah (tenang)';
                     else if (maxCat === tinggi) domCat = 'tinggi (cemas)';
                     insights.push({ icon: 'pie-chart', color: 'purple', title: 'Pola Dominan', text: `Dari ${scores.length} catatan, kategori ${domCat} paling sering.` });
-
                     if (journals.length > 0) insights.push({ icon: 'book-open', color: 'sky', title: `Jurnal CBT: ${journals.length} catatan`, text: 'Menulis jurnal CBT membantu mereframe pikiran.' });
                 }
             }
-
             const colorMap = {
                 calm: 'bg-calm-100 dark:bg-calm-900/40 text-calm-600',
                 emerald: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600',
@@ -2604,7 +2867,6 @@
                 amber: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600',
                 purple: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600'
             };
-
             container.innerHTML = insights.map(ins => `
                 <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex gap-4">
                     <div class="w-10 h-10 rounded-xl ${colorMap[ins.color]} flex items-center justify-center flex-shrink-0">
@@ -2638,9 +2900,15 @@
             const dayIndex = new Date().getDate() % dailyTips.length;
             el.innerText = dailyTips[dayIndex];
         }
+        function renderDailyTipHome() {
+            const el = document.getElementById('dailyTipTextHome');
+            if (!el) return;
+            const dayIndex = new Date().getDate() % dailyTips.length;
+            el.innerText = dailyTips[dayIndex];
+        }
 
         /* ========================================================
-           GRATITUDE — FIX #1 & #7
+           GRATITUDE
            ======================================================== */
         let gratitudeChart = null;
 
@@ -2649,31 +2917,16 @@
             const g1 = document.getElementById('gratitude1').value.trim();
             const g2 = document.getElementById('gratitude2').value.trim();
             const g3 = document.getElementById('gratitude3').value.trim();
-
-            const entry = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                dateKey: getTodayKey(),
-                items: [g1, g2, g3]
-            };
-
+            const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), dateKey: getTodayKey(), items: [g1, g2, g3] };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             entries.unshift(entry);
-            try {
-                localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries));
-            } catch (err) {
-                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
-            }
-
+            try { localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries)); }
+            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('gratitude1').value = '';
             document.getElementById('gratitude2').value = '';
             document.getElementById('gratitude3').value = '';
-
-            loadGratitudeHistory();
-            updateGratitudeStats();
-            renderGratitudeCalendar();
-            renderGratitudeChart();
-            markActivityToday();
+            loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart();
+            markActivityToday(); updateHomeStats();
             showToast("🌸 Syukur hari ini tersimpan!");
         }
 
@@ -2681,12 +2934,7 @@
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             const container = document.getElementById('gratitudeHistoryList');
             if (!container) return;
-
-            if (entries.length === 0) {
-                container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan syukur. Mulai tulis pertama Anda hari ini!</p>`;
-                return;
-            }
-
+            if (entries.length === 0) { container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan syukur.</p>`; return; }
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-pink-950/20 border border-pink-200 dark:border-pink-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between text-pink-700 dark:text-pink-300 font-semibold">
@@ -2713,20 +2961,16 @@
             let entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             entries = entries.filter(item => item.id !== id);
             localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries));
-            loadGratitudeHistory();
-            updateGratitudeStats();
-            renderGratitudeCalendar();
-            renderGratitudeChart();
+            loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart();
+            updateHomeStats();
             showToast("Catatan syukur dihapus.");
         }
 
         function clearGratitudeHistory() {
-            if (!confirm('⚠️ Hapus SEMUA riwayat jurnal syukur? Tindakan ini tidak bisa dibatalkan.')) return;
+            if (!confirm('⚠️ Hapus SEMUA riwayat jurnal syukur?')) return;
             localStorage.removeItem('anti_anxiety_gratitude');
-            loadGratitudeHistory();
-            updateGratitudeStats();
-            renderGratitudeCalendar();
-            renderGratitudeChart();
+            loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart();
+            updateHomeStats();
             showToast("Semua riwayat syukur dihapus.");
         }
 
@@ -2737,18 +2981,13 @@
             const monthEl = document.getElementById('gratThisMonth');
             const badgeEl = document.getElementById('gratBadge');
             if (!totalEl) return;
-
             const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
             totalEl.innerText = uniqueDays.size;
-
             const streak = computeStreak(uniqueDays);
             streakEl.innerText = streak;
-
             const now = new Date();
             const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const thisMonth = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
-            monthEl.innerText = thisMonth;
-
+            monthEl.innerText = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
             let badge = '-';
             if (streak >= 100) badge = '👑 Master';
             else if (streak >= 30) badge = '🏆 Praktisi';
@@ -2766,8 +3005,7 @@
             container.innerHTML = '';
             for (let i = 29; i >= 0; i--) {
                 const key = getDateKeyOffset(i);
-                const d = new Date();
-                d.setDate(d.getDate() - i);
+                const d = new Date(); d.setDate(d.getDate() - i);
                 const isActive = uniqueDays.has(key);
                 const isToday = key === todayKey;
                 const cell = document.createElement('div');
@@ -2781,110 +3019,53 @@
         function renderGratitudeChart() {
             const canvas = document.getElementById('gratitudeChart');
             if (!canvas || !window.Chart) return;
-
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
-
-            const labels = [];
-            const values = [];
+            const labels = []; const values = [];
             for (let i = 13; i >= 0; i--) {
                 const key = getDateKeyOffset(i);
-                const d = new Date();
-                d.setDate(d.getDate() - i);
+                const d = new Date(); d.setDate(d.getDate() - i);
                 labels.push(d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
                 values.push(uniqueDays.has(key) ? 1 : 0);
             }
-
             const isDark = document.documentElement.classList.contains('dark');
-
             if (gratitudeChart) gratitudeChart.destroy();
             const ctx = canvas.getContext('2d');
-
             gratitudeChart = new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Syukur',
-                        data: values,
-                        backgroundColor: values.map(v => v === 1 ? '#ec4899' : (isDark ? 'rgba(148, 163, 184, 0.20)' : 'rgba(148, 163, 184, 0.15)')),
-                        borderRadius: 6,
-                        borderSkipped: false
-                    }]
-                },
+                data: { labels, datasets: [{ label: 'Syukur', data: values, backgroundColor: values.map(v => v === 1 ? '#ec4899' : (isDark ? 'rgba(148, 163, 184, 0.20)' : 'rgba(148, 163, 184, 0.15)')), borderRadius: 6, borderSkipped: false }] },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: isDark ? '#0f172a' : '#1e293b',
-                            titleColor: '#ffffff',
-                            bodyColor: '#e2e8f0',
-                            padding: 10,
-                            cornerRadius: 10,
-                            displayColors: false,
-                            callbacks: {
-                                label: (ctx) => ctx.parsed.y === 1 ? '🌸 Bersyukur' : '— Belum'
-                            }
-                        }
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, displayColors: false, callbacks: { label: (ctx) => ctx.parsed.y === 1 ? '🌸 Bersyukur' : '— Belum' } } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 1.2,
-                            ticks: {
-                                stepSize: 1,
-                                color: isDark ? '#94a3b8' : '#64748b',
-                                font: { size: 10, weight: '600' },
-                                callback: (v) => v === 0 ? '—' : v === 1 ? '🌸' : ''
-                            },
-                            grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' }
-                        },
-                        x: {
-                            ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 9, weight: '600' }, maxRotation: 45 },
-                            grid: { display: false }
-                        }
+                        y: { beginAtZero: true, max: 1.2, ticks: { stepSize: 1, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' }, callback: (v) => v === 0 ? '—' : v === 1 ? '🌸' : '' }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
+                        x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 9, weight: '600' }, maxRotation: 45 }, grid: { display: false } }
                     }
                 }
             });
         }
 
         /* ========================================================
-           LUCK — FIX #1, #6, #7
+           LUCK
            ======================================================== */
         let luckChart = null;
+        let luckBarChart = null;
 
         function saveLuckEntry(e) {
             e.preventDefault();
             const text = document.getElementById('luckInput').value.trim();
             const catEl = document.querySelector('input[name="luckCat"]:checked');
             const cat = catEl ? catEl.value : 'Lainnya';
-
-            const entry = {
-                id: Date.now(),
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                dateKey: getTodayKey(),
-                text: text,
-                category: cat
-            };
-
+            const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), dateKey: getTodayKey(), text: text, category: cat };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             entries.unshift(entry);
-            try {
-                localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries));
-            } catch (err) {
-                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
-            }
-
+            try { localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries)); }
+            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('luckInput').value = '';
             const defaultRadio = document.querySelector('input[name="luckCat"][value="Lainnya"]');
             if (defaultRadio) defaultRadio.checked = true;
-
-            loadLuckHistory();
-            updateLuckStats();
-            renderLuckChart();
-            markActivityToday();
+            loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart();
+            markActivityToday(); updateHomeStats();
             showToast("🍀 Keberuntungan hari ini tersimpan!");
         }
 
@@ -2892,12 +3073,7 @@
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             const container = document.getElementById('luckHistoryList');
             if (!container) return;
-
-            if (entries.length === 0) {
-                container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan keberuntungan.</p>`;
-                return;
-            }
-
+            if (entries.length === 0) { container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan keberuntungan.</p>`; return; }
             const catEmoji = { 'Rezeki': '💰', 'Sosial': '🤝', 'Kesempatan': '🚀', 'Lainnya': '✨' };
             const catColor = {
                 'Rezeki': 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
@@ -2905,7 +3081,6 @@
                 'Kesempatan': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
                 'Lainnya': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
             };
-
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between font-semibold">
@@ -2930,18 +3105,15 @@
             let entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             entries = entries.filter(item => item.id !== id);
             localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries));
-            loadLuckHistory();
-            updateLuckStats();
-            renderLuckChart();
+            loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart();
             showToast("Catatan keberuntungan dihapus.");
         }
 
         function clearLuckHistory() {
-            if (!confirm('⚠️ Hapus SEMUA riwayat keberuntungan? Tindakan ini tidak bisa dibatalkan.')) return;
+            if (!confirm('⚠️ Hapus SEMUA riwayat keberuntungan?')) return;
             localStorage.removeItem('anti_anxiety_luck');
-            loadLuckHistory();
-            updateLuckStats();
-            renderLuckChart();
+            loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart();
+            updateHomeStats();
             showToast("Semua riwayat keberuntungan dihapus.");
         }
 
@@ -2952,28 +3124,16 @@
             const monthEl = document.getElementById('luckThisMonth');
             const topCatEl = document.getElementById('luckTopCat');
             if (!totalEl) return;
-
             totalEl.innerText = entries.length;
-
             const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
             streakEl.innerText = computeStreak(uniqueDays);
-
             const now = new Date();
             const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             monthEl.innerText = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
-
             const catCount = {};
-            entries.forEach(e => {
-                if (e.category) catCount[e.category] = (catCount[e.category] || 0) + 1;
-            });
-            let topCat = '-';
-            let topCount = 0;
-            Object.keys(catCount).forEach(cat => {
-                if (catCount[cat] > topCount) {
-                    topCount = catCount[cat];
-                    topCat = cat;
-                }
-            });
+            entries.forEach(e => { if (e.category) catCount[e.category] = (catCount[e.category] || 0) + 1; });
+            let topCat = '-'; let topCount = 0;
+            Object.keys(catCount).forEach(cat => { if (catCount[cat] > topCount) { topCount = catCount[cat]; topCat = cat; } });
             topCatEl.innerText = topCat !== '-' ? `${escapeHtml(topCat)} (${topCount})` : '-';
         }
 
@@ -2981,16 +3141,11 @@
             const canvas = document.getElementById('luckChart');
             const emptyMsg = document.getElementById('luckChartEmpty');
             if (!canvas || !window.Chart) return;
-
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             const catCount = { 'Rezeki': 0, 'Sosial': 0, 'Kesempatan': 0, 'Lainnya': 0 };
-            entries.forEach(e => {
-                if (catCount[e.category] !== undefined) catCount[e.category]++;
-            });
-
+            entries.forEach(e => { if (catCount[e.category] !== undefined) catCount[e.category]++; });
             const isEmpty = entries.length === 0;
             const isDark = document.documentElement.classList.contains('dark');
-
             if (isEmpty) {
                 if (emptyMsg) emptyMsg.classList.remove('hidden');
                 canvas.style.display = 'none';
@@ -3000,49 +3155,124 @@
                 if (emptyMsg) emptyMsg.classList.add('hidden');
                 canvas.style.display = 'block';
             }
-
             if (luckChart) luckChart.destroy();
-
             const ctx = canvas.getContext('2d');
             const colors = ['#f59e0b', '#0ea5e9', '#a855f7', '#10b981'];
-
             luckChart = new Chart(ctx, {
                 type: 'doughnut',
-                data: {
-                    labels: Object.keys(catCount),
-                    datasets: [{
-                        data: Object.values(catCount),
-                        backgroundColor: colors,
-                        borderColor: isDark ? '#1e293b' : '#ffffff',
-                        borderWidth: 3
-                    }]
-                },
+                data: { labels: Object.keys(catCount), datasets: [{ data: Object.values(catCount), backgroundColor: colors, borderColor: isDark ? '#1e293b' : '#ffffff', borderWidth: 3 }] },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
+                    responsive: true, maintainAspectRatio: false, cutout: '65%',
                     plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: isDark ? '#94a3b8' : '#64748b',
-                                font: { size: 11, weight: '600' },
-                                padding: 14
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: isDark ? '#0f172a' : '#1e293b',
-                            titleColor: '#ffffff',
-                            bodyColor: '#e2e8f0',
-                            padding: 10,
-                            cornerRadius: 10,
-                            callbacks: {
-                                label: (ctx) => `${ctx.label}: ${ctx.parsed} gain`
-                            }
-                        }
+                        legend: { position: 'bottom', labels: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' }, padding: 14 } },
+                        tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} gain` } }
                     }
                 }
             });
+        }
+
+        function renderLuckBarChart() {
+            const canvas = document.getElementById('luckBarChart');
+            const emptyMsg = document.getElementById('luckBarChartEmpty');
+            if (!canvas || !window.Chart) return;
+            const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
+            const catCount = { 'Rezeki': 0, 'Sosial': 0, 'Kesempatan': 0, 'Lainnya': 0 };
+            entries.forEach(e => { if (catCount[e.category] !== undefined) catCount[e.category]++; });
+            const isEmpty = entries.length === 0;
+            const isDark = document.documentElement.classList.contains('dark');
+            if (isEmpty) {
+                if (emptyMsg) emptyMsg.classList.remove('hidden');
+                canvas.style.display = 'none';
+                if (luckBarChart) { luckBarChart.destroy(); luckBarChart = null; }
+                return;
+            } else {
+                if (emptyMsg) emptyMsg.classList.add('hidden');
+                canvas.style.display = 'block';
+            }
+            if (luckBarChart) luckBarChart.destroy();
+            const ctx = canvas.getContext('2d');
+            const colors = ['#f59e0b', '#0ea5e9', '#a855f7', '#10b981'];
+            luckBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: Object.keys(catCount), datasets: [{ label: 'Jumlah', data: Object.values(catCount), backgroundColor: colors, borderRadius: 8, borderSkipped: false }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.parsed.y} gain` } } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
+                        x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        /* ========================================================
+           CSV EXPORT
+           ======================================================== */
+        function escapeCSV(val) {
+            const s = String(val ?? '');
+            if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+                return `"${s.replace(/"/g, '""')}"`;
+            }
+            return s;
+        }
+        function downloadCSV(filename, rows) {
+            const csv = rows.map(r => r.map(escapeCSV).join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`✅ CSV diunduh: ${filename}`);
+        }
+
+        function exportMoodsCSV() {
+            const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
+            if (logs.length === 0) { showToast("Tidak ada data mood untuk diexport."); return; }
+            const rows = [['Tanggal', 'Skor', 'Status']];
+            logs.forEach(l => rows.push([l.date, l.score, l.status]));
+            downloadCSV(`mood-${new Date().toISOString().split('T')[0]}.csv`, rows);
+        }
+
+        function exportGratitudeCSV() {
+            const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
+            if (entries.length === 0) { showToast("Tidak ada data syukur untuk diexport."); return; }
+            const rows = [['Tanggal', 'Syukur 1', 'Syukur 2', 'Syukur 3']];
+            entries.forEach(e => {
+                const items = Array.isArray(e.items) ? e.items : [];
+                rows.push([e.date, items[0] || '', items[1] || '', items[2] || '']);
+            });
+            downloadCSV(`syukur-${new Date().toISOString().split('T')[0]}.csv`, rows);
+        }
+
+        function exportLuckCSV() {
+            const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
+            if (entries.length === 0) { showToast("Tidak ada data keberuntungan untuk diexport."); return; }
+            const rows = [['Tanggal', 'Kategori', 'Keberuntungan']];
+            entries.forEach(e => rows.push([e.date, e.category, e.text]));
+            downloadCSV(`keberuntungan-${new Date().toISOString().split('T')[0]}.csv`, rows);
+        }
+
+        /* ========================================================
+           HOME STATS
+           ======================================================== */
+        function updateHomeStats() {
+            let activities = [];
+            try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
+            const streak = computeStreak(new Set(Array.isArray(activities) ? activities : []));
+            const moods = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
+            const journals = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
+            const gratitude = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
+            const uniqueGratDays = new Set(gratitude.map(g => g.dateKey).filter(Boolean));
+            const el1 = document.getElementById('homeStatStreak');
+            const el2 = document.getElementById('homeStatMoods');
+            const el3 = document.getElementById('homeStatJournals');
+            const el4 = document.getElementById('homeStatGratitude');
+            if (el1) el1.innerText = streak;
+            if (el2) el2.innerText = moods.length;
+            if (el3) el3.innerText = journals.length;
+            if (el4) el4.innerText = uniqueGratDays.size;
         }
 
         /* ========================================================
@@ -3053,7 +3283,6 @@
             if (banner) banner.style.display = 'none';
             try { localStorage.setItem('anti_anxiety_disclaimer_dismissed', 'true'); } catch (e) {}
         }
-
         function checkDisclaimer() {
             const dismissed = localStorage.getItem('anti_anxiety_disclaimer_dismissed');
             if (dismissed === 'true') {
@@ -3063,7 +3292,7 @@
         }
 
         /* ========================================================
-           BACKUP BUBBLE — FIX #11: konstanta
+           BACKUP BUBBLE
            ======================================================== */
         let bubbleCollapseTimer = null;
         let bubbleCurrentlyVisible = false;
@@ -3071,7 +3300,6 @@
 
         function getDaysSinceBackupOrData() {
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
-
             let hasData = false;
             try {
                 hasData =
@@ -3080,9 +3308,7 @@
                     JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 ||
                     JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0;
             } catch (e) { hasData = false; }
-
             if (!hasData) return null;
-
             if (!lastBackup) {
                 const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
                 if (!Array.isArray(activities) || activities.length === 0) return 0;
@@ -3091,7 +3317,6 @@
                 const diffDays = Math.floor((new Date() - firstDate) / (1000 * 60 * 60 * 24));
                 return Math.max(1, diffDays);
             }
-
             const lastDate = new Date(lastBackup);
             if (isNaN(lastDate.getTime())) return 1;
             return Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
@@ -3101,7 +3326,6 @@
             const days = getDaysSinceBackupOrData();
             if (days === null) return false;
             if (days < BACKUP_REMINDER_DAYS) return false;
-
             const snoozeUntil = localStorage.getItem('anti_anxiety_backup_snooze');
             if (snoozeUntil) {
                 const snoozeDate = new Date(snoozeUntil);
@@ -3117,34 +3341,22 @@
         }
 
         function showBackupBubble() {
-            if (!shouldShowBubble()) {
-                hideBackupBubble();
-                return;
-            }
-
+            if (!shouldShowBubble()) { hideBackupBubble(); return; }
             const days = getDaysSinceBackupOrData();
             const bubble = document.getElementById('backupBubble');
             const badge = document.getElementById('bubbleBadge');
             const popupText = document.getElementById('bubblePopupText');
             if (!bubble) return;
-
             badge.innerText = days > 99 ? '99+' : days;
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
-            if (!lastBackup) {
-                popupText.innerText = `Anda belum pernah backup. Data Anda bisa hilang jika browser di-clear atau HP rusak.`;
-            } else {
-                popupText.innerText = `Sudah ${days} hari Anda tidak backup. Data bisa hilang jika browser di-clear atau HP rusak.`;
-            }
-
+            if (!lastBackup) popupText.innerText = `Anda belum pernah backup. Data Anda bisa hilang jika browser di-clear atau HP rusak.`;
+            else popupText.innerText = `Sudah ${days} hari Anda tidak backup. Data bisa hilang jika browser di-clear atau HP rusak.`;
             bubble.classList.add('visible');
             bubble.classList.remove('collapsed');
             bubbleCurrentlyVisible = true;
-
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
             bubbleCollapseTimer = setTimeout(() => {
-                if (!bubblePopupOpen && bubbleCurrentlyVisible) {
-                    bubble.classList.add('collapsed');
-                }
+                if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed');
             }, 5000);
         }
 
@@ -3166,9 +3378,7 @@
                 bubble.classList.remove('collapsed');
                 if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
                 bubbleCollapseTimer = setTimeout(() => {
-                    if (!bubblePopupOpen && bubbleCurrentlyVisible) {
-                        bubble.classList.add('collapsed');
-                    }
+                    if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed');
                 }, 5000);
                 return;
             }
@@ -3204,19 +3414,13 @@
             hideBackupBubble();
             showToast("Pengingat ditunda sampai besok.");
         }
-
-        function bubbleBackupNow() {
-            exportData();
-            hideBackupBubble();
-        }
+        function bubbleBackupNow() { exportData(); hideBackupBubble(); }
 
         document.addEventListener('click', function(e) {
             const popup = document.getElementById('backupPopup');
             const bubble = document.getElementById('backupBubble');
             if (!popup || !bubble) return;
-            if (bubblePopupOpen && !popup.contains(e.target) && !bubble.contains(e.target)) {
-                closeBubblePopup();
-            }
+            if (bubblePopupOpen && !popup.contains(e.target) && !bubble.contains(e.target)) closeBubblePopup();
         });
 
         /* ========================================================
@@ -3230,17 +3434,13 @@
                 info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-amber-600 dark:text-amber-400">⚠️ Anda belum pernah backup.</b>`;
             } else {
                 const d = new Date(lastBackup);
-                if (isNaN(d.getTime())) {
-                    info.innerHTML = `💡 Backup berisi data aplikasi Anda.<br><b class="text-amber-600 dark:text-amber-400">⚠️ Tanggal backup tidak valid.</b>`;
-                    return;
-                }
+                if (isNaN(d.getTime())) { info.innerHTML = `💡 <b class="text-amber-600">⚠️ Tanggal backup tidak valid.</b>`; return; }
                 const formatted = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
                 info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-emerald-600 dark:text-emerald-400">✅ Backup terakhir: ${escapeHtml(formatted)}</b>`;
             }
         }
 
         function quickBackup() { exportData(); }
-
         function scrollToBackupButton() {
             switchTab('settings');
             setTimeout(() => {
@@ -3250,7 +3450,7 @@
         }
 
         /* ========================================================
-           EMERGENCY CONTACTS — FIX #3: sanitizePhone
+           EMERGENCY CONTACTS
            ======================================================== */
         function loadEmergencyContacts() {
             let contacts = {};
@@ -3271,7 +3471,6 @@
             try { localStorage.setItem('anti_anxiety_contacts', JSON.stringify(contacts)); } catch (e) {}
             showToast("Kontak darurat disimpan.");
             renderSosContacts();
-            // Tampilkan kembali versi tersanitasi agar user lihat
             document.getElementById('contact1Phone').value = contacts.c1Phone;
             document.getElementById('contact2Phone').value = contacts.c2Phone;
         }
@@ -3284,71 +3483,64 @@
             const items = [];
             if (contacts.c1Name && contacts.c1Phone) items.push({ name: contacts.c1Name, phone: contacts.c1Phone });
             if (contacts.c2Name && contacts.c2Phone) items.push({ name: contacts.c2Name, phone: contacts.c2Phone });
-
             if (items.length === 0) {
-                list.innerHTML = `<p class="text-xs font-medium text-slate-400 text-center">Belum ada kontak tersimpan. Buka Pengaturan untuk menambahkannya.</p>`;
+                list.innerHTML = `<p class="text-xs font-medium text-slate-400 text-center py-2">Belum ada kontak pribadi. <a href="#" onclick="closeSosModal(); switchTab('settings'); return false;" class="text-teal-300 underline font-semibold">Atur sekarang</a></p>`;
                 return;
             }
-
             list.innerHTML = items.map(c => {
                 const safePhone = sanitizePhone(c.phone);
                 return `
-                <a href="tel:${safePhone}" class="flex items-center gap-3 p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition border border-slate-700">
-                    <div class="w-9 h-9 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0">
-                        <i data-lucide="phone" class="w-4 h-4 text-teal-300"></i>
+                <a href="tel:${safePhone}" class="sos-contact-btn">
+                    <div class="w-10 h-10 rounded-full bg-teal-500/30 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="phone" class="w-5 h-5 text-teal-200"></i>
                     </div>
                     <div class="flex-1 text-left">
                         <p class="text-sm font-bold text-white">${escapeHtml(c.name)}</p>
-                        <p class="text-xs text-slate-400">${escapeHtml(safePhone)}</p>
+                        <p class="text-xs text-teal-200">${escapeHtml(safePhone)}</p>
                     </div>
-                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
-                </a>
-            `;
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-teal-300"></i>
+                </a>`;
             }).join('');
             lucide.createIcons();
         }
 
         /* ========================================================
-           EXPORT / IMPORT — FIX #10: validasi skema
+           EXPORT / IMPORT
            ======================================================== */
         function safeParse(key, fallback) {
-            try {
-                const v = JSON.parse(localStorage.getItem(key) || 'null');
-                return v === null ? fallback : v;
-            } catch (e) { return fallback; }
+            try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? fallback : v; }
+            catch (e) { return fallback; }
         }
 
         function exportData() {
             const data = {
-                version: 3,
+                version: 4,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
                 activities: safeParse('anti_anxiety_activities', []),
                 contacts: safeParse('anti_anxiety_contacts', {}),
                 gratitude: safeParse('anti_anxiety_gratitude', []),
-                luck: safeParse('anti_anxiety_luck', [])
+                luck: safeParse('anti_anxiety_luck', []),
+                settings: {
+                    breathVisual: safeParse('anti_anxiety_breath_visual', 'circle'),
+                    moodSlider: safeParse('anti_anxiety_mood_slider', 5)
+                }
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             const dateStr = new Date().toISOString().split('T')[0];
-            a.href = url;
-            a.download = `anti-anxiety-backup-${dateStr}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            a.href = url; a.download = `anti-anxiety-backup-${dateStr}.json`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
             try { localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString()); } catch (e) {}
-            hideBackupBubble();
-            updateLastBackupInfo();
+            hideBackupBubble(); updateLastBackupInfo();
             showToast("✅ Backup berhasil diunduh!");
         }
 
         function isValidBackupData(data) {
             if (!data || typeof data !== 'object') return false;
-            // Minimal harus ada satu array objek yang dikenal
             const knownArrays = ['moods', 'journals', 'activities', 'gratitude', 'luck'];
             return knownArrays.some(k => Array.isArray(data[k])) || (data.contacts && typeof data.contacts === 'object');
         }
@@ -3360,10 +3552,7 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
-                    if (!isValidBackupData(data)) {
-                        showToast("❌ File backup tidak valid.");
-                        return;
-                    }
+                    if (!isValidBackupData(data)) { showToast("❌ File backup tidak valid."); return; }
                     if (!confirm('Data saat ini akan diganti dengan data dari file. Lanjutkan?')) return;
                     if (Array.isArray(data.moods)) localStorage.setItem('anti_anxiety_moods', JSON.stringify(data.moods));
                     if (Array.isArray(data.journals)) localStorage.setItem('anti_anxiety_journals', JSON.stringify(data.journals));
@@ -3371,20 +3560,19 @@
                     if (data.contacts && typeof data.contacts === 'object') localStorage.setItem('anti_anxiety_contacts', JSON.stringify(data.contacts));
                     if (Array.isArray(data.gratitude)) localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(data.gratitude));
                     if (Array.isArray(data.luck)) localStorage.setItem('anti_anxiety_luck', JSON.stringify(data.luck));
-                    loadJournals();
-                    loadMoodHistory();
-                    updateStreak();
-                    renderSosContacts();
-                    loadEmergencyContacts();
+                    if (data.settings) {
+                        if (data.settings.breathVisual) try { localStorage.setItem('anti_anxiety_breath_visual', data.settings.breathVisual); } catch(e){}
+                        if (data.settings.moodSlider) try { localStorage.setItem('anti_anxiety_mood_slider', data.settings.moodSlider); } catch(e){}
+                    }
+                    loadJournals(); loadMoodHistory(); updateStreak();
+                    renderSosContacts(); loadEmergencyContacts();
                     if (typeof loadGratitudeHistory === 'function') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
-                    if (typeof loadLuckHistory === 'function') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); }
+                    if (typeof loadLuckHistory === 'function') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart(); }
+                    updateHomeStats();
                     try { localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString()); } catch (e) {}
-                    hideBackupBubble();
-                    updateLastBackupInfo();
+                    hideBackupBubble(); updateLastBackupInfo();
                     showToast("Data berhasil dipulihkan!");
-                } catch (err) {
-                    showToast("❌ File tidak valid (JSON rusak).");
-                }
+                } catch (err) { showToast("❌ File tidak valid (JSON rusak)."); }
             };
             reader.readAsText(file);
             event.target.value = '';
@@ -3393,16 +3581,12 @@
         function resetAllData() {
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
-            ['anti_anxiety_moods', 'anti_anxiety_journals', 'anti_anxiety_activities',
-             'anti_anxiety_contacts', 'anti_anxiety_gratitude', 'anti_anxiety_luck',
-             'anti_anxiety_last_backup', 'anti_anxiety_backup_snooze'].forEach(k => localStorage.removeItem(k));
-            loadJournals();
-            loadMoodHistory();
-            updateStreak();
-            renderSosContacts();
-            loadEmergencyContacts();
+            ['anti_anxiety_moods','anti_anxiety_journals','anti_anxiety_activities','anti_anxiety_contacts','anti_anxiety_gratitude','anti_anxiety_luck','anti_anxiety_last_backup','anti_anxiety_backup_snooze','anti_anxiety_breath_visual','anti_anxiety_mood_slider'].forEach(k => localStorage.removeItem(k));
+            loadJournals(); loadMoodHistory(); updateStreak();
+            renderSosContacts(); loadEmergencyContacts();
             if (typeof loadGratitudeHistory === 'function') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
-            if (typeof loadLuckHistory === 'function') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); }
+            if (typeof loadLuckHistory === 'function') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart(); }
+            updateHomeStats();
             hideBackupBubble();
             showToast("Semua data aplikasi dihapus.");
         }
@@ -3426,30 +3610,22 @@
             renderSosContacts();
             startSosPulse();
         }
-
         function closeSosModal() {
             document.getElementById('sosModal').classList.add('hidden');
             if (sosInterval) { clearInterval(sosInterval); sosInterval = null; }
         }
-
         function nextSosPrompt() {
             sosPromptIdx = (sosPromptIdx + 1) % sosPrompts.length;
             document.getElementById('sosPrompt').innerText = `"${sosPrompts[sosPromptIdx]}"`;
         }
-
         function startSosPulse() {
             const circle = document.getElementById('sosPulseCircle');
             const text = document.getElementById('sosBreathText');
             let isInhale = true;
             if (sosInterval) clearInterval(sosInterval);
             sosInterval = setInterval(() => {
-                if (isInhale) {
-                    circle.style.transform = 'scale(1.5)';
-                    text.innerText = "Tarik Napas";
-                } else {
-                    circle.style.transform = 'scale(1.0)';
-                    text.innerText = "Hembuskan";
-                }
+                if (isInhale) { circle.style.transform = 'scale(1.5)'; text.innerText = "Tarik Napas"; }
+                else { circle.style.transform = 'scale(1.0)'; text.innerText = "Hembuskan"; }
                 isInhale = !isInhale;
             }, 4000);
         }
@@ -3469,14 +3645,11 @@
         }
 
         /* ========================================================
-           FIX #9: visibilitychange cleanup breathing
+           VISIBILITY
            ======================================================== */
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                if (isRunning && !isPaused) {
-                    pauseBreathing();
-                    showToast("Latihan dijeda otomatis.");
-                }
+                if (isRunning && !isPaused) { pauseBreathing(); showToast("Latihan dijeda otomatis."); }
                 if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             }
         });
@@ -3497,7 +3670,10 @@
             renderSosContacts();
             loadEmergencyContacts();
             renderDailyTip();
+            renderDailyTipHome();
             initMoodSlider();
+            updateHomeStats();
+            updateWeeklyStats();
 
             loadGratitudeHistory();
             updateGratitudeStats();
@@ -3506,10 +3682,19 @@
             loadLuckHistory();
             updateLuckStats();
             renderLuckChart();
+            renderLuckBarChart();
+
+            // Restore visual style
+            const savedVisual = localStorage.getItem('anti_anxiety_breath_visual');
+            if (savedVisual && VISUAL_IDS.includes(savedVisual)) {
+                currentVisual = savedVisual;
+                const select = document.getElementById('visualStyleSelect');
+                if (select) select.value = savedVisual;
+                changeVisualStyle(savedVisual);
+            }
 
             checkDisclaimer();
             updateLastBackupInfo();
-
             setTimeout(showBackupBubble, 800);
 
             const nav = document.getElementById('tabNav');
@@ -3521,6 +3706,10 @@
                 if (found) indonesianVoice = found;
                 updateVoiceStatusHint();
             });
+
+            // Show home FAB logic: hide on home tab
+            const homeFab = document.getElementById('homeFab');
+            if (homeFab) homeFab.classList.remove('visible');
 
             lucide.createIcons();
         });
