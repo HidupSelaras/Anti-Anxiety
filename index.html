@@ -144,10 +144,12 @@
         html.dark .grat-empty { background: rgba(148, 163, 184, 0.10); }
         .grat-today { outline: 2px solid #be185d; outline-offset: 1px; }
 
+        /* FIX: nama class diselaraskan dengan HTML (.mood-slider-wrap). Rule .mood-slider ganda dihapus. */
         .mood-slider-wrap { position: relative; width: 100%; height: 24px; }
         .mood-slider-track {
             position: absolute; top: 50%; left: 0; right: 0; height: 10px;
             transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: flex;
+            z-index: 1;
         }
         .mood-seg { flex: 1; transition: filter 0.2s ease, opacity 0.2s ease; }
         .mood-seg.muted { filter: grayscale(1); opacity: 0.35; }
@@ -211,6 +213,7 @@
             position: relative;
             animation: bubble-pulse 2.5s ease-in-out infinite;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
         }
         #backupBubble .bubble-btn:hover {
             transform: scale(1.08);
@@ -302,7 +305,7 @@
                 
                 <!-- Tombol Dark Mode Mobile -->
                 <div class="flex md:hidden items-center">
-                    <button onclick="toggleDarkMode()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                         <i data-lucide="moon" id="themeIconMobile" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -318,11 +321,11 @@
                         <span id="streakCount" class="text-xs font-bold text-amber-700 dark:text-amber-300">0</span>
                     </div>
                     
-                    <button onclick="quickBackup()" id="quickBackupBtn" title="Backup data sekarang" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
+                    <button onclick="quickBackup()" id="quickBackupBtn" title="Backup data sekarang" aria-label="Backup data sekarang" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
                         <i data-lucide="database-backup" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
 
-                    <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
+                    <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" aria-label="Buka panel suara latar" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
                         <i data-lucide="volume-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         <span id="audioBadge" class="absolute top-1 right-1 w-2 h-2 bg-calm-500 rounded-full hidden"></span>
                     </button>
@@ -336,16 +339,13 @@
                     </button>
 
                     <div class="relative">
-                        <button onclick="toggleInfoMenu()" id="infoMenuBtn" title="Info & Halaman Lain" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                        <button onclick="toggleInfoMenu()" id="infoMenuBtn" title="Info & Halaman Lain" aria-label="Menu info" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                             <i data-lucide="info" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </button>
                         <div id="infoMenu" class="hidden absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 py-2 z-50">
-                            
-                            <!-- LINK BLOG BARU -->
                             <a href="blog.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition border-b border-slate-100 dark:border-slate-700">
                                 <i data-lucide="book-open" class="w-4 h-4 text-calm-500"></i> Blog & Artikel
                             </a>
-
                             <a href="about.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
                                 <i data-lucide="users" class="w-4 h-4 text-calm-500"></i> Tentang Kami
                             </a>
@@ -365,7 +365,7 @@
                         </div>
                     </div>
 
-                    <button onclick="toggleDarkMode()" class="hidden md:block p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="hidden md:block p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                         <i data-lucide="moon" id="themeIconDesktop" class="w-5 h-5"></i>
                     </button>
                 </div>
@@ -400,7 +400,7 @@
             </div>
             <div class="flex items-center gap-2 w-full sm:w-32">
                 <i data-lucide="volume-x" class="w-3.5 h-3.5 text-emerald-300"></i>
-                <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="0.5" oninput="changeVolume(this.value)" class="w-full accent-calm-300 h-1.5 bg-emerald-700 rounded-lg cursor-pointer">
+                <input type="range" id="volumeControl" min="0" max="1" step="0.05" value="0.5" oninput="changeVolume(this.value)" aria-label="Volume suara latar" class="w-full accent-calm-300 h-1.5 bg-emerald-700 rounded-lg cursor-pointer">
                 <i data-lucide="volume-2" class="w-3.5 h-3.5 text-emerald-300"></i>
             </div>
         </div>
@@ -454,7 +454,7 @@
                     <div class="mood-slider-wrap mb-3">
                         <div class="mood-slider-bg"></div>
                         <div class="mood-slider-track" id="moodSliderTrack"></div>
-                        <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5"
+                        <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5" aria-label="Skala kecemasan 1 sampai 10"
                                oninput="updateMoodLabel(this.value); updateMoodSliderColor(this.value)">
                     </div>
 
@@ -1179,6 +1179,10 @@
                     </h3>
                     <div class="relative h-56">
                         <canvas id="luckChart"></canvas>
+                        <div id="luckChartEmpty" class="absolute inset-0 flex flex-col items-center justify-center text-center hidden">
+                            <i data-lucide="pie-chart" class="w-10 h-10 text-slate-300 dark:text-slate-600 mb-2"></i>
+                            <p class="text-xs font-medium text-slate-500">Belum ada data keberuntungan</p>
+                        </div>
                     </div>
                 </div>
 
@@ -1218,7 +1222,7 @@
                         </button>
                         <label class="py-3 px-4 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
                             <i data-lucide="upload" class="w-4 h-4"></i> Pulihkan dari File
-                            <input type="file" id="importFile" accept=".json" class="hidden" onchange="importData(event)">
+                            <input type="file" id="importFile" accept=".json,application/json" class="hidden" onchange="importData(event)">
                         </label>
                     </div>
                     <p id="lastBackupInfo" class="text-[10px] font-medium text-slate-500 mt-3 leading-relaxed">
@@ -1322,7 +1326,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 3.0</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 3.1 (Hardened)</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional. Jika Anda merasa dalam krisis, segera hubungi bantuan profesional.
                     </p>
@@ -1333,9 +1337,9 @@
     </main>
 
     <!-- SOS Modal -->
-    <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-6 sm:p-10 text-white hidden">
+    <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-6 sm:p-10 text-white hidden" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
         <div class="w-full flex justify-end max-w-4xl">
-            <button onclick="closeSosModal()" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+            <button onclick="closeSosModal()" aria-label="Tutup SOS" class="p-2 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
@@ -1379,14 +1383,14 @@
     </div>
 
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-800 text-white px-4 py-3 rounded-2xl shadow-lg border border-slate-700 text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 bg-slate-800 text-white px-4 py-3 rounded-2xl shadow-lg border border-slate-700 text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
         <i data-lucide="info" class="w-4 h-4 text-calm-400"></i>
         <span id="toastMsg">Notifikasi</span>
     </div>
 
     <!-- ========== BACKUP BUBBLE ========== -->
     <div id="backupBubble">
-        <button class="bubble-btn" onclick="handleBubbleClick(event)" title="Waktunya backup data!">
+        <button class="bubble-btn" onclick="handleBubbleClick(event)" title="Waktunya backup data!" aria-label="Pengingat backup data">
             <i data-lucide="bell-ring" class="w-6 h-6 text-white"></i>
             <span class="bubble-badge" id="bubbleBadge">7</span>
         </button>
@@ -1409,14 +1413,11 @@
         </button>
     </div>
 
-    <!-- ========== FOOTER BARU DENGAN LINK ========== -->
+    <!-- Footer -->
     <footer class="mt-12 border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <!-- Navigasi Halaman -->
             <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-4">
-                <!-- LINK BLOG BARU -->
                 <a href="blog.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Blog</a>
-                
                 <a href="about.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Tentang</a>
                 <a href="contact.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Kontak</a>
                 <a href="privacy.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Kebijakan Privasi</a>
@@ -1431,9 +1432,72 @@
     </footer>
 
     <script>
+        'use strict';
         lucide.createIcons();
 
-        // ========== SCROLL HINT ==========
+        /* ========================================================
+           UTIL: Keamanan (escapeHtml, sanitizePhone) & Konstanta
+           ======================================================== */
+        const BACKUP_REMINDER_DAYS = 7;
+        const ACTIVITY_MAX_DAYS = 365;
+
+        /**
+         * FIX #1: Escape HTML untuk mencegah XSS di semua innerHTML.
+         */
+        function escapeHtml(value) {
+            if (value === null || value === undefined) return '';
+            return String(value).replace(/[&<>"']/g, function(c) {
+                return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+            });
+        }
+
+        /**
+         * FIX #3: Sanitasi nomor telepon agar tidak bisa jadi link javascript:.
+         * Hanya izinkan digit, plus, minus, spasi, dan bintang (untuk USSD).
+         */
+        function sanitizePhone(raw) {
+            if (!raw) return '';
+            return String(raw).replace(/[^\d+\-*#() ]/g, '').trim();
+        }
+
+        /**
+         * FIX #7: Helper tanggal & streak terpusat (DRY).
+         */
+        function toDateKey(d) {
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+        function getTodayKey() { return toDateKey(new Date()); }
+        function getDateKeyOffset(daysAgo) {
+            const d = new Date();
+            d.setDate(d.getDate() - daysAgo);
+            return toDateKey(d);
+        }
+        function computeStreak(dayKeySet) {
+            let streak = 0;
+            for (let i = 0; i < ACTIVITY_MAX_DAYS; i++) {
+                const key = getDateKeyOffset(i);
+                if (dayKeySet.has(key)) streak++;
+                else if (i === 0) continue; // hari ini belum aktif: lanjut cek kemarin
+                else break;
+            }
+            return streak;
+        }
+
+        /**
+         * FIX #8: Fisher-Yates shuffle (unbiased).
+         */
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        /* ========================================================
+           SCROLL HINT
+           ======================================================== */
         function updateScrollHint() {
             const nav = document.getElementById('tabNav');
             const hint = document.getElementById('scrollHint');
@@ -1455,12 +1519,12 @@
             
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                if(iconMobile) iconMobile.setAttribute('data-lucide', 'moon');
-                if(iconDesktop) iconDesktop.setAttribute('data-lucide', 'moon');
+                if (iconMobile) iconMobile.setAttribute('data-lucide', 'moon');
+                if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'moon');
             } else {
                 html.classList.add('dark');
-                if(iconMobile) iconMobile.setAttribute('data-lucide', 'sun');
-                if(iconDesktop) iconDesktop.setAttribute('data-lucide', 'sun');
+                if (iconMobile) iconMobile.setAttribute('data-lucide', 'sun');
+                if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'sun');
             }
             lucide.createIcons();
             if (typeof renderMoodChart === 'function') renderMoodChart();
@@ -1468,7 +1532,9 @@
             if (typeof renderLuckChart === 'function') renderLuckChart();
         }
 
-        // ========== MOOD SLIDER ==========
+        /* ========================================================
+           MOOD SLIDER
+           ======================================================== */
         const moodSegmentColors = [
             '#10b981', '#22c55e', '#84cc16', '#eab308', '#f59e0b',
             '#f97316', '#ef4444', '#dc2626', '#b91c1c', '#991b1b'
@@ -1485,12 +1551,17 @@
                 seg.style.background = color;
                 track.appendChild(seg);
             });
-            const initial = document.getElementById('quickMoodRange').value;
-            updateMoodSliderColor(initial);
+            // FIX #14: Restore nilai slider terakhir
+            const saved = parseInt(localStorage.getItem('anti_anxiety_mood_slider') || '5', 10);
+            const range = document.getElementById('quickMoodRange');
+            const initVal = (Number.isFinite(saved) && saved >= 1 && saved <= 10) ? saved : 5;
+            range.value = initVal;
+            document.getElementById('moodValueLabel').innerText = `Skala: ${initVal}`;
+            updateMoodSliderColor(initVal);
         }
 
         function updateMoodSliderColor(val) {
-            val = parseInt(val);
+            val = parseInt(val, 10);
             const segs = document.querySelectorAll('#moodSliderTrack .mood-seg');
             segs.forEach((seg, i) => {
                 const segNum = i + 1;
@@ -1529,39 +1600,79 @@
             }
             statusEl.className = `text-[11px] font-bold mb-2 ${statusClass}`;
             statusEl.innerText = statusText;
+
+            // FIX #14: Persist nilai slider terakhir
+            try { localStorage.setItem('anti_anxiety_mood_slider', String(val)); } catch (e) {}
         }
 
-        // ========== TAB SWITCHING ==========
-        const tabColors = {
-            breathing:   'bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-200 hover:bg-teal-200 dark:hover:bg-teal-900/60',
-            grounding:   'bg-teal-100 dark:bg-teal-900/40 text-teal-800 dark:text-teal-200 hover:bg-teal-200 dark:hover:bg-teal-900/60',
-            journal:     'bg-sky-100 dark:bg-sky-900/40 text-sky-800 dark:text-sky-200 hover:bg-sky-200 dark:hover:bg-sky-900/60',
-            release:     'bg-orange-100 dark:bg-orange-900/40 text-orange-800 dark:text-orange-200 hover:bg-orange-200 dark:hover:bg-orange-900/60',
-            audio:       'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-200 hover:bg-indigo-200 dark:hover:bg-indigo-900/60',
-            affirmations:'bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200 hover:bg-purple-200 dark:hover:bg-purple-900/60',
-            tracker:     'bg-rose-100 dark:bg-rose-900/40 text-rose-800 dark:text-rose-200 hover:bg-rose-200 dark:hover:bg-rose-900/60',
-            insights:    'bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-200 hover:bg-amber-200 dark:hover:bg-amber-900/60',
-            gratitude:   'bg-pink-100 dark:bg-pink-900/40 text-pink-800 dark:text-pink-200 hover:bg-pink-200 dark:hover:bg-pink-900/60',
-            luck:        'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-200 dark:hover:bg-emerald-900/60',
-            settings:    'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
-        };
-        const activeClasses = ['bg-calm-500', 'text-white', 'shadow-sm'];
+        /* ========================================================
+           TAB SWITCHING — FIX #2: classList eksplisit (tidak merusak text-sm dll.)
+           ======================================================== */
+        const TAB_IDS = ['breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
 
-        function switchTab(tabId) {
-            Object.keys(tabColors).forEach(id => {
+        const TAB_BASE_CLASSES = [
+            'tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold',
+            'flex','items-center','gap-2','whitespace-nowrap','transition'
+        ];
+
+        const TAB_INACTIVE_CLASSES = {
+            breathing:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
+            grounding:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
+            journal:      ['bg-sky-100','dark:bg-sky-900/40','text-sky-800','dark:text-sky-200','hover:bg-sky-200','dark:hover:bg-sky-900/60'],
+            release:      ['bg-orange-100','dark:bg-orange-900/40','text-orange-800','dark:text-orange-200','hover:bg-orange-200','dark:hover:bg-orange-900/60'],
+            audio:        ['bg-indigo-100','dark:bg-indigo-900/40','text-indigo-800','dark:text-indigo-200','hover:bg-indigo-200','dark:hover:bg-indigo-900/60'],
+            affirmations: ['bg-purple-100','dark:bg-purple-900/40','text-purple-800','dark:text-purple-200','hover:bg-purple-200','dark:hover:bg-purple-900/60'],
+            tracker:      ['bg-rose-100','dark:bg-rose-900/40','text-rose-800','dark:text-rose-200','hover:bg-rose-200','dark:hover:bg-rose-900/60'],
+            insights:     ['bg-amber-100','dark:bg-amber-900/40','text-amber-800','dark:text-amber-200','hover:bg-amber-200','dark:hover:bg-amber-900/60'],
+            gratitude:    ['bg-pink-100','dark:bg-pink-900/40','text-pink-800','dark:text-pink-200','hover:bg-pink-200','dark:hover:bg-pink-900/60'],
+            luck:         ['bg-emerald-100','dark:bg-emerald-900/40','text-emerald-800','dark:text-emerald-200','hover:bg-emerald-200','dark:hover:bg-emerald-900/60'],
+            settings:     ['bg-slate-100','dark:bg-slate-700','text-slate-700','dark:text-slate-300','hover:bg-slate-200','dark:hover:bg-slate-600']
+        };
+
+        const TAB_ACTIVE_CLASSES = ['bg-calm-500','text-white','shadow-sm'];
+
+        function applyTabStyles() {
+            TAB_IDS.forEach(id => {
                 const btn = document.getElementById(`tab-${id}`);
                 if (!btn) return;
-                activeClasses.forEach(cls => btn.classList.remove(cls));
-                btn.className = btn.className.replace(/\b(bg|text|hover:bg)-\S+/g, '').trim();
-                btn.className += ' tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition ' + tabColors[id];
+                // Reset: hapus semua class yang pernah kita tambahkan
+                TAB_BASE_CLASSES.forEach(c => btn.classList.remove(c));
+                Object.values(TAB_INACTIVE_CLASSES).forEach(arr => arr.forEach(c => btn.classList.remove(c)));
+                TAB_ACTIVE_CLASSES.forEach(c => btn.classList.remove(c));
+                // Tambahkan base + style awal
+                TAB_BASE_CLASSES.forEach(c => btn.classList.add(c));
+                TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.add(c));
             });
-            const activeBtn = document.getElementById(`tab-${tabId}`);
-            activeBtn.classList.remove(...tabColors[tabId].split(' '));
-            activeBtn.classList.add(...activeClasses);
+            setActiveTab('breathing');
+        }
+
+        function setActiveTab(tabId) {
+            TAB_IDS.forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                if (!btn) return;
+                if (id === tabId) {
+                    // Hapus semua inactive class milik tab ini
+                    TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.remove(c));
+                    TAB_ACTIVE_CLASSES.forEach(c => btn.classList.add(c));
+                } else {
+                    TAB_ACTIVE_CLASSES.forEach(c => btn.classList.remove(c));
+                    // pastikan inactive classes terpasang
+                    TAB_INACTIVE_CLASSES[id].forEach(c => {
+                        if (!btn.classList.contains(c)) btn.classList.add(c);
+                    });
+                }
+            });
+        }
+
+        function switchTab(tabId) {
+            if (!TAB_IDS.includes(tabId)) return;
+            setActiveTab(tabId);
             document.querySelectorAll('.tab-content').forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
             const activeContent = document.getElementById(`sec-${tabId}`);
-            activeContent.classList.remove('hidden');
-            activeContent.classList.add('block');
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+                activeContent.classList.add('block');
+            }
             setTimeout(updateScrollHint, 100);
 
             if (tabId === 'tracker' && typeof renderMoodChart === 'function') setTimeout(renderMoodChart, 50);
@@ -1571,23 +1682,31 @@
             if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); }
         }
 
-        // ========== INFO MENU BARU ==========
+        /* ========================================================
+           INFO MENU
+           ======================================================== */
         function toggleInfoMenu() {
             const menu = document.getElementById('infoMenu');
-            if (menu) menu.classList.toggle('hidden');
+            const btn = document.getElementById('infoMenuBtn');
+            if (!menu) return;
+            const willOpen = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden');
+            if (btn) btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
         }
 
-        // Tutup menu kalau klik di luar
         document.addEventListener('click', function(e) {
             const menu = document.getElementById('infoMenu');
             const btn = document.getElementById('infoMenuBtn');
             if (!menu || !btn) return;
             if (!menu.contains(e.target) && !btn.contains(e.target)) {
                 menu.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
             }
         });
 
-        // ========== AUDIO ==========
+        /* ========================================================
+           AUDIO (Web Audio API)
+           ======================================================== */
         let audioCtx = null;
         let activeNodes = {};
         let masterGain = null;
@@ -1602,6 +1721,10 @@
         function initAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) {
+                    showToast('Browser Anda tidak mendukung Web Audio.');
+                    return;
+                }
                 audioCtx = new AudioContext();
                 masterGain = audioCtx.createGain();
                 masterGain.gain.value = 0.5;
@@ -1614,10 +1737,11 @@
 
         function toggleSound(type) {
             initAudioContext();
+            if (!audioCtx) return;
             const btn = document.getElementById(`btn-${type}`);
             const badge = document.getElementById('audioBadge');
             if (activeNodes[type]) {
-                if (activeNodes[type].stop) activeNodes[type].stop();
+                try { if (activeNodes[type].stop) activeNodes[type].stop(); } catch (e) {}
                 delete activeNodes[type];
                 btn.classList.remove('bg-calm-500', 'text-slate-900', 'font-bold');
                 btn.classList.add('bg-emerald-800/60');
@@ -1634,7 +1758,7 @@
                     btn.classList.remove('bg-emerald-800/60');
                 }
             }
-            badge.classList.toggle('hidden', Object.keys(activeNodes).length === 0);
+            if (badge) badge.classList.toggle('hidden', Object.keys(activeNodes).length === 0);
         }
 
         function createWhiteNoise() {
@@ -1717,10 +1841,11 @@
             return { stop: () => { oscL.stop(); oscR.stop(); } };
         }
 
-        // ========== VOICE GUIDE ==========
+        /* ========================================================
+           VOICE GUIDE (FIX #15: race-safe)
+           ======================================================== */
         let voiceGuideEnabled = false;
         let indonesianVoice = null;
-        let allVoicesLoaded = false;
 
         function findIndonesianVoice() {
             if (!('speechSynthesis' in window)) return null;
@@ -1747,9 +1872,7 @@
                 const name = (voice.name || '').toLowerCase();
                 return idNames.some(n => name.includes(n));
             });
-            if (v) return v;
-
-            return null;
+            return v || null;
         }
 
         function ensureVoicesLoaded(callback) {
@@ -1759,7 +1882,6 @@
             }
             const voices = window.speechSynthesis.getVoices();
             if (voices && voices.length > 0) {
-                allVoicesLoaded = true;
                 if (callback) callback();
                 return;
             }
@@ -1769,7 +1891,6 @@
                 const v = window.speechSynthesis.getVoices();
                 if (v && v.length > 0) {
                     clearInterval(iv);
-                    allVoicesLoaded = true;
                     if (callback) callback();
                 } else if (attempts > 20) {
                     clearInterval(iv);
@@ -1780,13 +1901,10 @@
 
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = function() {
-                indonesianVoice = findIndonesianVoice();
+                const found = findIndonesianVoice();
+                if (found) indonesianVoice = found;
                 updateVoiceStatusHint();
             };
-            ensureVoicesLoaded(() => {
-                indonesianVoice = findIndonesianVoice();
-                updateVoiceStatusHint();
-            });
         }
 
         function updateVoiceStatusHint() {
@@ -1795,8 +1913,9 @@
             if (!hint || !text) return;
             if (voiceGuideEnabled) {
                 hint.classList.remove('hidden');
+                if (!indonesianVoice) indonesianVoice = findIndonesianVoice();
                 if (indonesianVoice) {
-                    text.innerHTML = `✅ Suara: <b>${indonesianVoice.name}</b> (${indonesianVoice.lang})`;
+                    text.innerHTML = `✅ Suara: <b>${escapeHtml(indonesianVoice.name)}</b> (${escapeHtml(indonesianVoice.lang)})`;
                     text.parentElement.className = 'mt-2 text-[10px] font-medium text-emerald-600 dark:text-emerald-400 text-center';
                 } else {
                     text.innerHTML = `⚠️ Voice Indonesia tidak terdeteksi. Pastikan TTS Indonesia sudah aktif di pengaturan perangkat.`;
@@ -1842,13 +1961,16 @@
             window.speechSynthesis.speak(utter);
         }
 
-        // ========== BREATHING ==========
+        /* ========================================================
+           BREATHING — FIX #5: markActivity setelah 1 siklus penuh
+           ======================================================== */
         let breathingTimer = null;
         let currentTech = 'box';
         let breathStepIndex = 0;
         let breathCount = 0;
         let isPaused = false;
         let isRunning = false;
+        let completedCycles = 0;
 
         const techniques = {
             box: {
@@ -1889,10 +2011,10 @@
 
         function startBreathing() {
             breathStepIndex = 0;
+            completedCycles = 0;
             isPaused = false;
             isRunning = true;
             updateBreathingUI('running');
-            markActivityToday();
             runBreathingStep();
         }
 
@@ -1919,6 +2041,11 @@
                 } else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
+                    // FIX #5: hitung siklus penuh
+                    if (breathStepIndex === 0) {
+                        completedCycles++;
+                        if (completedCycles === 1) markActivityToday();
+                    }
                     runBreathingStep();
                 }
             }, 1000);
@@ -1953,6 +2080,10 @@
                 } else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
+                    if (breathStepIndex === 0) {
+                        completedCycles++;
+                        if (completedCycles === 1) markActivityToday();
+                    }
                     runBreathingStep();
                 }
             }, 1000);
@@ -1984,6 +2115,7 @@
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
             [btnStart, btnPause, btnResume, btnStop].forEach(btn => {
+                if (!btn) return;
                 btn.classList.add('hidden'); btn.classList.remove('flex');
             });
             if (state === 'running') {
@@ -2005,7 +2137,9 @@
             lucide.createIcons();
         }
 
-        // ========== GROUNDING ==========
+        /* ========================================================
+           GROUNDING
+           ======================================================== */
         let currentGroundStep = 5;
         const groundingStepsData = {
             5: { title: "5 Hal Yang Bisa Anda LIHAT", desc: "Lihat sekeliling ruangan Anda.", inputs: ["Benda 1 di dekat Anda", "Benda 2 di kejauhan", "Pola atau tekstur dinding", "Warna tertentu", "Cahaya atau bayangan"] },
@@ -2019,21 +2153,23 @@
             currentGroundStep = stepNum;
             [5, 4, 3, 2, 1].forEach(num => {
                 const btn = document.getElementById(`gstep-${num}`);
+                if (!btn) return;
                 if (num === stepNum) btn.className = "w-10 h-10 rounded-full bg-calm-500 text-white font-bold text-sm flex items-center justify-center transition shadow-md scale-110";
                 else btn.className = "w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold text-sm flex items-center justify-center transition";
             });
             const data = groundingStepsData[stepNum];
             const container = document.getElementById('groundingContent');
+            if (!container || !data) return;
             let inputsHtml = data.inputs.map(ph => `
                 <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-900 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700">
                     <input type="checkbox" class="w-5 h-5 rounded accent-calm-500 cursor-pointer">
-                    <input type="text" placeholder="${ph}" class="w-full bg-transparent text-sm font-medium text-slate-800 dark:text-slate-100 outline-none">
+                    <input type="text" placeholder="${escapeHtml(ph)}" class="w-full bg-transparent text-sm font-medium text-slate-800 dark:text-slate-100 outline-none">
                 </div>
             `).join('');
             container.innerHTML = `
                 <div>
-                    <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100">${data.title}</h4>
-                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">${data.desc}</p>
+                    <h4 class="text-lg font-bold text-slate-800 dark:text-slate-100">${escapeHtml(data.title)}</h4>
+                    <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">${escapeHtml(data.desc)}</p>
                 </div>
                 <div class="space-y-2.5">${inputsHtml}</div>
             `;
@@ -2049,7 +2185,9 @@
             if (currentGroundStep < 5) setGroundingStep(currentGroundStep + 1);
         }
 
-        // ========== JOURNAL ==========
+        /* ========================================================
+           JOURNAL — FIX #1: escapeHtml di render
+           ======================================================== */
         function saveJournalEntry(e) {
             e.preventDefault();
             const thought = document.getElementById('cbtThought').value;
@@ -2062,7 +2200,11 @@
             };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             entries.unshift(entry);
-            localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries));
+            try {
+                localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries));
+            } catch (err) {
+                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
+            }
             document.getElementById('cbtThought').value = '';
             document.getElementById('cbtEvidence').value = '';
             document.getElementById('cbtReframing').value = '';
@@ -2082,18 +2224,18 @@
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between text-slate-500 font-medium">
-                        <span>${item.date}</span>
-                        <button onclick="deleteJournal(${item.id})" class="text-rose-400 hover:text-rose-500 opacity-80 group-hover:opacity-100 transition">
+                        <span>${escapeHtml(item.date)}</span>
+                        <button onclick="deleteJournal(${Number(item.id)})" aria-label="Hapus catatan" class="text-rose-400 hover:text-rose-500 opacity-80 group-hover:opacity-100 transition">
                             <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                     <div>
                         <p class="font-bold text-rose-500">Kekhawatiran:</p>
-                        <p class="font-medium text-slate-700 dark:text-slate-300 mt-0.5">${item.thought}</p>
+                        <p class="font-medium text-slate-700 dark:text-slate-300 mt-0.5 whitespace-pre-wrap">${escapeHtml(item.thought)}</p>
                     </div>
                     <div>
                         <p class="font-bold text-calm-600">Pikiran Alternatif:</p>
-                        <p class="font-medium text-slate-700 dark:text-slate-300 mt-0.5">${item.reframing}</p>
+                        <p class="font-medium text-slate-700 dark:text-slate-300 mt-0.5 whitespace-pre-wrap">${escapeHtml(item.reframing)}</p>
                     </div>
                 </div>
             `).join('');
@@ -2108,26 +2250,22 @@
             showToast("Catatan dihapus.");
         }
 
-        // ========== MODUL PELEPASAN TRAUMA ==========
+        /* ========================================================
+           RELEASE (Trauma)
+           ======================================================== */
         function handleReleaseSubmit(e) {
             e.preventDefault();
-            
-            // Sembunyikan form, tampilkan animasi
             document.getElementById('releaseForm').classList.add('hidden');
             document.getElementById('releaseAnimationBox').classList.remove('hidden');
-            
-            // Hapus data dari memori form (TIDAK disimpan ke localStorage)
             document.getElementById('releaseEvent').value = '';
             document.getElementById('releaseEmotion').value = '';
             document.getElementById('releaseMessage').value = '';
-            
-            // Tandai aktivitas hari ini
             markActivityToday();
             showToast("🕊️ Beban berhasil dilepaskan.");
         }
 
         function clearReleaseForm() {
-            if(confirm("Yakin ingin menghapus tulisan ini? Tulisan tidak akan disimpan.")) {
+            if (confirm("Yakin ingin menghapus tulisan ini? Tulisan tidak akan disimpan.")) {
                 document.getElementById('releaseEvent').value = '';
                 document.getElementById('releaseEmotion').value = '';
                 document.getElementById('releaseMessage').value = '';
@@ -2139,7 +2277,9 @@
             document.getElementById('releaseAnimationBox').classList.add('hidden');
         }
 
-        // ========== AFFIRMATIONS ==========
+        /* ========================================================
+           AFFIRMATIONS — FIX #1 & #8
+           ======================================================== */
         const affirmationsList = [
             { text: "Perasaan cemas ini bersifat sementara dan pasti akan berlalu.", sub: "Sistem saraf Anda akan kembali seimbang." },
             { text: "Saya aman saat ini di sini.", sub: "Fokus pada ruang dan waktu sekarang." },
@@ -2161,18 +2301,18 @@
 
         function renderAffirmations() {
             const grid = document.getElementById('affirmationCardsGrid');
-            const shuffled = [...affirmationsList].sort(() => 0.5 - Math.random()).slice(0, 6);
-            grid.innerHTML = shuffled.map((card, idx) => `
+            const picked = shuffle(affirmationsList).slice(0, 6);
+            grid.innerHTML = picked.map((card, idx) => `
                 <div class="perspective h-48 cursor-pointer" onclick="flipCard(this)">
                     <div class="card-inner relative w-full h-full transform-style-3d duration-500 rounded-3xl">
                         <div class="absolute inset-0 backface-hidden bg-gradient-to-br from-calm-500 to-teal-600 rounded-3xl p-6 text-white flex flex-col justify-between shadow-sm">
                             <span class="text-xs font-semibold opacity-90 uppercase tracking-widest">Afirmasi #${idx + 1}</span>
-                            <p class="text-base font-bold leading-snug">"${card.text}"</p>
+                            <p class="text-base font-bold leading-snug">"${escapeHtml(card.text)}"</p>
                             <span class="text-xs font-medium text-right opacity-90">Klik untuk lihat alasan <i data-lucide="rotate-cw" class="w-3 h-3 inline"></i></span>
                         </div>
                         <div class="absolute inset-0 backface-hidden rotate-y-180 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-3xl p-6 flex flex-col justify-between shadow-sm">
                             <span class="text-xs font-bold text-calm-600">Landasan Sains</span>
-                            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 leading-relaxed">${card.sub}</p>
+                            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHtml(card.sub)}</p>
                             <span class="text-xs font-medium text-slate-500 text-right">Klik untuk kembali</span>
                         </div>
                     </div>
@@ -2185,7 +2325,9 @@
             el.querySelector('.card-inner').classList.toggle('rotate-y-180');
         }
 
-        // ========== MOOD ==========
+        /* ========================================================
+           MOOD
+           ======================================================== */
         function updateMoodLabel(val) {
             document.getElementById('moodValueLabel').innerText = `Skala: ${val}`;
             updateMoodSliderColor(val);
@@ -2200,10 +2342,14 @@
             const newLog = {
                 id: Date.now(),
                 date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
-                score: val, status: status
+                score: parseInt(val, 10), status: status
             };
             logs.unshift(newLog);
-            localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs));
+            try {
+                localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs));
+            } catch (err) {
+                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
+            }
             loadMoodHistory();
             markActivityToday();
             showToast(`Skala kecemasan (${val}/10) dicatat.`);
@@ -2217,11 +2363,11 @@
             } else {
                 table.innerHTML = logs.map(log => `
                     <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30">
-                        <td class="py-3 px-4 text-xs font-semibold text-slate-600 dark:text-slate-400">${log.date}</td>
-                        <td class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100">${log.score} / 10</td>
+                        <td class="py-3 px-4 text-xs font-semibold text-slate-600 dark:text-slate-400">${escapeHtml(log.date)}</td>
+                        <td class="py-3 px-4 font-bold text-slate-800 dark:text-slate-100">${Number(log.score)} / 10</td>
                         <td class="py-3 px-4 text-xs">
                             <span class="px-2.5 py-1 rounded-full font-semibold ${log.score > 7 ? 'bg-rose-100 text-rose-800' : log.score > 4 ? 'bg-amber-100 text-amber-800' : 'bg-teal-100 text-teal-800'}">
-                                ${log.status}
+                                ${escapeHtml(log.status)}
                             </span>
                         </td>
                     </tr>
@@ -2238,7 +2384,9 @@
             showToast("Riwayat dihapus.");
         }
 
-        // ========== CHART ==========
+        /* ========================================================
+           CHART: Mood
+           ======================================================== */
         let moodChart = null;
         let chartRange = 7;
 
@@ -2260,7 +2408,7 @@
             }
 
             const labels = data.map(d => d.date);
-            const values = data.map(d => parseInt(d.score));
+            const values = data.map(d => parseInt(d.score, 10));
             const isDark = document.documentElement.classList.contains('dark');
             const pointColors = values.map(v => v > 7 ? '#f43f5e' : v > 4 ? '#f59e0b' : '#10b981');
 
@@ -2316,6 +2464,7 @@
             chartRange = range;
             [7, 14, 30].forEach(r => {
                 const btn = document.getElementById(`chartRange${r}`);
+                if (!btn) return;
                 btn.className = r === range
                     ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-calm-500 text-white transition'
                     : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 transition';
@@ -2334,42 +2483,39 @@
                 totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0';
                 return;
             }
-            const scores = logs.map(l => parseInt(l.score));
+            const scores = logs.map(l => parseInt(l.score, 10)).filter(n => Number.isFinite(n));
+            if (scores.length === 0) {
+                totalEl.innerText = '0'; avgEl.innerText = '0'; minEl.innerText = '0'; maxEl.innerText = '0';
+                return;
+            }
             totalEl.innerText = scores.length;
             avgEl.innerText = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
             minEl.innerText = Math.min(...scores);
             maxEl.innerText = Math.max(...scores);
         }
 
-        // ========== STREAK ==========
-        function getTodayKey() {
-            const d = new Date();
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        }
-
+        /* ========================================================
+           STREAK — FIX #7: pakai computeStreak
+           ======================================================== */
         function markActivityToday() {
-            const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
+            let activities = [];
+            try {
+                activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
+            } catch (e) { activities = []; }
+            if (!Array.isArray(activities)) activities = [];
             const today = getTodayKey();
             if (!activities.includes(today)) {
                 activities.push(today);
-                localStorage.setItem('anti_anxiety_activities', JSON.stringify(activities));
+                try { localStorage.setItem('anti_anxiety_activities', JSON.stringify(activities)); } catch (e) {}
             }
             updateStreak();
         }
 
         function updateStreak() {
-            const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
-            const activitySet = new Set(activities);
-            let streak = 0;
-            const today = new Date();
-            for (let i = 0; i < 365; i++) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                if (activitySet.has(key)) streak++;
-                else if (i === 0) continue;
-                else break;
-            }
+            let activities = [];
+            try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
+            const set = new Set(Array.isArray(activities) ? activities : []);
+            const streak = computeStreak(set);
             const streakCount = document.getElementById('streakCount');
             const streakBadge = document.getElementById('streakBadge');
             const streakBig = document.getElementById('streakBig');
@@ -2381,15 +2527,15 @@
         function renderStreakCalendar() {
             const container = document.getElementById('streakCalendar');
             if (!container) return;
-            const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
-            const set = new Set(activities);
-            const today = new Date();
+            let activities = [];
+            try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
+            const set = new Set(Array.isArray(activities) ? activities : []);
             const todayKey = getTodayKey();
             container.innerHTML = '';
             for (let i = 13; i >= 0; i--) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                const key = getDateKeyOffset(i);
+                const d = new Date();
+                d.setDate(d.getDate() - i);
                 const isActive = set.has(key);
                 const isToday = key === todayKey;
                 const cell = document.createElement('div');
@@ -2400,7 +2546,9 @@
             }
         }
 
-        // ========== INSIGHTS ==========
+        /* ========================================================
+           INSIGHTS
+           ======================================================== */
         function renderInsights() {
             const container = document.getElementById('insightCards');
             if (!container) return;
@@ -2415,33 +2563,37 @@
                     text: 'Catat mood pertama Anda hari ini untuk mulai mendapatkan insight personal.'
                 });
             } else {
-                const scores = logs.map(l => parseInt(l.score));
-                const recent = scores.slice(0, 7);
-                const older = scores.slice(7, 14);
-                const avgRecent = recent.reduce((a, b) => a + b, 0) / recent.length;
-                const avgOlder = older.length > 0 ? older.reduce((a, b) => a + b, 0) / older.length : null;
+                const scores = logs.map(l => parseInt(l.score, 10)).filter(n => Number.isFinite(n));
+                if (scores.length === 0) {
+                    insights.push({ icon: 'activity', color: 'sky', title: 'Data Tidak Lengkap', text: 'Catat mood Anda untuk analisis.' });
+                } else {
+                    const recent = scores.slice(0, 7);
+                    const older = scores.slice(7, 14);
+                    const avgRecent = recent.reduce((a, b) => a + b, 0) / recent.length;
+                    const avgOlder = older.length > 0 ? older.reduce((a, b) => a + b, 0) / older.length : null;
 
-                if (avgOlder !== null) {
-                    const diff = avgRecent - avgOlder;
-                    if (diff < -0.5) insights.push({ icon: 'trending-down', color: 'emerald', title: 'Kecemasan Menurun!', text: `Rata-rata turun ${Math.abs(diff).toFixed(1)} poin. Pertahankan!` });
-                    else if (diff > 0.5) insights.push({ icon: 'trending-up', color: 'rose', title: 'Kecemasan Meningkat', text: `Naik ${diff.toFixed(1)} poin. Coba latihan 4-7-8 lebih sering.` });
-                    else insights.push({ icon: 'activity', color: 'sky', title: 'Stabil', text: `Rata-rata stabil di ${avgRecent.toFixed(1)}/10.` });
+                    if (avgOlder !== null) {
+                        const diff = avgRecent - avgOlder;
+                        if (diff < -0.5) insights.push({ icon: 'trending-down', color: 'emerald', title: 'Kecemasan Menurun!', text: `Rata-rata turun ${Math.abs(diff).toFixed(1)} poin. Pertahankan!` });
+                        else if (diff > 0.5) insights.push({ icon: 'trending-up', color: 'rose', title: 'Kecemasan Meningkat', text: `Naik ${diff.toFixed(1)} poin. Coba latihan 4-7-8 lebih sering.` });
+                        else insights.push({ icon: 'activity', color: 'sky', title: 'Stabil', text: `Rata-rata stabil di ${avgRecent.toFixed(1)}/10.` });
+                    }
+
+                    const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+                    if (avg > 6) insights.push({ icon: 'heart', color: 'rose', title: 'Anda Sedang Berat', text: 'Pertimbangkan bercerita ke orang terpercaya atau profesional.' });
+                    else if (avg < 3.5) insights.push({ icon: 'sun', color: 'amber', title: 'Anda Sangat Tenang', text: 'Anda dalam kondisi baik!' });
+
+                    const tinggi = scores.filter(s => s > 7).length;
+                    const sedang = scores.filter(s => s > 4 && s <= 7).length;
+                    const rendah = scores.filter(s => s <= 4).length;
+                    const maxCat = Math.max(tinggi, sedang, rendah);
+                    let domCat = 'sedang';
+                    if (maxCat === rendah) domCat = 'rendah (tenang)';
+                    else if (maxCat === tinggi) domCat = 'tinggi (cemas)';
+                    insights.push({ icon: 'pie-chart', color: 'purple', title: 'Pola Dominan', text: `Dari ${scores.length} catatan, kategori ${domCat} paling sering.` });
+
+                    if (journals.length > 0) insights.push({ icon: 'book-open', color: 'sky', title: `Jurnal CBT: ${journals.length} catatan`, text: 'Menulis jurnal CBT membantu mereframe pikiran.' });
                 }
-
-                const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-                if (avg > 6) insights.push({ icon: 'heart', color: 'rose', title: 'Anda Sedang Berat', text: 'Pertimbangkan bercerita ke orang terpercaya atau profesional.' });
-                else if (avg < 3.5) insights.push({ icon: 'sun', color: 'amber', title: 'Anda Sangat Tenang', text: 'Anda dalam kondisi baik!' });
-
-                const tinggi = scores.filter(s => s > 7).length;
-                const sedang = scores.filter(s => s > 4 && s <= 7).length;
-                const rendah = scores.filter(s => s <= 4).length;
-                const maxCat = Math.max(tinggi, sedang, rendah);
-                let domCat = 'sedang';
-                if (maxCat === rendah) domCat = 'rendah (tenang)';
-                else if (maxCat === tinggi) domCat = 'tinggi (cemas)';
-                insights.push({ icon: 'pie-chart', color: 'purple', title: 'Pola Dominan', text: `Dari ${scores.length} catatan, kategori ${domCat} paling sering.` });
-
-                if (journals.length > 0) insights.push({ icon: 'book-open', color: 'sky', title: `Jurnal CBT: ${journals.length} catatan`, text: 'Menulis jurnal CBT membantu mereframe pikiran.' });
             }
 
             const colorMap = {
@@ -2459,8 +2611,8 @@
                         <i data-lucide="${ins.icon}" class="w-5 h-5"></i>
                     </div>
                     <div class="flex-1">
-                        <h4 class="text-sm font-bold text-sharp text-slate-800 dark:text-slate-100">${ins.title}</h4>
-                        <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">${ins.text}</p>
+                        <h4 class="text-sm font-bold text-sharp text-slate-800 dark:text-slate-100">${escapeHtml(ins.title)}</h4>
+                        <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">${escapeHtml(ins.text)}</p>
                     </div>
                 </div>
             `).join('');
@@ -2487,7 +2639,9 @@
             el.innerText = dailyTips[dayIndex];
         }
 
-        // ========== JURNAL SYUKUR ==========
+        /* ========================================================
+           GRATITUDE — FIX #1 & #7
+           ======================================================== */
         let gratitudeChart = null;
 
         function saveGratitudeEntry(e) {
@@ -2505,7 +2659,11 @@
 
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             entries.unshift(entry);
-            localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries));
+            try {
+                localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries));
+            } catch (err) {
+                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
+            }
 
             document.getElementById('gratitude1').value = '';
             document.getElementById('gratitude2').value = '';
@@ -2532,16 +2690,16 @@
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-pink-950/20 border border-pink-200 dark:border-pink-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between text-pink-700 dark:text-pink-300 font-semibold">
-                        <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5"></i> ${item.date}</span>
-                        <button onclick="deleteGratitude(${item.id})" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
+                        <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5"></i> ${escapeHtml(item.date)}</span>
+                        <button onclick="deleteGratitude(${Number(item.id)})" aria-label="Hapus catatan syukur" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
                             <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
                     <div class="space-y-1.5">
-                        ${item.items.map((txt, i) => `
+                        ${(Array.isArray(item.items) ? item.items : []).map((txt, i) => `
                             <p class="font-medium text-slate-700 dark:text-slate-300 flex items-start gap-2">
                                 <span class="w-5 h-5 rounded-full bg-pink-100 dark:bg-pink-900/50 text-pink-600 dark:text-pink-300 text-[10px] font-bold flex items-center justify-center flex-shrink-0 mt-0.5">${i + 1}</span>
-                                <span>${txt}</span>
+                                <span class="whitespace-pre-wrap">${escapeHtml(txt)}</span>
                             </p>
                         `).join('')}
                     </div>
@@ -2580,24 +2738,15 @@
             const badgeEl = document.getElementById('gratBadge');
             if (!totalEl) return;
 
-            const uniqueDays = new Set(entries.map(e => e.dateKey));
+            const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
             totalEl.innerText = uniqueDays.size;
 
-            let streak = 0;
-            const today = new Date();
-            for (let i = 0; i < 365; i++) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                if (uniqueDays.has(key)) streak++;
-                else if (i === 0) continue;
-                else break;
-            }
+            const streak = computeStreak(uniqueDays);
             streakEl.innerText = streak;
 
             const now = new Date();
             const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const thisMonth = entries.filter(e => e.dateKey.startsWith(monthPrefix)).length;
+            const thisMonth = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
             monthEl.innerText = thisMonth;
 
             let badge = '-';
@@ -2612,14 +2761,13 @@
             const container = document.getElementById('gratitudeCalendar');
             if (!container) return;
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
-            const uniqueDays = new Set(entries.map(e => e.dateKey));
-            const today = new Date();
+            const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
             const todayKey = getTodayKey();
             container.innerHTML = '';
             for (let i = 29; i >= 0; i--) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                const key = getDateKeyOffset(i);
+                const d = new Date();
+                d.setDate(d.getDate() - i);
                 const isActive = uniqueDays.has(key);
                 const isToday = key === todayKey;
                 const cell = document.createElement('div');
@@ -2635,15 +2783,14 @@
             if (!canvas || !window.Chart) return;
 
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
-            const uniqueDays = new Set(entries.map(e => e.dateKey));
+            const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
 
             const labels = [];
             const values = [];
-            const today = new Date();
             for (let i = 13; i >= 0; i--) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                const key = getDateKeyOffset(i);
+                const d = new Date();
+                d.setDate(d.getDate() - i);
                 labels.push(d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }));
                 values.push(uniqueDays.has(key) ? 1 : 0);
             }
@@ -2703,7 +2850,9 @@
             });
         }
 
-        // ========== JURNAL KEBERUNTUNGAN ==========
+        /* ========================================================
+           LUCK — FIX #1, #6, #7
+           ======================================================== */
         let luckChart = null;
 
         function saveLuckEntry(e) {
@@ -2722,10 +2871,15 @@
 
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             entries.unshift(entry);
-            localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries));
+            try {
+                localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries));
+            } catch (err) {
+                showToast("⚠️ Penyimpanan penuh atau gagal."); return;
+            }
 
             document.getElementById('luckInput').value = '';
-            document.querySelector('input[name="luckCat"][value="Lainnya"]').checked = true;
+            const defaultRadio = document.querySelector('input[name="luckCat"][value="Lainnya"]');
+            if (defaultRadio) defaultRadio.checked = true;
 
             loadLuckHistory();
             updateLuckStats();
@@ -2756,16 +2910,16 @@
                 <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between font-semibold">
                         <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5"><i data-lucide="clover" class="w-3.5 h-3.5"></i> ${item.date}</span>
+                            <span class="text-emerald-700 dark:text-emerald-300 flex items-center gap-1.5"><i data-lucide="clover" class="w-3.5 h-3.5"></i> ${escapeHtml(item.date)}</span>
                             <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${catColor[item.category] || catColor['Lainnya']}">
-                                ${catEmoji[item.category] || '✨'} ${item.category}
+                                ${catEmoji[item.category] || '✨'} ${escapeHtml(item.category)}
                             </span>
                         </div>
-                        <button onclick="deleteLuck(${item.id})" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
+                        <button onclick="deleteLuck(${Number(item.id)})" aria-label="Hapus catatan keberuntungan" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
                             <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
-                    <p class="font-medium text-slate-700 dark:text-slate-300">${item.text}</p>
+                    <p class="font-medium text-slate-700 dark:text-slate-300 whitespace-pre-wrap">${escapeHtml(item.text)}</p>
                 </div>
             `).join('');
             lucide.createIcons();
@@ -2801,27 +2955,16 @@
 
             totalEl.innerText = entries.length;
 
-            const uniqueDays = new Set(entries.map(e => e.dateKey));
-            let streak = 0;
-            const today = new Date();
-            for (let i = 0; i < 365; i++) {
-                const d = new Date(today);
-                d.setDate(today.getDate() - i);
-                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                if (uniqueDays.has(key)) streak++;
-                else if (i === 0) continue;
-                else break;
-            }
-            streakEl.innerText = streak;
+            const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
+            streakEl.innerText = computeStreak(uniqueDays);
 
             const now = new Date();
             const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-            const thisMonth = entries.filter(e => e.dateKey.startsWith(monthPrefix)).length;
-            monthEl.innerText = thisMonth;
+            monthEl.innerText = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
 
             const catCount = {};
             entries.forEach(e => {
-                catCount[e.category] = (catCount[e.category] || 0) + 1;
+                if (e.category) catCount[e.category] = (catCount[e.category] || 0) + 1;
             });
             let topCat = '-';
             let topCount = 0;
@@ -2831,11 +2974,12 @@
                     topCat = cat;
                 }
             });
-            topCatEl.innerText = topCat !== '-' ? `${topCat} (${topCount})` : '-';
+            topCatEl.innerText = topCat !== '-' ? `${escapeHtml(topCat)} (${topCount})` : '-';
         }
 
         function renderLuckChart() {
             const canvas = document.getElementById('luckChart');
+            const emptyMsg = document.getElementById('luckChartEmpty');
             if (!canvas || !window.Chart) return;
 
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
@@ -2847,6 +2991,16 @@
             const isEmpty = entries.length === 0;
             const isDark = document.documentElement.classList.contains('dark');
 
+            if (isEmpty) {
+                if (emptyMsg) emptyMsg.classList.remove('hidden');
+                canvas.style.display = 'none';
+                if (luckChart) { luckChart.destroy(); luckChart = null; }
+                return;
+            } else {
+                if (emptyMsg) emptyMsg.classList.add('hidden');
+                canvas.style.display = 'block';
+            }
+
             if (luckChart) luckChart.destroy();
 
             const ctx = canvas.getContext('2d');
@@ -2857,8 +3011,8 @@
                 data: {
                     labels: Object.keys(catCount),
                     datasets: [{
-                        data: isEmpty ? [1] : Object.values(catCount),
-                        backgroundColor: isEmpty ? [isDark ? 'rgba(148, 163, 184, 0.20)' : 'rgba(148, 163, 184, 0.15)'] : colors,
+                        data: Object.values(catCount),
+                        backgroundColor: colors,
                         borderColor: isDark ? '#1e293b' : '#ffffff',
                         borderWidth: 3
                     }]
@@ -2873,15 +3027,10 @@
                             labels: {
                                 color: isDark ? '#94a3b8' : '#64748b',
                                 font: { size: 11, weight: '600' },
-                                padding: 14,
-                                generateLabels: (chart) => {
-                                    if (isEmpty) return [];
-                                    return Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                                }
+                                padding: 14
                             }
                         },
                         tooltip: {
-                            enabled: !isEmpty,
                             backgroundColor: isDark ? '#0f172a' : '#1e293b',
                             titleColor: '#ffffff',
                             bodyColor: '#e2e8f0',
@@ -2896,10 +3045,13 @@
             });
         }
 
-        // ========== DISCLAIMER ==========
+        /* ========================================================
+           DISCLAIMER
+           ======================================================== */
         function dismissDisclaimer() {
-            document.getElementById('disclaimerBanner').style.display = 'none';
-            localStorage.setItem('anti_anxiety_disclaimer_dismissed', 'true');
+            const banner = document.getElementById('disclaimerBanner');
+            if (banner) banner.style.display = 'none';
+            try { localStorage.setItem('anti_anxiety_disclaimer_dismissed', 'true'); } catch (e) {}
         }
 
         function checkDisclaimer() {
@@ -2910,7 +3062,9 @@
             }
         }
 
-        // ========== BACKUP BUBBLE ==========
+        /* ========================================================
+           BACKUP BUBBLE — FIX #11: konstanta
+           ======================================================== */
         let bubbleCollapseTimer = null;
         let bubbleCurrentlyVisible = false;
         let bubblePopupOpen = false;
@@ -2918,45 +3072,47 @@
         function getDaysSinceBackupOrData() {
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
 
-            const hasData = 
-                JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 ||
-                JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]').length > 0 ||
-                JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 ||
-                JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0;
+            let hasData = false;
+            try {
+                hasData =
+                    JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 ||
+                    JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]').length > 0 ||
+                    JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 ||
+                    JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0;
+            } catch (e) { hasData = false; }
 
             if (!hasData) return null;
 
             if (!lastBackup) {
                 const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
-                if (activities.length === 0) return 0;
+                if (!Array.isArray(activities) || activities.length === 0) return 0;
                 const firstDate = new Date(activities[0]);
+                if (isNaN(firstDate.getTime())) return 1;
                 const diffDays = Math.floor((new Date() - firstDate) / (1000 * 60 * 60 * 24));
                 return Math.max(1, diffDays);
             }
 
             const lastDate = new Date(lastBackup);
-            const diffDays = Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
-            return diffDays;
+            if (isNaN(lastDate.getTime())) return 1;
+            return Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
         }
 
         function shouldShowBubble() {
             const days = getDaysSinceBackupOrData();
             if (days === null) return false;
-            if (days < 7) return false;
+            if (days < BACKUP_REMINDER_DAYS) return false;
 
             const snoozeUntil = localStorage.getItem('anti_anxiety_backup_snooze');
             if (snoozeUntil) {
                 const snoozeDate = new Date(snoozeUntil);
-                const now = new Date();
-                const snoozeDay = new Date(snoozeDate.getFullYear(), snoozeDate.getMonth(), snoozeDate.getDate());
-                const todayDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                if (todayDay <= snoozeDay) {
-                    return false;
-                } else {
-                    localStorage.removeItem('anti_anxiety_backup_snooze');
+                if (!isNaN(snoozeDate.getTime())) {
+                    const now = new Date();
+                    const snoozeDay = new Date(snoozeDate.getFullYear(), snoozeDate.getMonth(), snoozeDate.getDate());
+                    const todayDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    if (todayDay <= snoozeDay) return false;
+                    else localStorage.removeItem('anti_anxiety_backup_snooze');
                 }
             }
-
             return true;
         }
 
@@ -2970,6 +3126,7 @@
             const bubble = document.getElementById('backupBubble');
             const badge = document.getElementById('bubbleBadge');
             const popupText = document.getElementById('bubblePopupText');
+            if (!bubble) return;
 
             badge.innerText = days > 99 ? '99+' : days;
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
@@ -2994,9 +3151,8 @@
         function hideBackupBubble() {
             const bubble = document.getElementById('backupBubble');
             const popup = document.getElementById('backupPopup');
-            bubble.classList.remove('visible');
-            bubble.classList.remove('collapsed');
-            popup.classList.remove('visible');
+            if (bubble) { bubble.classList.remove('visible'); bubble.classList.remove('collapsed'); }
+            if (popup) popup.classList.remove('visible');
             bubbleCurrentlyVisible = false;
             bubblePopupOpen = false;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
@@ -3005,6 +3161,7 @@
         function handleBubbleClick(event) {
             event.stopPropagation();
             const bubble = document.getElementById('backupBubble');
+            if (!bubble) return;
             if (bubble.classList.contains('collapsed')) {
                 bubble.classList.remove('collapsed');
                 if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
@@ -3020,6 +3177,7 @@
 
         function openBubblePopup() {
             const popup = document.getElementById('backupPopup');
+            if (!popup) return;
             popup.classList.add('visible');
             bubblePopupOpen = true;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
@@ -3027,13 +3185,14 @@
 
         function closeBubblePopup() {
             const popup = document.getElementById('backupPopup');
+            if (!popup) return;
             popup.classList.remove('visible');
             bubblePopupOpen = false;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
             bubbleCollapseTimer = setTimeout(() => {
                 if (bubbleCurrentlyVisible) {
                     const bubble = document.getElementById('backupBubble');
-                    bubble.classList.add('collapsed');
+                    if (bubble) bubble.classList.add('collapsed');
                 }
             }, 3000);
         }
@@ -3041,7 +3200,7 @@
         function dismissBackupBubble() {
             const snoozeUntil = new Date();
             snoozeUntil.setDate(snoozeUntil.getDate() + 1);
-            localStorage.setItem('anti_anxiety_backup_snooze', snoozeUntil.toISOString());
+            try { localStorage.setItem('anti_anxiety_backup_snooze', snoozeUntil.toISOString()); } catch (e) {}
             hideBackupBubble();
             showToast("Pengingat ditunda sampai besok.");
         }
@@ -3060,7 +3219,9 @@
             }
         });
 
-        // ========== BACKUP INFO ==========
+        /* ========================================================
+           BACKUP INFO
+           ======================================================== */
         function updateLastBackupInfo() {
             const info = document.getElementById('lastBackupInfo');
             if (!info) return;
@@ -3069,18 +3230,16 @@
                 info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-amber-600 dark:text-amber-400">⚠️ Anda belum pernah backup.</b>`;
             } else {
                 const d = new Date(lastBackup);
+                if (isNaN(d.getTime())) {
+                    info.innerHTML = `💡 Backup berisi data aplikasi Anda.<br><b class="text-amber-600 dark:text-amber-400">⚠️ Tanggal backup tidak valid.</b>`;
+                    return;
+                }
                 const formatted = d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-                info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-emerald-600 dark:text-emerald-400">✅ Backup terakhir: ${formatted}</b>`;
+                info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-emerald-600 dark:text-emerald-400">✅ Backup terakhir: ${escapeHtml(formatted)}</b>`;
             }
         }
 
-        function doBackupNow() {
-            exportData();
-        }
-
-        function quickBackup() {
-            exportData();
-        }
+        function quickBackup() { exportData(); }
 
         function scrollToBackupButton() {
             switchTab('settings');
@@ -3090,9 +3249,12 @@
             }, 350);
         }
 
-        // ========== EMERGENCY CONTACTS ==========
+        /* ========================================================
+           EMERGENCY CONTACTS — FIX #3: sanitizePhone
+           ======================================================== */
         function loadEmergencyContacts() {
-            const contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}');
+            let contacts = {};
+            try { contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'); } catch (e) {}
             document.getElementById('contact1Name').value = contacts.c1Name || '';
             document.getElementById('contact1Phone').value = contacts.c1Phone || '';
             document.getElementById('contact2Name').value = contacts.c2Name || '';
@@ -3102,17 +3264,21 @@
         function saveEmergencyContacts() {
             const contacts = {
                 c1Name: document.getElementById('contact1Name').value.trim(),
-                c1Phone: document.getElementById('contact1Phone').value.trim(),
+                c1Phone: sanitizePhone(document.getElementById('contact1Phone').value),
                 c2Name: document.getElementById('contact2Name').value.trim(),
-                c2Phone: document.getElementById('contact2Phone').value.trim()
+                c2Phone: sanitizePhone(document.getElementById('contact2Phone').value)
             };
-            localStorage.setItem('anti_anxiety_contacts', JSON.stringify(contacts));
+            try { localStorage.setItem('anti_anxiety_contacts', JSON.stringify(contacts)); } catch (e) {}
             showToast("Kontak darurat disimpan.");
             renderSosContacts();
+            // Tampilkan kembali versi tersanitasi agar user lihat
+            document.getElementById('contact1Phone').value = contacts.c1Phone;
+            document.getElementById('contact2Phone').value = contacts.c2Phone;
         }
 
         function renderSosContacts() {
-            const contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}');
+            let contacts = {};
+            try { contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'); } catch (e) {}
             const list = document.getElementById('sosContactsList');
             if (!list) return;
             const items = [];
@@ -3124,32 +3290,44 @@
                 return;
             }
 
-            list.innerHTML = items.map(c => `
-                <a href="tel:${c.phone.replace(/\s+/g, '')}" class="flex items-center gap-3 p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition border border-slate-700">
+            list.innerHTML = items.map(c => {
+                const safePhone = sanitizePhone(c.phone);
+                return `
+                <a href="tel:${safePhone}" class="flex items-center gap-3 p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition border border-slate-700">
                     <div class="w-9 h-9 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0">
                         <i data-lucide="phone" class="w-4 h-4 text-teal-300"></i>
                     </div>
                     <div class="flex-1 text-left">
-                        <p class="text-sm font-bold text-white">${c.name}</p>
-                        <p class="text-xs text-slate-400">${c.phone}</p>
+                        <p class="text-sm font-bold text-white">${escapeHtml(c.name)}</p>
+                        <p class="text-xs text-slate-400">${escapeHtml(safePhone)}</p>
                     </div>
                     <i data-lucide="chevron-right" class="w-4 h-4 text-slate-500"></i>
                 </a>
-            `).join('');
+            `;
+            }).join('');
             lucide.createIcons();
         }
 
-        // ========== EXPORT / IMPORT ==========
+        /* ========================================================
+           EXPORT / IMPORT — FIX #10: validasi skema
+           ======================================================== */
+        function safeParse(key, fallback) {
+            try {
+                const v = JSON.parse(localStorage.getItem(key) || 'null');
+                return v === null ? fallback : v;
+            } catch (e) { return fallback; }
+        }
+
         function exportData() {
             const data = {
                 version: 3,
                 exportedAt: new Date().toISOString(),
-                moods: JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]'),
-                journals: JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]'),
-                activities: JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'),
-                contacts: JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'),
-                gratitude: JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]'),
-                luck: JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]')
+                moods: safeParse('anti_anxiety_moods', []),
+                journals: safeParse('anti_anxiety_journals', []),
+                activities: safeParse('anti_anxiety_activities', []),
+                contacts: safeParse('anti_anxiety_contacts', {}),
+                gratitude: safeParse('anti_anxiety_gratitude', []),
+                luck: safeParse('anti_anxiety_luck', [])
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -3162,10 +3340,17 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString());
+            try { localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString()); } catch (e) {}
             hideBackupBubble();
             updateLastBackupInfo();
             showToast("✅ Backup berhasil diunduh!");
+        }
+
+        function isValidBackupData(data) {
+            if (!data || typeof data !== 'object') return false;
+            // Minimal harus ada satu array objek yang dikenal
+            const knownArrays = ['moods', 'journals', 'activities', 'gratitude', 'luck'];
+            return knownArrays.some(k => Array.isArray(data[k])) || (data.contacts && typeof data.contacts === 'object');
         }
 
         function importData(event) {
@@ -3175,13 +3360,17 @@
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
+                    if (!isValidBackupData(data)) {
+                        showToast("❌ File backup tidak valid.");
+                        return;
+                    }
                     if (!confirm('Data saat ini akan diganti dengan data dari file. Lanjutkan?')) return;
-                    if (data.moods) localStorage.setItem('anti_anxiety_moods', JSON.stringify(data.moods));
-                    if (data.journals) localStorage.setItem('anti_anxiety_journals', JSON.stringify(data.journals));
-                    if (data.activities) localStorage.setItem('anti_anxiety_activities', JSON.stringify(data.activities));
-                    if (data.contacts) localStorage.setItem('anti_anxiety_contacts', JSON.stringify(data.contacts));
-                    if (data.gratitude) localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(data.gratitude));
-                    if (data.luck) localStorage.setItem('anti_anxiety_luck', JSON.stringify(data.luck));
+                    if (Array.isArray(data.moods)) localStorage.setItem('anti_anxiety_moods', JSON.stringify(data.moods));
+                    if (Array.isArray(data.journals)) localStorage.setItem('anti_anxiety_journals', JSON.stringify(data.journals));
+                    if (Array.isArray(data.activities)) localStorage.setItem('anti_anxiety_activities', JSON.stringify(data.activities));
+                    if (data.contacts && typeof data.contacts === 'object') localStorage.setItem('anti_anxiety_contacts', JSON.stringify(data.contacts));
+                    if (Array.isArray(data.gratitude)) localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(data.gratitude));
+                    if (Array.isArray(data.luck)) localStorage.setItem('anti_anxiety_luck', JSON.stringify(data.luck));
                     loadJournals();
                     loadMoodHistory();
                     updateStreak();
@@ -3189,12 +3378,12 @@
                     loadEmergencyContacts();
                     if (typeof loadGratitudeHistory === 'function') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
                     if (typeof loadLuckHistory === 'function') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); }
-                    localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString());
+                    try { localStorage.setItem('anti_anxiety_last_backup', new Date().toISOString()); } catch (e) {}
                     hideBackupBubble();
                     updateLastBackupInfo();
                     showToast("Data berhasil dipulihkan!");
                 } catch (err) {
-                    showToast("File tidak valid!");
+                    showToast("❌ File tidak valid (JSON rusak).");
                 }
             };
             reader.readAsText(file);
@@ -3204,12 +3393,9 @@
         function resetAllData() {
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
-            localStorage.removeItem('anti_anxiety_moods');
-            localStorage.removeItem('anti_anxiety_journals');
-            localStorage.removeItem('anti_anxiety_activities');
-            localStorage.removeItem('anti_anxiety_contacts');
-            localStorage.removeItem('anti_anxiety_gratitude');
-            localStorage.removeItem('anti_anxiety_luck');
+            ['anti_anxiety_moods', 'anti_anxiety_journals', 'anti_anxiety_activities',
+             'anti_anxiety_contacts', 'anti_anxiety_gratitude', 'anti_anxiety_luck',
+             'anti_anxiety_last_backup', 'anti_anxiety_backup_snooze'].forEach(k => localStorage.removeItem(k));
             loadJournals();
             loadMoodHistory();
             updateStreak();
@@ -3221,7 +3407,9 @@
             showToast("Semua data aplikasi dihapus.");
         }
 
-        // ========== SOS ==========
+        /* ========================================================
+           SOS
+           ======================================================== */
         let sosPrompts = [
             "Anda aman saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda.",
             "Tarik napas perlahan... Hembuskan. Tubuh Anda hanya merespons alarm palsu.",
@@ -3241,7 +3429,7 @@
 
         function closeSosModal() {
             document.getElementById('sosModal').classList.add('hidden');
-            if (sosInterval) clearInterval(sosInterval);
+            if (sosInterval) { clearInterval(sosInterval); sosInterval = null; }
         }
 
         function nextSosPrompt() {
@@ -3266,16 +3454,38 @@
             }, 4000);
         }
 
-        // ========== TOAST ==========
+        /* ========================================================
+           TOAST
+           ======================================================== */
+        let toastTimer = null;
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
+            const msgEl = document.getElementById('toastMsg');
+            if (!toast || !msgEl) return;
+            msgEl.innerText = msg;
             toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
 
-        // ========== INIT ==========
-        window.onload = function () {
+        /* ========================================================
+           FIX #9: visibilitychange cleanup breathing
+           ======================================================== */
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                if (isRunning && !isPaused) {
+                    pauseBreathing();
+                    showToast("Latihan dijeda otomatis.");
+                }
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        });
+
+        /* ========================================================
+           INIT
+           ======================================================== */
+        window.addEventListener('load', function() {
+            applyTabStyles();
             setGroundingStep(5);
             loadJournals();
             renderAffirmations();
@@ -3300,19 +3510,20 @@
             checkDisclaimer();
             updateLastBackupInfo();
 
-            setTimeout(() => {
-                showBackupBubble();
-            }, 800);
+            setTimeout(showBackupBubble, 800);
 
             const nav = document.getElementById('tabNav');
             if (nav) nav.addEventListener('scroll', updateScrollHint);
             window.addEventListener('resize', updateScrollHint);
 
             ensureVoicesLoaded(() => {
-                indonesianVoice = findIndonesianVoice();
+                const found = findIndonesianVoice();
+                if (found) indonesianVoice = found;
                 updateVoiceStatusHint();
             });
-        };
+
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
