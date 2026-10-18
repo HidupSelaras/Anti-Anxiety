@@ -76,7 +76,7 @@
             border: 1px solid rgba(45, 212, 191, 0.15);
         }
 
-        /* ============ BREATHING VISUALS ============ */
+        /* BREATHING VISUALS */
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
         .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
         .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
@@ -159,206 +159,61 @@
         #homeFab:active { transform: scale(0.95); }
         @media (max-width: 640px) { #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; } }
 
-        /* HOME SHORTCUT */
-        .home-shortcut { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; cursor: pointer; }
-        .home-shortcut:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-        html.dark .home-shortcut:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.35); }
-
         /* SOS CONTACTS */
         .sos-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(45, 212, 191, 0.4); transition: all 0.2s ease; text-decoration: none; }
         .sos-contact-btn:hover { background: rgba(20, 184, 166, 0.28); border-color: rgba(94, 234, 212, 0.7); transform: translateY(-1px); }
 
+        /* AUDIO PLAYER CUSTOM */
+        .audio-stop-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; transition: all 0.2s ease; opacity: 0.45; pointer-events: none; }
+        html.dark .audio-stop-btn { background: rgba(127, 29, 29, 0.4); color: #fca5a5; border-color: rgba(153, 27, 27, 0.6); }
+        .audio-stop-btn.active { opacity: 1; pointer-events: auto; animation: pulse-soft 2s ease-in-out infinite; }
+        .audio-stop-btn.active:hover { background: #fecaca; color: #991b1b; }
+        html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
+        @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
+
         /* ============================================================
-           HOME STATS — HERO CARD + PILLS (tidak kotak-kotak seragam)
+           DOWNLOAD DROPDOWN — FIX: pakai position:fixed agar tidak terpotong
            ============================================================ */
-        .home-hero {
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #2dd4bf 100%);
-            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.25);
-            border-radius: 24px;
-            padding: 22px;
-            color: white;
-        }
-        html.dark .home-hero {
-            background: linear-gradient(135deg, #115e59 0%, #0d9488 50%, #14b8a6 100%);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-        }
-        .home-hero::before {
-            content: '';
-            position: absolute;
-            top: -40px;
-            right: -40px;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            pointer-events: none;
-        }
-        .home-hero::after {
-            content: '';
-            position: absolute;
-            bottom: -60px;
-            left: -20px;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            pointer-events: none;
-        }
-
-        /* Pill stats — tidak kotak-kotak, satu baris horizontal */
-        .home-pill-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .home-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 600;
-            backdrop-filter: blur(6px);
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: white;
-            transition: transform 0.15s ease, background 0.2s ease;
-        }
-        .home-pill:hover {
-            background: rgba(255, 255, 255, 0.22);
-            transform: translateY(-1px);
-        }
-        .home-pill .pill-value {
-            font-weight: 800;
-            font-size: 14px;
-        }
-
-        /* Quick-link micro cards (bukan kotak seragam) — pakai row horizontal */
-        .home-quick-row {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            scrollbar-width: none;
-        }
-        .home-quick-row::-webkit-scrollbar { display: none; }
-        .home-quick-item {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-            font-weight: 600;
-            color: #0f172a;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        html.dark .home-quick-item {
-            background: rgba(30, 41, 59, 0.6);
-            border-color: rgba(51, 65, 85, 0.8);
-            color: #e2e8f0;
-        }
-        .home-quick-item:hover {
-            background: rgba(255, 255, 255, 0.85);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        html.dark .home-quick-item:hover {
-            background: rgba(51, 65, 85, 0.85);
-        }
-        .home-quick-item .qi-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        /* AUDIO PLAYER CUSTOM — tombol stop */
-        .audio-player-card {
-            position: relative;
-        }
-        .audio-stop-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 11px;
-            font-weight: 700;
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fecaca;
-            transition: all 0.2s ease;
-            opacity: 0.45;
-            pointer-events: none;
-        }
-        html.dark .audio-stop-btn {
-            background: rgba(127, 29, 29, 0.4);
-            color: #fca5a5;
-            border-color: rgba(153, 27, 27, 0.6);
-        }
-        .audio-stop-btn.active {
-            opacity: 1;
-            pointer-events: auto;
-            animation: pulse-soft 2s ease-in-out infinite;
-        }
-        .audio-stop-btn.active:hover {
-            background: #fecaca;
-            color: #991b1b;
-        }
-        html.dark .audio-stop-btn.active:hover {
-            background: rgba(153, 27, 27, 0.6);
-        }
-        @keyframes pulse-soft {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-        }
-
-        /* DOWNLOAD DROPDOWN */
         #downloadMenu {
-            position: absolute;
-            right: 0;
-            top: 100%;
-            margin-top: 8px;
-            width: 240px;
+            position: fixed;
+            width: 260px;
             background: white;
             border-radius: 14px;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06);
             border: 1px solid rgba(148, 163, 184, 0.3);
             padding: 6px;
-            z-index: 50;
+            z-index: 9999;
             opacity: 0;
             transform: translateY(-8px) scale(0.98);
             pointer-events: none;
             transition: opacity 0.2s ease, transform 0.2s ease;
+            display: none;
         }
         html.dark #downloadMenu {
             background: #1e293b;
             border-color: rgba(51, 65, 85, 0.8);
         }
         #downloadMenu.visible {
+            display: block;
             opacity: 1;
             transform: translateY(0) scale(1);
             pointer-events: auto;
         }
-        #downloadMenu button, #downloadMenu a {
+        #downloadMenu .menu-header {
+            padding: 6px 10px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #94a3b8;
+        }
+        html.dark #downloadMenu .menu-header { color: #64748b; }
+        #downloadMenu .menu-item {
             display: flex;
             align-items: center;
             gap: 10px;
             width: 100%;
-            padding: 9px 12px;
+            padding: 9px 10px;
             border-radius: 9px;
             font-size: 12px;
             font-weight: 600;
@@ -368,24 +223,21 @@
             cursor: pointer;
             text-align: left;
             transition: background 0.15s ease;
+            line-height: 1.3;
         }
-        html.dark #downloadMenu button, html.dark #downloadMenu a {
-            color: #cbd5e1;
+        html.dark #downloadMenu .menu-item { color: #cbd5e1; }
+        #downloadMenu .menu-item:hover { background: #f1f5f9; }
+        html.dark #downloadMenu .menu-item:hover { background: #334155; }
+        #downloadMenu .menu-item .mi-icon {
+            width: 28px; height: 28px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
         }
-        #downloadMenu button:hover, #downloadMenu a:hover {
-            background: #f1f5f9;
-        }
-        html.dark #downloadMenu button:hover, html.dark #downloadMenu a:hover {
-            background: #334155;
-        }
-        #downloadMenu .menu-divider {
-            height: 1px;
-            background: #e2e8f0;
-            margin: 4px 6px;
-        }
-        html.dark #downloadMenu .menu-divider {
-            background: #334155;
-        }
+        #downloadMenu .menu-item .mi-title { font-weight: 700; font-size: 12px; }
+        #downloadMenu .menu-item .mi-sub { font-size: 10px; font-weight: 500; color: #94a3b8; margin-top: 1px; }
+        html.dark #downloadMenu .menu-item .mi-sub { color: #64748b; }
+        #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
+        html.dark #downloadMenu .menu-divider { background: #334155; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
@@ -419,56 +271,9 @@
                         <span id="streakCount" class="text-xs font-bold text-amber-700 dark:text-amber-300">0</span>
                     </div>
 
-                    <!-- DOWNLOAD MENU DROPDOWN (BARU) -->
-                    <div class="relative" id="downloadMenuWrapper">
-                        <button onclick="toggleDownloadMenu(event)" id="downloadBtn" title="Download laporan" aria-label="Download laporan" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition relative">
-                            <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                        </button>
-                        <div id="downloadMenu" role="menu">
-                            <div class="px-2 py-1.5 mb-1">
-                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Backup Lengkap</p>
-                            </div>
-                            <button onclick="downloadJSON(); closeDownloadMenu();" role="menuitem">
-                                <i data-lucide="package" class="w-4 h-4 text-calm-600 flex-shrink-0"></i>
-                                <div class="flex-1">
-                                    <p class="text-xs font-bold">Semua Data (.json)</p>
-                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Backup lengkap</p>
-                                </div>
-                            </button>
-                            <div class="menu-divider"></div>
-                            <div class="px-2 py-1.5 mb-1">
-                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Export CSV per Kategori</p>
-                            </div>
-                            <button onclick="exportMoodsCSV(); closeDownloadMenu();" role="menuitem">
-                                <i data-lucide="activity" class="w-4 h-4 text-rose-500 flex-shrink-0"></i>
-                                <div class="flex-1">
-                                    <p class="text-xs font-bold">Riwayat Mood</p>
-                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Skor kecemasan</p>
-                                </div>
-                            </button>
-                            <button onclick="exportCbtCSV(); closeDownloadMenu();" role="menuitem">
-                                <i data-lucide="book-open" class="w-4 h-4 text-sky-500 flex-shrink-0"></i>
-                                <div class="flex-1">
-                                    <p class="text-xs font-bold">Jurnal CBT</p>
-                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Catatan reframing</p>
-                                </div>
-                            </button>
-                            <button onclick="exportGratitudeCSV(); closeDownloadMenu();" role="menuitem">
-                                <i data-lucide="heart" class="w-4 h-4 text-pink-500 flex-shrink-0"></i>
-                                <div class="flex-1">
-                                    <p class="text-xs font-bold">Jurnal Syukur</p>
-                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">3 hal disyukuri</p>
-                                </div>
-                            </button>
-                            <button onclick="exportLuckCSV(); closeDownloadMenu();" role="menuitem">
-                                <i data-lucide="clover" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
-                                <div class="flex-1">
-                                    <p class="text-xs font-bold">Keberuntungan</p>
-                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Gain harian</p>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
+                    <button onclick="toggleDownloadMenu(event)" id="downloadBtn" title="Download laporan" aria-label="Download laporan" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition relative">
+                        <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
 
                     <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" aria-label="Buka panel suara latar" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
                         <i data-lucide="volume-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
@@ -516,6 +321,48 @@
             </div>
         </div>
     </header>
+
+    <!-- DOWNLOAD DROPDOWN — fixed positioning, dirender di body -->
+    <div id="downloadMenu" role="menu">
+        <div class="menu-header">Backup Lengkap</div>
+        <button onclick="downloadJSON(); closeDownloadMenu();" class="menu-item" role="menuitem">
+            <span class="mi-icon bg-calm-100 dark:bg-calm-900/40"><i data-lucide="package" class="w-3.5 h-3.5 text-calm-600 dark:text-calm-400"></i></span>
+            <div>
+                <div class="mi-title">Semua Data (.json)</div>
+                <div class="mi-sub">Backup lengkap semua catatan</div>
+            </div>
+        </button>
+        <div class="menu-divider"></div>
+        <div class="menu-header">Export CSV per Kategori</div>
+        <button onclick="exportMoodsCSV(); closeDownloadMenu();" class="menu-item" role="menuitem">
+            <span class="mi-icon bg-rose-100 dark:bg-rose-900/40"><i data-lucide="activity" class="w-3.5 h-3.5 text-rose-500"></i></span>
+            <div>
+                <div class="mi-title">Riwayat Mood</div>
+                <div class="mi-sub">Skor kecemasan harian</div>
+            </div>
+        </button>
+        <button onclick="exportCbtCSV(); closeDownloadMenu();" class="menu-item" role="menuitem">
+            <span class="mi-icon bg-sky-100 dark:bg-sky-900/40"><i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-500"></i></span>
+            <div>
+                <div class="mi-title">Jurnal CBT</div>
+                <div class="mi-sub">Catatan reframing pikiran</div>
+            </div>
+        </button>
+        <button onclick="exportGratitudeCSV(); closeDownloadMenu();" class="menu-item" role="menuitem">
+            <span class="mi-icon bg-pink-100 dark:bg-pink-900/40"><i data-lucide="heart" class="w-3.5 h-3.5 text-pink-500"></i></span>
+            <div>
+                <div class="mi-title">Jurnal Syukur</div>
+                <div class="mi-sub">3 hal yang disyukuri</div>
+            </div>
+        </button>
+        <button onclick="exportLuckCSV(); closeDownloadMenu();" class="menu-item" role="menuitem">
+            <span class="mi-icon bg-emerald-100 dark:bg-emerald-900/40"><i data-lucide="clover" class="w-3.5 h-3.5 text-emerald-500"></i></span>
+            <div>
+                <div class="mi-title">Keberuntungan</div>
+                <div class="mi-sub">Gain harian</div>
+            </div>
+        </button>
+    </div>
 
     <div id="audioDrawer" class="hidden bg-emerald-900/95 text-white border-b border-emerald-800 py-3 backdrop-blur-md transition-all">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -623,7 +470,6 @@
         <!-- ========== HOME ========== -->
         <section id="sec-home" class="tab-content block">
 
-            <!-- HERO WELCOME -->
             <section class="dashboard-welcome p-6 rounded-3xl shadow-sm relative overflow-hidden mb-4">
                 <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
@@ -656,112 +502,101 @@
             </section>
 
             <!-- ============================================================
-                 HOME STATS — HERO CARD BARU (tidak kotak-kotak seragam)
-                 Layout: Hero besar + pills ringkas, hemat tempat
+                 STATISTIK — DIKEMBALIKAN KE 4 KOTAK SERAGAM (versi awal)
+                 Tapi dengan warna gradient berbeda & tetap ringkas
                  ============================================================ -->
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mb-4">
-
-                <!-- KIRI: Hero Streak (2/5 lebar) -->
-                <div class="lg:col-span-2 home-hero">
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="text-lg">🔥</span>
-                            <p class="text-[11px] font-bold uppercase tracking-wider text-teal-100">Streak Latihan</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
+                            <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-600"></i>
                         </div>
-                        <p class="text-5xl font-black leading-none tracking-tight" id="homeStatStreak">0</p>
-                        <p class="text-xs font-medium text-teal-100 mt-1">hari berturut-turut</p>
-                        <div class="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-teal-50">
-                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                            <span id="homeStatStreakMsg">Mulai hari ini</span>
-                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Streak</span>
                     </div>
+                    <p id="homeStatStreak" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">hari berturut</p>
                 </div>
-
-                <!-- KANAN: 3 stat pills (3/5 lebar) -->
-                <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col justify-between">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Statistik Anda</h3>
-                        <span class="text-[10px] font-semibold text-slate-400 dark:text-slate-500">Total keseluruhan</span>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center">
+                            <i data-lucide="activity" class="w-3.5 h-3.5 text-rose-600"></i>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Mood</span>
                     </div>
-
-                    <!-- Baris 1: Mood + Jurnal (2 kolom horizontal) -->
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-br from-rose-50 to-rose-100/50 dark:from-rose-950/40 dark:to-rose-900/20 border border-rose-200/60 dark:border-rose-900/40">
-                            <div class="w-9 h-9 rounded-xl bg-rose-500 flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <i data-lucide="activity" class="w-4 h-4 text-white"></i>
-                            </div>
-                            <div class="min-w-0">
-                                <p class="text-lg font-black leading-none text-rose-700 dark:text-rose-300" id="homeStatMoods">0</p>
-                                <p class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mt-0.5">Mood</p>
-                            </div>
+                    <p id="homeStatMoods" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">catatan</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center">
+                            <i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-600"></i>
                         </div>
-                        <div class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-br from-sky-50 to-sky-100/50 dark:from-sky-950/40 dark:to-sky-900/20 border border-sky-200/60 dark:border-sky-900/40">
-                            <div class="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-sm">
-                                <i data-lucide="book-open" class="w-4 h-4 text-white"></i>
-                            </div>
-                            <div class="min-w-0">
-                                <p class="text-lg font-black leading-none text-sky-700 dark:text-sky-300" id="homeStatJournals">0</p>
-                                <p class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mt-0.5">Jurnal CBT</p>
-                            </div>
-                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Jurnal</span>
                     </div>
-
-                    <!-- Baris 2: Syukur full width, lebih ramping -->
-                    <div class="mt-2 flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-r from-pink-50 via-pink-50 to-purple-50 dark:from-pink-950/40 dark:via-pink-950/30 dark:to-purple-950/30 border border-pink-200/60 dark:border-pink-900/40">
-                        <div class="w-9 h-9 rounded-xl bg-pink-500 flex items-center justify-center flex-shrink-0 shadow-sm">
-                            <i data-lucide="heart" class="w-4 h-4 text-white"></i>
+                    <p id="homeStatJournals" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">catatan CBT</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
+                            <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-600"></i>
                         </div>
-                        <div class="flex-1 flex items-center justify-between gap-2 min-w-0">
-                            <div class="min-w-0">
-                                <p class="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wider">Syukur</p>
-                                <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate">hari penuh rasa syukur</p>
-                            </div>
-                            <p class="text-2xl font-black leading-none text-pink-700 dark:text-pink-300 flex-shrink-0" id="homeStatGratitude">0</p>
-                        </div>
+                        <span class="text-xs font-semibold text-slate-500">Syukur</span>
                     </div>
+                    <p id="homeStatGratitude" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
+                    <p class="text-[10px] text-slate-500 mt-0.5">hari</p>
                 </div>
             </div>
 
-            <!-- QUICK LINKS — horizontal pills (bukan kotak-kotak) -->
-            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4">
-                <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1 mb-2">Mulai Cepat</p>
-                <div class="home-quick-row">
-                    <button onclick="switchTab('breathing')" class="home-quick-item">
-                        <span class="qi-icon bg-teal-500"><i data-lucide="wind" class="w-3.5 h-3.5 text-white"></i></span>
-                        Latihan Napas
-                    </button>
-                    <button onclick="switchTab('grounding')" class="home-quick-item">
-                        <span class="qi-icon bg-cyan-500"><i data-lucide="anchor" class="w-3.5 h-3.5 text-white"></i></span>
-                        Grounding
-                    </button>
-                    <button onclick="switchTab('journal')" class="home-quick-item">
-                        <span class="qi-icon bg-sky-500"><i data-lucide="book-open" class="w-3.5 h-3.5 text-white"></i></span>
-                        Jurnal CBT
-                    </button>
-                    <button onclick="switchTab('release')" class="home-quick-item">
-                        <span class="qi-icon bg-orange-500"><i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i></span>
-                        Pelepasan
-                    </button>
-                    <button onclick="switchTab('audio')" class="home-quick-item">
-                        <span class="qi-icon bg-indigo-500"><i data-lucide="headphones" class="w-3.5 h-3.5 text-white"></i></span>
-                        Audio Ajaib
-                    </button>
-                    <button onclick="switchTab('affirmations')" class="home-quick-item">
-                        <span class="qi-icon bg-purple-500"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i></span>
-                        Afirmasi
-                    </button>
-                    <button onclick="switchTab('gratitude')" class="home-quick-item">
-                        <span class="qi-icon bg-pink-500"><i data-lucide="heart" class="w-3.5 h-3.5 text-white"></i></span>
-                        Syukur
-                    </button>
-                    <button onclick="switchTab('luck')" class="home-quick-item">
-                        <span class="qi-icon bg-emerald-500"><i data-lucide="clover" class="w-3.5 h-3.5 text-white"></i></span>
-                        Keberuntungan
-                    </button>
-                </div>
+            <!-- ============================================================
+                 MULAI CEPAT — DIKEMBALIKAN KE GRID PERSEGI (seperti semula)
+                 ============================================================ -->
+            <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
+                <i data-lucide="zap" class="w-4 h-4 text-calm-500"></i> Mulai Cepat
+            </h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+                <button onclick="switchTab('breathing')" class="home-shortcut bg-gradient-to-br from-teal-500 to-emerald-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="wind" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Latihan Napas</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Tarik napas & tenangkan diri</p>
+                </button>
+                <button onclick="switchTab('grounding')" class="home-shortcut bg-gradient-to-br from-cyan-500 to-teal-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="anchor" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Grounding</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Metode 5-4-3-2-1</p>
+                </button>
+                <button onclick="switchTab('journal')" class="home-shortcut bg-gradient-to-br from-sky-500 to-blue-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="book-open" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Jurnal CBT</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Reframing pikiran</p>
+                </button>
+                <button onclick="switchTab('release')" class="home-shortcut bg-gradient-to-br from-orange-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="unlock" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Pelepasan</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Proses emosi & trauma</p>
+                </button>
+                <button onclick="switchTab('audio')" class="home-shortcut bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="headphones" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Audio Ajaib</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Panduan suara relaksasi</p>
+                </button>
+                <button onclick="switchTab('affirmations')" class="home-shortcut bg-gradient-to-br from-purple-500 to-pink-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="sparkles" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Afirmasi</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Kartu penguat mental</p>
+                </button>
+                <button onclick="switchTab('gratitude')" class="home-shortcut bg-gradient-to-br from-pink-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="heart" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Jurnal Syukur</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">3 hal yang disyukuri</p>
+                </button>
+                <button onclick="switchTab('luck')" class="home-shortcut bg-gradient-to-br from-emerald-500 to-green-600 text-white p-5 rounded-2xl shadow-sm text-left">
+                    <i data-lucide="clover" class="w-6 h-6 mb-2"></i>
+                    <p class="text-sm font-bold">Keberuntungan</p>
+                    <p class="text-[11px] opacity-90 mt-0.5">Catat gain hari ini</p>
+                </button>
             </div>
 
-            <!-- TIP HARI INI -->
             <div class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-5 rounded-3xl border border-calm-200 dark:border-teal-900/60">
                 <div class="flex items-start gap-3">
                     <div class="w-9 h-9 rounded-2xl bg-calm-500 flex items-center justify-center text-white flex-shrink-0">
@@ -1143,7 +978,7 @@
             </div>
         </section>
 
-        <!-- ========== AUDIO (DENGAN TOMBOL STOP) ============ -->
+        <!-- ========== AUDIO ============ -->
         <section id="sec-audio" class="tab-content hidden">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-8">
@@ -1155,14 +990,11 @@
                         Gunakan earphone untuk pengalaman terbaik. Hanya satu audio dapat diputar sekaligus.
                     </p>
                 </div>
-
                 <div class="mb-6">
                     <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                         <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Rangkaian Waktu
                     </h4>
-                    <div class="space-y-4" id="affirmationAudioList">
-                        <!-- Audio cards di-generate oleh JS untuk kontrol stop yang konsisten -->
-                    </div>
+                    <div class="space-y-4" id="affirmationAudioList"></div>
                 </div>
                 <p class="text-[11px] font-medium text-slate-500 text-center mt-8">
                     *File audio ini bersifat privat dan hanya diputar di perangkat Anda.
@@ -1446,14 +1278,12 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="mb-6">
                         <p class="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">Aktivitas 14 Hari Terakhir</p>
                         <div class="relative h-40">
                             <canvas id="gratitudeChart"></canvas>
                         </div>
                     </div>
-
                     <div id="gratitudeHistoryList" class="space-y-3 max-h-[500px] overflow-y-auto pr-1">
                         <p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan syukur. Mulai tulis pertama Anda hari ini!</p>
                     </div>
@@ -1698,7 +1528,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.0</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.1</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1887,15 +1717,32 @@
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
 
-        /* ===== DOWNLOAD MENU ===== */
+        /* ============================================================
+           DOWNLOAD MENU — FIX: posisi dihitung via getBoundingClientRect()
+           ============================================================ */
         function toggleDownloadMenu(event) {
             if (event) event.stopPropagation();
             const menu = document.getElementById('downloadMenu');
             const btn = document.getElementById('downloadBtn');
-            if (!menu) return;
+            if (!menu || !btn) return;
             const willOpen = !menu.classList.contains('visible');
-            menu.classList.toggle('visible', willOpen);
-            if (btn) btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            if (willOpen) {
+                // Hitung posisi tombol
+                const rect = btn.getBoundingClientRect();
+                const menuWidth = 260;
+                let left = rect.right - menuWidth;
+                if (left < 8) left = 8;
+                if (left + menuWidth > window.innerWidth - 8) left = window.innerWidth - menuWidth - 8;
+                const top = rect.bottom + 8;
+                menu.style.left = `${left}px`;
+                menu.style.top = `${top}px`;
+                menu.classList.add('visible');
+                btn.setAttribute('aria-expanded', 'true');
+                setTimeout(() => lucide.createIcons(), 20);
+            } else {
+                menu.classList.remove('visible');
+                btn.setAttribute('aria-expanded', 'false');
+            }
         }
         function closeDownloadMenu() {
             const menu = document.getElementById('downloadMenu');
@@ -1906,10 +1753,12 @@
         }
         document.addEventListener('click', function(e) {
             const menu = document.getElementById('downloadMenu');
-            const wrapper = document.getElementById('downloadMenuWrapper');
-            if (!menu || !wrapper) return;
-            if (!wrapper.contains(e.target)) closeDownloadMenu();
+            const btn = document.getElementById('downloadBtn');
+            if (!menu || !btn) return;
+            if (!menu.contains(e.target) && !btn.contains(e.target)) closeDownloadMenu();
         });
+        window.addEventListener('resize', closeDownloadMenu);
+        window.addEventListener('scroll', closeDownloadMenu, { passive: true });
 
         function downloadJSON() { exportData(); }
 
@@ -2149,7 +1998,7 @@
             oscL.start(); oscR.start(); return { stop: () => { oscL.stop(); oscR.stop(); } };
         }
 
-        /* ===== AFFIRMATION AUDIO PLAYER (dengan tombol stop) ===== */
+        /* ===== AFFIRMATION AUDIO ===== */
         const AFFIRMATION_AUDIO = [
             { id: 'pagi', title: 'Afirmasi Pagi', src: 'afirmasi-pagi.mp3', icon: 'sun', color: 'amber', desc: 'Mulai harimu dengan energi yang tenang dan penuh rasa syukur.' },
             { id: 'siang', title: 'Afirmasi Siang', src: 'afirmasi-siang.mp3', icon: 'sun-medium', color: 'sky', desc: 'Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.' },
@@ -2193,16 +2042,13 @@
             `).join('');
             lucide.createIcons();
         }
-
         function setAudioStopBtnState(id, active) {
             const btn = document.getElementById(`stop-${id}`);
             if (!btn) return;
             if (active) btn.classList.add('active');
             else btn.classList.remove('active');
         }
-
         function onAffirmationPlay(id) {
-            // Hentikan audio lain yang sedang main
             if (activeAudioEl && activeAudioId !== id) {
                 try { activeAudioEl.pause(); activeAudioEl.currentTime = 0; } catch (e) {}
                 setAudioStopBtnState(activeAudioId, false);
@@ -2211,9 +2057,7 @@
             activeAudioId = id;
             setAudioStopBtnState(id, true);
         }
-        function onAffirmationPause(id) {
-            setAudioStopBtnState(id, false);
-        }
+        function onAffirmationPause(id) { setAudioStopBtnState(id, false); }
         function onAffirmationEnd(id) {
             setAudioStopBtnState(id, false);
             if (activeAudioId === id) { activeAudioEl = null; activeAudioId = null; }
@@ -2655,7 +2499,7 @@
             { text: "Tubuh saya tahu cara bernapas dan meredakan ketegangan.", sub: "Percayalah pada kemampuan pemulihan tubuh." },
             { text: "Saya pernah melaluinya sebelumnya, dan saya bisa melaluinya lagi.", sub: "Anda jauh lebih tangguh dari yang Anda bayangkan." },
             { text: "Pelan-pelan saja, satu detik demi satu detik.", sub: "Tidak perlu terburu-buru menyelesaikan semuanya." },
-            { text: "Napas saya adalah jangkar yang selalu bisa saya kembali.", sub: "Setiap tarikan napas membawa ketenangan baru ke tubuh Anda." },
+            { text: "Napas saya adalah jangkar yang selalu bisa saya kembali.", sub: "Setiap tarikan napas membawa ketenangan baru." },
             { text: "Cemas bukan berarti saya lemah. Itu artinya saya peduli.", sub: "Kecemasan menunjukkan bahwa Anda menghargai sesuatu." },
             { text: "Saya berhak untuk tenang dan bahagia hari ini.", sub: "Ketenangan adalah hak dasar setiap manusia." },
             { text: "Tidak semua pikiran harus ditindaklanjuti. Beberapa cukup diamati.", sub: "Anda adalah pengamat pikiran, bukan pikiran itu sendiri." },
@@ -2848,6 +2692,7 @@
                 try { localStorage.setItem('anti_anxiety_activities', JSON.stringify(activities)); } catch (e) {}
             }
             updateStreak();
+            updateHomeStats();
         }
         function updateStreak() {
             let activities = [];
@@ -3241,18 +3086,10 @@
             const el2 = document.getElementById('homeStatMoods');
             const el3 = document.getElementById('homeStatJournals');
             const el4 = document.getElementById('homeStatGratitude');
-            const el1Msg = document.getElementById('homeStatStreakMsg');
             if (el1) el1.innerText = streak;
             if (el2) el2.innerText = moods.length;
             if (el3) el3.innerText = journals.length;
             if (el4) el4.innerText = uniqueGratDays.size;
-            if (el1Msg) {
-                if (streak === 0) el1Msg.innerText = 'Mulai hari ini';
-                else if (streak < 3) el1Msg.innerText = 'Teruskan!';
-                else if (streak < 7) el1Msg.innerText = 'Luar biasa!';
-                else if (streak < 30) el1Msg.innerText = 'Konsisten! 🔥';
-                else el1Msg.innerText = 'Master Streak! 👑';
-            }
         }
 
         /* ===== DISCLAIMER ===== */
@@ -3592,7 +3429,6 @@
             if (document.hidden) {
                 if (isRunning && !isPaused) { pauseBreathing(); showToast("Latihan dijeda otomatis."); }
                 if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-                // Pause audio player aktif
                 if (activeAudioEl && !activeAudioEl.paused) {
                     try { activeAudioEl.pause(); setAudioStopBtnState(activeAudioId, false); } catch (e) {}
                 }
