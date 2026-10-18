@@ -340,6 +340,12 @@
                             <i data-lucide="info" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </button>
                         <div id="infoMenu" class="hidden absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 py-2 z-50">
+                            
+                            <!-- LINK BLOG BARU -->
+                            <a href="blog.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition border-b border-slate-100 dark:border-slate-700">
+                                <i data-lucide="book-open" class="w-4 h-4 text-calm-500"></i> Blog & Artikel
+                            </a>
+
                             <a href="about.html" class="flex items-center gap-2.5 px-4 py-2.5 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
                                 <i data-lucide="users" class="w-4 h-4 text-calm-500"></i> Tentang Kami
                             </a>
@@ -477,7 +483,7 @@
                     <i data-lucide="unlock" class="w-4 h-4"></i> Pelepasan
                 </button>
                 <button onclick="switchTab('audio')" id="tab-audio" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-indigo-100 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-200 hover:bg-indigo-200 dark:hover:bg-indigo-900/60">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i> Audio Ajaib
+                    <i data-lucide="headphones" class="w-4 h-4"></i> Audio Ajaib
                 </button>
                 <button onclick="switchTab('affirmations')" id="tab-affirmations" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200 hover:bg-purple-200 dark:hover:bg-purple-900/60">
                     <i data-lucide="sparkles" class="w-4 h-4"></i> Afirmasi
@@ -750,20 +756,18 @@
                     </p>
                 </div>
 
-                <!-- Kategori: Rangkaian Waktu -->
                 <div class="mb-6">
                     <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                         <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Rangkaian Waktu
                     </h4>
                     
                     <div class="space-y-4">
-                        <!-- Audio Pagi -->
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="sun" class="w-6 h-6 text-amber-600 dark:text-amber-400"></i>
                             </div>
                             <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Pagi</h4>
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Pagi</h5>
                                 <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Mulai harimu dengan energi yang tenang dan penuh rasa syukur.</p>
                                 <audio controls class="w-full mt-3 h-10 rounded-lg">
                                     <source src="afirmasi-pagi.mp3" type="audio/mpeg">
@@ -772,13 +776,12 @@
                             </div>
                         </div>
 
-                        <!-- Audio Siang -->
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="sun-medium" class="w-6 h-6 text-sky-600 dark:text-sky-400"></i>
                             </div>
                             <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Siang</h4>
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Siang</h5>
                                 <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.</p>
                                 <audio controls class="w-full mt-3 h-10 rounded-lg">
                                     <source src="afirmasi-siang.mp3" type="audio/mpeg">
@@ -787,13 +790,12 @@
                             </div>
                         </div>
 
-                        <!-- Audio Sore -->
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="sunset" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
                             </div>
                             <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Sore</h4>
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Sore</h5>
                                 <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Lepaskan sisa-sisa stres hari ini dan bersiaplah untuk bersantai.</p>
                                 <audio controls class="w-full mt-3 h-10 rounded-lg">
                                     <source src="afirmasi-sore.mp3" type="audio/mpeg">
@@ -802,13 +804,12 @@
                             </div>
                         </div>
 
-                        <!-- Audio Malam -->
                         <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
                             <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="moon" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
                             </div>
                             <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Malam</h4>
+                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Malam</h5>
                                 <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Menenangkan pikiran, memaafkan diri, dan bersiap untuk tidur nyenyak.</p>
                                 <audio controls class="w-full mt-3 h-10 rounded-lg">
                                     <source src="afirmasi-malam.mp3" type="audio/mpeg">
@@ -1413,6 +1414,9 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <!-- Navigasi Halaman -->
             <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-4">
+                <!-- LINK BLOG BARU -->
+                <a href="blog.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Blog</a>
+                
                 <a href="about.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Tentang</a>
                 <a href="contact.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Kontak</a>
                 <a href="privacy.html" class="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-calm-600 dark:hover:text-calm-400 transition">Kebijakan Privasi</a>
