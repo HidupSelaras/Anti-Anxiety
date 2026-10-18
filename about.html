@@ -36,7 +36,6 @@
 </head>
 <body class="text-slate-800 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
 
-    <!-- Header -->
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -59,7 +58,6 @@
         </div>
     </header>
 
-    <!-- Konten -->
     <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex-1 w-full">
         <div class="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
             <div class="mb-8 text-center">
@@ -76,7 +74,7 @@
                 <ul class="space-y-3">
                     <li class="flex items-start gap-3">
                         <i data-lucide="wind" class="w-5 h-5 text-calm-500 flex-shrink-0 mt-0.5"></i>
-                        <div><b>Regulasi Fisik & Kognitif:</b> Latihan napas terpandu, teknik <i>Grounding 5-4-3-2-1</i>, dan Jurnal CBT untuk mereframing pikiran negatif.</div>
+                        <div><b>Regulasi Fisik & Kognitif:</b> Latihan napas terpandu dengan <b>5 gaya visual pilihan</b> (lingkaran, lilin, bunga, balon, bintang) dalam 3 teknik berbeda (Box Breathing, 4-7-8, dan 5-5). Dilengkapi teknik <i>Grounding 5-4-3-2-1</i> dan Jurnal CBT untuk mereframing pikiran negatif.</div>
                     </li>
                     <li class="flex items-start gap-3">
                         <i data-lucide="unlock" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5"></i>
@@ -84,11 +82,11 @@
                     </li>
                     <li class="flex items-start gap-3">
                         <i data-lucide="heart" class="w-5 h-5 text-pink-500 flex-shrink-0 mt-0.5"></i>
-                        <div><b>Penguatan Positif:</b> Jurnal Syukur harian Jurnal Keberuntungan Audio Ajaib dan Kartu Afirmasi untuk melatih otak mengenali hal-hal baik dalam hidup.</div>
+                        <div><b>Penguatan Positif:</b> <b>Jurnal Syukur</b> harian (3 hal yang disyukuri), <b>Jurnal Keberuntungan</b> (catat gain harian), Kartu Afirmasi dengan <b>27 pilihan afirmasi</b>, dan <b>Audio Ajaib</b> (4 panduan suara afirmasi untuk pagi/siang/sore/malam) — semuanya untuk melatih otak mengenali hal-hal baik dalam hidup.</div>
                     </li>
                     <li class="flex items-start gap-3">
                         <i data-lucide="activity" class="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5"></i>
-                        <div><b>Pelacakan & Privasi:</b> Grafik riwayat mood, kalender streak, dan fitur backup data JSON. Semua data Anda tersimpan 100% di perangkat Anda sendiri (localStorage).</div>
+                        <div><b>Pelacakan & Privasi:</b> Grafik riwayat mood, kalender streak, insight personal, dan fitur backup data JSON. Tersedia juga <b>export CSV</b> per kategori (mood, jurnal CBT, syukur, keberuntungan). Semua data Anda tersimpan 100% di perangkat Anda sendiri (localStorage) — tidak ada yang dikirim ke server.</div>
                     </li>
                 </ul>
 
@@ -96,14 +94,13 @@
                 <p>Aplikasi ini dikembangkan secara mandiri sebagai alat bantu swadaya (self-help). Kami percaya bahwa teknologi sederhana, jika digunakan dengan tepat, dapat memberikan dampak yang besar bagi kesehatan mental.</p>
                 
                 <div class="mt-8 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 text-center">
-                    <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Anti Anxiety App — Versi 2.9</p>
+                    <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Anti Anxiety App — Versi 5.3</p>
                     <p class="text-[11px] text-slate-500 mt-1">Dibuat dengan niat baik untuk kesehatan mental yang lebih baik.</p>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="mt-8 border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-6">
         <div class="max-w-4xl mx-auto px-4 text-center text-xs font-medium text-slate-500 dark:text-slate-500">
             <p>© 2026 Anti Anxiety App. Alat bantu relaksasi mandiri.</p>
@@ -113,7 +110,6 @@
     <script>
         lucide.createIcons();
         
-        // Cek tema dari halaman utama
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             document.getElementById('themeIcon').setAttribute('data-lucide', 'sun');
