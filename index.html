@@ -88,8 +88,19 @@
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
-        #boxMarker { transition: transform 4s ease-in-out; will-change: transform; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
+
+        /* ============================================================
+           FIX: Box breathing marker — animasi per sisi kotak.
+           Gunakan transform-origin di 100px 100px (pusat SVG) dan
+           translasi linear per sisi (bukan diagonal).
+           ============================================================ */
+        #boxMarker {
+            transition: transform 4s linear;
+            will-change: transform;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
 
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
@@ -171,9 +182,7 @@
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
 
-        /* ============================================================
-           DOWNLOAD DROPDOWN — FIX: pakai position:fixed agar tidak terpotong
-           ============================================================ */
+        /* DOWNLOAD DROPDOWN — fixed position */
         #downloadMenu {
             position: fixed;
             width: 260px;
@@ -189,55 +198,102 @@
             transition: opacity 0.2s ease, transform 0.2s ease;
             display: none;
         }
-        html.dark #downloadMenu {
-            background: #1e293b;
-            border-color: rgba(51, 65, 85, 0.8);
-        }
-        #downloadMenu.visible {
-            display: block;
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-        #downloadMenu .menu-header {
-            padding: 6px 10px 4px;
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: #94a3b8;
-        }
+        html.dark #downloadMenu { background: #1e293b; border-color: rgba(51, 65, 85, 0.8); }
+        #downloadMenu.visible { display: block; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        #downloadMenu .menu-header { padding: 6px 10px 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #94a3b8; }
         html.dark #downloadMenu .menu-header { color: #64748b; }
-        #downloadMenu .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            padding: 9px 10px;
-            border-radius: 9px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            text-align: left;
-            transition: background 0.15s ease;
-            line-height: 1.3;
-        }
+        #downloadMenu .menu-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; border-radius: 9px; font-size: 12px; font-weight: 600; color: #334155; background: transparent; border: none; cursor: pointer; text-align: left; transition: background 0.15s ease; line-height: 1.3; }
         html.dark #downloadMenu .menu-item { color: #cbd5e1; }
         #downloadMenu .menu-item:hover { background: #f1f5f9; }
         html.dark #downloadMenu .menu-item:hover { background: #334155; }
-        #downloadMenu .menu-item .mi-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-        }
+        #downloadMenu .menu-item .mi-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         #downloadMenu .menu-item .mi-title { font-weight: 700; font-size: 12px; }
         #downloadMenu .menu-item .mi-sub { font-size: 10px; font-weight: 500; color: #94a3b8; margin-top: 1px; }
         html.dark #downloadMenu .menu-item .mi-sub { color: #64748b; }
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
+
+        /* ============================================================
+           HOME STATS COMPACT — 1 baris horizontal, hemat tempat
+           ============================================================ */
+        .home-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 640px) {
+            .home-stats-row {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+        .home-stat-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+            transition: all 0.2s ease;
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        html.dark .home-stat-cell {
+            background: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+        }
+        .home-stat-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        html.dark .home-stat-cell:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        }
+        .home-stat-cell::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: var(--accent, #14b8a6);
+        }
+        .home-stat-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+        .home-stat-content {
+            min-width: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+        .home-stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.02em;
+        }
+        html.dark .home-stat-value { color: #f1f5f9; }
+        .home-stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1px;
+        }
+        html.dark .home-stat-label { color: #94a3b8; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
@@ -322,7 +378,6 @@
         </div>
     </header>
 
-    <!-- DOWNLOAD DROPDOWN — fixed positioning, dirender di body -->
     <div id="downloadMenu" role="menu">
         <div class="menu-header">Backup Lengkap</div>
         <button onclick="downloadJSON(); closeDownloadMenu();" class="menu-item" role="menuitem">
@@ -502,55 +557,48 @@
             </section>
 
             <!-- ============================================================
-                 STATISTIK — DIKEMBALIKAN KE 4 KOTAK SERAGAM (versi awal)
-                 Tapi dengan warna gradient berbeda & tetap ringkas
+                 HOME STATS — COMPACT BARU (1 baris horizontal hemat tempat)
                  ============================================================ -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
-                            <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-600"></i>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-500">Streak</span>
+            <div class="home-stats-row">
+                <div class="home-stat-cell" style="--accent: #f59e0b;">
+                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
+                        <i data-lucide="flame" class="w-4 h-4"></i>
                     </div>
-                    <p id="homeStatStreak" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">hari berturut</p>
+                    <div class="home-stat-content">
+                        <span class="home-stat-value" id="homeStatStreak">0</span>
+                        <span class="home-stat-label">Streak</span>
+                    </div>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center">
-                            <i data-lucide="activity" class="w-3.5 h-3.5 text-rose-600"></i>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-500">Mood</span>
+                <div class="home-stat-cell" style="--accent: #f43f5e;">
+                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #f43f5e, #ec4899);">
+                        <i data-lucide="activity" class="w-4 h-4"></i>
                     </div>
-                    <p id="homeStatMoods" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">catatan</p>
+                    <div class="home-stat-content">
+                        <span class="home-stat-value" id="homeStatMoods">0</span>
+                        <span class="home-stat-label">Mood</span>
+                    </div>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center">
-                            <i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-600"></i>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-500">Jurnal</span>
+                <div class="home-stat-cell" style="--accent: #0ea5e9;">
+                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #0ea5e9, #0284c7);">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
                     </div>
-                    <p id="homeStatJournals" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">catatan CBT</p>
+                    <div class="home-stat-content">
+                        <span class="home-stat-value" id="homeStatJournals">0</span>
+                        <span class="home-stat-label">Jurnal</span>
+                    </div>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
-                            <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-600"></i>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-500">Syukur</span>
+                <div class="home-stat-cell" style="--accent: #ec4899;">
+                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">
+                        <i data-lucide="heart" class="w-4 h-4"></i>
                     </div>
-                    <p id="homeStatGratitude" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">hari</p>
+                    <div class="home-stat-content">
+                        <span class="home-stat-value" id="homeStatGratitude">0</span>
+                        <span class="home-stat-label">Syukur</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- ============================================================
-                 MULAI CEPAT — DIKEMBALIKAN KE GRID PERSEGI (seperti semula)
-                 ============================================================ -->
+            <!-- MULAI CEPAT — grid persegi -->
             <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                 <i data-lucide="zap" class="w-4 h-4 text-calm-500"></i> Mulai Cepat
             </h3>
@@ -710,19 +758,21 @@
                             </div>
                         </div>
 
+                        <!-- KOTAK: struktur marker diperbaiki -->
                         <div class="breath-visual visual-hidden" data-visual="box">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
-                                <svg viewBox="0 0 200 200" width="240" height="240">
+                                <svg viewBox="0 0 200 200" width="240" height="240" style="overflow: visible;">
                                     <rect x="30" y="30" width="140" height="140" rx="16" fill="none" stroke="#14b8a6" stroke-width="4" opacity="0.3"/>
                                     <rect x="30" y="30" width="140" height="140" rx="16" fill="rgba(20,184,166,0.05)" stroke="#14b8a6" stroke-width="2" stroke-dasharray="8 6"/>
-                                    <g id="boxMarker" style="transform-origin: center;">
-                                        <circle cx="100" cy="100" r="18" fill="#14b8a6"/>
-                                        <circle cx="100" cy="100" r="10" fill="#ccfbf1"/>
+                                    <!-- Marker: posisi awal di titik TOP (100, 30) -->
+                                    <g id="boxMarker">
+                                        <circle cx="100" cy="30" r="16" fill="#14b8a6"/>
+                                        <circle cx="100" cy="30" r="8" fill="#ccfbf1"/>
                                     </g>
                                     <text x="100" y="20" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TARIK</text>
-                                    <text x="185" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
+                                    <text x="192" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
                                     <text x="100" y="195" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">HEMBUS</text>
-                                    <text x="15" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
+                                    <text x="8" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
                                 </svg>
                                 <div class="text-center mt-1">
                                     <p id="boxInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
@@ -1528,7 +1578,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.1</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.2</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1629,7 +1679,6 @@
         'use strict';
         lucide.createIcons();
 
-        /* ===== UTIL ===== */
         const BACKUP_REMINDER_DAYS = 7;
         const ACTIVITY_MAX_DAYS = 365;
 
@@ -1686,7 +1735,6 @@
             showToast(`✅ CSV diunduh: ${filename}`);
         }
 
-        /* ===== SCROLL HINT ===== */
         function updateScrollHint() {
             const nav = document.getElementById('tabNav');
             const hint = document.getElementById('scrollHint');
@@ -1717,9 +1765,6 @@
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
 
-        /* ============================================================
-           DOWNLOAD MENU — FIX: posisi dihitung via getBoundingClientRect()
-           ============================================================ */
         function toggleDownloadMenu(event) {
             if (event) event.stopPropagation();
             const menu = document.getElementById('downloadMenu');
@@ -1727,7 +1772,6 @@
             if (!menu || !btn) return;
             const willOpen = !menu.classList.contains('visible');
             if (willOpen) {
-                // Hitung posisi tombol
                 const rect = btn.getBoundingClientRect();
                 const menuWidth = 260;
                 let left = rect.right - menuWidth;
@@ -1762,7 +1806,6 @@
 
         function downloadJSON() { exportData(); }
 
-        /* ===== MOOD SLIDER ===== */
         const moodSegmentColors = ['#10b981','#22c55e','#84cc16','#eab308','#f59e0b','#f97316','#ef4444','#dc2626','#b91c1c','#991b1b'];
 
         function initMoodSlider() {
@@ -1808,7 +1851,6 @@
             updateMoodSliderColor(val);
         }
 
-        /* ===== TABS ===== */
         const TAB_IDS = ['home','breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
         const TAB_BASE_CLASSES = ['tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold','flex','items-center','gap-2','whitespace-nowrap','transition'];
         const TAB_INACTIVE_CLASSES = {
@@ -1872,7 +1914,6 @@
             if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); }
         }
 
-        /* ===== INFO MENU ===== */
         function toggleInfoMenu() {
             const menu = document.getElementById('infoMenu');
             const btn = document.getElementById('infoMenuBtn');
@@ -1891,7 +1932,6 @@
             }
         });
 
-        /* ===== AUDIO SYNTH ===== */
         let audioCtx = null;
         let activeNodes = {};
         let masterGain = null;
@@ -1998,7 +2038,6 @@
             oscL.start(); oscR.start(); return { stop: () => { oscL.stop(); oscR.stop(); } };
         }
 
-        /* ===== AFFIRMATION AUDIO ===== */
         const AFFIRMATION_AUDIO = [
             { id: 'pagi', title: 'Afirmasi Pagi', src: 'afirmasi-pagi.mp3', icon: 'sun', color: 'amber', desc: 'Mulai harimu dengan energi yang tenang dan penuh rasa syukur.' },
             { id: 'siang', title: 'Afirmasi Siang', src: 'afirmasi-siang.mp3', icon: 'sun-medium', color: 'sky', desc: 'Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.' },
@@ -2071,7 +2110,6 @@
             showToast("⏹️ Audio dihentikan.");
         }
 
-        /* ===== VOICE GUIDE ===== */
         let voiceGuideEnabled = false;
         let indonesianVoice = null;
 
@@ -2149,7 +2187,6 @@
             window.speechSynthesis.speak(utter);
         }
 
-        /* ===== BREATHING ===== */
         let breathingTimer = null;
         let currentTech = 'box';
         let currentVisual = 'circle';
@@ -2190,6 +2227,12 @@
                 else { el.classList.remove('visual-active'); el.classList.add('visual-hidden'); }
             });
             resetVisualScale();
+            // Set posisi awal marker ke TOP saat ganti visual
+            const boxMarker = document.getElementById('boxMarker');
+            if (boxMarker) {
+                boxMarker.style.transition = 'none';
+                boxMarker.style.transform = 'translate(0, 0)';
+            }
         }
         function resetVisualScale() {
             const mainCircle = document.getElementById('breathMainCircle');
@@ -2203,7 +2246,10 @@
             const star = document.getElementById('starShape');
             if (star) { star.style.transform = 'scale(1)'; star.style.filter = 'drop-shadow(0 0 20px rgba(251, 191, 36, 0.8))'; }
             const boxMarker = document.getElementById('boxMarker');
-            if (boxMarker) boxMarker.style.transform = '';
+            if (boxMarker) {
+                boxMarker.style.transition = 'none';
+                boxMarker.style.transform = 'translate(0, 0)';
+            }
         }
         function selectTechnique(techKey) {
             currentTech = techKey;
@@ -2211,6 +2257,47 @@
             document.getElementById('breathTechniqueDesc').innerText = techniques[techKey].desc;
             stopBreathing();
         }
+
+        /**
+         * FIX BOX BREATHING: marker bergerak menyusuri kotak, satu sisi per fase.
+         * Posisi marker absolute terhadap kotak (100,30) → (170,30) → (170,170) → (30,170) → (30,30).
+         * Translasi relatif dari posisi awal (0,0):
+         *   TARIK (dari top):      tidak ada transisi (posisi awal top)
+         *   TAHAN (top → right):   translate(70, 0)
+         *   HEMBUSKAN (right → bottom): translate(70, 140) — dari posisi (170,30) ke (30,170)
+         *   ISTIRAHAT (bottom → left): translate(0, 140) — dari posisi (30,170) ke (30,30)?? sebenarnya tidak balik ke top
+         * Tunggu — mari urutkan:
+         *   Fase 1 (TARIK):    marker di TOP (100, 30)         → translate(0, 0)
+         *   Fase 2 (TAHAN):    marker di RIGHT (170, 30)        → translate(70, 0)
+         *   Fase 3 (HEMBUSKAN): marker di BOTTOM (170, 170)     → translate(70, 140)
+         *   Fase 4 (ISTIRAHAT): marker di LEFT (30, 170)        → translate(-70, 140)
+         *   Fase 1 siklus 2:   marker balik ke TOP (100, 30)    → translate(0, 0)
+         *
+         *   Selama fase TARIK, marker bergerak dari LEFT (posisi siklus sebelumnya) ke TOP.
+         *   Artinya translasi selama TARIK: dari (-70, 140) ke (0, 0).
+         *
+         *   Ringkas:
+         *   - TARIK:    dari posisi terakhir → TOP (100, 30)    = translate(0, 0)
+         *   - TAHAN:    TOP → RIGHT                              = translate(70, 0)
+         *   - HEMBUS:   RIGHT → BOTTOM                           = translate(70, 140)
+         *   - ISTIRAHAT: BOTTOM → LEFT                           = translate(-70, 140)
+         */
+        function setBoxMarkerTo(pos) {
+            const boxMarker = document.getElementById('boxMarker');
+            if (!boxMarker) return;
+            // Karena marker di grup SVG dengan origin di (100,30) koordinat lokal,
+            // kita gunakan translate relatif terhadap posisi awal (top-center).
+            const positions = {
+                top:    { x: 0,   y: 0   },
+                right:  { x: 70,  y: 0   },
+                bottom: { x: 70,  y: 140 },
+                left:   { x: 0,   y: 140 }
+            };
+            const p = positions[pos];
+            if (!p) return;
+            boxMarker.style.transform = `translate(${p.x}px, ${p.y}px)`;
+        }
+
         function updateVisualForStep(step, tech) {
             const mainCircle = document.getElementById('breathMainCircle');
             if (mainCircle) {
@@ -2247,9 +2334,8 @@
             }
             const boxMarker = document.getElementById('boxMarker');
             if (boxMarker && step.boxPos) {
-                const positions = { top: 'translate(-70px, -70px)', right: 'translate(70px, -70px)', bottom: 'translate(70px, 70px)', left: 'translate(-70px, 70px)' };
-                boxMarker.style.transition = `transform ${step.duration}s ease-in-out`;
-                boxMarker.style.transform = positions[step.boxPos] || '';
+                boxMarker.style.transition = `transform ${step.duration}s linear`;
+                setBoxMarkerTo(step.boxPos);
             }
             const star = document.getElementById('starShape');
             if (star) {
@@ -2280,6 +2366,12 @@
             isPaused = false;
             isRunning = true;
             updateBreathingUI('running');
+            // Reset marker box ke top sebelum mulai
+            const boxMarker = document.getElementById('boxMarker');
+            if (boxMarker) {
+                boxMarker.style.transition = 'none';
+                boxMarker.style.transform = 'translate(0, 0)';
+            }
             runBreathingStep();
         }
         function runBreathingStep() {
@@ -2375,7 +2467,6 @@
             lucide.createIcons();
         }
 
-        /* ===== GROUNDING ===== */
         let currentGroundStep = 5;
         const groundingStepsData = {
             5: { title: "5 Hal Yang Bisa Anda LIHAT", desc: "Lihat sekeliling ruangan Anda.", inputs: ["Benda 1 di dekat Anda", "Benda 2 di kejauhan", "Pola atau tekstur dinding", "Warna tertentu", "Cahaya atau bayangan"] },
@@ -2417,7 +2508,6 @@
         }
         function prevGroundingStep() { if (currentGroundStep < 5) setGroundingStep(currentGroundStep + 1); }
 
-        /* ===== JOURNAL ===== */
         function saveJournalEntry(e) {
             e.preventDefault();
             const thought = document.getElementById('cbtThought').value;
@@ -2468,7 +2558,6 @@
             showToast("Catatan dihapus.");
         }
 
-        /* ===== RELEASE ===== */
         function handleReleaseSubmit(e) {
             e.preventDefault();
             document.getElementById('releaseForm').classList.add('hidden');
@@ -2491,7 +2580,6 @@
             document.getElementById('releaseAnimationBox').classList.add('hidden');
         }
 
-        /* ===== AFFIRMATIONS ===== */
         const affirmationsList = [
             { text: "Perasaan cemas ini bersifat sementara dan pasti akan berlalu.", sub: "Sistem saraf Anda akan kembali seimbang." },
             { text: "Saya aman saat ini di sini.", sub: "Fokus pada ruang dan waktu sekarang." },
@@ -2533,7 +2621,6 @@
         }
         function flipCard(el) { el.querySelector('.card-inner').classList.toggle('rotate-y-180'); }
 
-        /* ===== MOOD ===== */
         function saveMoodLog() {
             const val = document.getElementById('quickMoodRange').value;
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
@@ -2578,7 +2665,6 @@
             showToast("Riwayat dihapus.");
         }
 
-        /* ===== MOOD CHART ===== */
         let moodChart = null;
         let chartRange = 7;
         function renderMoodChart() {
@@ -2681,7 +2767,6 @@
             }
         }
 
-        /* ===== STREAK ===== */
         function markActivityToday() {
             let activities = [];
             try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) { activities = []; }
@@ -2727,7 +2812,6 @@
             }
         }
 
-        /* ===== INSIGHTS ===== */
         function renderInsights() {
             const container = document.getElementById('insightCards');
             if (!container) return;
@@ -2791,7 +2875,6 @@
         function renderDailyTip() { const el = document.getElementById('dailyTipText'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
         function renderDailyTipHome() { const el = document.getElementById('dailyTipTextHome'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
 
-        /* ===== GRATITUDE ===== */
         let gratitudeChart = null;
         function saveGratitudeEntry(e) {
             e.preventDefault();
@@ -2920,7 +3003,6 @@
             });
         }
 
-        /* ===== LUCK ===== */
         let luckChart = null;
         let luckBarChart = null;
         function saveLuckEntry(e) {
@@ -3040,7 +3122,6 @@
             });
         }
 
-        /* ===== CSV EXPORT ===== */
         function exportMoodsCSV() {
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             if (logs.length === 0) { showToast("Tidak ada data mood untuk diexport."); return; }
@@ -3073,7 +3154,6 @@
             downloadCSV(`keberuntungan-${new Date().toISOString().split('T')[0]}.csv`, rows);
         }
 
-        /* ===== HOME STATS ===== */
         function updateHomeStats() {
             let activities = [];
             try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
@@ -3092,7 +3172,6 @@
             if (el4) el4.innerText = uniqueGratDays.size;
         }
 
-        /* ===== DISCLAIMER ===== */
         function dismissDisclaimer() {
             const banner = document.getElementById('disclaimerBanner');
             if (banner) banner.style.display = 'none';
@@ -3105,7 +3184,6 @@
             }
         }
 
-        /* ===== BACKUP BUBBLE ===== */
         let bubbleCollapseTimer = null;
         let bubbleCurrentlyVisible = false;
         let bubblePopupOpen = false;
@@ -3221,7 +3299,6 @@
             if (bubblePopupOpen && !popup.contains(e.target) && !bubble.contains(e.target)) closeBubblePopup();
         });
 
-        /* ===== BACKUP INFO ===== */
         function updateLastBackupInfo() {
             const info = document.getElementById('lastBackupInfo');
             if (!info) return;
@@ -3244,7 +3321,6 @@
             }, 350);
         }
 
-        /* ===== EMERGENCY CONTACTS ===== */
         function loadEmergencyContacts() {
             let contacts = {};
             try { contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'); } catch (e) {}
@@ -3295,7 +3371,6 @@
             lucide.createIcons();
         }
 
-        /* ===== EXPORT/IMPORT ===== */
         function safeParse(key, fallback) {
             try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? fallback : v; }
             catch (e) { return fallback; }
@@ -3376,7 +3451,6 @@
             showToast("Semua data aplikasi dihapus.");
         }
 
-        /* ===== SOS ===== */
         let sosPrompts = [
             "Anda aman saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda.",
             "Tarik napas perlahan... Hembuskan. Tubuh Anda hanya merespons alarm palsu.",
@@ -3412,7 +3486,6 @@
             }, 4000);
         }
 
-        /* ===== TOAST ===== */
         let toastTimer = null;
         function showToast(msg) {
             const toast = document.getElementById('toast');
@@ -3424,7 +3497,6 @@
             toastTimer = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
 
-        /* ===== VISIBILITY ===== */
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
                 if (isRunning && !isPaused) { pauseBreathing(); showToast("Latihan dijeda otomatis."); }
@@ -3435,7 +3507,6 @@
             }
         });
 
-        /* ===== INIT ===== */
         window.addEventListener('load', function() {
             applyTabStyles();
             setGroundingStep(5);
