@@ -76,57 +76,23 @@
             border: 1px solid rgba(45, 212, 191, 0.15);
         }
 
-        /* ============ BREATHING VISUAL CONTAINERS ============ */
-        #breathVisualStage {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 1rem auto;
-        }
-        .breath-visual {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-            pointer-events: none;
-        }
-        .breath-visual.visual-hidden {
-            opacity: 0;
-            transform: scale(0.9);
-            pointer-events: none;
-        }
-        .breath-visual.visual-active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
-        }
+        /* ============ BREATHING VISUALS ============ */
+        #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
+        .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
+        .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
+        .breath-visual.visual-active { opacity: 1; transform: scale(1); pointer-events: auto; }
 
-        .breath-circle {
-            transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease;
-            will-change: transform;
-        }
+        .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
         .breath-visual.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
 
-        /* Bunga */
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
-        /* Lilin */
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
-        /* Balon */
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
-        /* Kotak */
-        #boxOutline { transition: none; }
         #boxMarker { transition: transform 4s ease-in-out; will-change: transform; }
-        /* Bintang */
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
 
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
-
         @keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
         .twinkle-star { animation: twinkle 2s ease-in-out infinite; }
 
@@ -169,6 +135,7 @@
         input[type="range"].mood-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
         input[type="range"].mood-range::-moz-range-track { background: transparent; }
 
+        /* BACKUP BUBBLE */
         #backupBubble { position: fixed; bottom: 24px; right: 24px; z-index: 45; transform: scale(0); opacity: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
         #backupBubble.visible { transform: scale(1); opacity: 1; }
         #backupBubble.collapsed { transform: scale(0.22); opacity: 0.55; }
@@ -185,81 +152,246 @@
         html.dark #backupPopup { background: #1e293b; }
         html.dark #backupPopup::after { border-top-color: #1e293b; }
 
-        /* FLOATING HOME BUTTON */
-        #homeFab {
-            position: fixed;
-            bottom: 24px;
-            left: 24px;
-            z-index: 45;
-            width: 56px;
-            height: 56px;
+        /* HOME FAB */
+        #homeFab { position: fixed; bottom: 24px; left: 24px; z-index: 45; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; opacity: 0; pointer-events: none; }
+        #homeFab.visible { opacity: 1; pointer-events: auto; }
+        #homeFab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6); }
+        #homeFab:active { transform: scale(0.95); }
+        @media (max-width: 640px) { #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; } }
+
+        /* HOME SHORTCUT */
+        .home-shortcut { transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease; cursor: pointer; }
+        .home-shortcut:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        html.dark .home-shortcut:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.35); }
+
+        /* SOS CONTACTS */
+        .sos-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(45, 212, 191, 0.4); transition: all 0.2s ease; text-decoration: none; }
+        .sos-contact-btn:hover { background: rgba(20, 184, 166, 0.28); border-color: rgba(94, 234, 212, 0.7); transform: translateY(-1px); }
+
+        /* ============================================================
+           HOME STATS — HERO CARD + PILLS (tidak kotak-kotak seragam)
+           ============================================================ */
+        .home-hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 50%, #2dd4bf 100%);
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.25);
+            border-radius: 24px;
+            padding: 22px;
+            color: white;
+        }
+        html.dark .home-hero {
+            background: linear-gradient(135deg, #115e59 0%, #0d9488 50%, #14b8a6 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-            box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45);
+            background: rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+        .home-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -20px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+        }
+
+        /* Pill stats — tidak kotak-kotak, satu baris horizontal */
+        .home-pill-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .home-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            transition: transform 0.15s ease, background 0.2s ease;
+        }
+        .home-pill:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+        .home-pill .pill-value {
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        /* Quick-link micro cards (bukan kotak seragam) — pakai row horizontal */
+        .home-quick-row {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .home-quick-row::-webkit-scrollbar { display: none; }
+        .home-quick-item {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            font-weight: 600;
+            color: #0f172a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        html.dark .home-quick-item {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(51, 65, 85, 0.8);
+            color: #e2e8f0;
+        }
+        .home-quick-item:hover {
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        html.dark .home-quick-item:hover {
+            background: rgba(51, 65, 85, 0.85);
+        }
+        .home-quick-item .qi-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            border: none;
-            color: white;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
-            opacity: 0;
+            flex-shrink: 0;
+        }
+
+        /* AUDIO PLAYER CUSTOM — tombol stop */
+        .audio-player-card {
+            position: relative;
+        }
+        .audio-stop-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            transition: all 0.2s ease;
+            opacity: 0.45;
             pointer-events: none;
         }
-        #homeFab.visible {
+        html.dark .audio-stop-btn {
+            background: rgba(127, 29, 29, 0.4);
+            color: #fca5a5;
+            border-color: rgba(153, 27, 27, 0.6);
+        }
+        .audio-stop-btn.active {
             opacity: 1;
             pointer-events: auto;
+            animation: pulse-soft 2s ease-in-out infinite;
         }
-        #homeFab:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6);
+        .audio-stop-btn.active:hover {
+            background: #fecaca;
+            color: #991b1b;
         }
-        #homeFab:active {
-            transform: scale(0.95);
+        html.dark .audio-stop-btn.active:hover {
+            background: rgba(153, 27, 27, 0.6);
         }
-        @media (max-width: 640px) {
-            #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; }
-        }
-
-        /* HOME DASHBOARD */
-        .home-shortcut {
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-            cursor: pointer;
-        }
-        .home-shortcut:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        html.dark .home-shortcut:hover {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+        @keyframes pulse-soft {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
         }
 
-        /* SOS contacts — dibuat lebih prominent */
-        .sos-contact-btn {
+        /* DOWNLOAD DROPDOWN */
+        #downloadMenu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            width: 240px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            padding: 6px;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        html.dark #downloadMenu {
+            background: #1e293b;
+            border-color: rgba(51, 65, 85, 0.8);
+        }
+        #downloadMenu.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        #downloadMenu button, #downloadMenu a {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: 14px;
-            background: rgba(20, 184, 166, 0.15);
-            border: 1px solid rgba(45, 212, 191, 0.4);
-            transition: all 0.2s ease;
-            text-decoration: none;
+            gap: 10px;
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.15s ease;
         }
-        .sos-contact-btn:hover {
-            background: rgba(20, 184, 166, 0.28);
-            border-color: rgba(94, 234, 212, 0.7);
-            transform: translateY(-1px);
+        html.dark #downloadMenu button, html.dark #downloadMenu a {
+            color: #cbd5e1;
+        }
+        #downloadMenu button:hover, #downloadMenu a:hover {
+            background: #f1f5f9;
+        }
+        html.dark #downloadMenu button:hover, html.dark #downloadMenu a:hover {
+            background: #334155;
+        }
+        #downloadMenu .menu-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 6px;
+        }
+        html.dark #downloadMenu .menu-divider {
+            background: #334155;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
 
-    <!-- Header -->
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
-            
-            <!-- Logo & Judul -->
             <div class="flex items-center justify-between w-full md:w-auto">
                 <button onclick="switchTab('home')" class="flex items-center gap-3 hover:opacity-80 transition text-left" aria-label="Kembali ke beranda">
                     <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900 shadow-md shadow-calm-100 dark:shadow-none flex-shrink-0">
@@ -270,7 +402,6 @@
                         <p class="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Teman Tenang & Kendali Diri</p>
                     </div>
                 </button>
-                
                 <div class="flex md:hidden items-center gap-1">
                     <button onclick="switchTab('home')" aria-label="Beranda" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                         <i data-lucide="home" class="w-5 h-5"></i>
@@ -281,17 +412,63 @@
                 </div>
             </div>
 
-            <!-- Navigasi -->
             <div class="flex items-center justify-between md:justify-end gap-1.5 sm:gap-3 w-full md:w-auto">
                 <div class="flex items-center gap-1.5 sm:gap-2">
                     <div id="streakBadge" class="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-200 dark:border-amber-800">
                         <span class="text-xs sm:text-sm">🔥</span>
                         <span id="streakCount" class="text-xs font-bold text-amber-700 dark:text-amber-300">0</span>
                     </div>
-                    
-                    <button onclick="quickBackup()" id="quickBackupBtn" title="Backup data sekarang" aria-label="Backup data sekarang" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
-                        <i data-lucide="database-backup" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                    </button>
+
+                    <!-- DOWNLOAD MENU DROPDOWN (BARU) -->
+                    <div class="relative" id="downloadMenuWrapper">
+                        <button onclick="toggleDownloadMenu(event)" id="downloadBtn" title="Download laporan" aria-label="Download laporan" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition relative">
+                            <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        </button>
+                        <div id="downloadMenu" role="menu">
+                            <div class="px-2 py-1.5 mb-1">
+                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Backup Lengkap</p>
+                            </div>
+                            <button onclick="downloadJSON(); closeDownloadMenu();" role="menuitem">
+                                <i data-lucide="package" class="w-4 h-4 text-calm-600 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold">Semua Data (.json)</p>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Backup lengkap</p>
+                                </div>
+                            </button>
+                            <div class="menu-divider"></div>
+                            <div class="px-2 py-1.5 mb-1">
+                                <p class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Export CSV per Kategori</p>
+                            </div>
+                            <button onclick="exportMoodsCSV(); closeDownloadMenu();" role="menuitem">
+                                <i data-lucide="activity" class="w-4 h-4 text-rose-500 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold">Riwayat Mood</p>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Skor kecemasan</p>
+                                </div>
+                            </button>
+                            <button onclick="exportCbtCSV(); closeDownloadMenu();" role="menuitem">
+                                <i data-lucide="book-open" class="w-4 h-4 text-sky-500 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold">Jurnal CBT</p>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Catatan reframing</p>
+                                </div>
+                            </button>
+                            <button onclick="exportGratitudeCSV(); closeDownloadMenu();" role="menuitem">
+                                <i data-lucide="heart" class="w-4 h-4 text-pink-500 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold">Jurnal Syukur</p>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">3 hal disyukuri</p>
+                                </div>
+                            </button>
+                            <button onclick="exportLuckCSV(); closeDownloadMenu();" role="menuitem">
+                                <i data-lucide="clover" class="w-4 h-4 text-emerald-500 flex-shrink-0"></i>
+                                <div class="flex-1">
+                                    <p class="text-xs font-bold">Keberuntungan</p>
+                                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Gain harian</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
 
                     <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" aria-label="Buka panel suara latar" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
                         <i data-lucide="volume-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
@@ -340,7 +517,6 @@
         </div>
     </header>
 
-    <!-- Audio Drawer -->
     <div id="audioDrawer" class="hidden bg-emerald-900/95 text-white border-b border-emerald-800 py-3 backdrop-blur-md transition-all">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="flex items-center gap-2">
@@ -372,10 +548,8 @@
         </div>
     </div>
 
-    <!-- Main -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-4">
 
-        <!-- DISCLAIMER BANNER -->
         <div id="disclaimerBanner" class="bg-gradient-to-r from-sky-50 to-cyan-50 dark:from-sky-950/40 dark:to-cyan-950/40 border border-sky-200 dark:border-sky-900/60 rounded-2xl p-4 flex items-start gap-3 shadow-sm">
             <div class="w-9 h-9 rounded-xl bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
                 <i data-lucide="hard-drive" class="w-4 h-4 text-sky-600 dark:text-sky-400"></i>
@@ -385,7 +559,7 @@
                     <i data-lucide="info" class="w-3.5 h-3.5"></i> Data Anda Tersimpan di Perangkat Ini
                 </p>
                 <p class="text-[11px] font-medium text-sky-700 dark:text-sky-300 mt-1 leading-relaxed">
-                    Semua catatan Anda (mood, jurnal, syukur, keberuntungan) tersimpan <b>hanya di browser Anda</b> — tidak di server. <b>Backup rutin</b> sangat disarankan agar data tidak hilang saat ganti HP / clear browsing data.
+                    Semua catatan Anda tersimpan <b>hanya di browser Anda</b> — tidak di server. <b>Backup rutin</b> disarankan agar data tidak hilang saat ganti HP / clear browsing data.
                 </p>
                 <div class="flex items-center gap-2 mt-2 flex-wrap">
                     <button onclick="scrollToBackupButton()" class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-sky-500 hover:bg-sky-600 text-white transition flex items-center gap-1">
@@ -398,7 +572,6 @@
             </div>
         </div>
 
-        <!-- Nav Tabs -->
         <div class="relative">
             <nav id="tabNav" class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                 <button onclick="switchTab('home')" id="tab-home" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 whitespace-nowrap transition bg-calm-500 text-white shadow-sm">
@@ -447,9 +620,10 @@
             </div>
         </div>
 
-        <!-- ========== SECTION: HOME ========== -->
+        <!-- ========== HOME ========== -->
         <section id="sec-home" class="tab-content block">
-            <!-- Welcome Banner -->
+
+            <!-- HERO WELCOME -->
             <section class="dashboard-welcome p-6 rounded-3xl shadow-sm relative overflow-hidden mb-4">
                 <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
@@ -458,7 +632,7 @@
                         </span>
                         <h2 class="text-2xl sm:text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100 tracking-tight">Bagaimana perasaanmu saat ini?</h2>
                         <p class="text-sm font-medium text-sharp text-slate-700 dark:text-slate-300 mt-1 max-w-xl">
-                            Tarik napas perlahan. Ingatlah bahwa perasaan cemas adalah respons alami tubuh yang pasti akan berlalu.
+                            Tarik napas perlahan. Perasaan cemas adalah respons alami tubuh yang pasti akan berlalu.
                         </p>
                     </div>
                     <div class="w-full md:w-auto bg-white/90 dark:bg-slate-900/90 p-4 rounded-2xl backdrop-blur-sm border border-slate-200/60 dark:border-slate-700 flex flex-col items-center min-w-[300px]">
@@ -481,105 +655,120 @@
                 </div>
             </section>
 
-            <!-- Quick Stats -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
-                            <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-600"></i>
+            <!-- ============================================================
+                 HOME STATS — HERO CARD BARU (tidak kotak-kotak seragam)
+                 Layout: Hero besar + pills ringkas, hemat tempat
+                 ============================================================ -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-3 mb-4">
+
+                <!-- KIRI: Hero Streak (2/5 lebar) -->
+                <div class="lg:col-span-2 home-hero">
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-lg">🔥</span>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-teal-100">Streak Latihan</p>
                         </div>
-                        <span class="text-xs font-semibold text-slate-500">Streak</span>
+                        <p class="text-5xl font-black leading-none tracking-tight" id="homeStatStreak">0</p>
+                        <p class="text-xs font-medium text-teal-100 mt-1">hari berturut-turut</p>
+                        <div class="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-teal-50">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            <span id="homeStatStreakMsg">Mulai hari ini</span>
+                        </div>
                     </div>
-                    <p id="homeStatStreak" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">hari berturut</p>
                 </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-calm-100 dark:bg-calm-900/40 flex items-center justify-center">
-                            <i data-lucide="activity" class="w-3.5 h-3.5 text-calm-600"></i>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-500">Mood</span>
+
+                <!-- KANAN: 3 stat pills (3/5 lebar) -->
+                <div class="lg:col-span-3 bg-white dark:bg-slate-800 p-4 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Statistik Anda</h3>
+                        <span class="text-[10px] font-semibold text-slate-400 dark:text-slate-500">Total keseluruhan</span>
                     </div>
-                    <p id="homeStatMoods" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">catatan</p>
-                </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-900/40 flex items-center justify-center">
-                            <i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-600"></i>
+
+                    <!-- Baris 1: Mood + Jurnal (2 kolom horizontal) -->
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-br from-rose-50 to-rose-100/50 dark:from-rose-950/40 dark:to-rose-900/20 border border-rose-200/60 dark:border-rose-900/40">
+                            <div class="w-9 h-9 rounded-xl bg-rose-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-lg font-black leading-none text-rose-700 dark:text-rose-300" id="homeStatMoods">0</p>
+                                <p class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider mt-0.5">Mood</p>
+                            </div>
                         </div>
-                        <span class="text-xs font-semibold text-slate-500">Jurnal</span>
-                    </div>
-                    <p id="homeStatJournals" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">catatan CBT</p>
-                </div>
-                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-7 h-7 rounded-lg bg-pink-100 dark:bg-pink-900/40 flex items-center justify-center">
-                            <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-600"></i>
+                        <div class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-br from-sky-50 to-sky-100/50 dark:from-sky-950/40 dark:to-sky-900/20 border border-sky-200/60 dark:border-sky-900/40">
+                            <div class="w-9 h-9 rounded-xl bg-sky-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                                <i data-lucide="book-open" class="w-4 h-4 text-white"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-lg font-black leading-none text-sky-700 dark:text-sky-300" id="homeStatJournals">0</p>
+                                <p class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider mt-0.5">Jurnal CBT</p>
+                            </div>
                         </div>
-                        <span class="text-xs font-semibold text-slate-500">Syukur</span>
                     </div>
-                    <p id="homeStatGratitude" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0</p>
-                    <p class="text-[10px] text-slate-500 mt-0.5">hari</p>
+
+                    <!-- Baris 2: Syukur full width, lebih ramping -->
+                    <div class="mt-2 flex items-center gap-2.5 p-2.5 rounded-2xl bg-gradient-to-r from-pink-50 via-pink-50 to-purple-50 dark:from-pink-950/40 dark:via-pink-950/30 dark:to-purple-950/30 border border-pink-200/60 dark:border-pink-900/40">
+                        <div class="w-9 h-9 rounded-xl bg-pink-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+                            <i data-lucide="heart" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <div class="flex-1 flex items-center justify-between gap-2 min-w-0">
+                            <div class="min-w-0">
+                                <p class="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-wider">Syukur</p>
+                                <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400 truncate">hari penuh rasa syukur</p>
+                            </div>
+                            <p class="text-2xl font-black leading-none text-pink-700 dark:text-pink-300 flex-shrink-0" id="homeStatGratitude">0</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Shortcut Grid -->
-            <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
-                <i data-lucide="zap" class="w-4 h-4 text-calm-500"></i> Mulai Cepat
-            </h3>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
-                <button onclick="switchTab('breathing')" class="home-shortcut bg-gradient-to-br from-teal-500 to-emerald-600 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="wind" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Latihan Napas</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Tarik napas & tenangkan diri</p>
-                </button>
-                <button onclick="switchTab('grounding')" class="home-shortcut bg-gradient-to-br from-cyan-500 to-teal-500 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="anchor" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Grounding</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Metode 5-4-3-2-1</p>
-                </button>
-                <button onclick="switchTab('journal')" class="home-shortcut bg-gradient-to-br from-sky-500 to-blue-600 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="book-open" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Jurnal CBT</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Reframing pikiran</p>
-                </button>
-                <button onclick="switchTab('release')" class="home-shortcut bg-gradient-to-br from-orange-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="unlock" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Pelepasan</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Proses emosi & trauma</p>
-                </button>
-                <button onclick="switchTab('audio')" class="home-shortcut bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="headphones" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Audio Ajaib</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Panduan suara relaksasi</p>
-                </button>
-                <button onclick="switchTab('affirmations')" class="home-shortcut bg-gradient-to-br from-purple-500 to-pink-500 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="sparkles" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Afirmasi</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Kartu penguat mental</p>
-                </button>
-                <button onclick="switchTab('gratitude')" class="home-shortcut bg-gradient-to-br from-pink-500 to-rose-500 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="heart" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Jurnal Syukur</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">3 hal yang disyukuri</p>
-                </button>
-                <button onclick="switchTab('luck')" class="home-shortcut bg-gradient-to-br from-emerald-500 to-green-600 text-white p-5 rounded-2xl shadow-sm text-left">
-                    <i data-lucide="clover" class="w-6 h-6 mb-2"></i>
-                    <p class="text-sm font-bold">Keberuntungan</p>
-                    <p class="text-[11px] opacity-90 mt-0.5">Catat gain hari ini</p>
-                </button>
+            <!-- QUICK LINKS — horizontal pills (bukan kotak-kotak) -->
+            <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm mb-4">
+                <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider px-1 mb-2">Mulai Cepat</p>
+                <div class="home-quick-row">
+                    <button onclick="switchTab('breathing')" class="home-quick-item">
+                        <span class="qi-icon bg-teal-500"><i data-lucide="wind" class="w-3.5 h-3.5 text-white"></i></span>
+                        Latihan Napas
+                    </button>
+                    <button onclick="switchTab('grounding')" class="home-quick-item">
+                        <span class="qi-icon bg-cyan-500"><i data-lucide="anchor" class="w-3.5 h-3.5 text-white"></i></span>
+                        Grounding
+                    </button>
+                    <button onclick="switchTab('journal')" class="home-quick-item">
+                        <span class="qi-icon bg-sky-500"><i data-lucide="book-open" class="w-3.5 h-3.5 text-white"></i></span>
+                        Jurnal CBT
+                    </button>
+                    <button onclick="switchTab('release')" class="home-quick-item">
+                        <span class="qi-icon bg-orange-500"><i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i></span>
+                        Pelepasan
+                    </button>
+                    <button onclick="switchTab('audio')" class="home-quick-item">
+                        <span class="qi-icon bg-indigo-500"><i data-lucide="headphones" class="w-3.5 h-3.5 text-white"></i></span>
+                        Audio Ajaib
+                    </button>
+                    <button onclick="switchTab('affirmations')" class="home-quick-item">
+                        <span class="qi-icon bg-purple-500"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-white"></i></span>
+                        Afirmasi
+                    </button>
+                    <button onclick="switchTab('gratitude')" class="home-quick-item">
+                        <span class="qi-icon bg-pink-500"><i data-lucide="heart" class="w-3.5 h-3.5 text-white"></i></span>
+                        Syukur
+                    </button>
+                    <button onclick="switchTab('luck')" class="home-quick-item">
+                        <span class="qi-icon bg-emerald-500"><i data-lucide="clover" class="w-3.5 h-3.5 text-white"></i></span>
+                        Keberuntungan
+                    </button>
+                </div>
             </div>
 
-            <!-- Tip Hari Ini -->
-            <div class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-6 rounded-3xl border border-calm-200 dark:border-teal-900/60">
+            <!-- TIP HARI INI -->
+            <div class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-5 rounded-3xl border border-calm-200 dark:border-teal-900/60">
                 <div class="flex items-start gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-calm-500 flex items-center justify-center text-white flex-shrink-0">
-                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    <div class="w-9 h-9 rounded-2xl bg-calm-500 flex items-center justify-center text-white flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-sharp text-calm-900 dark:text-calm-100">Tips Kesehatan Mental Hari Ini</h4>
+                        <h4 class="text-xs font-bold text-sharp text-calm-900 dark:text-calm-100 uppercase tracking-wider">Tips Hari Ini</h4>
                         <p id="dailyTipTextHome" class="text-xs font-medium text-calm-800 dark:text-calm-300 mt-1 leading-relaxed">
                             Minum air putih yang cukup. Dehidrasi ringan saja bisa memicu kecemasan.
                         </p>
@@ -588,7 +777,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Breathing -->
+        <!-- ========== BREATHING ========== -->
         <section id="sec-breathing" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center min-h-[540px] relative overflow-hidden">
@@ -597,9 +786,7 @@
                         <p id="breathTechniqueDesc" class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.</p>
                     </div>
 
-                    <!-- VISUAL STAGE -->
                     <div id="breathVisualStage">
-                        <!-- Lingkaran -->
                         <div class="breath-visual visual-active" data-visual="circle">
                             <div id="breathMainCircle" class="breath-circle w-40 h-40 rounded-full bg-gradient-to-br from-calm-300 to-teal-500 shadow-xl shadow-calm-500/20 flex items-center justify-center text-white text-center p-4 scale-100">
                                 <div>
@@ -609,7 +796,6 @@
                             </div>
                         </div>
 
-                        <!-- Lilin -->
                         <div class="breath-visual visual-hidden" data-visual="candle">
                             <div class="flex flex-col items-center justify-end" style="height: 100%;">
                                 <svg id="candleFlame" viewBox="0 0 60 90" width="90" height="140" style="filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.7));">
@@ -635,7 +821,6 @@
                             </div>
                         </div>
 
-                        <!-- Bunga -->
                         <div class="breath-visual visual-hidden" data-visual="bloom">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg id="bloomSvg" viewBox="0 0 200 200" width="240" height="240">
@@ -666,7 +851,6 @@
                             </div>
                         </div>
 
-                        <!-- Balon -->
                         <div class="breath-visual visual-hidden" data-visual="balloon">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg viewBox="0 0 120 220" width="140" height="240">
@@ -691,7 +875,6 @@
                             </div>
                         </div>
 
-                        <!-- Kotak -->
                         <div class="breath-visual visual-hidden" data-visual="box">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg viewBox="0 0 200 200" width="240" height="240">
@@ -713,7 +896,6 @@
                             </div>
                         </div>
 
-                        <!-- Bintang -->
                         <div class="breath-visual visual-hidden" data-visual="star">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg viewBox="0 0 200 200" width="240" height="240">
@@ -836,7 +1018,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Grounding -->
+        <!-- ========== GROUNDING ========== -->
         <section id="sec-grounding" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm max-w-3xl mx-auto">
                 <div class="text-center mb-8">
@@ -864,7 +1046,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Journal -->
+        <!-- ========== JOURNAL ========== -->
         <section id="sec-journal" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -902,7 +1084,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Release -->
+        <!-- ========== RELEASE ========== -->
         <section id="sec-release" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-orange-200/60 dark:border-orange-900/40 shadow-sm max-w-3xl mx-auto">
                 <div class="text-center mb-8">
@@ -911,11 +1093,11 @@
                     </span>
                     <h3 class="text-2xl font-bold text-sharp text-slate-800 dark:text-slate-100">Pemrosesan Emosi & Memori</h3>
                     <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-lg mx-auto leading-relaxed">
-                        Tuliskan dengan perlahan. Jangan memaksakan diri untuk mengingat semua detail. Fokus pada apa yang bisa kamu tangani saat ini.
+                        Tuliskan dengan perlahan. Fokus pada apa yang bisa kamu tangani saat ini.
                     </p>
                     <div class="mt-4 p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 rounded-xl text-left inline-block">
                         <p class="text-[11px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
-                            <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i> Pengaman: Jika kamu merasa panik, hentikan latihan dan buka menu SOS.
+                            <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i> Jika kamu merasa panik, hentikan latihan dan buka menu SOS.
                         </p>
                     </div>
                 </div>
@@ -924,23 +1106,23 @@
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-orange-200 dark:bg-orange-900 text-orange-800 dark:text-orange-200 flex items-center justify-center text-xs">1</span>
-                            Apa yang terjadi? (Tuliskan garis besarnya saja)
+                            Apa yang terjadi? (Garis besarnya saja)
                         </label>
                         <textarea id="releaseEvent" required rows="2" placeholder="Contoh: Saya diabaikan saat membutuhkan bantuan..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-orange-200 dark:bg-orange-900 text-orange-800 dark:text-orange-200 flex items-center justify-center text-xs">2</span>
-                            Emosi apa yang muncul, dan di bagian tubuh mana kamu merasakannya?
+                            Emosi apa yang muncul, dan di bagian tubuh mana?
                         </label>
-                        <textarea id="releaseEmotion" required rows="2" placeholder="Contoh: Rasa sakit di dada, tenggorokan tercekat, merasa tidak berharga..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
+                        <textarea id="releaseEmotion" required rows="2" placeholder="Contoh: Rasa sakit di dada, tenggorokan tercekat..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
                             <span class="w-6 h-6 rounded-full bg-orange-200 dark:bg-orange-900 text-orange-800 dark:text-orange-200 flex items-center justify-center text-xs">3</span>
-                            Apa yang ingin kamu katakan pada dirimu yang saat itu sedang kesulitan?
+                            Apa yang ingin kamu katakan pada dirimu saat itu?
                         </label>
-                        <textarea id="releaseMessage" required rows="2" placeholder="Contoh: Kamu sudah berusaha keras. Ini bukan salahmu. Aku akan menjagamu sekarang..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
+                        <textarea id="releaseMessage" required rows="2" placeholder="Contoh: Kamu sudah berusaha keras. Ini bukan salahmu..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-orange-400 outline-none transition"></textarea>
                     </div>
                     <div class="pt-4 flex flex-col sm:flex-row gap-3">
                         <button type="button" onclick="clearReleaseForm()" class="w-full sm:w-1/3 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2">
@@ -961,7 +1143,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Audio -->
+        <!-- ========== AUDIO (DENGAN TOMBOL STOP) ============ -->
         <section id="sec-audio" class="tab-content hidden">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-8">
@@ -970,7 +1152,7 @@
                     </span>
                     <h3 class="text-2xl sm:text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100">Panduan Suara & Relaksasi</h3>
                     <p class="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-lg mx-auto">
-                        Gunakan earphone untuk pengalaman terbaik. Biarkan suara ini menuntunmu kembali ke pusat ketenangan.
+                        Gunakan earphone untuk pengalaman terbaik. Hanya satu audio dapat diputar sekaligus.
                     </p>
                 </div>
 
@@ -978,59 +1160,8 @@
                     <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
                         <i data-lucide="clock" class="w-4 h-4 text-indigo-500"></i> Rangkaian Waktu
                     </h4>
-                    <div class="space-y-4">
-                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="sun" class="w-6 h-6 text-amber-600 dark:text-amber-400"></i>
-                            </div>
-                            <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Pagi</h5>
-                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Mulai harimu dengan energi yang tenang dan penuh rasa syukur.</p>
-                                <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                    <source src="afirmasi-pagi.mp3" type="audio/mpeg">
-                                    Browser Anda tidak mendukung pemutar audio.
-                                </audio>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-sky-900/50 flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="sun-medium" class="w-6 h-6 text-sky-600 dark:text-sky-400"></i>
-                            </div>
-                            <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Siang</h5>
-                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.</p>
-                                <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                    <source src="afirmasi-siang.mp3" type="audio/mpeg">
-                                    Browser Anda tidak mendukung pemutar audio.
-                                </audio>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="sunset" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
-                            </div>
-                            <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Sore</h5>
-                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Lepaskan sisa-sisa stres hari ini dan bersiaplah untuk bersantai.</p>
-                                <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                    <source src="afirmasi-sore.mp3" type="audio/mpeg">
-                                    Browser Anda tidak mendukung pemutar audio.
-                                </audio>
-                            </div>
-                        </div>
-                        <div class="bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center flex-shrink-0">
-                                <i data-lucide="moon" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
-                            </div>
-                            <div class="flex-1 w-full">
-                                <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">Afirmasi Malam</h5>
-                                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Menenangkan pikiran, memaafkan diri, dan bersiap untuk tidur nyenyak.</p>
-                                <audio controls class="w-full mt-3 h-10 rounded-lg">
-                                    <source src="afirmasi-malam.mp3" type="audio/mpeg">
-                                    Browser Anda tidak mendukung pemutar audio.
-                                </audio>
-                            </div>
-                        </div>
+                    <div class="space-y-4" id="affirmationAudioList">
+                        <!-- Audio cards di-generate oleh JS untuk kontrol stop yang konsisten -->
                     </div>
                 </div>
                 <p class="text-[11px] font-medium text-slate-500 text-center mt-8">
@@ -1039,7 +1170,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Affirmations -->
+        <!-- ========== AFFIRMATIONS ========== -->
         <section id="sec-affirmations" class="tab-content hidden">
             <div class="text-center max-w-xl mx-auto mb-8">
                 <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 text-xs font-semibold rounded-full">Penguat Mental</span>
@@ -1054,7 +1185,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Tracker -->
+        <!-- ========== TRACKER ========== -->
         <section id="sec-tracker" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1096,7 +1227,6 @@
                     </div>
                 </div>
 
-                <!-- Weekly stats -->
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="calendar-days" class="w-4 h-4 text-sky-500"></i> Statistik Mingguan
@@ -1153,7 +1283,7 @@
                                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
                             </button>
                             <button onclick="clearMoodHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Riwayat
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                             </button>
                         </div>
                     </div>
@@ -1175,7 +1305,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Insights -->
+        <!-- ========== INSIGHTS ========== -->
         <section id="sec-insights" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1213,7 +1343,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Gratitude -->
+        <!-- ========== GRATITUDE ========== -->
         <section id="sec-gratitude" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-pink-200/60 dark:border-pink-900/40 shadow-sm">
@@ -1223,10 +1353,9 @@
                         </span>
                         <h3 class="text-2xl font-bold text-sharp text-slate-800 dark:text-slate-100">3 Hal yang Aku Syukuri Hari Ini</h3>
                         <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-lg mx-auto">
-                            Menulis rasa syukur setiap hari terbukti secara ilmiah menurunkan kecemasan dan meningkatkan kebahagiaan.
+                            Menulis rasa syukur setiap hari terbukti menurunkan kecemasan dan meningkatkan kebahagiaan.
                         </p>
                     </div>
-
                     <form onsubmit="saveGratitudeEntry(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5 flex items-center gap-1.5">
@@ -1313,7 +1442,7 @@
                                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
                             </button>
                             <button onclick="clearGratitudeHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                             </button>
                         </div>
                     </div>
@@ -1332,7 +1461,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Luck -->
+        <!-- ========== LUCK ========== -->
         <section id="sec-luck" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
@@ -1342,41 +1471,32 @@
                         </span>
                         <h3 class="text-2xl font-bold text-sharp text-slate-800 dark:text-slate-100">Keberuntungan / Gain Hari Ini</h3>
                         <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1 max-w-lg mx-auto">
-                            Catat hal-hal baik yang Anda dapatkan hari ini. Melihat "gain" membuat otak lebih mudah mengenali keberuntungan.
+                            Catat hal-hal baik yang Anda dapatkan hari ini.
                         </p>
                     </div>
-
                     <form onsubmit="saveLuckEntry(event)" class="space-y-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Apa keberuntungan / gain yang Anda dapatkan hari ini?</label>
-                            <textarea id="luckInput" required rows="3" placeholder="Contoh: Dapat diskon tak terduga, ketemu teman lama, cuaca bagus pas lagi butuh, ..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-400 outline-none transition"></textarea>
+                            <textarea id="luckInput" required rows="3" placeholder="Contoh: Dapat diskon tak terduga, ketemu teman lama..." class="w-full p-3 text-sm font-medium rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 focus:ring-2 focus:ring-emerald-400 outline-none transition"></textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Kategori Keberuntungan (opsional)</label>
+                            <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Kategori (opsional)</label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="luckCat" value="Rezeki" class="peer sr-only">
-                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-amber-100 peer-checked:text-amber-700 peer-checked:border-amber-300 transition">
-                                        💰 Rezeki
-                                    </div>
+                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-amber-100 peer-checked:text-amber-700 peer-checked:border-amber-300 transition">💰 Rezeki</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="luckCat" value="Sosial" class="peer sr-only">
-                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-sky-100 peer-checked:text-sky-700 peer-checked:border-sky-300 transition">
-                                        🤝 Sosial
-                                    </div>
+                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-sky-100 peer-checked:text-sky-700 peer-checked:border-sky-300 transition">🤝 Sosial</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="luckCat" value="Kesempatan" class="peer sr-only">
-                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-purple-100 peer-checked:text-purple-700 peer-checked:border-purple-300 transition">
-                                        🚀 Kesempatan
-                                    </div>
+                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-purple-100 peer-checked:text-purple-700 peer-checked:border-purple-300 transition">🚀 Kesempatan</div>
                                 </label>
                                 <label class="cursor-pointer">
                                     <input type="radio" name="luckCat" value="Lainnya" class="peer sr-only" checked>
-                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-emerald-100 peer-checked:text-emerald-700 peer-checked:border-emerald-300 transition">
-                                        ✨ Lainnya
-                                    </div>
+                                    <div class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-center text-xs font-semibold text-slate-600 dark:text-slate-400 peer-checked:bg-emerald-100 peer-checked:text-emerald-700 peer-checked:border-emerald-300 transition">✨ Lainnya</div>
                                 </label>
                             </div>
                         </div>
@@ -1438,7 +1558,6 @@
                     </div>
                 </div>
 
-                <!-- Bar chart per kategori -->
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i> Grafik Kategori Keberuntungan
@@ -1463,7 +1582,7 @@
                                 <i data-lucide="file-down" class="w-3.5 h-3.5"></i> CSV
                             </button>
                             <button onclick="clearLuckHistory()" class="text-xs text-rose-500 hover:text-rose-600 font-semibold flex items-center gap-1">
-                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus Semua
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                             </button>
                         </div>
                     </div>
@@ -1474,7 +1593,7 @@
             </div>
         </section>
 
-        <!-- SECTION: Settings -->
+        <!-- ========== SETTINGS ========== -->
         <section id="sec-settings" class="tab-content hidden">
             <div class="space-y-6 max-w-3xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1484,7 +1603,7 @@
                         </div>
                         <div>
                             <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100">Backup & Restore Data</h3>
-                            <p class="text-xs font-medium text-slate-500">Simpan semua data Anda ke file, atau pulihkan dari file</p>
+                            <p class="text-xs font-medium text-slate-500">Simpan atau pulihkan semua data</p>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1511,7 +1630,6 @@
                             <p class="text-xs font-medium text-slate-500">Nomor yang bisa Anda hubungi saat panik</p>
                         </div>
                     </div>
-
                     <div class="space-y-3">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">Nama Kontak 1</label>
@@ -1533,9 +1651,8 @@
                             <i data-lucide="save" class="w-4 h-4"></i> Simpan Kontak Darurat
                         </button>
                     </div>
-
                     <div class="mt-5 pt-5 border-t border-slate-200 dark:border-slate-700">
-                        <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">Hotline Indonesia (bisa langsung diklik):</p>
+                        <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">Hotline Indonesia:</p>
                         <div class="space-y-2">
                             <a href="tel:119" class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition border border-slate-200 dark:border-slate-700">
                                 <i data-lucide="phone" class="w-4 h-4 text-rose-500"></i>
@@ -1565,16 +1682,12 @@
                             <p class="text-xs font-medium text-slate-500">Kembalikan aplikasi ke kondisi awal (kosong)</p>
                         </div>
                     </div>
-
                     <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 mb-4">
                         <p class="text-xs font-semibold text-amber-800 dark:text-amber-200 flex items-start gap-2">
                             <i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
-                            <span>
-                                <b>Aman untuk perangkat Anda.</b> Hanya menghapus data di dalam aplikasi ini. <b>Tidak</b> menghapus file aplikasi atau file lain di HP/komputer Anda.
-                            </span>
+                            <span><b>Aman untuk perangkat Anda.</b> Hanya menghapus data di aplikasi ini. <b>Tidak</b> menghapus file lain di HP/komputer.</span>
                         </p>
                     </div>
-
                     <button onclick="resetAllData()" class="w-full py-3 bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/40 dark:hover:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2">
                         <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset Data Aplikasi
                     </button>
@@ -1585,9 +1698,9 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 4.0</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.0</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
-                        Aplikasi ini bukan pengganti konseling medis profesional. Jika Anda merasa dalam krisis, segera hubungi bantuan profesional.
+                        Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
                 </div>
             </div>
@@ -1595,12 +1708,10 @@
 
     </main>
 
-    <!-- FLOATING HOME BUTTON -->
     <button id="homeFab" onclick="switchTab('home')" title="Kembali ke Beranda" aria-label="Kembali ke beranda">
         <i data-lucide="home" class="w-6 h-6"></i>
     </button>
 
-    <!-- SOS Modal -->
     <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 sm:p-10 text-white hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
         <div class="w-full flex justify-between items-center max-w-4xl">
             <button onclick="switchTab('home'); closeSosModal();" class="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-1.5 text-xs font-semibold" aria-label="Kembali ke beranda">
@@ -1610,35 +1721,23 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
-
         <div class="max-w-xl text-center space-y-4 my-4 w-full">
             <div class="inline-block p-3 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400">
                 <i data-lucide="shield-alert" class="w-10 h-10 animate-pulse"></i>
             </div>
-
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-rose-400 to-rose-200 bg-clip-text text-transparent">
-                SOS PANIK
-            </h2>
-
-            <p class="text-[11px] font-semibold uppercase tracking-widest text-rose-300">
-                Tarik napas, Anda aman di sini
-            </p>
-
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-rose-400 to-rose-200 bg-clip-text text-transparent">SOS PANIK</h2>
+            <p class="text-[11px] font-semibold uppercase tracking-widest text-rose-300">Tarik napas, Anda aman di sini</p>
             <p id="sosPrompt" class="text-base sm:text-lg font-medium text-slate-200 leading-relaxed min-h-[60px] pt-1">
-                "Anda amat saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda."
+                "Anda aman saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda."
             </p>
-
             <div class="relative w-40 h-40 mx-auto flex items-center justify-center">
                 <div id="sosPulseCircle" class="w-28 h-28 rounded-full bg-teal-400/30 border-2 border-teal-300 flex items-center justify-center transition-all duration-1000 scale-100">
                     <span id="sosBreathText" class="text-sm font-bold text-teal-100 uppercase tracking-widest">Tarik Napas</span>
                 </div>
             </div>
-
             <button onclick="nextSosPrompt()" class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white font-semibold rounded-2xl shadow-lg transition text-sm">
                 Pesan Penguat Selanjutnya
             </button>
-
-            <!-- ====== KONTAK DARURAT DIPINDAH KE ATAS (MUDAH TERLIHAT) ====== -->
             <div id="sosContactsBox" class="mt-4 w-full max-w-md mx-auto text-left bg-slate-800/60 p-3 rounded-2xl border border-slate-700/60">
                 <p class="text-[11px] font-bold uppercase tracking-wider text-teal-300 text-center mb-2 flex items-center justify-center gap-1.5">
                     <i data-lucide="phone-call" class="w-3.5 h-3.5"></i> Butuh bicara dengan seseorang?
@@ -1646,19 +1745,16 @@
                 <div id="sosContactsList" class="space-y-2"></div>
             </div>
         </div>
-
         <div class="text-[10px] font-medium text-slate-400 text-center max-w-md">
             Jika dalam krisis, segera hubungi layanan kesehatan mental darurat atau orang terdekat.
         </div>
     </div>
 
-    <!-- Toast -->
     <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 bg-slate-800 text-white px-4 py-3 rounded-2xl shadow-lg border border-slate-700 text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
         <i data-lucide="info" class="w-4 h-4 text-calm-400"></i>
         <span id="toastMsg">Notifikasi</span>
     </div>
 
-    <!-- Backup Bubble -->
     <div id="backupBubble">
         <button class="bubble-btn" onclick="handleBubbleClick(event)" title="Waktunya backup data!" aria-label="Pengingat backup data">
             <i data-lucide="bell-ring" class="w-6 h-6 text-white"></i>
@@ -1666,7 +1762,6 @@
         </button>
     </div>
 
-    <!-- Backup Popup -->
     <div id="backupPopup">
         <div class="flex items-start gap-2 mb-2">
             <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5"></i>
@@ -1683,7 +1778,6 @@
         </button>
     </div>
 
-    <!-- Footer -->
     <footer class="mt-12 border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 mb-4">
@@ -1705,9 +1799,7 @@
         'use strict';
         lucide.createIcons();
 
-        /* ========================================================
-           UTIL
-           ======================================================== */
+        /* ===== UTIL ===== */
         const BACKUP_REMINDER_DAYS = 7;
         const ACTIVITY_MAX_DAYS = 365;
 
@@ -1717,12 +1809,10 @@
                 return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
             });
         }
-
         function sanitizePhone(raw) {
             if (!raw) return '';
             return String(raw).replace(/[^\d+\-*#() ]/g, '').trim();
         }
-
         function toDateKey(d) {
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
@@ -1750,22 +1840,31 @@
             }
             return a;
         }
+        function escapeCSV(val) {
+            const s = String(val ?? '');
+            if (s.includes(',') || s.includes('"') || s.includes('\n')) return `"${s.replace(/"/g, '""')}"`;
+            return s;
+        }
+        function downloadCSV(filename, rows) {
+            const csv = rows.map(r => r.map(escapeCSV).join(',')).join('\n');
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = filename;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(`✅ CSV diunduh: ${filename}`);
+        }
 
-        /* ========================================================
-           SCROLL HINT
-           ======================================================== */
+        /* ===== SCROLL HINT ===== */
         function updateScrollHint() {
             const nav = document.getElementById('tabNav');
             const hint = document.getElementById('scrollHint');
             if (!nav || !hint) return;
             const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
             const noOverflow = nav.scrollWidth <= nav.clientWidth + 5;
-            if (noOverflow || atEnd) {
-                hint.style.opacity = '0';
-                hint.style.pointerEvents = 'none';
-            } else {
-                hint.style.opacity = '1';
-            }
+            if (noOverflow || atEnd) { hint.style.opacity = '0'; hint.style.pointerEvents = 'none'; }
+            else hint.style.opacity = '1';
         }
 
         function toggleDarkMode() {
@@ -1788,9 +1887,33 @@
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
 
-        /* ========================================================
-           MOOD SLIDER
-           ======================================================== */
+        /* ===== DOWNLOAD MENU ===== */
+        function toggleDownloadMenu(event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById('downloadMenu');
+            const btn = document.getElementById('downloadBtn');
+            if (!menu) return;
+            const willOpen = !menu.classList.contains('visible');
+            menu.classList.toggle('visible', willOpen);
+            if (btn) btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        }
+        function closeDownloadMenu() {
+            const menu = document.getElementById('downloadMenu');
+            const btn = document.getElementById('downloadBtn');
+            if (!menu) return;
+            menu.classList.remove('visible');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('downloadMenu');
+            const wrapper = document.getElementById('downloadMenuWrapper');
+            if (!menu || !wrapper) return;
+            if (!wrapper.contains(e.target)) closeDownloadMenu();
+        });
+
+        function downloadJSON() { exportData(); }
+
+        /* ===== MOOD SLIDER ===== */
         const moodSegmentColors = ['#10b981','#22c55e','#84cc16','#eab308','#f59e0b','#f97316','#ef4444','#dc2626','#b91c1c','#991b1b'];
 
         function initMoodSlider() {
@@ -1811,7 +1934,6 @@
             document.getElementById('moodValueLabel').innerText = `Skala: ${initVal}`;
             updateMoodSliderColor(initVal);
         }
-
         function updateMoodSliderColor(val) {
             val = parseInt(val, 10);
             const segs = document.querySelectorAll('#moodSliderTrack .mood-seg');
@@ -1832,15 +1954,12 @@
             statusEl.innerText = statusText;
             try { localStorage.setItem('anti_anxiety_mood_slider', String(val)); } catch (e) {}
         }
-
         function updateMoodLabel(val) {
             document.getElementById('moodValueLabel').innerText = `Skala: ${val}`;
             updateMoodSliderColor(val);
         }
 
-        /* ========================================================
-           TAB SWITCHING
-           ======================================================== */
+        /* ===== TABS ===== */
         const TAB_IDS = ['home','breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
         const TAB_BASE_CLASSES = ['tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold','flex','items-center','gap-2','whitespace-nowrap','transition'];
         const TAB_INACTIVE_CLASSES = {
@@ -1871,7 +1990,6 @@
             });
             setActiveTab('home');
         }
-
         function setActiveTab(tabId) {
             TAB_IDS.forEach(id => {
                 const btn = document.getElementById(`tab-${id}`);
@@ -1881,13 +1999,10 @@
                     TAB_ACTIVE_CLASSES.forEach(c => btn.classList.add(c));
                 } else {
                     TAB_ACTIVE_CLASSES.forEach(c => btn.classList.remove(c));
-                    TAB_INACTIVE_CLASSES[id].forEach(c => {
-                        if (!btn.classList.contains(c)) btn.classList.add(c);
-                    });
+                    TAB_INACTIVE_CLASSES[id].forEach(c => { if (!btn.classList.contains(c)) btn.classList.add(c); });
                 }
             });
         }
-
         function switchTab(tabId) {
             if (!TAB_IDS.includes(tabId)) return;
             setActiveTab(tabId);
@@ -1895,14 +2010,11 @@
             const activeContent = document.getElementById(`sec-${tabId}`);
             if (activeContent) { activeContent.classList.remove('hidden'); activeContent.classList.add('block'); }
             setTimeout(updateScrollHint, 100);
-
-            // Show/hide home FAB
             const homeFab = document.getElementById('homeFab');
             if (homeFab) {
                 if (tabId === 'home') homeFab.classList.remove('visible');
                 else homeFab.classList.add('visible');
             }
-
             if (tabId === 'home') { updateHomeStats(); renderDailyTipHome(); }
             if (tabId === 'tracker' && typeof renderMoodChart === 'function') setTimeout(() => { renderMoodChart(); updateWeeklyStats(); }, 50);
             if (tabId === 'insights') { renderStreakCalendar(); renderInsights(); renderDailyTip(); }
@@ -1911,9 +2023,7 @@
             if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); }
         }
 
-        /* ========================================================
-           INFO MENU
-           ======================================================== */
+        /* ===== INFO MENU ===== */
         function toggleInfoMenu() {
             const menu = document.getElementById('infoMenu');
             const btn = document.getElementById('infoMenuBtn');
@@ -1932,9 +2042,7 @@
             }
         });
 
-        /* ========================================================
-           AUDIO
-           ======================================================== */
+        /* ===== AUDIO SYNTH ===== */
         let audioCtx = null;
         let activeNodes = {};
         let masterGain = null;
@@ -1945,7 +2053,6 @@
             isAudioDrawerOpen = !isAudioDrawerOpen;
             drawer.classList.toggle('hidden', !isAudioDrawerOpen);
         }
-
         function initAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -1957,9 +2064,7 @@
             }
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
-
         function changeVolume(val) { if (masterGain) masterGain.gain.value = parseFloat(val); }
-
         function toggleSound(type) {
             initAudioContext();
             if (!audioCtx) return;
@@ -1985,7 +2090,6 @@
             }
             if (badge) badge.classList.toggle('hidden', Object.keys(activeNodes).length === 0);
         }
-
         function createWhiteNoise() {
             const bufferSize = audioCtx.sampleRate * 2;
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
@@ -2045,9 +2149,85 @@
             oscL.start(); oscR.start(); return { stop: () => { oscL.stop(); oscR.stop(); } };
         }
 
-        /* ========================================================
-           VOICE GUIDE
-           ======================================================== */
+        /* ===== AFFIRMATION AUDIO PLAYER (dengan tombol stop) ===== */
+        const AFFIRMATION_AUDIO = [
+            { id: 'pagi', title: 'Afirmasi Pagi', src: 'afirmasi-pagi.mp3', icon: 'sun', color: 'amber', desc: 'Mulai harimu dengan energi yang tenang dan penuh rasa syukur.' },
+            { id: 'siang', title: 'Afirmasi Siang', src: 'afirmasi-siang.mp3', icon: 'sun-medium', color: 'sky', desc: 'Jeda sejenak. Tarik napas, lepaskan kepenatan, dan kembali fokus.' },
+            { id: 'sore', title: 'Afirmasi Sore', src: 'afirmasi-sore.mp3', icon: 'sunset', color: 'orange', desc: 'Lepaskan sisa-sisa stres hari ini dan bersiap untuk bersantai.' },
+            { id: 'malam', title: 'Afirmasi Malam', src: 'afirmasi-malam.mp3', icon: 'moon', color: 'indigo', desc: 'Menenangkan pikiran, memaafkan diri, dan bersiap untuk tidur nyenyak.' }
+        ];
+        let activeAudioEl = null;
+        let activeAudioId = null;
+
+        function renderAffirmationAudioList() {
+            const container = document.getElementById('affirmationAudioList');
+            if (!container) return;
+            const colorMap = {
+                amber: 'bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400',
+                sky: 'bg-sky-100 dark:bg-sky-900/50 text-sky-600 dark:text-sky-400',
+                orange: 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400',
+                indigo: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400'
+            };
+            container.innerHTML = AFFIRMATION_AUDIO.map(a => `
+                <div class="audio-player-card bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col md:flex-row items-start md:items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl ${colorMap[a.color]} flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="${a.icon}" class="w-6 h-6"></i>
+                    </div>
+                    <div class="flex-1 w-full min-w-0">
+                        <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                            <h5 class="text-base font-bold text-slate-800 dark:text-slate-100">${a.title}</h5>
+                            <button onclick="stopAffirmationAudio('${a.id}')" id="stop-${a.id}" class="audio-stop-btn" title="Stop audio" aria-label="Stop audio ${a.title}">
+                                <i data-lucide="square" class="w-3 h-3"></i> Stop
+                            </button>
+                        </div>
+                        <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">${a.desc}</p>
+                        <audio id="audio-${a.id}" controls preload="none" class="w-full h-10 rounded-lg"
+                               onplay="onAffirmationPlay('${a.id}')"
+                               onpause="onAffirmationPause('${a.id}')"
+                               onended="onAffirmationEnd('${a.id}')">
+                            <source src="${a.src}" type="audio/mpeg">
+                            Browser Anda tidak mendukung pemutar audio.
+                        </audio>
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function setAudioStopBtnState(id, active) {
+            const btn = document.getElementById(`stop-${id}`);
+            if (!btn) return;
+            if (active) btn.classList.add('active');
+            else btn.classList.remove('active');
+        }
+
+        function onAffirmationPlay(id) {
+            // Hentikan audio lain yang sedang main
+            if (activeAudioEl && activeAudioId !== id) {
+                try { activeAudioEl.pause(); activeAudioEl.currentTime = 0; } catch (e) {}
+                setAudioStopBtnState(activeAudioId, false);
+            }
+            activeAudioEl = document.getElementById(`audio-${id}`);
+            activeAudioId = id;
+            setAudioStopBtnState(id, true);
+        }
+        function onAffirmationPause(id) {
+            setAudioStopBtnState(id, false);
+        }
+        function onAffirmationEnd(id) {
+            setAudioStopBtnState(id, false);
+            if (activeAudioId === id) { activeAudioEl = null; activeAudioId = null; }
+        }
+        function stopAffirmationAudio(id) {
+            const audio = document.getElementById(`audio-${id}`);
+            if (!audio) return;
+            try { audio.pause(); audio.currentTime = 0; } catch (e) {}
+            setAudioStopBtnState(id, false);
+            if (activeAudioId === id) { activeAudioEl = null; activeAudioId = null; }
+            showToast("⏹️ Audio dihentikan.");
+        }
+
+        /* ===== VOICE GUIDE ===== */
         let voiceGuideEnabled = false;
         let indonesianVoice = null;
 
@@ -2065,7 +2245,6 @@
             v = voices.find(voice => { const name = (voice.name || '').toLowerCase(); return idNames.some(n => name.includes(n)); });
             return v || null;
         }
-
         function ensureVoicesLoaded(callback) {
             if (!('speechSynthesis' in window)) { if (callback) callback(); return; }
             const voices = window.speechSynthesis.getVoices();
@@ -2078,7 +2257,6 @@
                 else if (attempts > 20) { clearInterval(iv); if (callback) callback(); }
             }, 100);
         }
-
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = function() {
                 const found = findIndonesianVoice();
@@ -2086,7 +2264,6 @@
                 updateVoiceStatusHint();
             };
         }
-
         function updateVoiceStatusHint() {
             const hint = document.getElementById('voiceStatusHint');
             const text = document.getElementById('voiceStatusText');
@@ -2103,7 +2280,6 @@
                 }
             } else hint.classList.add('hidden');
         }
-
         function toggleVoiceGuide(enabled) {
             voiceGuideEnabled = enabled;
             if (enabled) {
@@ -2118,7 +2294,6 @@
                 updateVoiceStatusHint();
             }
         }
-
         function speak(text) {
             if (!voiceGuideEnabled || !('speechSynthesis' in window)) return;
             if (!indonesianVoice) indonesianVoice = findIndonesianVoice();
@@ -2130,9 +2305,7 @@
             window.speechSynthesis.speak(utter);
         }
 
-        /* ========================================================
-           BREATHING
-           ======================================================== */
+        /* ===== BREATHING ===== */
         let breathingTimer = null;
         let currentTech = 'box';
         let currentVisual = 'circle';
@@ -2162,27 +2335,18 @@
                     { label: "HEMBUSKAN", duration: 5, scale: 1.0, voice: "Hembuskan, tenang...", boxPos: 'bottom' }
                 ]}
         };
-
         const VISUAL_IDS = ['circle','candle','bloom','balloon','box','star'];
 
         function changeVisualStyle(visualId) {
             if (!VISUAL_IDS.includes(visualId)) return;
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
-            const allVisuals = document.querySelectorAll('.breath-visual');
-            allVisuals.forEach(el => {
-                if (el.dataset.visual === visualId) {
-                    el.classList.remove('visual-hidden');
-                    el.classList.add('visual-active');
-                } else {
-                    el.classList.remove('visual-active');
-                    el.classList.add('visual-hidden');
-                }
+            document.querySelectorAll('.breath-visual').forEach(el => {
+                if (el.dataset.visual === visualId) { el.classList.remove('visual-hidden'); el.classList.add('visual-active'); }
+                else { el.classList.remove('visual-active'); el.classList.add('visual-hidden'); }
             });
-            // Reset scale visual saat ganti
             resetVisualScale();
         }
-
         function resetVisualScale() {
             const mainCircle = document.getElementById('breathMainCircle');
             if (mainCircle) { mainCircle.style.transform = 'scale(1)'; mainCircle.classList.remove('paused'); }
@@ -2197,22 +2361,18 @@
             const boxMarker = document.getElementById('boxMarker');
             if (boxMarker) boxMarker.style.transform = '';
         }
-
         function selectTechnique(techKey) {
             currentTech = techKey;
             document.getElementById('breathTechniqueTitle').innerText = techniques[techKey].title;
             document.getElementById('breathTechniqueDesc').innerText = techniques[techKey].desc;
             stopBreathing();
         }
-
         function updateVisualForStep(step, tech) {
-            // Lingkaran
             const mainCircle = document.getElementById('breathMainCircle');
             if (mainCircle) {
                 mainCircle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`;
                 mainCircle.style.transform = `scale(${step.scale})`;
             }
-            // Lilin: flame scale 0.6 - 1.5
             const candle = document.getElementById('candleFlame');
             if (candle) {
                 const flameScale = step.scale > 1.2 ? 1.4 : 0.85;
@@ -2222,7 +2382,6 @@
                     ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)'
                     : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
             }
-            // Bunga: petals rotate + scale
             const bloom = document.getElementById('bloomSvg');
             const petals = document.getElementById('bloomPetals');
             if (bloom) {
@@ -2235,7 +2394,6 @@
                 petals.style.transform = step.scale > 1.2 ? 'scale(1.15)' : 'scale(0.85)';
                 petals.style.transformOrigin = '100px 100px';
             }
-            // Balon
             const balloon = document.getElementById('balloonBody');
             if (balloon) {
                 const bScale = step.scale > 1.2 ? 1.25 : 0.85;
@@ -2243,21 +2401,12 @@
                 balloon.style.transform = `scale(${bScale})`;
                 balloon.style.transformOrigin = '60px 150px';
             }
-            // Kotak: marker bergerak mengelilingi kotak
             const boxMarker = document.getElementById('boxMarker');
             if (boxMarker && step.boxPos) {
-                let transform = '';
-                const positions = {
-                    top: 'translate(-70px, -70px)',
-                    right: 'translate(70px, -70px)',
-                    bottom: 'translate(70px, 70px)',
-                    left: 'translate(-70px, 70px)'
-                };
-                transform = positions[step.boxPos] || '';
+                const positions = { top: 'translate(-70px, -70px)', right: 'translate(70px, -70px)', bottom: 'translate(70px, 70px)', left: 'translate(-70px, 70px)' };
                 boxMarker.style.transition = `transform ${step.duration}s ease-in-out`;
-                boxMarker.style.transform = transform;
+                boxMarker.style.transform = positions[step.boxPos] || '';
             }
-            // Bintang
             const star = document.getElementById('starShape');
             if (star) {
                 const starScale = step.scale > 1.2 ? 1.3 : 0.8;
@@ -2268,43 +2417,19 @@
                     : 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)) brightness(0.9)';
             }
         }
-
         function updateVisualInstruction(step) {
-            const ids = {
-                circle: 'breathInstruction',
-                candle: 'candleInstruction',
-                bloom: 'bloomInstruction',
-                balloon: 'balloonInstruction',
-                box: 'boxInstruction',
-                star: 'starInstruction'
-            };
-            const timerIds = {
-                circle: 'breathTimer',
-                candle: 'candleTimer',
-                bloom: 'bloomTimer',
-                balloon: 'balloonTimer',
-                box: 'boxTimer',
-                star: 'starTimer'
-            };
+            const ids = { circle: 'breathInstruction', candle: 'candleInstruction', bloom: 'bloomInstruction', balloon: 'balloonInstruction', box: 'boxInstruction', star: 'starInstruction' };
+            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', box: 'boxTimer', star: 'starTimer' };
             const instructionEl = document.getElementById(ids[currentVisual]);
             const timerEl = document.getElementById(timerIds[currentVisual]);
             if (instructionEl) instructionEl.innerText = step.label;
             if (timerEl) timerEl.innerText = step.duration;
         }
-
         function updateTimerDisplay(seconds) {
-            const timerIds = {
-                circle: 'breathTimer',
-                candle: 'candleTimer',
-                bloom: 'bloomTimer',
-                balloon: 'balloonTimer',
-                box: 'boxTimer',
-                star: 'starTimer'
-            };
+            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', box: 'boxTimer', star: 'starTimer' };
             const timerEl = document.getElementById(timerIds[currentVisual]);
             if (timerEl) timerEl.innerText = seconds;
         }
-
         function startBreathing() {
             breathStepIndex = 0;
             completedCycles = 0;
@@ -2313,7 +2438,6 @@
             updateBreathingUI('running');
             runBreathingStep();
         }
-
         function runBreathingStep() {
             if (isPaused || !isRunning) return;
             const tech = techniques[currentTech];
@@ -2327,20 +2451,15 @@
             breathingTimer = setInterval(() => {
                 if (isPaused) return;
                 breathCount--;
-                if (breathCount > 0) {
-                    updateTimerDisplay(breathCount);
-                } else {
+                if (breathCount > 0) { updateTimerDisplay(breathCount); }
+                else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
-                    if (breathStepIndex === 0) {
-                        completedCycles++;
-                        if (completedCycles === 1) markActivityToday();
-                    }
+                    if (breathStepIndex === 0) { completedCycles++; if (completedCycles === 1) markActivityToday(); }
                     runBreathingStep();
                 }
             }, 1000);
         }
-
         function pauseBreathing() {
             if (!isRunning || isPaused) return;
             isPaused = true;
@@ -2350,7 +2469,6 @@
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             showToast("Latihan dijeda.");
         }
-
         function resumeBreathing() {
             if (!isRunning || !isPaused) return;
             isPaused = false;
@@ -2364,21 +2482,16 @@
             breathingTimer = setInterval(() => {
                 if (isPaused) return;
                 breathCount--;
-                if (breathCount > 0) {
-                    updateTimerDisplay(breathCount);
-                } else {
+                if (breathCount > 0) { updateTimerDisplay(breathCount); }
+                else {
                     clearInterval(breathingTimer);
                     breathStepIndex = (breathStepIndex + 1) % tech.steps.length;
-                    if (breathStepIndex === 0) {
-                        completedCycles++;
-                        if (completedCycles === 1) markActivityToday();
-                    }
+                    if (breathStepIndex === 0) { completedCycles++; if (completedCycles === 1) markActivityToday(); }
                     runBreathingStep();
                 }
             }, 1000);
             showToast("Melanjutkan latihan...");
         }
-
         function stopBreathing() {
             clearInterval(breathingTimer);
             isPaused = false;
@@ -2388,11 +2501,8 @@
             resetVisualScale();
             const active = document.querySelector('.breath-visual.visual-active');
             if (active) active.classList.remove('paused');
-            // Reset label & timer
-            const tech = techniques[currentTech];
             updateVisualInstruction({ label: 'SIAP', duration: 4 });
         }
-
         function updateBreathingUI(state) {
             const btnStart = document.getElementById('btnStartBreathing');
             const btnPause = document.getElementById('btnPauseBreathing');
@@ -2421,9 +2531,7 @@
             lucide.createIcons();
         }
 
-        /* ========================================================
-           GROUNDING
-           ======================================================== */
+        /* ===== GROUNDING ===== */
         let currentGroundStep = 5;
         const groundingStepsData = {
             5: { title: "5 Hal Yang Bisa Anda LIHAT", desc: "Lihat sekeliling ruangan Anda.", inputs: ["Benda 1 di dekat Anda", "Benda 2 di kejauhan", "Pola atau tekstur dinding", "Warna tertentu", "Cahaya atau bayangan"] },
@@ -2432,7 +2540,6 @@
             2: { title: "2 Aroma Yang Bisa Anda CIUM", desc: "Hirup udara perlahan.", inputs: ["Aroma pakaian / parfum", "Aroma udara ruangan"] },
             1: { title: "1 Rasa Yang Bisa Anda RASAKAN", desc: "Fokus pada indera pengecap.", inputs: ["Rasa di mulut Anda"] }
         };
-
         function setGroundingStep(stepNum) {
             currentGroundStep = stepNum;
             [5, 4, 3, 2, 1].forEach(num => {
@@ -2460,16 +2567,13 @@
             document.getElementById('btnPrevGround').disabled = (stepNum === 5);
             document.getElementById('btnNextGround').innerText = stepNum === 1 ? "Selesai Grounding" : "Selanjutnya";
         }
-
         function nextGroundingStep() {
             if (currentGroundStep > 1) setGroundingStep(currentGroundStep - 1);
             else { showToast("Latihan Grounding Selesai!"); markActivityToday(); setGroundingStep(5); }
         }
         function prevGroundingStep() { if (currentGroundStep < 5) setGroundingStep(currentGroundStep + 1); }
 
-        /* ========================================================
-           JOURNAL
-           ======================================================== */
+        /* ===== JOURNAL ===== */
         function saveJournalEntry(e) {
             e.preventDefault();
             const thought = document.getElementById('cbtThought').value;
@@ -2487,7 +2591,6 @@
             markActivityToday();
             showToast("Jurnal berhasil disimpan!");
         }
-
         function loadJournals() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             const container = document.getElementById('journalHistoryList');
@@ -2513,7 +2616,6 @@
             `).join('');
             lucide.createIcons();
         }
-
         function deleteJournal(id) {
             let entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             entries = entries.filter(item => item.id !== id);
@@ -2522,9 +2624,7 @@
             showToast("Catatan dihapus.");
         }
 
-        /* ========================================================
-           RELEASE
-           ======================================================== */
+        /* ===== RELEASE ===== */
         function handleReleaseSubmit(e) {
             e.preventDefault();
             document.getElementById('releaseForm').classList.add('hidden');
@@ -2547,9 +2647,7 @@
             document.getElementById('releaseAnimationBox').classList.add('hidden');
         }
 
-        /* ========================================================
-           AFFIRMATIONS
-           ======================================================== */
+        /* ===== AFFIRMATIONS ===== */
         const affirmationsList = [
             { text: "Perasaan cemas ini bersifat sementara dan pasti akan berlalu.", sub: "Sistem saraf Anda akan kembali seimbang." },
             { text: "Saya aman saat ini di sini.", sub: "Fokus pada ruang dan waktu sekarang." },
@@ -2558,17 +2656,16 @@
             { text: "Saya pernah melaluinya sebelumnya, dan saya bisa melaluinya lagi.", sub: "Anda jauh lebih tangguh dari yang Anda bayangkan." },
             { text: "Pelan-pelan saja, satu detik demi satu detik.", sub: "Tidak perlu terburu-buru menyelesaikan semuanya." },
             { text: "Napas saya adalah jangkar yang selalu bisa saya kembali.", sub: "Setiap tarikan napas membawa ketenangan baru ke tubuh Anda." },
-            { text: "Cemas bukan berarti saya lemah. Itu artinya saya peduli.", sub: "Kecemasan menunjukkan bahwa Anda menghargai sesuatu. Validasi itu, tapi jangan biarkan menguasai Anda." },
-            { text: "Saya berhak untuk tenang dan bahagia hari ini.", sub: "Ketenangan adalah hak dasar setiap manusia, termasuk Anda." },
+            { text: "Cemas bukan berarti saya lemah. Itu artinya saya peduli.", sub: "Kecemasan menunjukkan bahwa Anda menghargai sesuatu." },
+            { text: "Saya berhak untuk tenang dan bahagia hari ini.", sub: "Ketenangan adalah hak dasar setiap manusia." },
             { text: "Tidak semua pikiran harus ditindaklanjuti. Beberapa cukup diamati.", sub: "Anda adalah pengamat pikiran, bukan pikiran itu sendiri." },
-            { text: "Saya lebih kuat dari ketakutan yang sedang saya hadapi.", sub: "Riset menunjukkan bahwa manusia jauh lebih tahan banting dari yang sering kita duga." },
-            { text: "Satu langkah kecil hari ini lebih baik dari nol langkah besar besok.", sub: "Perubahan besar dimulai dari kebiasaan kecil yang konsisten." },
+            { text: "Saya lebih kuat dari ketakutan yang sedang saya hadapi.", sub: "Manusia jauh lebih tahan banting dari yang sering kita duga." },
+            { text: "Satu langkah kecil hari ini lebih baik dari nol langkah besar besok.", sub: "Perubahan besar dimulai dari kebiasaan kecil." },
             { text: "Saya tidak harus sempurna untuk menjadi cukup.", sub: "Perfeksionisme adalah bibit kecemasan." },
-            { text: "Pikiran saya bukan ramalan. Saya tidak bisa memprediksi masa depan.", sub: "Otak kita sering 'menebak' skenario terburuk. Tapi tebakan bukan kenyataan." },
-            { text: "Hari ini saya memilih untuk menunjukkan kasih pada diri sendiri.", sub: "Berbicara pada diri sendiri seperti pada sahabat baik — dengan lembut, bukan keras." },
+            { text: "Pikiran saya bukan ramalan. Saya tidak bisa memprediksi masa depan.", sub: "Otak kita sering 'menebak' skenario terburuk." },
+            { text: "Hari ini saya memilih untuk menunjukkan kasih pada diri sendiri.", sub: "Berbicara pada diri sendiri seperti pada sahabat baik." },
             { text: "Saya di sini. Saya hidup. Saya cukup. Saat ini, itu yang penting.", sub: "Kehadiran penuh di momen sekarang adalah obat alami kecemasan." }
         ];
-
         function renderAffirmations() {
             const grid = document.getElementById('affirmationCardsGrid');
             const picked = shuffle(affirmationsList).slice(0, 6);
@@ -2592,9 +2689,7 @@
         }
         function flipCard(el) { el.querySelector('.card-inner').classList.toggle('rotate-y-180'); }
 
-        /* ========================================================
-           MOOD
-           ======================================================== */
+        /* ===== MOOD ===== */
         function saveMoodLog() {
             const val = document.getElementById('quickMoodRange').value;
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
@@ -2610,7 +2705,6 @@
             updateHomeStats();
             showToast(`Skala kecemasan (${val}/10) dicatat.`);
         }
-
         function loadMoodHistory() {
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             const table = document.getElementById('moodHistoryTable');
@@ -2633,7 +2727,6 @@
             renderMoodChart();
             updateWeeklyStats();
         }
-
         function clearMoodHistory() {
             if (!confirm('Yakin ingin menghapus semua riwayat mood?')) return;
             localStorage.removeItem('anti_anxiety_moods');
@@ -2641,12 +2734,9 @@
             showToast("Riwayat dihapus.");
         }
 
-        /* ========================================================
-           CHART: Mood
-           ======================================================== */
+        /* ===== MOOD CHART ===== */
         let moodChart = null;
         let chartRange = 7;
-
         function renderMoodChart() {
             const canvas = document.getElementById('moodChart');
             const emptyMsg = document.getElementById('chartEmpty');
@@ -2673,11 +2763,7 @@
                 data: { labels, datasets: [{ label: 'Tingkat Kecemasan', data: values, borderColor: '#14b8a6', backgroundColor: grad, borderWidth: 2.5, tension: 0.35, fill: true, pointBackgroundColor: pointColors, pointBorderColor: '#ffffff', pointBorderWidth: 2, pointRadius: 5, pointHoverRadius: 7 }] },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, displayColors: false,
-                            callbacks: { label: (ctx) => { const v = ctx.parsed.y; const s = v > 7 ? 'Sangat Cemas' : v > 4 ? 'Waspada' : 'Tenang'; return `Skor: ${v}/10 (${s})`; } } }
-                    },
+                    plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, displayColors: false, callbacks: { label: (ctx) => { const v = ctx.parsed.y; const s = v > 7 ? 'Sangat Cemas' : v > 4 ? 'Waspada' : 'Tenang'; return `Skor: ${v}/10 (${s})`; } } } },
                     scales: {
                         y: { beginAtZero: true, max: 10, ticks: { stepSize: 2, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
                         x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 9, weight: '600' }, maxRotation: 45 }, grid: { display: false } }
@@ -2685,7 +2771,6 @@
                 }
             });
         }
-
         function switchChartRange(range) {
             chartRange = range;
             [7, 14, 30].forEach(r => {
@@ -2697,7 +2782,6 @@
             });
             renderMoodChart();
         }
-
         function updateStats() {
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             const totalEl = document.getElementById('statTotal');
@@ -2713,12 +2797,10 @@
             minEl.innerText = Math.min(...scores);
             maxEl.innerText = Math.max(...scores);
         }
-
         function updateWeeklyStats() {
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             if (!logs.length) {
-                const ids = ['weekMoodCount', 'weekMoodAvg', 'lastWeekMoodAvg', 'weekTrend'];
-                ids.forEach(id => { const el = document.getElementById(id); if (el) el.innerText = '0'; });
+                ['weekMoodCount', 'weekMoodAvg', 'lastWeekMoodAvg', 'weekTrend'].forEach(id => { const el = document.getElementById(id); if (el) el.innerText = '0'; });
                 return;
             }
             const now = new Date();
@@ -2727,42 +2809,26 @@
             startOfThisWeek.setHours(0,0,0,0);
             const startOfLastWeek = new Date(startOfThisWeek);
             startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
-            
-            const thisWeekLogs = logs.filter(l => {
-                const parts = l.date.split(' ');
-                // parse tanggal Indonesia: "18 Okt 14:30"
+            const parseDate = (dateStr) => {
+                const parts = dateStr.split(' ');
                 try {
                     const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
                     const day = parseInt(parts[0], 10);
                     const month = months[parts[1]];
-                    if (month === undefined || isNaN(day)) return false;
-                    const d = new Date(now.getFullYear(), month, day);
-                    return d >= startOfThisWeek && d <= now;
-                } catch(e) { return false; }
-            });
-            const lastWeekLogs = logs.filter(l => {
-                const parts = l.date.split(' ');
-                try {
-                    const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
-                    const day = parseInt(parts[0], 10);
-                    const month = months[parts[1]];
-                    if (month === undefined || isNaN(day)) return false;
-                    const d = new Date(now.getFullYear(), month, day);
-                    return d >= startOfLastWeek && d < startOfThisWeek;
-                } catch(e) { return false; }
-            });
-            
+                    if (month === undefined || isNaN(day)) return null;
+                    return new Date(now.getFullYear(), month, day);
+                } catch(e) { return null; }
+            };
+            const thisWeekLogs = logs.filter(l => { const d = parseDate(l.date); return d && d >= startOfThisWeek && d <= now; });
+            const lastWeekLogs = logs.filter(l => { const d = parseDate(l.date); return d && d >= startOfLastWeek && d < startOfThisWeek; });
             const thisAvg = thisWeekLogs.length > 0 ? (thisWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/thisWeekLogs.length) : 0;
             const lastAvg = lastWeekLogs.length > 0 ? (lastWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/lastWeekLogs.length) : 0;
-            
             document.getElementById('weekMoodCount').innerText = thisWeekLogs.length;
             document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
             document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
-            
             const trendEl = document.getElementById('weekTrend');
             if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) {
-                trendEl.innerText = '—';
-                trendEl.className = 'text-2xl font-bold text-slate-500 mt-1';
+                trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1';
             } else {
                 const diff = thisAvg - lastAvg;
                 if (diff < -0.3) { trendEl.innerText = `↓ ${Math.abs(diff).toFixed(1)}`; trendEl.className = 'text-2xl font-bold text-emerald-600 mt-1'; }
@@ -2771,9 +2837,7 @@
             }
         }
 
-        /* ========================================================
-           STREAK
-           ======================================================== */
+        /* ===== STREAK ===== */
         function markActivityToday() {
             let activities = [];
             try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) { activities = []; }
@@ -2785,7 +2849,6 @@
             }
             updateStreak();
         }
-
         function updateStreak() {
             let activities = [];
             try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
@@ -2798,7 +2861,6 @@
             if (streakBig) streakBig.innerText = streak;
             if (streakBadge) streakBadge.classList.toggle('hidden', streak === 0);
         }
-
         function renderStreakCalendar() {
             const container = document.getElementById('streakCalendar');
             if (!container) return;
@@ -2820,9 +2882,7 @@
             }
         }
 
-        /* ========================================================
-           INSIGHTS
-           ======================================================== */
+        /* ===== INSIGHTS ===== */
         function renderInsights() {
             const container = document.getElementById('insightCards');
             if (!container) return;
@@ -2833,8 +2893,7 @@
                 insights.push({ icon: 'sparkles', color: 'calm', title: 'Mulai Perjalanan Anda', text: 'Catat mood pertama Anda hari ini untuk mulai mendapatkan insight personal.' });
             } else {
                 const scores = logs.map(l => parseInt(l.score, 10)).filter(n => Number.isFinite(n));
-                if (scores.length === 0) { insights.push({ icon: 'activity', color: 'sky', title: 'Data Tidak Lengkap', text: 'Catat mood Anda untuk analisis.' }); }
-                else {
+                if (scores.length > 0) {
                     const recent = scores.slice(0, 7);
                     const older = scores.slice(7, 14);
                     const avgRecent = recent.reduce((a, b) => a + b, 0) / recent.length;
@@ -2842,20 +2901,12 @@
                     if (avgOlder !== null) {
                         const diff = avgRecent - avgOlder;
                         if (diff < -0.5) insights.push({ icon: 'trending-down', color: 'emerald', title: 'Kecemasan Menurun!', text: `Rata-rata turun ${Math.abs(diff).toFixed(1)} poin. Pertahankan!` });
-                        else if (diff > 0.5) insights.push({ icon: 'trending-up', color: 'rose', title: 'Kecemasan Meningkat', text: `Naik ${diff.toFixed(1)} poin. Coba latihan 4-7-8 lebih sering.` });
+                        else if (diff > 0.5) insights.push({ icon: 'trending-up', color: 'rose', title: 'Kecemasan Meningkat', text: `Naik ${diff.toFixed(1)} poin. Coba latihan 4-7-8.` });
                         else insights.push({ icon: 'activity', color: 'sky', title: 'Stabil', text: `Rata-rata stabil di ${avgRecent.toFixed(1)}/10.` });
                     }
                     const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
                     if (avg > 6) insights.push({ icon: 'heart', color: 'rose', title: 'Anda Sedang Berat', text: 'Pertimbangkan bercerita ke orang terpercaya atau profesional.' });
                     else if (avg < 3.5) insights.push({ icon: 'sun', color: 'amber', title: 'Anda Sangat Tenang', text: 'Anda dalam kondisi baik!' });
-                    const tinggi = scores.filter(s => s > 7).length;
-                    const sedang = scores.filter(s => s > 4 && s <= 7).length;
-                    const rendah = scores.filter(s => s <= 4).length;
-                    const maxCat = Math.max(tinggi, sedang, rendah);
-                    let domCat = 'sedang';
-                    if (maxCat === rendah) domCat = 'rendah (tenang)';
-                    else if (maxCat === tinggi) domCat = 'tinggi (cemas)';
-                    insights.push({ icon: 'pie-chart', color: 'purple', title: 'Pola Dominan', text: `Dari ${scores.length} catatan, kategori ${domCat} paling sering.` });
                     if (journals.length > 0) insights.push({ icon: 'book-open', color: 'sky', title: `Jurnal CBT: ${journals.length} catatan`, text: 'Menulis jurnal CBT membantu mereframe pikiran.' });
                 }
             }
@@ -2880,38 +2931,23 @@
             `).join('');
             lucide.createIcons();
         }
-
         const dailyTips = [
             "Minum air putih yang cukup. Dehidrasi ringan saja bisa memicu kecemasan.",
-            "Jalan kaki 10 menit di luar ruangan bisa menurunkan kortisol (hormon stres).",
-            "Batasi kafein setelah jam 2 siang — bisa mengganggu tidur & memicu gelisah.",
+            "Jalan kaki 10 menit di luar ruangan bisa menurunkan kortisol.",
+            "Batasi kafein setelah jam 2 siang — bisa mengganggu tidur.",
             "Tidur 7-8 jam sehari. Kurang tidur memperburuk kecemasan.",
             "Bicara dengan orang yang Anda percaya minimal sekali sehari.",
-            "Kurangi scroll media sosial sebelum tidur. Otak butuh waktu tenang.",
+            "Kurangi scroll media sosial sebelum tidur.",
             "Coba teknik grounding 5-4-3-2-1 saat mulai merasa panik.",
             "Tulis 3 hal yang Anda syukuri hari ini sebelum tidur.",
             "Napas dalam 4-7-8 bisa menenangkan sistem saraf dalam 2 menit.",
             "Mendengarkan musik favorit 15 menit dapat menurunkan hormon stres."
         ];
+        function renderDailyTip() { const el = document.getElementById('dailyTipText'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
+        function renderDailyTipHome() { const el = document.getElementById('dailyTipTextHome'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
 
-        function renderDailyTip() {
-            const el = document.getElementById('dailyTipText');
-            if (!el) return;
-            const dayIndex = new Date().getDate() % dailyTips.length;
-            el.innerText = dailyTips[dayIndex];
-        }
-        function renderDailyTipHome() {
-            const el = document.getElementById('dailyTipTextHome');
-            if (!el) return;
-            const dayIndex = new Date().getDate() % dailyTips.length;
-            el.innerText = dailyTips[dayIndex];
-        }
-
-        /* ========================================================
-           GRATITUDE
-           ======================================================== */
+        /* ===== GRATITUDE ===== */
         let gratitudeChart = null;
-
         function saveGratitudeEntry(e) {
             e.preventDefault();
             const g1 = document.getElementById('gratitude1').value.trim();
@@ -2929,7 +2965,6 @@
             markActivityToday(); updateHomeStats();
             showToast("🌸 Syukur hari ini tersimpan!");
         }
-
         function loadGratitudeHistory() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             const container = document.getElementById('gratitudeHistoryList');
@@ -2939,7 +2974,7 @@
                 <div class="p-4 rounded-2xl bg-pink-50/60 dark:bg-pink-950/20 border border-pink-200 dark:border-pink-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between text-pink-700 dark:text-pink-300 font-semibold">
                         <span class="flex items-center gap-1.5"><i data-lucide="heart" class="w-3.5 h-3.5"></i> ${escapeHtml(item.date)}</span>
-                        <button onclick="deleteGratitude(${Number(item.id)})" aria-label="Hapus catatan syukur" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
+                        <button onclick="deleteGratitude(${Number(item.id)})" aria-label="Hapus" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
                             <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -2955,7 +2990,6 @@
             `).join('');
             lucide.createIcons();
         }
-
         function deleteGratitude(id) {
             if (!confirm('Hapus catatan syukur ini?')) return;
             let entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
@@ -2965,7 +2999,6 @@
             updateHomeStats();
             showToast("Catatan syukur dihapus.");
         }
-
         function clearGratitudeHistory() {
             if (!confirm('⚠️ Hapus SEMUA riwayat jurnal syukur?')) return;
             localStorage.removeItem('anti_anxiety_gratitude');
@@ -2973,7 +3006,6 @@
             updateHomeStats();
             showToast("Semua riwayat syukur dihapus.");
         }
-
         function updateGratitudeStats() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             const totalEl = document.getElementById('gratTotalDays');
@@ -2983,19 +3015,18 @@
             if (!totalEl) return;
             const uniqueDays = new Set(entries.map(e => e.dateKey).filter(Boolean));
             totalEl.innerText = uniqueDays.size;
-            const streak = computeStreak(uniqueDays);
-            streakEl.innerText = streak;
+            streakEl.innerText = computeStreak(uniqueDays);
             const now = new Date();
             const monthPrefix = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
             monthEl.innerText = entries.filter(e => e.dateKey && e.dateKey.startsWith(monthPrefix)).length;
+            const s = computeStreak(uniqueDays);
             let badge = '-';
-            if (streak >= 100) badge = '👑 Master';
-            else if (streak >= 30) badge = '🏆 Praktisi';
-            else if (streak >= 7) badge = '⭐ Konsisten';
-            else if (streak >= 3) badge = '🌱 Pemula';
+            if (s >= 100) badge = '👑 Master';
+            else if (s >= 30) badge = '🏆 Praktisi';
+            else if (s >= 7) badge = '⭐ Konsisten';
+            else if (s >= 3) badge = '🌱 Pemula';
             badgeEl.innerText = badge;
         }
-
         function renderGratitudeCalendar() {
             const container = document.getElementById('gratitudeCalendar');
             if (!container) return;
@@ -3015,7 +3046,6 @@
                 container.appendChild(cell);
             }
         }
-
         function renderGratitudeChart() {
             const canvas = document.getElementById('gratitudeChart');
             if (!canvas || !window.Chart) return;
@@ -3045,12 +3075,9 @@
             });
         }
 
-        /* ========================================================
-           LUCK
-           ======================================================== */
+        /* ===== LUCK ===== */
         let luckChart = null;
         let luckBarChart = null;
-
         function saveLuckEntry(e) {
             e.preventDefault();
             const text = document.getElementById('luckInput').value.trim();
@@ -3068,19 +3095,13 @@
             markActivityToday(); updateHomeStats();
             showToast("🍀 Keberuntungan hari ini tersimpan!");
         }
-
         function loadLuckHistory() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             const container = document.getElementById('luckHistoryList');
             if (!container) return;
             if (entries.length === 0) { container.innerHTML = `<p class="text-xs font-medium text-slate-500 text-center py-8">Belum ada catatan keberuntungan.</p>`; return; }
             const catEmoji = { 'Rezeki': '💰', 'Sosial': '🤝', 'Kesempatan': '🚀', 'Lainnya': '✨' };
-            const catColor = {
-                'Rezeki': 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
-                'Sosial': 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300',
-                'Kesempatan': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300',
-                'Lainnya': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
-            };
+            const catColor = { 'Rezeki': 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300', 'Sosial': 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300', 'Kesempatan': 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300', 'Lainnya': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300' };
             container.innerHTML = entries.map(item => `
                 <div class="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/60 text-xs space-y-2 relative group">
                     <div class="flex items-center justify-between font-semibold">
@@ -3090,7 +3111,7 @@
                                 ${catEmoji[item.category] || '✨'} ${escapeHtml(item.category)}
                             </span>
                         </div>
-                        <button onclick="deleteLuck(${Number(item.id)})" aria-label="Hapus catatan keberuntungan" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
+                        <button onclick="deleteLuck(${Number(item.id)})" aria-label="Hapus" class="text-rose-400 hover:text-rose-600 opacity-80 group-hover:opacity-100 transition">
                             <i data-lucide="trash" class="w-3.5 h-3.5"></i>
                         </button>
                     </div>
@@ -3099,16 +3120,14 @@
             `).join('');
             lucide.createIcons();
         }
-
         function deleteLuck(id) {
             if (!confirm('Hapus catatan keberuntungan ini?')) return;
             let entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             entries = entries.filter(item => item.id !== id);
             localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries));
             loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart();
-            showToast("Catatan keberuntungan dihapus.");
+            showToast("Catatan dihapus.");
         }
-
         function clearLuckHistory() {
             if (!confirm('⚠️ Hapus SEMUA riwayat keberuntungan?')) return;
             localStorage.removeItem('anti_anxiety_luck');
@@ -3116,7 +3135,6 @@
             updateHomeStats();
             showToast("Semua riwayat keberuntungan dihapus.");
         }
-
         function updateLuckStats() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             const totalEl = document.getElementById('luckTotal');
@@ -3136,7 +3154,6 @@
             Object.keys(catCount).forEach(cat => { if (catCount[cat] > topCount) { topCount = catCount[cat]; topCat = cat; } });
             topCatEl.innerText = topCat !== '-' ? `${escapeHtml(topCat)} (${topCount})` : '-';
         }
-
         function renderLuckChart() {
             const canvas = document.getElementById('luckChart');
             const emptyMsg = document.getElementById('luckChartEmpty');
@@ -3146,31 +3163,17 @@
             entries.forEach(e => { if (catCount[e.category] !== undefined) catCount[e.category]++; });
             const isEmpty = entries.length === 0;
             const isDark = document.documentElement.classList.contains('dark');
-            if (isEmpty) {
-                if (emptyMsg) emptyMsg.classList.remove('hidden');
-                canvas.style.display = 'none';
-                if (luckChart) { luckChart.destroy(); luckChart = null; }
-                return;
-            } else {
-                if (emptyMsg) emptyMsg.classList.add('hidden');
-                canvas.style.display = 'block';
-            }
+            if (isEmpty) { if (emptyMsg) emptyMsg.classList.remove('hidden'); canvas.style.display = 'none'; if (luckChart) { luckChart.destroy(); luckChart = null; } return; }
+            else { if (emptyMsg) emptyMsg.classList.add('hidden'); canvas.style.display = 'block'; }
             if (luckChart) luckChart.destroy();
             const ctx = canvas.getContext('2d');
             const colors = ['#f59e0b', '#0ea5e9', '#a855f7', '#10b981'];
             luckChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: { labels: Object.keys(catCount), datasets: [{ data: Object.values(catCount), backgroundColor: colors, borderColor: isDark ? '#1e293b' : '#ffffff', borderWidth: 3 }] },
-                options: {
-                    responsive: true, maintainAspectRatio: false, cutout: '65%',
-                    plugins: {
-                        legend: { position: 'bottom', labels: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' }, padding: 14 } },
-                        tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} gain` } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' }, padding: 14 } }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.label}: ${ctx.parsed} gain` } } } }
             });
         }
-
         function renderLuckBarChart() {
             const canvas = document.getElementById('luckBarChart');
             const emptyMsg = document.getElementById('luckBarChartEmpty');
@@ -3180,53 +3183,19 @@
             entries.forEach(e => { if (catCount[e.category] !== undefined) catCount[e.category]++; });
             const isEmpty = entries.length === 0;
             const isDark = document.documentElement.classList.contains('dark');
-            if (isEmpty) {
-                if (emptyMsg) emptyMsg.classList.remove('hidden');
-                canvas.style.display = 'none';
-                if (luckBarChart) { luckBarChart.destroy(); luckBarChart = null; }
-                return;
-            } else {
-                if (emptyMsg) emptyMsg.classList.add('hidden');
-                canvas.style.display = 'block';
-            }
+            if (isEmpty) { if (emptyMsg) emptyMsg.classList.remove('hidden'); canvas.style.display = 'none'; if (luckBarChart) { luckBarChart.destroy(); luckBarChart = null; } return; }
+            else { if (emptyMsg) emptyMsg.classList.add('hidden'); canvas.style.display = 'block'; }
             if (luckBarChart) luckBarChart.destroy();
             const ctx = canvas.getContext('2d');
             const colors = ['#f59e0b', '#0ea5e9', '#a855f7', '#10b981'];
             luckBarChart = new Chart(ctx, {
                 type: 'bar',
                 data: { labels: Object.keys(catCount), datasets: [{ label: 'Jumlah', data: Object.values(catCount), backgroundColor: colors, borderRadius: 8, borderSkipped: false }] },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.parsed.y} gain` } } },
-                    scales: {
-                        y: { beginAtZero: true, ticks: { stepSize: 1, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } },
-                        x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' } }, grid: { display: false } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: isDark ? '#0f172a' : '#1e293b', titleColor: '#ffffff', bodyColor: '#e2e8f0', padding: 10, cornerRadius: 10, callbacks: { label: (ctx) => `${ctx.parsed.y} gain` } } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, color: isDark ? '#94a3b8' : '#64748b', font: { size: 10, weight: '600' } }, grid: { color: isDark ? 'rgba(148, 163, 184, 0.15)' : 'rgba(148, 163, 184, 0.20)' } }, x: { ticks: { color: isDark ? '#94a3b8' : '#64748b', font: { size: 11, weight: '600' } }, grid: { display: false } } } }
             });
         }
 
-        /* ========================================================
-           CSV EXPORT
-           ======================================================== */
-        function escapeCSV(val) {
-            const s = String(val ?? '');
-            if (s.includes(',') || s.includes('"') || s.includes('\n')) {
-                return `"${s.replace(/"/g, '""')}"`;
-            }
-            return s;
-        }
-        function downloadCSV(filename, rows) {
-            const csv = rows.map(r => r.map(escapeCSV).join(',')).join('\n');
-            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = filename;
-            document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast(`✅ CSV diunduh: ${filename}`);
-        }
-
+        /* ===== CSV EXPORT ===== */
         function exportMoodsCSV() {
             const logs = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]');
             if (logs.length === 0) { showToast("Tidak ada data mood untuk diexport."); return; }
@@ -3234,7 +3203,13 @@
             logs.forEach(l => rows.push([l.date, l.score, l.status]));
             downloadCSV(`mood-${new Date().toISOString().split('T')[0]}.csv`, rows);
         }
-
+        function exportCbtCSV() {
+            const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
+            if (entries.length === 0) { showToast("Tidak ada catatan CBT untuk diexport."); return; }
+            const rows = [['Tanggal', 'Kekhawatiran', 'Bukti', 'Pikiran Alternatif']];
+            entries.forEach(e => rows.push([e.date, e.thought, e.evidence, e.reframing]));
+            downloadCSV(`jurnal-cbt-${new Date().toISOString().split('T')[0]}.csv`, rows);
+        }
         function exportGratitudeCSV() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             if (entries.length === 0) { showToast("Tidak ada data syukur untuk diexport."); return; }
@@ -3245,7 +3220,6 @@
             });
             downloadCSV(`syukur-${new Date().toISOString().split('T')[0]}.csv`, rows);
         }
-
         function exportLuckCSV() {
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             if (entries.length === 0) { showToast("Tidak ada data keberuntungan untuk diexport."); return; }
@@ -3254,9 +3228,7 @@
             downloadCSV(`keberuntungan-${new Date().toISOString().split('T')[0]}.csv`, rows);
         }
 
-        /* ========================================================
-           HOME STATS
-           ======================================================== */
+        /* ===== HOME STATS ===== */
         function updateHomeStats() {
             let activities = [];
             try { activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]'); } catch (e) {}
@@ -3269,41 +3241,42 @@
             const el2 = document.getElementById('homeStatMoods');
             const el3 = document.getElementById('homeStatJournals');
             const el4 = document.getElementById('homeStatGratitude');
+            const el1Msg = document.getElementById('homeStatStreakMsg');
             if (el1) el1.innerText = streak;
             if (el2) el2.innerText = moods.length;
             if (el3) el3.innerText = journals.length;
             if (el4) el4.innerText = uniqueGratDays.size;
+            if (el1Msg) {
+                if (streak === 0) el1Msg.innerText = 'Mulai hari ini';
+                else if (streak < 3) el1Msg.innerText = 'Teruskan!';
+                else if (streak < 7) el1Msg.innerText = 'Luar biasa!';
+                else if (streak < 30) el1Msg.innerText = 'Konsisten! 🔥';
+                else el1Msg.innerText = 'Master Streak! 👑';
+            }
         }
 
-        /* ========================================================
-           DISCLAIMER
-           ======================================================== */
+        /* ===== DISCLAIMER ===== */
         function dismissDisclaimer() {
             const banner = document.getElementById('disclaimerBanner');
             if (banner) banner.style.display = 'none';
             try { localStorage.setItem('anti_anxiety_disclaimer_dismissed', 'true'); } catch (e) {}
         }
         function checkDisclaimer() {
-            const dismissed = localStorage.getItem('anti_anxiety_disclaimer_dismissed');
-            if (dismissed === 'true') {
+            if (localStorage.getItem('anti_anxiety_disclaimer_dismissed') === 'true') {
                 const banner = document.getElementById('disclaimerBanner');
                 if (banner) banner.style.display = 'none';
             }
         }
 
-        /* ========================================================
-           BACKUP BUBBLE
-           ======================================================== */
+        /* ===== BACKUP BUBBLE ===== */
         let bubbleCollapseTimer = null;
         let bubbleCurrentlyVisible = false;
         let bubblePopupOpen = false;
-
         function getDaysSinceBackupOrData() {
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
             let hasData = false;
             try {
-                hasData =
-                    JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 ||
+                hasData = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 ||
                     JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]').length > 0 ||
                     JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 ||
                     JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0;
@@ -3314,14 +3287,12 @@
                 if (!Array.isArray(activities) || activities.length === 0) return 0;
                 const firstDate = new Date(activities[0]);
                 if (isNaN(firstDate.getTime())) return 1;
-                const diffDays = Math.floor((new Date() - firstDate) / (1000 * 60 * 60 * 24));
-                return Math.max(1, diffDays);
+                return Math.max(1, Math.floor((new Date() - firstDate) / (1000 * 60 * 60 * 24)));
             }
             const lastDate = new Date(lastBackup);
             if (isNaN(lastDate.getTime())) return 1;
             return Math.floor((new Date() - lastDate) / (1000 * 60 * 60 * 24));
         }
-
         function shouldShowBubble() {
             const days = getDaysSinceBackupOrData();
             if (days === null) return false;
@@ -3339,7 +3310,6 @@
             }
             return true;
         }
-
         function showBackupBubble() {
             if (!shouldShowBubble()) { hideBackupBubble(); return; }
             const days = getDaysSinceBackupOrData();
@@ -3349,8 +3319,8 @@
             if (!bubble) return;
             badge.innerText = days > 99 ? '99+' : days;
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
-            if (!lastBackup) popupText.innerText = `Anda belum pernah backup. Data Anda bisa hilang jika browser di-clear atau HP rusak.`;
-            else popupText.innerText = `Sudah ${days} hari Anda tidak backup. Data bisa hilang jika browser di-clear atau HP rusak.`;
+            if (!lastBackup) popupText.innerText = `Anda belum pernah backup. Data Anda bisa hilang jika browser di-clear.`;
+            else popupText.innerText = `Sudah ${days} hari Anda tidak backup. Data bisa hilang.`;
             bubble.classList.add('visible');
             bubble.classList.remove('collapsed');
             bubbleCurrentlyVisible = true;
@@ -3359,7 +3329,6 @@
                 if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed');
             }, 5000);
         }
-
         function hideBackupBubble() {
             const bubble = document.getElementById('backupBubble');
             const popup = document.getElementById('backupPopup');
@@ -3369,7 +3338,6 @@
             bubblePopupOpen = false;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
         }
-
         function handleBubbleClick(event) {
             event.stopPropagation();
             const bubble = document.getElementById('backupBubble');
@@ -3384,7 +3352,6 @@
             }
             openBubblePopup();
         }
-
         function openBubblePopup() {
             const popup = document.getElementById('backupPopup');
             if (!popup) return;
@@ -3392,7 +3359,6 @@
             bubblePopupOpen = true;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
         }
-
         function closeBubblePopup() {
             const popup = document.getElementById('backupPopup');
             if (!popup) return;
@@ -3400,13 +3366,9 @@
             bubblePopupOpen = false;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
             bubbleCollapseTimer = setTimeout(() => {
-                if (bubbleCurrentlyVisible) {
-                    const bubble = document.getElementById('backupBubble');
-                    if (bubble) bubble.classList.add('collapsed');
-                }
+                if (bubbleCurrentlyVisible) { const bubble = document.getElementById('backupBubble'); if (bubble) bubble.classList.add('collapsed'); }
             }, 3000);
         }
-
         function dismissBackupBubble() {
             const snoozeUntil = new Date();
             snoozeUntil.setDate(snoozeUntil.getDate() + 1);
@@ -3415,7 +3377,6 @@
             showToast("Pengingat ditunda sampai besok.");
         }
         function bubbleBackupNow() { exportData(); hideBackupBubble(); }
-
         document.addEventListener('click', function(e) {
             const popup = document.getElementById('backupPopup');
             const bubble = document.getElementById('backupBubble');
@@ -3423,9 +3384,7 @@
             if (bubblePopupOpen && !popup.contains(e.target) && !bubble.contains(e.target)) closeBubblePopup();
         });
 
-        /* ========================================================
-           BACKUP INFO
-           ======================================================== */
+        /* ===== BACKUP INFO ===== */
         function updateLastBackupInfo() {
             const info = document.getElementById('lastBackupInfo');
             if (!info) return;
@@ -3439,7 +3398,6 @@
                 info.innerHTML = `💡 Backup berisi: riwayat mood, catatan jurnal CBT, jurnal syukur, jurnal keberuntungan, pengaturan, dan kontak darurat.<br><b class="text-emerald-600 dark:text-emerald-400">✅ Backup terakhir: ${escapeHtml(formatted)}</b>`;
             }
         }
-
         function quickBackup() { exportData(); }
         function scrollToBackupButton() {
             switchTab('settings');
@@ -3449,9 +3407,7 @@
             }, 350);
         }
 
-        /* ========================================================
-           EMERGENCY CONTACTS
-           ======================================================== */
+        /* ===== EMERGENCY CONTACTS ===== */
         function loadEmergencyContacts() {
             let contacts = {};
             try { contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'); } catch (e) {}
@@ -3460,7 +3416,6 @@
             document.getElementById('contact2Name').value = contacts.c2Name || '';
             document.getElementById('contact2Phone').value = contacts.c2Phone || '';
         }
-
         function saveEmergencyContacts() {
             const contacts = {
                 c1Name: document.getElementById('contact1Name').value.trim(),
@@ -3474,7 +3429,6 @@
             document.getElementById('contact1Phone').value = contacts.c1Phone;
             document.getElementById('contact2Phone').value = contacts.c2Phone;
         }
-
         function renderSosContacts() {
             let contacts = {};
             try { contacts = JSON.parse(localStorage.getItem('anti_anxiety_contacts') || '{}'); } catch (e) {}
@@ -3504,17 +3458,14 @@
             lucide.createIcons();
         }
 
-        /* ========================================================
-           EXPORT / IMPORT
-           ======================================================== */
+        /* ===== EXPORT/IMPORT ===== */
         function safeParse(key, fallback) {
             try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? fallback : v; }
             catch (e) { return fallback; }
         }
-
         function exportData() {
             const data = {
-                version: 4,
+                version: 5,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3538,13 +3489,11 @@
             hideBackupBubble(); updateLastBackupInfo();
             showToast("✅ Backup berhasil diunduh!");
         }
-
         function isValidBackupData(data) {
             if (!data || typeof data !== 'object') return false;
             const knownArrays = ['moods', 'journals', 'activities', 'gratitude', 'luck'];
             return knownArrays.some(k => Array.isArray(data[k])) || (data.contacts && typeof data.contacts === 'object');
         }
-
         function importData(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -3577,7 +3526,6 @@
             reader.readAsText(file);
             event.target.value = '';
         }
-
         function resetAllData() {
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
@@ -3591,9 +3539,7 @@
             showToast("Semua data aplikasi dihapus.");
         }
 
-        /* ========================================================
-           SOS
-           ======================================================== */
+        /* ===== SOS ===== */
         let sosPrompts = [
             "Anda aman saat ini. Sensasi fisik panik ini tidak berbahaya dan pasti akan mereda.",
             "Tarik napas perlahan... Hembuskan. Tubuh Anda hanya merespons alarm palsu.",
@@ -3602,7 +3548,6 @@
         ];
         let sosPromptIdx = 0;
         let sosInterval = null;
-
         function openSosModal() {
             document.getElementById('sosModal').classList.remove('hidden');
             sosPromptIdx = 0;
@@ -3630,9 +3575,7 @@
             }, 4000);
         }
 
-        /* ========================================================
-           TOAST
-           ======================================================== */
+        /* ===== TOAST ===== */
         let toastTimer = null;
         function showToast(msg) {
             const toast = document.getElementById('toast');
@@ -3644,24 +3587,25 @@
             toastTimer = setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
         }
 
-        /* ========================================================
-           VISIBILITY
-           ======================================================== */
+        /* ===== VISIBILITY ===== */
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
                 if (isRunning && !isPaused) { pauseBreathing(); showToast("Latihan dijeda otomatis."); }
                 if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                // Pause audio player aktif
+                if (activeAudioEl && !activeAudioEl.paused) {
+                    try { activeAudioEl.pause(); setAudioStopBtnState(activeAudioId, false); } catch (e) {}
+                }
             }
         });
 
-        /* ========================================================
-           INIT
-           ======================================================== */
+        /* ===== INIT ===== */
         window.addEventListener('load', function() {
             applyTabStyles();
             setGroundingStep(5);
             loadJournals();
             renderAffirmations();
+            renderAffirmationAudioList();
             loadMoodHistory();
             updateScrollHint();
             updateStats();
@@ -3674,7 +3618,6 @@
             initMoodSlider();
             updateHomeStats();
             updateWeeklyStats();
-
             loadGratitudeHistory();
             updateGratitudeStats();
             renderGratitudeCalendar();
@@ -3684,7 +3627,6 @@
             renderLuckChart();
             renderLuckBarChart();
 
-            // Restore visual style
             const savedVisual = localStorage.getItem('anti_anxiety_breath_visual');
             if (savedVisual && VISUAL_IDS.includes(savedVisual)) {
                 currentVisual = savedVisual;
@@ -3707,7 +3649,6 @@
                 updateVoiceStatusHint();
             });
 
-            // Show home FAB logic: hide on home tab
             const homeFab = document.getElementById('homeFab');
             if (homeFab) homeFab.classList.remove('visible');
 
