@@ -90,18 +90,6 @@
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
 
-        /* ============================================================
-           FIX: Box breathing marker — animasi per sisi kotak.
-           Gunakan transform-origin di 100px 100px (pusat SVG) dan
-           translasi linear per sisi (bukan diagonal).
-           ============================================================ */
-        #boxMarker {
-            transition: transform 4s linear;
-            will-change: transform;
-            transform-box: fill-box;
-            transform-origin: center;
-        }
-
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
@@ -182,7 +170,7 @@
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
 
-        /* DOWNLOAD DROPDOWN — fixed position */
+        /* DOWNLOAD DROPDOWN */
         #downloadMenu {
             position: fixed;
             width: 260px;
@@ -213,9 +201,7 @@
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
 
-        /* ============================================================
-           HOME STATS COMPACT — 1 baris horizontal, hemat tempat
-           ============================================================ */
+        /* HOME STATS COMPACT */
         .home-stats-row {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -223,9 +209,7 @@
             margin-bottom: 16px;
         }
         @media (max-width: 640px) {
-            .home-stats-row {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            .home-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
         .home-stat-cell {
             display: flex;
@@ -246,13 +230,8 @@
             border-color: #334155;
             box-shadow: 0 1px 2px rgba(0,0,0,0.15);
         }
-        .home-stat-cell:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-        }
-        html.dark .home-stat-cell:hover {
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-        }
+        .home-stat-cell:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        html.dark .home-stat-cell:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
         .home-stat-cell::before {
             content: '';
             position: absolute;
@@ -556,9 +535,7 @@
                 </div>
             </section>
 
-            <!-- ============================================================
-                 HOME STATS — COMPACT BARU (1 baris horizontal hemat tempat)
-                 ============================================================ -->
+            <!-- HOME STATS — Mood sekarang hijau stabilo -->
             <div class="home-stats-row">
                 <div class="home-stat-cell" style="--accent: #f59e0b;">
                     <div class="home-stat-icon" style="background: linear-gradient(135deg, #f59e0b, #f97316);">
@@ -569,8 +546,8 @@
                         <span class="home-stat-label">Streak</span>
                     </div>
                 </div>
-                <div class="home-stat-cell" style="--accent: #f43f5e;">
-                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #f43f5e, #ec4899);">
+                <div class="home-stat-cell" style="--accent: #a3e635;">
+                    <div class="home-stat-icon" style="background: linear-gradient(135deg, #84cc16, #a3e635);">
                         <i data-lucide="activity" class="w-4 h-4"></i>
                     </div>
                     <div class="home-stat-content">
@@ -598,7 +575,6 @@
                 </div>
             </div>
 
-            <!-- MULAI CEPAT — grid persegi -->
             <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                 <i data-lucide="zap" class="w-4 h-4 text-calm-500"></i> Mulai Cepat
             </h3>
@@ -660,7 +636,7 @@
             </div>
         </section>
 
-        <!-- ========== BREATHING ========== -->
+        <!-- ========== BREATHING (Kotak dihapus) ========== -->
         <section id="sec-breathing" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center min-h-[540px] relative overflow-hidden">
@@ -754,29 +730,6 @@
                                 <div class="text-center mt-1">
                                     <p id="balloonInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
                                     <p id="balloonTimer" class="text-3xl font-black text-rose-600 dark:text-rose-400">4</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- KOTAK: struktur marker diperbaiki -->
-                        <div class="breath-visual visual-hidden" data-visual="box">
-                            <div class="flex flex-col items-center justify-center" style="height: 100%;">
-                                <svg viewBox="0 0 200 200" width="240" height="240" style="overflow: visible;">
-                                    <rect x="30" y="30" width="140" height="140" rx="16" fill="none" stroke="#14b8a6" stroke-width="4" opacity="0.3"/>
-                                    <rect x="30" y="30" width="140" height="140" rx="16" fill="rgba(20,184,166,0.05)" stroke="#14b8a6" stroke-width="2" stroke-dasharray="8 6"/>
-                                    <!-- Marker: posisi awal di titik TOP (100, 30) -->
-                                    <g id="boxMarker">
-                                        <circle cx="100" cy="30" r="16" fill="#14b8a6"/>
-                                        <circle cx="100" cy="30" r="8" fill="#ccfbf1"/>
-                                    </g>
-                                    <text x="100" y="20" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TARIK</text>
-                                    <text x="192" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
-                                    <text x="100" y="195" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">HEMBUS</text>
-                                    <text x="8" y="105" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="700">TAHAN</text>
-                                </svg>
-                                <div class="text-center mt-1">
-                                    <p id="boxInstruction" class="text-sm font-bold text-slate-700 dark:text-slate-300 tracking-wider">SIAP</p>
-                                    <p id="boxTimer" class="text-3xl font-black text-teal-600 dark:text-teal-400">4</p>
                                 </div>
                             </div>
                         </div>
@@ -887,7 +840,6 @@
                                 <option value="candle">🕯️ Lilin</option>
                                 <option value="bloom">🌸 Bunga</option>
                                 <option value="balloon">🎈 Balon</option>
-                                <option value="box">📦 Kotak</option>
                                 <option value="star">⭐ Bintang</option>
                             </select>
                         </label>
@@ -1057,7 +1009,7 @@
             <div class="text-center max-w-xl mx-auto mb-8">
                 <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 text-xs font-semibold rounded-full">Penguat Mental</span>
                 <h3 class="text-2xl font-bold text-sharp text-slate-800 dark:text-slate-100 mt-2">Kartu Afirmasi Ketenangan</h3>
-                <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Klik kartu untuk membalik.</p>
+                <p class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Klik kartu untuk membalik. 6 kartu acak dari 27 afirmasi.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" id="affirmationCardsGrid"></div>
             <div class="text-center mt-8">
@@ -1578,7 +1530,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.2</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.3</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -2199,27 +2151,30 @@
         const techniques = {
             box: { title: "Box Breathing (4-4-4-4)", desc: "Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan...", boxPos: 'top' },
-                    { label: "TAHAN", duration: 4, scale: 1.6, voice: "Tahan, sebentar saja...", boxPos: 'right' },
-                    { label: "HEMBUSKAN", duration: 4, scale: 1.0, voice: "Hembuskan, lepaskan...", boxPos: 'bottom' },
-                    { label: "ISTIRAHAT", duration: 4, scale: 1.0, voice: "Istirahat, rileks...", boxPos: 'left' }
+                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan..." },
+                    { label: "TAHAN", duration: 4, scale: 1.6, voice: "Tahan, sebentar saja..." },
+                    { label: "HEMBUSKAN", duration: 4, scale: 1.0, voice: "Hembuskan, lepaskan..." },
+                    { label: "ISTIRAHAT", duration: 4, scale: 1.0, voice: "Istirahat, rileks..." }
                 ]},
             '478': { title: "Relaksasi 4-7-8", desc: "Membantu menurunkan detak jantung dan merangsang tidur nyenyak.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan...", boxPos: 'top' },
-                    { label: "TAHAN", duration: 7, scale: 1.6, voice: "Tahan, tetap tenang...", boxPos: 'right' },
-                    { label: "HEMBUSKAN", duration: 8, scale: 1.0, voice: "Hembuskan, perlahan sekali...", boxPos: 'bottom' }
+                    { label: "TARIK NAPAS", duration: 4, scale: 1.6, voice: "Tarik napas, perlahan..." },
+                    { label: "TAHAN", duration: 7, scale: 1.6, voice: "Tahan, tetap tenang..." },
+                    { label: "HEMBUSKAN", duration: 8, scale: 1.0, voice: "Hembuskan, perlahan sekali..." }
                 ]},
             calm: { title: "Napas Dalam Seimbang (5-5)", desc: "Ritme napas seimbang untuk menenangkan kecemasan ringan.",
                 steps: [
-                    { label: "TARIK NAPAS", duration: 5, scale: 1.6, voice: "Tarik napas, dalam dan lembut...", boxPos: 'top' },
-                    { label: "HEMBUSKAN", duration: 5, scale: 1.0, voice: "Hembuskan, tenang...", boxPos: 'bottom' }
+                    { label: "TARIK NAPAS", duration: 5, scale: 1.6, voice: "Tarik napas, dalam dan lembut..." },
+                    { label: "HEMBUSKAN", duration: 5, scale: 1.0, voice: "Hembuskan, tenang..." }
                 ]}
         };
-        const VISUAL_IDS = ['circle','candle','bloom','balloon','box','star'];
+        // Kotak dihapus dari daftar visual
+        const VISUAL_IDS = ['circle','candle','bloom','balloon','star'];
 
         function changeVisualStyle(visualId) {
-            if (!VISUAL_IDS.includes(visualId)) return;
+            if (!VISUAL_IDS.includes(visualId)) {
+                visualId = 'circle'; // fallback jika 'box' tersimpan
+            }
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
             document.querySelectorAll('.breath-visual').forEach(el => {
@@ -2227,12 +2182,6 @@
                 else { el.classList.remove('visual-active'); el.classList.add('visual-hidden'); }
             });
             resetVisualScale();
-            // Set posisi awal marker ke TOP saat ganti visual
-            const boxMarker = document.getElementById('boxMarker');
-            if (boxMarker) {
-                boxMarker.style.transition = 'none';
-                boxMarker.style.transform = 'translate(0, 0)';
-            }
         }
         function resetVisualScale() {
             const mainCircle = document.getElementById('breathMainCircle');
@@ -2245,57 +2194,12 @@
             if (balloon) balloon.style.transform = 'scale(1)';
             const star = document.getElementById('starShape');
             if (star) { star.style.transform = 'scale(1)'; star.style.filter = 'drop-shadow(0 0 20px rgba(251, 191, 36, 0.8))'; }
-            const boxMarker = document.getElementById('boxMarker');
-            if (boxMarker) {
-                boxMarker.style.transition = 'none';
-                boxMarker.style.transform = 'translate(0, 0)';
-            }
         }
         function selectTechnique(techKey) {
             currentTech = techKey;
             document.getElementById('breathTechniqueTitle').innerText = techniques[techKey].title;
             document.getElementById('breathTechniqueDesc').innerText = techniques[techKey].desc;
             stopBreathing();
-        }
-
-        /**
-         * FIX BOX BREATHING: marker bergerak menyusuri kotak, satu sisi per fase.
-         * Posisi marker absolute terhadap kotak (100,30) → (170,30) → (170,170) → (30,170) → (30,30).
-         * Translasi relatif dari posisi awal (0,0):
-         *   TARIK (dari top):      tidak ada transisi (posisi awal top)
-         *   TAHAN (top → right):   translate(70, 0)
-         *   HEMBUSKAN (right → bottom): translate(70, 140) — dari posisi (170,30) ke (30,170)
-         *   ISTIRAHAT (bottom → left): translate(0, 140) — dari posisi (30,170) ke (30,30)?? sebenarnya tidak balik ke top
-         * Tunggu — mari urutkan:
-         *   Fase 1 (TARIK):    marker di TOP (100, 30)         → translate(0, 0)
-         *   Fase 2 (TAHAN):    marker di RIGHT (170, 30)        → translate(70, 0)
-         *   Fase 3 (HEMBUSKAN): marker di BOTTOM (170, 170)     → translate(70, 140)
-         *   Fase 4 (ISTIRAHAT): marker di LEFT (30, 170)        → translate(-70, 140)
-         *   Fase 1 siklus 2:   marker balik ke TOP (100, 30)    → translate(0, 0)
-         *
-         *   Selama fase TARIK, marker bergerak dari LEFT (posisi siklus sebelumnya) ke TOP.
-         *   Artinya translasi selama TARIK: dari (-70, 140) ke (0, 0).
-         *
-         *   Ringkas:
-         *   - TARIK:    dari posisi terakhir → TOP (100, 30)    = translate(0, 0)
-         *   - TAHAN:    TOP → RIGHT                              = translate(70, 0)
-         *   - HEMBUS:   RIGHT → BOTTOM                           = translate(70, 140)
-         *   - ISTIRAHAT: BOTTOM → LEFT                           = translate(-70, 140)
-         */
-        function setBoxMarkerTo(pos) {
-            const boxMarker = document.getElementById('boxMarker');
-            if (!boxMarker) return;
-            // Karena marker di grup SVG dengan origin di (100,30) koordinat lokal,
-            // kita gunakan translate relatif terhadap posisi awal (top-center).
-            const positions = {
-                top:    { x: 0,   y: 0   },
-                right:  { x: 70,  y: 0   },
-                bottom: { x: 70,  y: 140 },
-                left:   { x: 0,   y: 140 }
-            };
-            const p = positions[pos];
-            if (!p) return;
-            boxMarker.style.transform = `translate(${p.x}px, ${p.y}px)`;
         }
 
         function updateVisualForStep(step, tech) {
@@ -2332,11 +2236,6 @@
                 balloon.style.transform = `scale(${bScale})`;
                 balloon.style.transformOrigin = '60px 150px';
             }
-            const boxMarker = document.getElementById('boxMarker');
-            if (boxMarker && step.boxPos) {
-                boxMarker.style.transition = `transform ${step.duration}s linear`;
-                setBoxMarkerTo(step.boxPos);
-            }
             const star = document.getElementById('starShape');
             if (star) {
                 const starScale = step.scale > 1.2 ? 1.3 : 0.8;
@@ -2348,15 +2247,15 @@
             }
         }
         function updateVisualInstruction(step) {
-            const ids = { circle: 'breathInstruction', candle: 'candleInstruction', bloom: 'bloomInstruction', balloon: 'balloonInstruction', box: 'boxInstruction', star: 'starInstruction' };
-            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', box: 'boxTimer', star: 'starTimer' };
+            const ids = { circle: 'breathInstruction', candle: 'candleInstruction', bloom: 'bloomInstruction', balloon: 'balloonInstruction', star: 'starInstruction' };
+            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', star: 'starTimer' };
             const instructionEl = document.getElementById(ids[currentVisual]);
             const timerEl = document.getElementById(timerIds[currentVisual]);
             if (instructionEl) instructionEl.innerText = step.label;
             if (timerEl) timerEl.innerText = step.duration;
         }
         function updateTimerDisplay(seconds) {
-            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', box: 'boxTimer', star: 'starTimer' };
+            const timerIds = { circle: 'breathTimer', candle: 'candleTimer', bloom: 'bloomTimer', balloon: 'balloonTimer', star: 'starTimer' };
             const timerEl = document.getElementById(timerIds[currentVisual]);
             if (timerEl) timerEl.innerText = seconds;
         }
@@ -2366,12 +2265,6 @@
             isPaused = false;
             isRunning = true;
             updateBreathingUI('running');
-            // Reset marker box ke top sebelum mulai
-            const boxMarker = document.getElementById('boxMarker');
-            if (boxMarker) {
-                boxMarker.style.transition = 'none';
-                boxMarker.style.transform = 'translate(0, 0)';
-            }
             runBreathingStep();
         }
         function runBreathingStep() {
@@ -2580,6 +2473,7 @@
             document.getElementById('releaseAnimationBox').classList.add('hidden');
         }
 
+        // 27 kartu afirmasi
         const affirmationsList = [
             { text: "Perasaan cemas ini bersifat sementara dan pasti akan berlalu.", sub: "Sistem saraf Anda akan kembali seimbang." },
             { text: "Saya aman saat ini di sini.", sub: "Fokus pada ruang dan waktu sekarang." },
@@ -2596,7 +2490,19 @@
             { text: "Saya tidak harus sempurna untuk menjadi cukup.", sub: "Perfeksionisme adalah bibit kecemasan." },
             { text: "Pikiran saya bukan ramalan. Saya tidak bisa memprediksi masa depan.", sub: "Otak kita sering 'menebak' skenario terburuk." },
             { text: "Hari ini saya memilih untuk menunjukkan kasih pada diri sendiri.", sub: "Berbicara pada diri sendiri seperti pada sahabat baik." },
-            { text: "Saya di sini. Saya hidup. Saya cukup. Saat ini, itu yang penting.", sub: "Kehadiran penuh di momen sekarang adalah obat alami kecemasan." }
+            { text: "Saya di sini. Saya hidup. Saya cukup. Saat ini, itu yang penting.", sub: "Kehadiran penuh di momen sekarang adalah obat alami kecemasan." },
+            // 11 afirmasi tambahan
+            { text: "Ketegangan di tubuh saya adalah sinyal, bukan hukuman.", sub: "Tubuh memberi tahu apa yang perlu diperhatikan, bukan untuk ditakuti." },
+            { text: "Saya bisa merasa tidak nyaman dan tetap baik-baik saja.", sub: "Ketidaknyamanan tidak berarti bahaya. Anda bisa menahannya." },
+            { text: "Setiap napas yang saya hembuskan membawa ketenangan.", sub: "Hembusan panjang mengaktifkan sistem saraf parasimpatis — obat alami tubuh." },
+            { text: "Saya tidak sendirian dalam perasaan ini.", sub: "Jutaan orang merasakan hal serupa. Anda terhubung dalam kemanusiaan." },
+            { text: "Masa lalu tidak menentukan masa depan saya.", sub: "Anda bisa memulai ulang kapan saja — bahkan sekarang." },
+            { text: "Saya layak mendapatkan istirahat dan pemulihan.", sub: "Istirahat bukan kemewahan, melainkan kebutuhan biologis." },
+            { text: "Ketidakpastian adalah bagian dari hidup, dan saya bisa bertahan.", sub: "Otak manusia dirancang untuk menghadapi ketidakpastian — Anda juga." },
+            { text: "Saya memilih untuk melepaskan apa yang tidak bisa saya kendalikan.", sub: "Fokus pada yang bisa dikendalikan menghemat energi mental Anda." },
+            { text: "Rasa takut saya valid, tapi tidak harus menguasai saya.", sub: "Anda bisa merasa takut dan tetap mengambil langkah kecil ke depan." },
+            { text: "Saya cukup hanya dengan menjadi diri saya saat ini.", sub: "Tidak perlu prestasi atau pencapaian untuk layak dicintai." },
+            { text: "Hari ini, saya memberi ruang untuk kedamaian di dalam diri.", sub: "Kedamaian tidak harus dicari jauh — ia sudah ada di dalam, menunggu ditemukan." }
         ];
         function renderAffirmations() {
             const grid = document.getElementById('affirmationCardsGrid');
@@ -3534,12 +3440,20 @@
             renderLuckChart();
             renderLuckBarChart();
 
+            // Restore visual — fallback ke circle jika yang tersimpan 'box' atau tidak dikenal
             const savedVisual = localStorage.getItem('anti_anxiety_breath_visual');
             if (savedVisual && VISUAL_IDS.includes(savedVisual)) {
                 currentVisual = savedVisual;
                 const select = document.getElementById('visualStyleSelect');
                 if (select) select.value = savedVisual;
                 changeVisualStyle(savedVisual);
+            } else if (savedVisual) {
+                // Preferensi lama tidak dikenal (mis. 'box'), reset ke circle
+                try { localStorage.setItem('anti_anxiety_breath_visual', 'circle'); } catch (e) {}
+                currentVisual = 'circle';
+                const select = document.getElementById('visualStyleSelect');
+                if (select) select.value = 'circle';
+                changeVisualStyle('circle');
             }
 
             checkDisclaimer();
