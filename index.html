@@ -6,7 +6,6 @@
     <title>Anti Anxiety - Ruang Tenang & Kendali Kecemasan</title>
     <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi. Data tersimpan di perangkat Anda.">
     
-    <!-- PWA Meta Tags -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#14b8a6">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyOCIgZmlsbD0iIzE0YjhhNiIvPjxwYXRoIGQ9Ik0yNTYgMzg0Yy0xMDYgLTY0IC0xNjAgLTEyOCAtMTYwIC0yMDggYzAgLTUwIDQwIC05MCA5MCAtOTAgYzMwIDAgNjAgMjAgNzAgNTAgYzEwIC0zMCA0MCAtNTAgNzAgLTUwIGM1MCAwIDkwIDQwIDkwIDkwIGMwIDgwIC01NCAxNDQgLTE2MCAyMDh6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==">
@@ -34,115 +33,57 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
-            letter-spacing: -0.005em;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            background-color: #eaf5ef;
-            background-image:
-                linear-gradient(180deg,
-                    rgba(232, 246, 240, 0.52) 0%,
-                    rgba(224, 242, 233, 0.55) 50%,
-                    rgba(214, 236, 226, 0.60) 100%),
-                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }
-        html.dark body {
-            background-color: #0a1b17;
-            background-image:
-                linear-gradient(180deg,
-                    rgba(10, 27, 24, 0.72) 0%,
-                    rgba(15, 31, 29, 0.76) 50%,
-                    rgba(12, 35, 30, 0.80) 100%),
-                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
-        }
-
+        body { font-family: 'Inter', sans-serif; font-feature-settings: "kern" 1, "liga" 1, "calt" 1; letter-spacing: -0.005em; transition: background-color 0.4s ease, color 0.4s ease; background-color: #eaf5ef; background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.52) 0%, rgba(224, 242, 233, 0.55) 50%, rgba(214, 236, 226, 0.60) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; }
+        html.dark body { background-color: #0a1b17; background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.72) 0%, rgba(15, 31, 29, 0.76) 50%, rgba(12, 35, 30, 0.80) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); }
         .text-sharp { text-shadow: 0 0 0.5px rgba(0, 0, 0, 0.08); }
         html.dark .text-sharp { text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.10); }
-
         h1, h2, h3 { letter-spacing: -0.02em; }
         main { position: relative; isolation: isolate; }
         html, body { overflow-x: hidden; width: 100%; }
-
-        /* SPLASH SCREEN ANIMATIONS */
-        @keyframes soft-breath {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.3); opacity: 0.6; }
-        }
+        @keyframes soft-breath { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.3); opacity: 0.6; } }
         .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
-        @keyframes icon-breath {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+        @keyframes icon-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
         #splash-screen { transition: opacity 0.8s ease-in-out; }
         #splash-screen.fade-out { opacity: 0; pointer-events: none; }
-
-        .dashboard-welcome {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.55);
-        }
-        html.dark .dashboard-welcome {
-            background: linear-gradient(135deg, rgba(15, 31, 29, 0.65) 0%, rgba(19, 78, 74, 0.48) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(45, 212, 191, 0.15);
-        }
-
-        /* BREATHING VISUALS */
+        .dashboard-welcome { background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.55); }
+        html.dark .dashboard-welcome { background: linear-gradient(135deg, rgba(15, 31, 29, 0.65) 0%, rgba(19, 78, 74, 0.48) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(45, 212, 191, 0.15); }
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
         .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
         .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
         .breath-visual.visual-active { opacity: 1; transform: scale(1); pointer-events: auto; }
-
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
         .breath-visual.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
-
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
-
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
         .twinkle-star { animation: twinkle 2s ease-in-out infinite; }
-
         .perspective { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.5); }
-
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-
         @keyframes slide-hint { 0%, 100% { transform: translateX(0); opacity: 0.6; } 50% { transform: translateX(4px); opacity: 1; } }
         .slide-hint-icon { animation: slide-hint 1.6s ease-in-out infinite; }
-
         .streak-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .streak-active { background: #14b8a6; color: white; }
         .streak-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .streak-empty { background: rgba(148, 163, 184, 0.10); }
         .streak-today { outline: 2px solid #0d9488; outline-offset: 1px; }
-
         .grat-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .grat-active { background: #ec4899; color: white; }
         .grat-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .grat-empty { background: rgba(148, 163, 184, 0.10); }
         .grat-today { outline: 2px solid #be185d; outline-offset: 1px; }
-
         .mood-slider-wrap { position: relative; width: 100%; height: 24px; }
         .mood-slider-track { position: absolute; top: 50%; left: 0; right: 0; height: 10px; transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: flex; z-index: 1; }
         .mood-seg { flex: 1; transition: filter 0.2s ease, opacity 0.2s ease; }
@@ -153,7 +94,6 @@
         input[type="range"].mood-range::-webkit-slider-thumb:hover { transform: scale(1.1); }
         input[type="range"].mood-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
         input[type="range"].mood-range::-moz-range-track { background: transparent; }
-
         #backupBubble { position: fixed; bottom: 24px; right: 24px; z-index: 45; transform: scale(0); opacity: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
         #backupBubble.visible { transform: scale(1); opacity: 1; }
         #backupBubble.collapsed { transform: scale(0.22); opacity: 0.55; }
@@ -163,29 +103,24 @@
         @keyframes bubble-pulse { 0%, 100% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5); } 50% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 10px rgba(249, 115, 22, 0); } }
         #backupBubble .bubble-badge { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #dc2626; color: white; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
         html.dark #backupBubble .bubble-badge { border-color: #1e293b; }
-
         #backupPopup { position: fixed; bottom: 92px; right: 24px; z-index: 46; width: 300px; background: white; border-radius: 18px; box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), 0 4px 8px rgba(0, 0, 0, 0.08); padding: 16px; transform: scale(0.85) translateY(8px); opacity: 0; pointer-events: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
         #backupPopup.visible { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
         #backupPopup::after { content: ''; position: absolute; bottom: -8px; right: 24px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05)); }
         html.dark #backupPopup { background: #1e293b; }
         html.dark #backupPopup::after { border-top-color: #1e293b; }
-
         #homeFab { position: fixed; bottom: 24px; left: 24px; z-index: 45; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; opacity: 0; pointer-events: none; }
         #homeFab.visible { opacity: 1; pointer-events: auto; }
         #homeFab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6); }
         #homeFab:active { transform: scale(0.95); }
         @media (max-width: 640px) { #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; } }
-
         .sos-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(45, 212, 191, 0.4); transition: all 0.2s ease; text-decoration: none; }
         .sos-contact-btn:hover { background: rgba(20, 184, 166, 0.28); border-color: rgba(94, 234, 212, 0.7); transform: translateY(-1px); }
-
         .audio-stop-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; transition: all 0.2s ease; opacity: 0.45; pointer-events: none; }
         html.dark .audio-stop-btn { background: rgba(127, 29, 29, 0.4); color: #fca5a5; border-color: rgba(153, 27, 27, 0.6); }
         .audio-stop-btn.active { opacity: 1; pointer-events: auto; animation: pulse-soft 2s ease-in-out infinite; }
         .audio-stop-btn.active:hover { background: #fecaca; color: #991b1b; }
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
-
         #downloadMenu { position: fixed; width: 260px; background: white; border-radius: 14px; box-shadow: 0 10px 28px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06); border: 1px solid rgba(148, 163, 184, 0.3); padding: 6px; z-index: 9999; opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; display: none; }
         html.dark #downloadMenu { background: #1e293b; border-color: rgba(51, 65, 85, 0.8); }
         #downloadMenu.visible { display: block; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
@@ -201,7 +136,6 @@
         html.dark #downloadMenu .menu-item .mi-sub { color: #64748b; }
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
-
         .home-stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
         @media (max-width: 640px) { .home-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         .home-stat-cell { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.2s ease; min-width: 0; position: relative; overflow: hidden; }
@@ -215,7 +149,6 @@
         html.dark .home-stat-value { color: #f1f5f9; }
         .home-stat-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
         html.dark .home-stat-label { color: #94a3b8; }
-
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .animate-in { animation: fadeInScale 0.2s ease-out; }
     </style>
@@ -266,6 +199,11 @@
 
                     <button onclick="toggleDownloadMenu(event)" id="downloadBtn" title="Download laporan" aria-label="Download laporan" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition relative">
                         <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                    </button>
+
+                    <!-- TOMBOL INSTALL PWA -->
+                    <button onclick="installPWA()" id="installAppBtn" aria-label="Install Aplikasi" class="p-2 sm:p-2.5 rounded-xl bg-calm-100 dark:bg-calm-900/40 hover:bg-calm-200 dark:hover:bg-calm-900/60 text-calm-700 dark:text-calm-300 transition relative hidden" title="Install Aplikasi ke HP">
+                        <i data-lucide="download-cloud" class="w-4 h-4 sm:w-5 sm:h-5 animate-bounce"></i>
                     </button>
 
                     <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" aria-label="Buka panel suara latar" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
@@ -1059,10 +997,36 @@
         'use strict';
         lucide.createIcons();
 
-        const BACKUP_REMINDER_DAYS = 7;
-        const ACTIVITY_MAX_DAYS = 365;
+        // --- LOGIKA INSTALL PWA ---
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('installAppBtn');
+            if (installBtn) installBtn.classList.remove('hidden');
+        });
 
-        // Register Service Worker for PWA
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast("✅ Aplikasi berhasil di-install!");
+                        document.getElementById('installAppBtn').classList.add('hidden');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                if (isIOS) {
+                    alert("Untuk meng-install di iPhone:\n1. Ketuk tombol 'Share' (kotak dengan panah ke atas) di Safari.\n2. Pilih 'Tambahkan ke Layar Utama' (Add to Home Screen).");
+                } else {
+                    alert("Buka menu browser (titik tiga) lalu pilih 'Install Aplikasi' atau 'Tambahkan ke Layar Utama'.");
+                }
+            }
+        }
+
+        // Register Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js')
@@ -1070,6 +1034,9 @@
                     .catch(err => console.log('SW registration failed:', err));
             });
         }
+
+        const BACKUP_REMINDER_DAYS = 7;
+        const ACTIVITY_MAX_DAYS = 365;
 
         function escapeHtml(value) {
             if (value === null || value === undefined) return '';
