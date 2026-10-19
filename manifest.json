@@ -1,0 +1,17 @@
+{
+  "name": "Anti Anxiety - Ruang Tenang",
+  "short_name": "Anti Anxiety",
+  "description": "Aplikasi pengelola kecemasan 100% privat, gratis, dan tanpa iklan.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eaf5ef",
+  "theme_color": "#14b8a6",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjEyOCIgZmlsbD0iIzE0YjhhNiIvPjxwYXRoIGQ9Ik0yNTYgMzg0Yy0xMDYgLTY0IC0xNjAgLTEyOCAtMTYwIC0yMDggYzAgLTUwIDQwIC05MCA5MCAtOTAgYzMwIDAgNjAgMjAgNzAgNTAgYzEwIC0zMCA0MCAtNTAgNzAgLTUwIGM1MCAwIDkwIDQwIDkwIDkwIGMwIDgwIC01NCAxNDQgLTE2MCAyMDh6IiBmaWxsPSJ3aGl0ZSIvPjwvc3ZnPg==",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
