@@ -1,17 +1,171 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#2dd4bf"/>
-      <stop offset="100%" stop-color="#99f6e4"/>
-    </linearGradient>
-  </defs>
-  <rect width="512" height="512" rx="120" fill="url(#g)"/>
-  <g transform="translate(156 156) scale(8.33)"
-     fill="none" stroke="#134e4a" stroke-width="1.8"
-     stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-    <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/>
-    <path d="m18 15-2-2"/>
-    <path d="m15 18-2-2"/>
-  </g>
-</svg>
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Anti Anxiety PERCOBAAN 1</title>
+    <meta name="description" content="Ruang aman Anda untuk menenangkan kecemasan.">
+
+    <!-- ============ PWA ============ -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#eaf5ef">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <!-- ============================= -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { calm: { 400: '#2dd4bf' } },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #eaf5ef;
+            background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
+            background-size: cover; background-position: center; background-attachment: fixed;
+        }
+        @keyframes soft-breath {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+        .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
+
+        @keyframes icon-breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
+
+        #splash-screen { transition: opacity 0.8s ease-in-out; }
+        #splash-screen.fade-out { opacity: 0; pointer-events: none; }
+
+        /* Safe-area untuk iPhone berponi */
+        .safe-bottom { padding-bottom: max(2.5rem, env(safe-area-inset-bottom)); }
+    </style>
+</head>
+<body class="h-full flex flex-col text-slate-800">
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#eaf5ef] flex flex-col items-center justify-center">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="absolute w-28 h-28 bg-calm-400 rounded-full animate-breath"></div>
+            <div class="w-20 h-20 bg-gradient-to-tr from-calm-400 to-teal-200 rounded-3xl flex items-center justify-center text-teal-900 shadow-xl relative z-10 animate-icon">
+                <i data-lucide="heart-handshake" class="w-10 h-10"></i>
+            </div>
+        </div>
+        <h1 class="text-3xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 bg-clip-text text-transparent tracking-tight">Anti Anxiety</h1>
+        <p class="text-sm font-medium text-slate-500 mt-3 animate-pulse">Menyiapkan ruang aman Anda...</p>
+        <p class="absolute bottom-10 text-xs text-slate-400">Hidup Selaras</p>
+    </div>
+
+    <!-- HALAMAN UTAMA -->
+    <div class="flex-1 flex flex-col items-center justify-center p-6 opacity-0 safe-bottom"
+         id="main-content" style="transition: opacity 0.5s ease-in;">
+        <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-200 text-center max-w-sm w-full">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="check-circle" class="w-8 h-8 text-green-600"></i>
+            </div>
+            <h2 class="text-xl font-bold mb-2">Aplikasi Siap!</h2>
+            <p class="text-sm text-slate-500">Sekarang bisa dipasang seperti aplikasi sungguhan.</p>
+
+            <!-- Tombol Install: hanya muncul kalau browser support (Android/Chrome/Edge) -->
+            <button id="install-btn"
+                    class="mt-5 px-4 py-2 bg-teal-600 text-white rounded-xl text-sm font-semibold hover:bg-teal-700 transition hidden">
+                📲 Pasang Aplikasi
+            </button>
+
+            <!-- Panduan iOS: muncul hanya di iOS Safari yang belum standalone -->
+            <div id="ios-hint"
+                 class="hidden mt-4 text-xs text-slate-500 bg-slate-50 rounded-xl p-3 border border-slate-200">
+                Untuk memasang di iPhone: tap <b>Share</b> → <b>Add to Home Screen</b>
+            </div>
+
+            <button onclick="location.reload()"
+                    class="mt-3 px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-xl text-sm font-semibold hover:bg-slate-50 transition">
+                Putar Ulang Animasi
+            </button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Deteksi mode standalone (sudah diinstall)
+        const isStandalone =
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true;
+
+        // Deteksi iOS
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
+            const main = document.getElementById('main-content');
+
+            // Kalau sudah terinstall (standalone), splash OS sudah tampil — skip splash internal
+            if (isStandalone) {
+                splash.remove();
+                main.style.opacity = '1';
+                return;
+            }
+
+            // Kalau dibuka di browser biasa, tampilkan splash sebentar
+            setTimeout(() => {
+                splash.classList.add('fade-out');
+                main.style.opacity = '1';
+                setTimeout(() => splash.remove(), 800);
+            }, 1800);
+
+            // Panduan install untuk iOS Safari
+            if (isIOS && !isStandalone) {
+                document.getElementById('ios-hint').classList.remove('hidden');
+            }
+        });
+
+        // Registrasi Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.warn('SW gagal:', err));
+            });
+        }
+
+        // Prompt install PWA (Android/Chrome/Edge)
+        let deferredPrompt = null;
+        const installBtn = document.getElementById('install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBtn.classList.remove('hidden');
+        });
+
+        installBtn?.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            await deferredPrompt.userChoice;
+            deferredPrompt = null;
+            installBtn.classList.add('hidden');
+        });
+
+        // Sembunyikan tombol install kalau ternyata sudah terinstall
+        window.addEventListener('appinstalled', () => {
+            installBtn.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
