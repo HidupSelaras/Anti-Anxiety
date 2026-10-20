@@ -140,11 +140,31 @@
         }
 
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
-        .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
-        .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
-        .breath-visual.visual-active { opacity: 1; transform: scale(1); pointer-events: auto; }
-        /* [FIX BUG DOBEL VISUAL] Scope .paused hanya untuk visual yang aktif */
-        .breath-visual.visual-active.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
+        
+        /* --- PERBAIKAN CSS: Gunakan visibility agar anti-gagal --- */
+        .breath-visual { 
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; 
+            transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s; 
+            pointer-events: none; 
+        }
+        .breath-visual.visual-hidden { 
+            opacity: 0 !important; 
+            visibility: hidden !important; 
+            transform: scale(0.9); 
+            pointer-events: none; 
+        }
+        .breath-visual.visual-active { 
+            opacity: 1 !important; 
+            visibility: visible !important; 
+            transform: scale(1); 
+            pointer-events: auto; 
+        }
+        .breath-visual.visual-active.paused { 
+            filter: grayscale(0.4) brightness(0.9); 
+            opacity: 0.7 !important; 
+        }
+        /* ------------------------------------------------------- */
+
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
@@ -1621,7 +1641,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.3</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.4</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -2340,13 +2360,14 @@
             if (!VISUAL_IDS.includes(visualId)) visualId = 'circle';
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
-            const wasPaused = isPaused; // [FIX] simpan state paused
+            const wasPaused = isPaused; // simpan state paused
+            
             document.querySelectorAll('.breath-visual').forEach(el => {
-                el.classList.remove('paused'); // [FIX] bersihkan paused dari semua visual
+                el.classList.remove('paused'); // Bersihkan paused dari semua visual
                 if (el.dataset.visual === visualId) {
                     el.classList.remove('visual-hidden');
                     el.classList.add('visual-active');
-                    if (wasPaused) el.classList.add('paused'); // [FIX] pertahankan paused di visual baru
+                    if (wasPaused) el.classList.add('paused'); // Pertahankan paused di visual baru
                 } else {
                     el.classList.remove('visual-active');
                     el.classList.add('visual-hidden');
@@ -2451,8 +2472,7 @@
         function resumeBreathing() {
             if (!isRunning || !isPaused) return;
             isPaused = false;
-            const active = document.querySelector('.breath-visual.visual-active');
-            if (active) active.classList.remove('paused');
+            document.querySelectorAll('.breath-visual.paused').forEach(el => el.classList.remove('paused'));
             updateBreathingUI('running');
             const tech = techniques[currentTech];
             const step = tech.steps[breathStepIndex];
@@ -2478,7 +2498,6 @@
             updateBreathingUI('stopped');
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             resetVisualScale();
-            // [FIX] bersihkan paused dari SEMUA visual (bukan hanya yang aktif)
             document.querySelectorAll('.breath-visual.paused').forEach(el => el.classList.remove('paused'));
             updateVisualInstruction({ label: 'SIAP', duration: 4 });
         }
@@ -3395,7 +3414,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.3,
+                version: 6.4,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3584,7 +3603,7 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6.3) ===================== -->
+    <!-- ===================== PWA LOGIC (v6.4) ===================== -->
     <script>
     (function () {
         'use strict';
