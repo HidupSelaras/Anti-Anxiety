@@ -2,9 +2,21 @@
 <html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Anti Anxiety - Ruang Tenang & Kendali Kecemasan</title>
     <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi. Data tersimpan di perangkat Anda.">
+
+    <!-- ===== PWA META ===== -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#14b8a6">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+    <!-- ==================== -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -63,6 +75,56 @@
         main { position: relative; isolation: isolate; }
         html, body { overflow-x: hidden; width: 100%; }
 
+        /* ===== SPLASH SCREEN ANIMATIONS ===== */
+        @keyframes soft-breath {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+        @keyframes icon-breath {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        #splash-screen {
+            transition: opacity 0.6s ease-in-out;
+        }
+        #splash-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
+        .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
+
+        /* ===== INSTALL BANNER ===== */
+        #installBanner {
+            position: fixed;
+            bottom: 90px;
+            right: 24px;
+            z-index: 44;
+            width: 300px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 32px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06);
+            padding: 14px;
+            display: none;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        #installBanner.visible {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        html.dark #installBanner { background: #1e293b; }
+        @media (max-width: 640px) {
+            #installBanner {
+                right: 16px;
+                left: 16px;
+                width: auto;
+                bottom: 80px;
+            }
+        }
+
         .dashboard-welcome {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%);
             backdrop-filter: blur(12px);
@@ -76,7 +138,6 @@
             border: 1px solid rgba(45, 212, 191, 0.15);
         }
 
-        /* BREATHING VISUALS */
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
         .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
         .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
@@ -134,7 +195,6 @@
         input[type="range"].mood-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
         input[type="range"].mood-range::-moz-range-track { background: transparent; }
 
-        /* BACKUP BUBBLE */
         #backupBubble { position: fixed; bottom: 24px; right: 24px; z-index: 45; transform: scale(0); opacity: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
         #backupBubble.visible { transform: scale(1); opacity: 1; }
         #backupBubble.collapsed { transform: scale(0.22); opacity: 0.55; }
@@ -151,18 +211,15 @@
         html.dark #backupPopup { background: #1e293b; }
         html.dark #backupPopup::after { border-top-color: #1e293b; }
 
-        /* HOME FAB */
         #homeFab { position: fixed; bottom: 24px; left: 24px; z-index: 45; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; opacity: 0; pointer-events: none; }
         #homeFab.visible { opacity: 1; pointer-events: auto; }
         #homeFab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6); }
         #homeFab:active { transform: scale(0.95); }
         @media (max-width: 640px) { #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; } }
 
-        /* SOS CONTACTS */
         .sos-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(45, 212, 191, 0.4); transition: all 0.2s ease; text-decoration: none; }
         .sos-contact-btn:hover { background: rgba(20, 184, 166, 0.28); border-color: rgba(94, 234, 212, 0.7); transform: translateY(-1px); }
 
-        /* AUDIO PLAYER CUSTOM */
         .audio-stop-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; transition: all 0.2s ease; opacity: 0.45; pointer-events: none; }
         html.dark .audio-stop-btn { background: rgba(127, 29, 29, 0.4); color: #fca5a5; border-color: rgba(153, 27, 27, 0.6); }
         .audio-stop-btn.active { opacity: 1; pointer-events: auto; animation: pulse-soft 2s ease-in-out infinite; }
@@ -170,7 +227,6 @@
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
 
-        /* DOWNLOAD DROPDOWN */
         #downloadMenu {
             position: fixed;
             width: 260px;
@@ -201,7 +257,6 @@
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
 
-        /* HOME STATS COMPACT */
         .home-stats-row {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -274,15 +329,37 @@
         }
         html.dark .home-stat-label { color: #94a3b8; }
 
-        /* MODAL ANIMATION */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.95) translateY(10px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
         .animate-in { animation: fadeInScale 0.2s ease-out; }
+
+        /* ===== HOME INSTALL CARD ===== */
+        @keyframes install-card-glow {
+            0%, 100% { box-shadow: 0 10px 30px -5px rgba(20, 184, 166, 0.4), 0 4px 8px rgba(20, 184, 166, 0.15); }
+            50% { box-shadow: 0 14px 36px -3px rgba(20, 184, 166, 0.55), 0 6px 12px rgba(20, 184, 166, 0.2); }
+        }
+        #homeInstallCard {
+            animation: install-card-glow 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
+
+    <!-- ===================== SPLASH SCREEN ===================== -->
+    <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#eaf5ef] dark:bg-[#0a1b17] flex flex-col items-center justify-center">
+        <div class="relative flex items-center justify-center mb-6">
+            <div class="absolute w-28 h-28 bg-calm-400 rounded-full animate-breath"></div>
+            <div class="w-20 h-20 bg-gradient-to-tr from-calm-400 to-teal-200 rounded-3xl flex items-center justify-center text-teal-900 shadow-xl relative z-10 animate-icon">
+                <i data-lucide="heart-handshake" class="w-10 h-10"></i>
+            </div>
+        </div>
+        <h1 class="text-3xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent tracking-tight">Anti Anxiety</h1>
+        <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-3 animate-pulse">Menyiapkan ruang aman Anda...</p>
+        <p class="absolute bottom-10 text-xs text-slate-400 dark:text-slate-500">Hidup Selaras</p>
+    </div>
+    <!-- ======================================================== -->
 
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
@@ -511,6 +588,32 @@
         <!-- ========== HOME ========== -->
         <section id="sec-home" class="tab-content block">
 
+            <!-- INSTALL CARD (muncul jika belum terinstall) -->
+            <div id="homeInstallCard" class="hidden bg-gradient-to-br from-calm-500 via-teal-500 to-emerald-600 p-5 sm:p-6 rounded-3xl shadow-lg relative overflow-hidden mb-4">
+                <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/20 blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-emerald-300/30 blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-white/25 backdrop-blur flex items-center justify-center flex-shrink-0 border-2 border-white/40 shadow-md">
+                        <i data-lucide="smartphone" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                            <i data-lucide="sparkles" class="w-4 h-4"></i>
+                            Pasang Aplikasi Anti Anxiety
+                        </h3>
+                        <p class="text-xs sm:text-sm font-medium text-white/95 mt-0.5 leading-snug">Akses lebih cepat dari layar utama, bisa dipakai offline, tanpa URL bar.</p>
+                    </div>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="promptInstall()" class="flex-1 sm:flex-none px-5 py-2.5 bg-white text-calm-700 font-bold text-sm rounded-xl shadow-md hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-1.5 whitespace-nowrap">
+                            <i data-lucide="download" class="w-4 h-4"></i> Pasang
+                        </button>
+                        <button onclick="dismissHomeInstallCard()" title="Sembunyikan" class="px-3 py-2.5 bg-white/20 hover:bg-white/30 text-white text-xs font-semibold rounded-xl transition">
+                            Nanti
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <section class="dashboard-welcome p-6 rounded-3xl shadow-sm relative overflow-hidden mb-4">
                 <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                     <div>
@@ -641,7 +744,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: DUKUNG PENGEMBANG -->
             <div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-emerald-950/40 dark:via-teal-950/40 dark:to-cyan-950/40 p-5 sm:p-6 rounded-3xl border border-emerald-200 dark:border-emerald-900/60 shadow-sm relative overflow-hidden mb-4">
                 <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-emerald-200/40 dark:bg-emerald-900/30 blur-2xl pointer-events-none"></div>
                 <div class="relative z-10">
@@ -665,7 +767,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: KOLABORASI & KEMITRAAN -->
             <div class="bg-gradient-to-br from-indigo-50 via-blue-50 to-sky-50 dark:from-indigo-950/40 dark:via-blue-950/40 dark:to-sky-950/40 p-5 sm:p-6 rounded-3xl border border-indigo-200 dark:border-indigo-900/60 shadow-sm relative overflow-hidden">
                 <div class="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-indigo-200/40 dark:bg-indigo-900/30 blur-2xl pointer-events-none"></div>
                 <div class="relative z-10">
@@ -1539,6 +1640,23 @@
                     </p>
                 </div>
 
+                <!-- ====== INSTALL APP SECTION ====== -->
+                <div id="installSection" class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-6 rounded-3xl border border-calm-200 dark:border-teal-900/60 shadow-sm">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900">
+                            <i data-lucide="smartphone" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100">Pasang sebagai Aplikasi</h3>
+                            <p class="text-xs font-medium text-slate-500">Akses offline & dari layar utama</p>
+                        </div>
+                    </div>
+                    <button onclick="promptInstall()" id="settingsInstallBtn" class="w-full py-3 bg-gradient-to-r from-calm-500 to-teal-600 hover:from-calm-600 hover:to-teal-700 text-white font-semibold text-sm rounded-xl shadow-sm transition flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i> <span id="installBtnText">Pasang Aplikasi</span>
+                    </button>
+                    <p class="text-[10px] font-medium text-slate-500 mt-2 text-center">Di iOS: tap <b>Share</b> → <b>Add to Home Screen</b></p>
+                </div>
+
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center">
@@ -1631,6 +1749,25 @@
         <i data-lucide="home" class="w-6 h-6"></i>
     </button>
 
+    <!-- ====== INSTALL BANNER (fallback corner) ====== -->
+    <div id="installBanner">
+        <div class="flex items-start gap-2 mb-2">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900 flex-shrink-0">
+                <i data-lucide="download" class="w-4 h-4"></i>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Pasang Aplikasi</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-0.5">Akses lebih cepat langsung dari layar utama.</p>
+            </div>
+            <button onclick="dismissInstallBanner()" aria-label="Tutup" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+        </div>
+        <button onclick="promptInstall()" class="w-full py-2 bg-gradient-to-r from-calm-500 to-teal-600 hover:from-calm-600 hover:to-teal-700 text-white text-xs font-bold rounded-lg mt-1 transition">
+            Pasang Sekarang
+        </button>
+    </div>
+
     <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 sm:p-10 text-white hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
         <div class="w-full flex justify-between items-center max-w-4xl">
             <button onclick="switchTab('home'); closeSosModal();" class="px-3 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 transition flex items-center gap-1.5 text-xs font-semibold" aria-label="Kembali ke beranda">
@@ -1669,7 +1806,6 @@
         </div>
     </div>
 
-    <!-- MODAL DUKUNG PENGEMBANG -->
     <div id="donationModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-label="Dukung Pengembang">
         <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl max-w-md w-full p-6 relative animate-in">
             <button onclick="closeDonationModal()" aria-label="Tutup" class="absolute top-3 right-3 p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition">
@@ -3643,6 +3779,195 @@
 
             lucide.createIcons();
         });
+    </script>
+
+    <!-- ===================== PWA LOGIC ===================== -->
+    <script>
+    (function() {
+        'use strict';
+
+        // 1) Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js').catch(function(err) {
+                    console.warn('SW registration failed:', err);
+                });
+            });
+        }
+
+        // 2) Install prompt handling
+        var deferredPrompt = null;
+
+        // Cek apakah sudah terinstal (standalone mode)
+        function isInstalled() {
+            try {
+                return window.matchMedia('(display-mode: standalone)').matches ||
+                       window.navigator.standalone === true;
+            } catch (e) { return false; }
+        }
+
+        // Tampilkan / sembunyikan kartu install di home
+        window.updateHomeInstallCard = function() {
+            var card = document.getElementById('homeInstallCard');
+            if (!card) return;
+            var dismissed = false;
+            try { dismissed = localStorage.getItem('homeInstallCardDismissed') === 'true'; } catch (e) {}
+            if (isInstalled() || dismissed) {
+                card.classList.add('hidden');
+            } else {
+                card.classList.remove('hidden');
+            }
+        };
+
+        // Sembunyikan kartu install (tombol Nanti)
+        window.dismissHomeInstallCard = function() {
+            var card = document.getElementById('homeInstallCard');
+            if (card) card.classList.add('hidden');
+            try { localStorage.setItem('homeInstallCardDismissed', 'true'); } catch (e) {}
+        };
+
+        // Event: browser siap prompt install
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            updateHomeInstallCard();
+            // Banner pojok (opsional)
+            try {
+                if (isInstalled()) return;
+                if (localStorage.getItem('installBannerDismissed') === 'true') return;
+                if (localStorage.getItem('homeInstallCardDismissed') === 'true') return;
+            } catch (err) {}
+            setTimeout(function() {
+                var b = document.getElementById('installBanner');
+                if (b) b.classList.add('visible');
+            }, 4000);
+        });
+
+        window.addEventListener('appinstalled', function() {
+            deferredPrompt = null;
+            hideInstallBanner();
+            if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
+            try {
+                localStorage.setItem('installBannerDismissed', 'true');
+                localStorage.setItem('homeInstallCardDismissed', 'true');
+            } catch (e) {}
+            updateHomeInstallCard();
+        });
+
+        window.hideInstallBanner = function() {
+            var b = document.getElementById('installBanner');
+            if (b) b.classList.remove('visible');
+        };
+
+        window.dismissInstallBanner = function() {
+            hideInstallBanner();
+            try { localStorage.setItem('installBannerDismissed', 'true'); } catch (e) {}
+        };
+
+        // Fungsi universal dipanggil dari tombol "Pasang"
+        window.promptInstall = function() {
+            // Jika ada deferred prompt (Android Chrome / Edge Desktop)
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(choice) {
+                    if (choice && choice.outcome === 'accepted') {
+                        if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
+                        try {
+                            localStorage.setItem('installBannerDismissed', 'true');
+                            localStorage.setItem('homeInstallCardDismissed', 'true');
+                        } catch (e) {}
+                    }
+                    deferredPrompt = null;
+                    hideInstallBanner();
+                    updateHomeInstallCard();
+                });
+                return;
+            }
+
+            // Fallback: belum ada prompt (iOS, Firefox, atau browser lain)
+            var ua = navigator.userAgent || '';
+            var isIOS = /iphone|ipad|ipod/i.test(ua) && !window.MSStream;
+            var isAndroid = /android/i.test(ua);
+            var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+            var isFirefox = /firefox/i.test(ua);
+
+            var msg;
+            if (isIOS) {
+                msg = "📱 iPhone/iPad: Tap ikon Share (kotak dengan panah ↑) di Safari → pilih 'Add to Home Screen'";
+            } else if (isFirefox) {
+                msg = "🦊 Firefox: Menu ⋮ → 'Install' / 'Tambahkan ke Home'";
+            } else if (isAndroid) {
+                msg = "🤖 Chrome Android: Menu ⋮ → 'Install app' / 'Tambahkan ke layar utama'";
+            } else if (isSafari) {
+                msg = "🧭 Safari macOS: Menu File → 'Add to Dock'";
+            } else {
+                msg = "💡 Buka menu browser → 'Install' / 'Tambahkan ke layar utama'";
+            }
+            if (typeof showToast === 'function') {
+                showToast(msg);
+                // Toast lebih lama untuk instruksi panjang
+                var toast = document.getElementById('toast');
+                if (toast) {
+                    var msgEl = document.getElementById('toastMsg');
+                    if (msgEl) {
+                        msgEl.innerHTML = '<span class="leading-snug">' + msg + '</span>';
+                        toast.querySelector('i[data-lucide]') && toast.querySelector('i[data-lucide]').setAttribute('data-lucide', 'info');
+                        if (window.lucide) lucide.createIcons();
+                        toast.classList.remove('translate-y-20', 'opacity-0');
+                        setTimeout(function() {
+                            toast.classList.add('translate-y-20', 'opacity-0');
+                        }, 7000);
+                    }
+                }
+            } else {
+                alert(msg);
+            }
+        };
+
+        // 3) Update tombol install di Settings
+        function updateSettingsInstallBtn() {
+            var btn = document.getElementById('settingsInstallBtn');
+            var txt = document.getElementById('installBtnText');
+            if (isInstalled() && btn && txt) {
+                txt.textContent = 'Aplikasi Sudah Terpasang';
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-not-allowed');
+            }
+        }
+
+        // 4) Splash screen
+        var splashHidden = false;
+        function hideSplash() {
+            if (splashHidden) return;
+            splashHidden = true;
+            var splash = document.getElementById('splash-screen');
+            if (splash) {
+                splash.classList.add('fade-out');
+                setTimeout(function() {
+                    if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+                }, 700);
+            }
+        }
+
+        window.addEventListener('load', function() {
+            updateHomeInstallCard();
+            updateSettingsInstallBtn();
+            setTimeout(hideSplash, 1500);
+        });
+
+        // Fallback splash hide
+        setTimeout(hideSplash, 3500);
+
+        // Update kartu install saat tab berubah (ke Beranda)
+        var origSwitchTab = window.switchTab;
+        if (typeof origSwitchTab === 'function') {
+            window.switchTab = function(tabId) {
+                origSwitchTab.apply(this, arguments);
+                if (tabId === 'home') setTimeout(updateHomeInstallCard, 50);
+                if (tabId === 'settings') setTimeout(updateSettingsInstallBtn, 50);
+            };
+        }
+    })();
     </script>
 </body>
 </html>
