@@ -1537,6 +1537,9 @@
                         <i data-lucide="download" class="w-4 h-4"></i> <span id="installBtnText">Pasang Aplikasi</span>
                     </button>
                     <p class="text-[10px] font-medium text-slate-500 mt-2 text-center">Di iOS: tap <b>Share</b> → <b>Add to Home Screen</b></p>
+                    <p class="text-[10px] font-medium text-slate-400 dark:text-slate-500 mt-3 text-center">
+                        <button onclick="resetInstallFlag()" class="underline hover:text-calm-600 dark:hover:text-calm-400 transition font-semibold">Reset pengingat install</button>
+                    </p>
                 </div>
 
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1617,7 +1620,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.1</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.2</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -3383,7 +3386,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.1,
+                version: 6.2,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3572,7 +3575,7 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6.1) ===================== -->
+    <!-- ===================== PWA LOGIC (v6.2) ===================== -->
     <script>
     (function () {
         'use strict';
@@ -3603,11 +3606,8 @@
             try {
                 localStorage.setItem('anti_anxiety_pwa_installed', 'true');
                 localStorage.setItem('anti_anxiety_pwa_installed_at', String(Date.now()));
-                localStorage.setItem('anti_anxiety_last_standalone', String(Date.now()));
-                // Clean dismissal state so future uninstall flow starts fresh
-                try { sessionStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
-                try { localStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
             } catch (e) {}
+            try { sessionStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
         }
@@ -3620,22 +3620,18 @@
             try {
                 localStorage.removeItem('anti_anxiety_pwa_installed');
                 localStorage.removeItem('anti_anxiety_pwa_installed_at');
-                localStorage.removeItem('anti_anxiety_last_standalone');
             } catch (e) {}
         }
 
-        // ===== Dismissal = sessionStorage (per-sesi tab) =====
-        // → Fresh launch (tab baru) = kartu muncul lagi
-        // → Klik close = hilang untuk sesi ini
-        // → Refresh = tetap hilang (bukan fresh launch)
+        // Dismissal = sessionStorage (per-sesi tab)
         function isInstallCardDismissed() {
             try { return sessionStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
         }
 
         function shouldShowInstallCard() {
-            if (isInstalled()) return false;
-            if (isPwaMarkedInstalled()) return false;
-            if (isInstallCardDismissed()) return false;
+            if (isInstalled()) return false;           // 1. Standalone → pasti sudah install
+            if (isPwaMarkedInstalled()) return false;  // 2. Flag → sudah install
+            if (isInstallCardDismissed()) return false; // 3. Closed this session
             return true;
         }
 
@@ -3649,54 +3645,35 @@
         window.dismissHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            // sessionStorage = hilang untuk sesi ini saja, muncul lagi saat fresh launch
             try { sessionStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
         };
 
-        // ============ UNINSTALL DETECTION ============
-        async function verifyUninstallStatus() {
+        // Reset manual — dipakai untuk memunculkan kartu lagi setelah uninstall
+        window.resetInstallFlag = function () {
             if (isInstalled()) {
-                try { localStorage.setItem('anti_anxiety_last_standalone', String(Date.now())); } catch (e) {}
+                if (typeof showToast === 'function') showToast('Aplikasi sedang berjalan sebagai PWA terpasang');
                 return;
             }
-            if (!isPwaMarkedInstalled()) return;
+            clearPwaInstalledFlag();
+            try { sessionStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
+            try { localStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
+            updateHomeInstallCard();
+            updateSettingsInstallBtn();
+            if (typeof showToast === 'function') showToast('✅ Pengingat install direset. Kartu akan muncul kembali di Beranda.');
+        };
 
-            if ('getInstalledRelatedApps' in navigator) {
-                try {
-                    var apps = await navigator.getInstalledRelatedApps();
-                    if (Array.isArray(apps) && apps.length === 0) {
-                        clearPwaInstalledFlag();
-                        if (typeof showToast === 'function') {
-                            showToast('ℹ️ Aplikasi telah dilepas. Anda dapat memasangnya kembali.');
-                        }
-                        updateHomeInstallCard();
-                        updateSettingsInstallBtn();
-                    }
-                } catch (e) {
-                    console.warn('getInstalledRelatedApps failed:', e);
-                }
-            }
-        }
-
-        // Clean up legacy keys (v5 and older) that were stored in localStorage
+        // Bersihkan key legacy
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
             localStorage.removeItem('installBannerDismissed');
-            // Migrate: if old dismissal flag exists in localStorage, remove it
-            // so fresh launch behavior kicks in immediately
-            if (localStorage.getItem('anti_anxiety_install_card_dismissed') === 'true') {
-                localStorage.removeItem('anti_anxiety_install_card_dismissed');
-            }
         } catch (e) {}
 
-        // ============ BROWSER EVENTS ============
+        // ============ EVENT BROWSER ============
         window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
-            if (isPwaMarkedInstalled() && !isInstalled()) {
-                verifyUninstallStatus();
-            }
+            // PENTING: JANGAN clear flag di sini. Flag adalah sumber kebenaran.
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
@@ -3765,7 +3742,8 @@
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
             if (!btn || !txt) return;
-            if (isInstalled() || (isPwaMarkedInstalled() && !deferredPrompt)) {
+            // Trust flag: jika standalone ATAU flag set → sudah terpasang
+            if (isInstalled() || isPwaMarkedInstalled()) {
                 txt.textContent = 'Aplikasi Sudah Terpasang';
                 btn.disabled = true;
                 btn.classList.add('opacity-60', 'cursor-not-allowed');
@@ -3794,9 +3772,6 @@
             updateHomeInstallCard();
             updateSettingsInstallBtn();
             if (!window.__skipSplash) setTimeout(hideSplash, 1500);
-
-            setTimeout(verifyUninstallStatus, 1200);
-            setTimeout(verifyUninstallStatus, 3000);
         });
 
         if (!window.__skipSplash) setTimeout(hideSplash, 3500);
@@ -3813,7 +3788,6 @@
                 goHome();
                 updateHomeInstallCard();
                 updateSettingsInstallBtn();
-                verifyUninstallStatus();
             }
         });
 
@@ -3826,7 +3800,6 @@
         window.addEventListener('focus', function () {
             updateHomeInstallCard();
             updateSettingsInstallBtn();
-            verifyUninstallStatus();
         });
 
         // ============ WRAP switchTab ============
@@ -3838,7 +3811,6 @@
                     setTimeout(function () {
                         updateHomeInstallCard();
                         updateSettingsInstallBtn();
-                        verifyUninstallStatus();
                     }, 50);
                 }
             };
