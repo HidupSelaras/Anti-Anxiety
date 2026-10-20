@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Anti Anxiety - Ruang Tenang & Kendali Kecemasan</title>
-    <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi. Data tersimpan di perangkat Anda.">
+    <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi.">
 
-    <!-- ===== PWA META ===== -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#14b8a6">
     <meta name="mobile-web-app-capable" content="yes">
@@ -15,7 +14,6 @@
     <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
-    <!-- ==================== -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -40,7 +38,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-
         body {
             font-family: 'Inter', sans-serif;
             font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
@@ -67,63 +64,18 @@
                     rgba(12, 35, 30, 0.80) 100%),
                 url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
         }
-
         .text-sharp { text-shadow: 0 0 0.5px rgba(0, 0, 0, 0.08); }
         html.dark .text-sharp { text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.10); }
-
         h1, h2, h3 { letter-spacing: -0.02em; }
         main { position: relative; isolation: isolate; }
         html, body { overflow-x: hidden; width: 100%; }
 
-        /* ===== SPLASH SCREEN ANIMATIONS ===== */
-        @keyframes soft-breath {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.3); opacity: 0.6; }
-        }
-        @keyframes icon-breath {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        #splash-screen {
-            transition: opacity 0.6s ease-in-out;
-        }
-        #splash-screen.fade-out {
-            opacity: 0;
-            pointer-events: none;
-        }
+        @keyframes soft-breath { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.3); opacity: 0.6; } }
+        @keyframes icon-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        #splash-screen { transition: opacity 0.6s ease-in-out; }
+        #splash-screen.fade-out { opacity: 0; pointer-events: none; }
         .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
         .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
-
-        /* ===== INSTALL BANNER ===== */
-        #installBanner {
-            position: fixed;
-            bottom: 90px;
-            right: 24px;
-            z-index: 44;
-            width: 300px;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 32px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06);
-            padding: 14px;
-            display: none;
-            transform: translateY(20px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        #installBanner.visible {
-            display: block;
-            transform: translateY(0);
-            opacity: 1;
-        }
-        html.dark #installBanner { background: #1e293b; }
-        @media (max-width: 640px) {
-            #installBanner {
-                right: 16px;
-                left: 16px;
-                width: auto;
-                bottom: 80px;
-            }
-        }
 
         .dashboard-welcome {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%);
@@ -142,10 +94,8 @@
         .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
         .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
         .breath-visual.visual-active { opacity: 1; transform: scale(1); pointer-events: auto; }
-
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
         .breath-visual.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
-
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
@@ -165,7 +115,6 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.5); }
-
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -227,21 +176,7 @@
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
 
-        #downloadMenu {
-            position: fixed;
-            width: 260px;
-            background: white;
-            border-radius: 14px;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            padding: 6px;
-            z-index: 9999;
-            opacity: 0;
-            transform: translateY(-8px) scale(0.98);
-            pointer-events: none;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            display: none;
-        }
+        #downloadMenu { position: fixed; width: 260px; background: white; border-radius: 14px; box-shadow: 0 10px 28px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06); border: 1px solid rgba(148, 163, 184, 0.3); padding: 6px; z-index: 9999; opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; display: none; }
         html.dark #downloadMenu { background: #1e293b; border-color: rgba(51, 65, 85, 0.8); }
         #downloadMenu.visible { display: block; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
         #downloadMenu .menu-header { padding: 6px 10px 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #94a3b8; }
@@ -257,97 +192,27 @@
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
 
-        .home-stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        @media (max-width: 640px) {
-            .home-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        }
-        .home-stat-cell {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 14px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
-            transition: all 0.2s ease;
-            min-width: 0;
-            position: relative;
-            overflow: hidden;
-        }
-        html.dark .home-stat-cell {
-            background: #1e293b;
-            border-color: #334155;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-        }
+        .home-stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+        @media (max-width: 640px) { .home-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        .home-stat-cell { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.2s ease; min-width: 0; position: relative; overflow: hidden; }
+        html.dark .home-stat-cell { background: #1e293b; border-color: #334155; box-shadow: 0 1px 2px rgba(0,0,0,0.15); }
         .home-stat-cell:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
         html.dark .home-stat-cell:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.35); }
-        .home-stat-cell::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: var(--accent, #14b8a6);
-        }
-        .home-stat-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            color: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-        }
-        .home-stat-content {
-            min-width: 0;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            line-height: 1.15;
-        }
-        .home-stat-value {
-            font-size: 20px;
-            font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.02em;
-        }
+        .home-stat-cell::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent, #14b8a6); }
+        .home-stat-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
+        .home-stat-content { min-width: 0; flex: 1; display: flex; flex-direction: column; line-height: 1.15; }
+        .home-stat-value { font-size: 20px; font-weight: 800; color: #0f172a; letter-spacing: -0.02em; }
         html.dark .home-stat-value { color: #f1f5f9; }
-        .home-stat-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 1px;
-        }
+        .home-stat-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
         html.dark .home-stat-label { color: #94a3b8; }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .animate-in { animation: fadeInScale 0.2s ease-out; }
-
-        /* ===== HOME INSTALL CARD ===== */
-        @keyframes install-card-glow {
-            0%, 100% { box-shadow: 0 10px 30px -5px rgba(20, 184, 166, 0.4), 0 4px 8px rgba(20, 184, 166, 0.15); }
-            50% { box-shadow: 0 14px 36px -3px rgba(20, 184, 166, 0.55), 0 6px 12px rgba(20, 184, 166, 0.2); }
-        }
-        #homeInstallCard {
-            animation: install-card-glow 3s ease-in-out infinite;
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
 
-    <!-- ===================== SPLASH SCREEN ===================== -->
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#eaf5ef] dark:bg-[#0a1b17] flex flex-col items-center justify-center">
         <div class="relative flex items-center justify-center mb-6">
             <div class="absolute w-28 h-28 bg-calm-400 rounded-full animate-breath"></div>
@@ -359,7 +224,6 @@
         <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-3 animate-pulse">Menyiapkan ruang aman Anda...</p>
         <p class="absolute bottom-10 text-xs text-slate-400 dark:text-slate-500">Hidup Selaras</p>
     </div>
-    <!-- ======================================================== -->
 
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
@@ -389,11 +253,9 @@
                         <span class="text-xs sm:text-sm">🔥</span>
                         <span id="streakCount" class="text-xs font-bold text-amber-700 dark:text-amber-300">0</span>
                     </div>
-
                     <button onclick="toggleDownloadMenu(event)" id="downloadBtn" title="Download laporan" aria-label="Download laporan" aria-haspopup="true" aria-expanded="false" class="p-2 sm:p-2.5 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 hover:bg-emerald-200 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition relative">
                         <i data-lucide="download" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </button>
-
                     <button onclick="toggleAudioDrawer()" id="audioDrawerBtn" aria-label="Buka panel suara latar" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition relative">
                         <i data-lucide="volume-2" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         <span id="audioBadge" class="absolute top-1 right-1 w-2 h-2 bg-calm-500 rounded-full hidden"></span>
@@ -585,32 +447,27 @@
             </div>
         </div>
 
-        <!-- ========== HOME ========== -->
+        <!-- HOME -->
         <section id="sec-home" class="tab-content block">
 
-            <!-- INSTALL CARD (muncul jika belum terinstall) -->
-            <div id="homeInstallCard" class="hidden bg-gradient-to-br from-calm-500 via-teal-500 to-emerald-600 p-5 sm:p-6 rounded-3xl shadow-lg relative overflow-hidden mb-4">
-                <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/20 blur-3xl pointer-events-none"></div>
-                <div class="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-emerald-300/30 blur-2xl pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-white/25 backdrop-blur flex items-center justify-center flex-shrink-0 border-2 border-white/40 shadow-md">
-                        <i data-lucide="smartphone" class="w-7 h-7 text-white"></i>
+            <!-- COMPACT INSTALL CARD -->
+            <div id="homeInstallCard" class="hidden mb-3">
+                <div class="bg-gradient-to-r from-calm-600 via-teal-500 to-emerald-500 rounded-2xl shadow-md p-3 flex items-center gap-2.5 relative overflow-hidden">
+                    <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-white/20 blur-2xl pointer-events-none"></div>
+                    <div class="w-9 h-9 rounded-xl bg-white/25 backdrop-blur flex items-center justify-center flex-shrink-0 border border-white/40 relative z-10">
+                        <i data-lucide="smartphone" class="w-4 h-4 text-white"></i>
                     </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            Pasang Aplikasi Anti Anxiety
-                        </h3>
-                        <p class="text-xs sm:text-sm font-medium text-white/95 mt-0.5 leading-snug">Akses lebih cepat dari layar utama, bisa dipakai offline, tanpa URL bar.</p>
+                    <div class="flex-1 min-w-0 relative z-10">
+                        <p class="text-xs sm:text-sm font-bold text-white leading-tight">Pasang sebagai Aplikasi</p>
+                        <p class="text-[10px] text-white/85 leading-tight mt-0.5 truncate">Akses cepat, offline, tanpa URL bar</p>
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <button onclick="promptInstall()" class="flex-1 sm:flex-none px-5 py-2.5 bg-white text-calm-700 font-bold text-sm rounded-xl shadow-md hover:bg-slate-50 transition active:scale-95 flex items-center justify-center gap-1.5 whitespace-nowrap">
-                            <i data-lucide="download" class="w-4 h-4"></i> Pasang
-                        </button>
-                        <button onclick="dismissHomeInstallCard()" title="Sembunyikan" class="px-3 py-2.5 bg-white/20 hover:bg-white/30 text-white text-xs font-semibold rounded-xl transition">
-                            Nanti
-                        </button>
-                    </div>
+                    <button onclick="promptInstall()" class="relative z-10 px-3 py-1.5 bg-white text-calm-700 font-bold text-xs rounded-lg shadow-sm hover:bg-slate-50 active:scale-95 transition flex items-center gap-1 whitespace-nowrap">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                        <span>Pasang</span>
+                    </button>
+                    <button onclick="dismissHomeInstallCard()" aria-label="Tutup pengingat" class="relative z-10 p-1 text-white/70 hover:text-white flex-shrink-0">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    </button>
                 </div>
             </div>
 
@@ -634,8 +491,7 @@
                         <div class="mood-slider-wrap mb-3">
                             <div class="mood-slider-bg"></div>
                             <div class="mood-slider-track" id="moodSliderTrack"></div>
-                            <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5" aria-label="Skala kecemasan 1 sampai 10"
-                                   oninput="updateMoodLabel(this.value); updateMoodSliderColor(this.value)">
+                            <input type="range" id="quickMoodRange" class="mood-range" min="1" max="10" value="5" aria-label="Skala kecemasan 1 sampai 10" oninput="updateMoodLabel(this.value); updateMoodSliderColor(this.value)">
                         </div>
                         <div id="moodStatusLabel" class="text-[11px] font-bold mb-2 text-amber-600 dark:text-amber-400">Status: Sedang (Waspada)</div>
                         <button onclick="saveMoodLog()" class="w-full py-2 bg-calm-600 hover:bg-calm-700 text-white font-semibold text-xs rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
@@ -760,8 +616,7 @@
                     </div>
                     <div class="flex flex-wrap gap-2 mt-3">
                         <button onclick="openDonationModal()" class="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold text-xs rounded-xl shadow-md transition flex items-center gap-1.5 active:scale-95">
-                            <i data-lucide="coffee" class="w-4 h-4"></i>
-                            Traktir Kopi
+                            <i data-lucide="coffee" class="w-4 h-4"></i> Traktir Kopi
                         </button>
                     </div>
                 </div>
@@ -781,7 +636,6 @@
                             </p>
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-4">
                         <div class="p-3 rounded-xl bg-white/60 dark:bg-slate-900/40 border border-indigo-200/60 dark:border-indigo-900/40">
                             <div class="flex items-center gap-2 mb-1">
@@ -805,7 +659,6 @@
                             <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">Kolaborasi artikel/blog untuk edukasi bersama.</p>
                         </div>
                     </div>
-
                     <div class="flex flex-wrap gap-2 mt-4">
                         <a href="contact.html" class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-xs rounded-xl shadow-md transition flex items-center gap-1.5 active:scale-95">
                             <i data-lucide="mail" class="w-4 h-4"></i>
@@ -816,7 +669,6 @@
                             Halaman Kontak
                         </a>
                     </div>
-
                     <p class="text-[9px] text-indigo-500/70 dark:text-indigo-400/60 mt-3 leading-relaxed">
                         Semua bentuk kolaborasi tunduk pada komitmen <b>integritas editorial</b> — kami tidak akan mempromosikan produk yang bertentangan dengan misi kesehatan mental.
                     </p>
@@ -824,7 +676,7 @@
             </div>
         </section>
 
-        <!-- ========== BREATHING ========== -->
+        <!-- BREATHING -->
         <section id="sec-breathing" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-10 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center min-h-[540px] relative overflow-hidden">
@@ -832,7 +684,6 @@
                         <h3 id="breathTechniqueTitle" class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Box Breathing (4-4-4-4)</h3>
                         <p id="breathTechniqueDesc" class="text-xs font-medium text-slate-600 dark:text-slate-400 mt-1">Sangat efektif menenangkan sistem saraf pusat dalam momen tegang.</p>
                     </div>
-
                     <div id="breathVisualStage">
                         <div class="breath-visual visual-active" data-visual="circle">
                             <div id="breathMainCircle" class="breath-circle w-40 h-40 rounded-full bg-gradient-to-br from-calm-300 to-teal-500 shadow-xl shadow-calm-500/20 flex items-center justify-center text-white text-center p-4 scale-100">
@@ -842,7 +693,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="breath-visual visual-hidden" data-visual="candle">
                             <div class="flex flex-col items-center justify-end" style="height: 100%;">
                                 <svg id="candleFlame" viewBox="0 0 60 90" width="90" height="140" style="filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.7));">
@@ -867,7 +717,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="breath-visual visual-hidden" data-visual="bloom">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg id="bloomSvg" viewBox="0 0 200 200" width="240" height="240">
@@ -897,7 +746,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="breath-visual visual-hidden" data-visual="balloon">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg viewBox="0 0 120 220" width="140" height="240">
@@ -921,7 +769,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="breath-visual visual-hidden" data-visual="star">
                             <div class="flex flex-col items-center justify-center" style="height: 100%;">
                                 <svg viewBox="0 0 200 200" width="240" height="240">
@@ -947,7 +794,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="flex flex-wrap items-center justify-center gap-3 mt-4">
                         <button onclick="startBreathing()" id="btnStartBreathing" class="px-6 py-3 bg-calm-600 hover:bg-calm-700 text-white font-semibold text-sm rounded-2xl shadow-md transition flex items-center gap-2">
                             <i data-lucide="play" class="w-4 h-4"></i> Mulai Latihan
@@ -962,18 +808,15 @@
                             <i data-lucide="square" class="w-4 h-4"></i> Hentikan
                         </button>
                     </div>
-
                     <label class="mt-4 flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" id="voiceGuideToggle" class="w-4 h-4 rounded accent-calm-500" onchange="toggleVoiceGuide(this.checked)">
                         <span class="text-xs font-medium text-slate-600 dark:text-slate-400 flex items-center gap-1">
                             <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Panduan Suara
                         </span>
                     </label>
-
                     <div id="voiceStatusHint" class="mt-2 text-[10px] font-medium text-slate-500 dark:text-slate-400 text-center hidden">
                         <span id="voiceStatusText"></span>
                     </div>
-
                     <div id="breathStatusIndicator" class="mt-3 text-xs font-medium text-slate-600 dark:text-slate-400 hidden">
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700">
                             <span id="statusDot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -981,7 +824,6 @@
                         </span>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex flex-col justify-between space-y-6">
                     <div>
                         <h4 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
@@ -1017,7 +859,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div>
                         <h4 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-3 flex items-center gap-2">
                             <i data-lucide="palette" class="w-4 h-4 text-calm-500"></i> Gaya Visual
@@ -1032,7 +873,6 @@
                             </select>
                         </label>
                     </div>
-
                     <div class="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 text-amber-800 dark:text-amber-200 text-xs leading-relaxed">
                         <p class="font-semibold flex items-center gap-1.5 mb-1">
                             <i data-lucide="lightbulb" class="w-4 h-4 text-amber-600"></i> Tips Bernapas:
@@ -1043,7 +883,7 @@
             </div>
         </section>
 
-        <!-- ========== GROUNDING ========== -->
+        <!-- GROUNDING -->
         <section id="sec-grounding" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm max-w-3xl mx-auto">
                 <div class="text-center mb-8">
@@ -1071,7 +911,7 @@
             </div>
         </section>
 
-        <!-- ========== JOURNAL ========== -->
+        <!-- JOURNAL -->
         <section id="sec-journal" class="tab-content hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1109,7 +949,7 @@
             </div>
         </section>
 
-        <!-- ========== RELEASE ========== -->
+        <!-- RELEASE -->
         <section id="sec-release" class="tab-content hidden">
             <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-orange-200/60 dark:border-orange-900/40 shadow-sm max-w-3xl mx-auto">
                 <div class="text-center mb-8">
@@ -1126,7 +966,6 @@
                         </p>
                     </div>
                 </div>
-
                 <form onsubmit="handleReleaseSubmit(event)" class="space-y-5" id="releaseForm">
                     <div class="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-200 dark:border-slate-700">
                         <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2 flex items-center gap-2">
@@ -1158,7 +997,6 @@
                         </button>
                     </div>
                 </form>
-
                 <div id="releaseAnimationBox" class="hidden text-center py-10">
                     <div class="text-6xl mb-4 animate-bounce">🕊️</div>
                     <h4 class="text-xl font-bold text-slate-800 dark:text-slate-100">Beban telah dilepaskan...</h4>
@@ -1168,7 +1006,7 @@
             </div>
         </section>
 
-        <!-- ========== AUDIO ============ -->
+        <!-- AUDIO -->
         <section id="sec-audio" class="tab-content hidden">
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-8">
@@ -1192,7 +1030,7 @@
             </div>
         </section>
 
-        <!-- ========== AFFIRMATIONS ========== -->
+        <!-- AFFIRMATIONS -->
         <section id="sec-affirmations" class="tab-content hidden">
             <div class="text-center max-w-xl mx-auto mb-8">
                 <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 text-xs font-semibold rounded-full">Penguat Mental</span>
@@ -1207,7 +1045,7 @@
             </div>
         </section>
 
-        <!-- ========== TRACKER ========== -->
+        <!-- TRACKER -->
         <section id="sec-tracker" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -1248,7 +1086,6 @@
                         <p id="statMax" class="text-2xl font-bold text-rose-600">0</p>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="calendar-days" class="w-4 h-4 text-sky-500"></i> Statistik Mingguan
@@ -1276,7 +1113,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
                         <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 flex items-center gap-2">
@@ -1296,7 +1132,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <h3 class="text-xl font-bold text-sharp text-slate-800 dark:text-slate-100">Riwayat Skala Kecemasan</h3>
@@ -1327,7 +1162,7 @@
             </div>
         </section>
 
-        <!-- ========== INSIGHTS ========== -->
+        <!-- INSIGHTS -->
         <section id="sec-insights" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1346,9 +1181,7 @@
                     <div id="streakCalendar" class="grid grid-cols-14 gap-1.5 mt-4" style="grid-template-columns: repeat(14, minmax(0, 1fr));"></div>
                     <p class="text-[10px] font-medium text-slate-500 mt-3 text-center">Kotak hijau = hari aktif mencatat mood / jurnal</p>
                 </div>
-
                 <div id="insightCards" class="space-y-3"></div>
-
                 <div class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-6 rounded-3xl border border-calm-200 dark:border-teal-900/60">
                     <div class="flex items-start gap-3">
                         <div class="w-10 h-10 rounded-2xl bg-calm-500 flex items-center justify-center text-white flex-shrink-0">
@@ -1365,7 +1198,7 @@
             </div>
         </section>
 
-        <!-- ========== GRATITUDE ========== -->
+        <!-- GRATITUDE -->
         <section id="sec-gratitude" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-pink-200/60 dark:border-pink-900/40 shadow-sm">
@@ -1405,7 +1238,6 @@
                         </button>
                     </form>
                 </div>
-
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                         <div class="flex items-center gap-2 mb-1">
@@ -1444,7 +1276,6 @@
                         <p id="gratBadge" class="text-sm font-bold text-amber-600">-</p>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="calendar-heart" class="w-4 h-4 text-pink-500"></i> Kalender Syukur (30 Hari Terakhir)
@@ -1452,7 +1283,6 @@
                     <div id="gratitudeCalendar" class="grid gap-1.5" style="grid-template-columns: repeat(10, minmax(0, 1fr));"></div>
                     <p class="text-[10px] font-medium text-slate-500 mt-3 text-center">Kotak pink = hari Anda sudah bersyukur</p>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <div>
@@ -1481,7 +1311,7 @@
             </div>
         </section>
 
-        <!-- ========== LUCK ========== -->
+        <!-- LUCK -->
         <section id="sec-luck" class="tab-content hidden">
             <div class="space-y-6 max-w-4xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-emerald-200/60 dark:border-emerald-900/40 shadow-sm">
@@ -1525,7 +1355,6 @@
                         </button>
                     </form>
                 </div>
-
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                         <div class="flex items-center gap-2 mb-1">
@@ -1564,7 +1393,6 @@
                         <p id="luckThisMonth" class="text-2xl font-bold text-sky-600">0</p>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-500"></i> Distribusi Kategori Keberuntungan
@@ -1577,7 +1405,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <h3 class="text-base font-bold text-sharp text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
                         <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-500"></i> Grafik Kategori Keberuntungan
@@ -1590,7 +1417,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                         <div>
@@ -1613,7 +1439,7 @@
             </div>
         </section>
 
-        <!-- ========== SETTINGS ========== -->
+        <!-- SETTINGS -->
         <section id="sec-settings" class="tab-content hidden">
             <div class="space-y-6 max-w-3xl mx-auto">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200/80 dark:border-slate-700 shadow-sm">
@@ -1640,7 +1466,6 @@
                     </p>
                 </div>
 
-                <!-- ====== INSTALL APP SECTION ====== -->
                 <div id="installSection" class="bg-gradient-to-br from-calm-50 to-teal-50 dark:from-teal-950/40 dark:to-emerald-950/40 p-6 rounded-3xl border border-calm-200 dark:border-teal-900/60 shadow-sm">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900">
@@ -1735,7 +1560,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.6</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.7</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1748,25 +1573,6 @@
     <button id="homeFab" onclick="switchTab('home')" title="Kembali ke Beranda" aria-label="Kembali ke beranda">
         <i data-lucide="home" class="w-6 h-6"></i>
     </button>
-
-    <!-- ====== INSTALL BANNER (fallback corner) ====== -->
-    <div id="installBanner">
-        <div class="flex items-start gap-2 mb-2">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900 flex-shrink-0">
-                <i data-lucide="download" class="w-4 h-4"></i>
-            </div>
-            <div class="flex-1">
-                <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Pasang Aplikasi</p>
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-0.5">Akses lebih cepat langsung dari layar utama.</p>
-            </div>
-            <button onclick="dismissInstallBanner()" aria-label="Tutup" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                <i data-lucide="x" class="w-3.5 h-3.5"></i>
-            </button>
-        </div>
-        <button onclick="promptInstall()" class="w-full py-2 bg-gradient-to-r from-calm-500 to-teal-600 hover:from-calm-600 hover:to-teal-700 text-white text-xs font-bold rounded-lg mt-1 transition">
-            Pasang Sekarang
-        </button>
-    </div>
 
     <div id="sosModal" class="fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 sm:p-10 text-white hidden overflow-y-auto" role="dialog" aria-modal="true" aria-label="Menu SOS panik">
         <div class="w-full flex justify-between items-center max-w-4xl">
@@ -1818,7 +1624,6 @@
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">Dukung Pengembang</h3>
                 <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Setiap dukungan sangat berarti 💚</p>
             </div>
-
             <div class="space-y-2">
                 <a href="https://saweria.co/hidupselaras" target="_blank" rel="noopener" onclick="closeDonationModal()" class="flex items-center gap-3 p-3.5 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-950/40 dark:to-amber-950/40 border border-orange-200 dark:border-orange-900/60 hover:shadow-md transition group">
                     <div class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center text-white flex-shrink-0 shadow-sm">
@@ -1830,7 +1635,6 @@
                     </div>
                     <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-orange-500 transition"></i>
                 </a>
-
                 <a href="https://trakteer.id/hidupselaras" target="_blank" rel="noopener" onclick="closeDonationModal()" class="flex items-center gap-3 p-3.5 rounded-xl bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-950/40 dark:to-pink-950/40 border border-rose-200 dark:border-rose-900/60 hover:shadow-md transition group">
                     <div class="w-10 h-10 rounded-xl bg-rose-500 flex items-center justify-center text-white flex-shrink-0 shadow-sm">
                         <i data-lucide="gift" class="w-5 h-5"></i>
@@ -1841,7 +1645,6 @@
                     </div>
                     <i data-lucide="external-link" class="w-4 h-4 text-slate-400 group-hover:text-rose-500 transition"></i>
                 </a>
-
                 <button onclick="showBankInfo()" class="w-full flex items-center gap-3 p-3.5 rounded-xl bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 border border-slate-200 dark:border-slate-700 hover:shadow-md transition group text-left">
                     <div class="w-10 h-10 rounded-xl bg-slate-500 flex items-center justify-center text-white flex-shrink-0 shadow-sm">
                         <i data-lucide="qr-code" class="w-5 h-5"></i>
@@ -1853,14 +1656,12 @@
                     <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition"></i>
                 </button>
             </div>
-
             <div id="bankInfoBox" class="mt-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 hidden">
                 <p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">Transfer Bank</p>
                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-100">BCA: 7900845604</p>
                 <p class="text-xs text-slate-600 dark:text-slate-400">a.n. Suprianto</p>
                 <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-2">Atau hubungi <a href="mailto:admin.hidupselaras@gmail.com" class="text-emerald-600 dark:text-emerald-400 underline">email</a> untuk QRIS</p>
             </div>
-
             <p class="text-[10px] text-center text-slate-400 dark:text-slate-500 mt-4">
                 Terima kasih atas dukungan Anda 🙏
             </p>
@@ -1933,11 +1734,7 @@
             return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         }
         function getTodayKey() { return toDateKey(new Date()); }
-        function getDateKeyOffset(daysAgo) {
-            const d = new Date();
-            d.setDate(d.getDate() - daysAgo);
-            return toDateKey(d);
-        }
+        function getDateKeyOffset(daysAgo) { const d = new Date(); d.setDate(d.getDate() - daysAgo); return toDateKey(d); }
         function computeStreak(dayKeySet) {
             let streak = 0;
             for (let i = 0; i < ACTIVITY_MAX_DAYS; i++) {
@@ -1950,10 +1747,7 @@
         }
         function shuffle(arr) {
             const a = [...arr];
-            for (let i = a.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [a[i], a[j]] = [a[j], a[i]];
-            }
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
             return a;
         }
         function escapeCSV(val) {
@@ -2042,8 +1836,7 @@
                 if (left < 8) left = 8;
                 if (left + menuWidth > window.innerWidth - 8) left = window.innerWidth - menuWidth - 8;
                 const top = rect.bottom + 8;
-                menu.style.left = `${left}px`;
-                menu.style.top = `${top}px`;
+                menu.style.left = `${left}px`; menu.style.top = `${top}px`;
                 menu.classList.add('visible');
                 btn.setAttribute('aria-expanded', 'true');
                 setTimeout(() => lucide.createIcons(), 20);
@@ -2512,46 +2305,26 @@
         }
         function updateVisualForStep(step, tech) {
             const mainCircle = document.getElementById('breathMainCircle');
-            if (mainCircle) {
-                mainCircle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`;
-                mainCircle.style.transform = `scale(${step.scale})`;
-            }
+            if (mainCircle) { mainCircle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease, opacity 0.4s ease`; mainCircle.style.transform = `scale(${step.scale})`; }
             const candle = document.getElementById('candleFlame');
             if (candle) {
                 const flameScale = step.scale > 1.2 ? 1.4 : 0.85;
                 candle.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease`;
                 candle.style.transform = `scale(${flameScale})`;
-                candle.style.filter = step.scale > 1.2
-                    ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)'
-                    : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
+                candle.style.filter = step.scale > 1.2 ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)' : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
             }
             const bloom = document.getElementById('bloomSvg');
             const petals = document.getElementById('bloomPetals');
-            if (bloom) {
-                const bloomScale = step.scale > 1.2 ? 1.15 : 0.85;
-                bloom.style.transition = `transform ${step.duration}s ease-in-out`;
-                bloom.style.transform = `scale(${bloomScale}) rotate(${step.scale > 1.2 ? 30 : 0}deg)`;
-            }
-            if (petals) {
-                petals.style.transition = `transform ${step.duration}s ease-in-out`;
-                petals.style.transform = step.scale > 1.2 ? 'scale(1.15)' : 'scale(0.85)';
-                petals.style.transformOrigin = '100px 100px';
-            }
+            if (bloom) { const bloomScale = step.scale > 1.2 ? 1.15 : 0.85; bloom.style.transition = `transform ${step.duration}s ease-in-out`; bloom.style.transform = `scale(${bloomScale}) rotate(${step.scale > 1.2 ? 30 : 0}deg)`; }
+            if (petals) { petals.style.transition = `transform ${step.duration}s ease-in-out`; petals.style.transform = step.scale > 1.2 ? 'scale(1.15)' : 'scale(0.85)'; petals.style.transformOrigin = '100px 100px'; }
             const balloon = document.getElementById('balloonBody');
-            if (balloon) {
-                const bScale = step.scale > 1.2 ? 1.25 : 0.85;
-                balloon.style.transition = `transform ${step.duration}s ease-in-out`;
-                balloon.style.transform = `scale(${bScale})`;
-                balloon.style.transformOrigin = '60px 150px';
-            }
+            if (balloon) { const bScale = step.scale > 1.2 ? 1.25 : 0.85; balloon.style.transition = `transform ${step.duration}s ease-in-out`; balloon.style.transform = `scale(${bScale})`; balloon.style.transformOrigin = '60px 150px'; }
             const star = document.getElementById('starShape');
             if (star) {
                 const starScale = step.scale > 1.2 ? 1.3 : 0.8;
                 star.style.transition = `transform ${step.duration}s ease-in-out, filter 0.4s ease`;
                 star.style.transform = `scale(${starScale})`;
-                star.style.filter = step.scale > 1.2
-                    ? 'drop-shadow(0 0 40px rgba(251, 191, 36, 1)) brightness(1.3)'
-                    : 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)) brightness(0.9)';
+                star.style.filter = step.scale > 1.2 ? 'drop-shadow(0 0 40px rgba(251, 191, 36, 1)) brightness(1.3)' : 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6)) brightness(0.9)';
             }
         }
         function updateVisualInstruction(step) {
@@ -2717,8 +2490,7 @@
             const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), thought, evidence, reframing };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]');
             entries.unshift(entry);
-            try { localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries)); }
-            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
+            try { localStorage.setItem('anti_anxiety_journals', JSON.stringify(entries)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('cbtThought').value = '';
             document.getElementById('cbtEvidence').value = '';
             document.getElementById('cbtReframing').value = '';
@@ -2841,8 +2613,7 @@
             else if (val > 4) status = "Sedang (Waspada)";
             const newLog = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), score: parseInt(val, 10), status: status };
             logs.unshift(newLog);
-            try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); }
-            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
+            try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             loadMoodHistory();
             markActivityToday();
             updateHomeStats();
@@ -2918,9 +2689,7 @@
             [7, 14, 30].forEach(r => {
                 const btn = document.getElementById(`chartRange${r}`);
                 if (!btn) return;
-                btn.className = r === range
-                    ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-calm-500 text-white transition'
-                    : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 transition';
+                btn.className = r === range ? 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-calm-500 text-white transition' : 'px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 transition';
             });
             renderMoodChart();
         }
@@ -2946,17 +2715,13 @@
                 return;
             }
             const now = new Date();
-            const startOfThisWeek = new Date(now);
-            startOfThisWeek.setDate(now.getDate() - now.getDay());
-            startOfThisWeek.setHours(0,0,0,0);
-            const startOfLastWeek = new Date(startOfThisWeek);
-            startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
+            const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
+            const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
             const parseDate = (dateStr) => {
                 const parts = dateStr.split(' ');
                 try {
                     const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
-                    const day = parseInt(parts[0], 10);
-                    const month = months[parts[1]];
+                    const day = parseInt(parts[0], 10); const month = months[parts[1]];
                     if (month === undefined || isNaN(day)) return null;
                     return new Date(now.getFullYear(), month, day);
                 } catch(e) { return null; }
@@ -2969,9 +2734,8 @@
             document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
             document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
             const trendEl = document.getElementById('weekTrend');
-            if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) {
-                trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1';
-            } else {
+            if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) { trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1'; }
+            else {
                 const diff = thisAvg - lastAvg;
                 if (diff < -0.3) { trendEl.innerText = `↓ ${Math.abs(diff).toFixed(1)}`; trendEl.className = 'text-2xl font-bold text-emerald-600 mt-1'; }
                 else if (diff > 0.3) { trendEl.innerText = `↑ ${diff.toFixed(1)}`; trendEl.className = 'text-2xl font-bold text-rose-600 mt-1'; }
@@ -3051,14 +2815,7 @@
                     if (journals.length > 0) insights.push({ icon: 'book-open', color: 'sky', title: `Jurnal CBT: ${journals.length} catatan`, text: 'Menulis jurnal CBT membantu mereframe pikiran.' });
                 }
             }
-            const colorMap = {
-                calm: 'bg-calm-100 dark:bg-calm-900/40 text-calm-600',
-                emerald: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600',
-                rose: 'bg-rose-100 dark:bg-rose-900/40 text-rose-600',
-                sky: 'bg-sky-100 dark:bg-sky-900/40 text-sky-600',
-                amber: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600',
-                purple: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600'
-            };
+            const colorMap = { calm: 'bg-calm-100 dark:bg-calm-900/40 text-calm-600', emerald: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600', rose: 'bg-rose-100 dark:bg-rose-900/40 text-rose-600', sky: 'bg-sky-100 dark:bg-sky-900/40 text-sky-600', amber: 'bg-amber-100 dark:bg-amber-900/40 text-amber-600', purple: 'bg-purple-100 dark:bg-purple-900/40 text-purple-600' };
             container.innerHTML = insights.map(ins => `
                 <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700 shadow-sm flex gap-4">
                     <div class="w-10 h-10 rounded-xl ${colorMap[ins.color]} flex items-center justify-center flex-shrink-0">
@@ -3096,8 +2853,7 @@
             const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), dateKey: getTodayKey(), items: [g1, g2, g3] };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             entries.unshift(entry);
-            try { localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries)); }
-            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
+            try { localStorage.setItem('anti_anxiety_gratitude', JSON.stringify(entries)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('gratitude1').value = '';
             document.getElementById('gratitude2').value = '';
             document.getElementById('gratitude3').value = '';
@@ -3225,8 +2981,7 @@
             const entry = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), dateKey: getTodayKey(), text: text, category: cat };
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]');
             entries.unshift(entry);
-            try { localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries)); }
-            catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
+            try { localStorage.setItem('anti_anxiety_luck', JSON.stringify(entries)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             document.getElementById('luckInput').value = '';
             const defaultRadio = document.querySelector('input[name="luckCat"][value="Lainnya"]');
             if (defaultRadio) defaultRadio.checked = true;
@@ -3352,10 +3107,7 @@
             const entries = JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]');
             if (entries.length === 0) { showToast("Tidak ada data syukur untuk diexport."); return; }
             const rows = [['Tanggal', 'Syukur 1', 'Syukur 2', 'Syukur 3']];
-            entries.forEach(e => {
-                const items = Array.isArray(e.items) ? e.items : [];
-                rows.push([e.date, items[0] || '', items[1] || '', items[2] || '']);
-            });
+            entries.forEach(e => { const items = Array.isArray(e.items) ? e.items : []; rows.push([e.date, items[0] || '', items[1] || '', items[2] || '']); });
             downloadCSV(`syukur-${new Date().toISOString().split('T')[0]}.csv`, rows);
         }
         function exportLuckCSV() {
@@ -3402,12 +3154,7 @@
         function getDaysSinceBackupOrData() {
             const lastBackup = localStorage.getItem('anti_anxiety_last_backup');
             let hasData = false;
-            try {
-                hasData = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 ||
-                    JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]').length > 0 ||
-                    JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 ||
-                    JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0;
-            } catch (e) { hasData = false; }
+            try { hasData = JSON.parse(localStorage.getItem('anti_anxiety_moods') || '[]').length > 0 || JSON.parse(localStorage.getItem('anti_anxiety_journals') || '[]').length > 0 || JSON.parse(localStorage.getItem('anti_anxiety_gratitude') || '[]').length > 0 || JSON.parse(localStorage.getItem('anti_anxiety_luck') || '[]').length > 0; } catch (e) { hasData = false; }
             if (!hasData) return null;
             if (!lastBackup) {
                 const activities = JSON.parse(localStorage.getItem('anti_anxiety_activities') || '[]');
@@ -3452,9 +3199,7 @@
             bubble.classList.remove('collapsed');
             bubbleCurrentlyVisible = true;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
-            bubbleCollapseTimer = setTimeout(() => {
-                if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed');
-            }, 5000);
+            bubbleCollapseTimer = setTimeout(() => { if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed'); }, 5000);
         }
         function hideBackupBubble() {
             const bubble = document.getElementById('backupBubble');
@@ -3472,9 +3217,7 @@
             if (bubble.classList.contains('collapsed')) {
                 bubble.classList.remove('collapsed');
                 if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
-                bubbleCollapseTimer = setTimeout(() => {
-                    if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed');
-                }, 5000);
+                bubbleCollapseTimer = setTimeout(() => { if (!bubblePopupOpen && bubbleCurrentlyVisible) bubble.classList.add('collapsed'); }, 5000);
                 return;
             }
             openBubblePopup();
@@ -3492,9 +3235,7 @@
             popup.classList.remove('visible');
             bubblePopupOpen = false;
             if (bubbleCollapseTimer) clearTimeout(bubbleCollapseTimer);
-            bubbleCollapseTimer = setTimeout(() => {
-                if (bubbleCurrentlyVisible) { const bubble = document.getElementById('backupBubble'); if (bubble) bubble.classList.add('collapsed'); }
-            }, 3000);
+            bubbleCollapseTimer = setTimeout(() => { if (bubbleCurrentlyVisible) { const bubble = document.getElementById('backupBubble'); if (bubble) bubble.classList.add('collapsed'); } }, 3000);
         }
         function dismissBackupBubble() {
             const snoozeUntil = new Date();
@@ -3527,10 +3268,7 @@
         function quickBackup() { exportData(); }
         function scrollToBackupButton() {
             switchTab('settings');
-            setTimeout(() => {
-                const btn = document.getElementById('mainExportBtn');
-                if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 350);
+            setTimeout(() => { const btn = document.getElementById('mainExportBtn'); if (btn) btn.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350);
         }
 
         function loadEmergencyContacts() {
@@ -3584,12 +3322,11 @@
         }
 
         function safeParse(key, fallback) {
-            try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? fallback : v; }
-            catch (e) { return fallback; }
+            try { const v = JSON.parse(localStorage.getItem(key) || 'null'); return v === null ? fallback : v; } catch (e) { return fallback; }
         }
         function exportData() {
             const data = {
-                version: 5.6,
+                version: 5.7,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3597,10 +3334,7 @@
                 contacts: safeParse('anti_anxiety_contacts', {}),
                 gratitude: safeParse('anti_anxiety_gratitude', []),
                 luck: safeParse('anti_anxiety_luck', []),
-                settings: {
-                    breathVisual: safeParse('anti_anxiety_breath_visual', 'circle'),
-                    moodSlider: safeParse('anti_anxiety_mood_slider', 5)
-                }
+                settings: { breathVisual: safeParse('anti_anxiety_breath_visual', 'circle'), moodSlider: safeParse('anti_anxiety_mood_slider', 5) }
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -3781,161 +3515,149 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC ===================== -->
     <script>
     (function() {
         'use strict';
 
-        // 1) Register Service Worker
+        // ============ SERVICE WORKER ============
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js').catch(function(err) {
+                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function(err) {
                     console.warn('SW registration failed:', err);
                 });
             });
         }
 
-        // 2) Install prompt handling
+        // ============ DETEKSI INSTALL STATE ============
         var deferredPrompt = null;
 
-        // Cek apakah sudah terinstal (standalone mode)
         function isInstalled() {
             try {
                 return window.matchMedia('(display-mode: standalone)').matches ||
+                       window.matchMedia('(display-mode: fullscreen)').matches ||
+                       window.matchMedia('(display-mode: minimal-ui)').matches ||
                        window.navigator.standalone === true;
             } catch (e) { return false; }
         }
 
-        // Tampilkan / sembunyikan kartu install di home
+        // ============ KARTU INSTALL (time-based dismissal, 3 hari) ============
+        function shouldShowInstallCard() {
+            if (isInstalled()) return false;
+            try {
+                var until = localStorage.getItem('homeInstallCardDismissedUntil');
+                if (until) {
+                    var t = new Date(until).getTime();
+                    if (Number.isFinite(t) && t > Date.now()) return false;
+                }
+            } catch (e) {}
+            return true;
+        }
+
         window.updateHomeInstallCard = function() {
             var card = document.getElementById('homeInstallCard');
             if (!card) return;
-            var dismissed = false;
-            try { dismissed = localStorage.getItem('homeInstallCardDismissed') === 'true'; } catch (e) {}
-            if (isInstalled() || dismissed) {
-                card.classList.add('hidden');
-            } else {
+            if (shouldShowInstallCard()) {
                 card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
             }
         };
 
-        // Sembunyikan kartu install (tombol Nanti)
         window.dismissHomeInstallCard = function() {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            try { localStorage.setItem('homeInstallCardDismissed', 'true'); } catch (e) {}
+            try {
+                var until = new Date();
+                until.setDate(until.getDate() + 3);
+                localStorage.setItem('homeInstallCardDismissedUntil', until.toISOString());
+            } catch (e) {}
         };
 
-        // Event: browser siap prompt install
+        // ============ BEFORINSTALLPROMPT ============
         window.addEventListener('beforeinstallprompt', function(e) {
             e.preventDefault();
             deferredPrompt = e;
             updateHomeInstallCard();
-            // Banner pojok (opsional)
-            try {
-                if (isInstalled()) return;
-                if (localStorage.getItem('installBannerDismissed') === 'true') return;
-                if (localStorage.getItem('homeInstallCardDismissed') === 'true') return;
-            } catch (err) {}
-            setTimeout(function() {
-                var b = document.getElementById('installBanner');
-                if (b) b.classList.add('visible');
-            }, 4000);
         });
 
         window.addEventListener('appinstalled', function() {
             deferredPrompt = null;
-            hideInstallBanner();
             if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
+            // Bersihkan dismissal supaya kalau user uninstall nanti kartu tetap muncul
             try {
-                localStorage.setItem('installBannerDismissed', 'true');
-                localStorage.setItem('homeInstallCardDismissed', 'true');
+                localStorage.removeItem('homeInstallCardDismissed');
+                localStorage.removeItem('homeInstallCardDismissedUntil');
             } catch (e) {}
             updateHomeInstallCard();
+            updateSettingsInstallBtn();
         });
 
-        window.hideInstallBanner = function() {
-            var b = document.getElementById('installBanner');
-            if (b) b.classList.remove('visible');
-        };
-
-        window.dismissInstallBanner = function() {
-            hideInstallBanner();
-            try { localStorage.setItem('installBannerDismissed', 'true'); } catch (e) {}
-        };
-
-        // Fungsi universal dipanggil dari tombol "Pasang"
+        // ============ PROMPT INSTALL UNIVERSAL ============
         window.promptInstall = function() {
-            // Jika ada deferred prompt (Android Chrome / Edge Desktop)
+            if (isInstalled()) {
+                if (typeof showToast === 'function') showToast('Aplikasi sudah terpasang 👍');
+                return;
+            }
+
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(function(choice) {
                     if (choice && choice.outcome === 'accepted') {
                         if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
-                        try {
-                            localStorage.setItem('installBannerDismissed', 'true');
-                            localStorage.setItem('homeInstallCardDismissed', 'true');
-                        } catch (e) {}
                     }
                     deferredPrompt = null;
-                    hideInstallBanner();
                     updateHomeInstallCard();
+                    updateSettingsInstallBtn();
                 });
                 return;
             }
 
-            // Fallback: belum ada prompt (iOS, Firefox, atau browser lain)
+            // Fallback: instruksi manual
             var ua = navigator.userAgent || '';
             var isIOS = /iphone|ipad|ipod/i.test(ua) && !window.MSStream;
             var isAndroid = /android/i.test(ua);
-            var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
             var isFirefox = /firefox/i.test(ua);
+            var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
 
             var msg;
-            if (isIOS) {
-                msg = "📱 iPhone/iPad: Tap ikon Share (kotak dengan panah ↑) di Safari → pilih 'Add to Home Screen'";
-            } else if (isFirefox) {
-                msg = "🦊 Firefox: Menu ⋮ → 'Install' / 'Tambahkan ke Home'";
-            } else if (isAndroid) {
-                msg = "🤖 Chrome Android: Menu ⋮ → 'Install app' / 'Tambahkan ke layar utama'";
-            } else if (isSafari) {
-                msg = "🧭 Safari macOS: Menu File → 'Add to Dock'";
-            } else {
-                msg = "💡 Buka menu browser → 'Install' / 'Tambahkan ke layar utama'";
-            }
+            if (isIOS) msg = "📱 iPhone/iPad: Tap ikon Share (kotak dengan panah ↑) → 'Add to Home Screen'";
+            else if (isFirefox) msg = "🦊 Firefox: Menu ⋮ → 'Install' / 'Add to Home'";
+            else if (isAndroid) msg = "🤖 Chrome Android: Menu ⋮ → 'Install app' / 'Add to Home screen'";
+            else if (isSafari) msg = "🧭 Safari macOS: Menu File → 'Add to Dock'";
+            else msg = "💡 Menu browser → 'Install' / 'Add to Home screen'";
+
             if (typeof showToast === 'function') {
-                showToast(msg);
-                // Toast lebih lama untuk instruksi panjang
                 var toast = document.getElementById('toast');
-                if (toast) {
-                    var msgEl = document.getElementById('toastMsg');
-                    if (msgEl) {
-                        msgEl.innerHTML = '<span class="leading-snug">' + msg + '</span>';
-                        toast.querySelector('i[data-lucide]') && toast.querySelector('i[data-lucide]').setAttribute('data-lucide', 'info');
-                        if (window.lucide) lucide.createIcons();
-                        toast.classList.remove('translate-y-20', 'opacity-0');
-                        setTimeout(function() {
-                            toast.classList.add('translate-y-20', 'opacity-0');
-                        }, 7000);
-                    }
+                var msgEl = document.getElementById('toastMsg');
+                if (toast && msgEl) {
+                    msgEl.innerHTML = '<span class="leading-snug">' + msg + '</span>';
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+                    setTimeout(function() { toast.classList.add('translate-y-20', 'opacity-0'); }, 7000);
+                } else {
+                    alert(msg);
                 }
             } else {
                 alert(msg);
             }
         };
 
-        // 3) Update tombol install di Settings
+        // ============ UPDATE TOMBOL INSTALL DI SETTINGS ============
         function updateSettingsInstallBtn() {
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
-            if (isInstalled() && btn && txt) {
+            if (!btn || !txt) return;
+            if (isInstalled()) {
                 txt.textContent = 'Aplikasi Sudah Terpasang';
                 btn.disabled = true;
                 btn.classList.add('opacity-60', 'cursor-not-allowed');
+            } else {
+                txt.textContent = 'Pasang Aplikasi';
+                btn.disabled = false;
+                btn.classList.remove('opacity-60', 'cursor-not-allowed');
             }
         }
 
-        // 4) Splash screen
+        // ============ SPLASH ============
         var splashHidden = false;
         function hideSplash() {
             if (splashHidden) return;
@@ -3955,10 +3677,28 @@
             setTimeout(hideSplash, 1500);
         });
 
-        // Fallback splash hide
         setTimeout(hideSplash, 3500);
 
-        // Update kartu install saat tab berubah (ke Beranda)
+        // ============ RE-CHECK SAAT TAB CHANGE / FOKUS KEMBALI ============
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                updateHomeInstallCard();
+                updateSettingsInstallBtn();
+            }
+        });
+        window.addEventListener('focus', function() {
+            updateHomeInstallCard();
+            updateSettingsInstallBtn();
+        });
+
+        // Watch display-mode changes (install/uninstall di background)
+        try {
+            var mq = window.matchMedia('(display-mode: standalone)');
+            if (mq.addEventListener) mq.addEventListener('change', function() { updateHomeInstallCard(); updateSettingsInstallBtn(); });
+            else if (mq.addListener) mq.addListener(function() { updateHomeInstallCard(); updateSettingsInstallBtn(); });
+        } catch (e) {}
+
+        // Hook switchTab untuk update saat ke home/settings
         var origSwitchTab = window.switchTab;
         if (typeof origSwitchTab === 'function') {
             window.switchTab = function(tabId) {
