@@ -450,7 +450,6 @@
         <!-- HOME -->
         <section id="sec-home" class="tab-content block">
 
-            <!-- COMPACT INSTALL CARD -->
             <div id="homeInstallCard" class="hidden mb-3">
                 <div class="bg-gradient-to-r from-calm-600 via-teal-500 to-emerald-500 rounded-2xl shadow-md p-3 flex items-center gap-2.5 relative overflow-hidden">
                     <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-white/20 blur-2xl pointer-events-none"></div>
@@ -3515,6 +3514,7 @@
         });
     </script>
 
+    <!-- ===================== PWA LOGIC (v2 - sessionStorage dismissal) ===================== -->
     <script>
     (function() {
         'use strict';
@@ -3540,15 +3540,17 @@
             } catch (e) { return false; }
         }
 
-        // ============ KARTU INSTALL (time-based dismissal, 3 hari) ============
+        // ============ KARTU INSTALL ============
+        // ATURAN:
+        //  - Terinstal → kartu hilang
+        //  - Belum install → kartu tampil
+        //  - Klik "Nanti" → kartu hilang SAMPAI TAB/APP DITUTUP (sessionStorage)
+        //  - Buka ulang tab/app → sessionStorage bersih → kartu muncul lagi
+        //  - Uninstall PWA → isInstalled() false → kartu muncul lagi
         function shouldShowInstallCard() {
             if (isInstalled()) return false;
             try {
-                var until = localStorage.getItem('homeInstallCardDismissedUntil');
-                if (until) {
-                    var t = new Date(until).getTime();
-                    if (Number.isFinite(t) && t > Date.now()) return false;
-                }
+                if (sessionStorage.getItem('homeInstallCardDismissed') === 'true') return false;
             } catch (e) {}
             return true;
         }
@@ -3556,6 +3558,11 @@
         window.updateHomeInstallCard = function() {
             var card = document.getElementById('homeInstallCard');
             if (!card) return;
+            if (isInstalled()) {
+                card.classList.add('hidden');
+                try { sessionStorage.removeItem('homeInstallCardDismissed'); } catch (e) {}
+                return;
+            }
             if (shouldShowInstallCard()) {
                 card.classList.remove('hidden');
             } else {
@@ -3566,14 +3573,17 @@
         window.dismissHomeInstallCard = function() {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            try {
-                var until = new Date();
-                until.setDate(until.getDate() + 3);
-                localStorage.setItem('homeInstallCardDismissedUntil', until.toISOString());
-            } catch (e) {}
+            try { sessionStorage.setItem('homeInstallCardDismissed', 'true'); } catch (e) {}
         };
 
-        // ============ BEFORINSTALLPROMPT ============
+        // ============ BERSIHKAN KEY LAMA (migrasi dari versi sebelumnya) ============
+        try {
+            localStorage.removeItem('homeInstallCardDismissed');
+            localStorage.removeItem('homeInstallCardDismissedUntil');
+            localStorage.removeItem('installBannerDismissed');
+        } catch (e) {}
+
+        // ============ EVENT BROWSER ============
         window.addEventListener('beforeinstallprompt', function(e) {
             e.preventDefault();
             deferredPrompt = e;
@@ -3583,8 +3593,8 @@
         window.addEventListener('appinstalled', function() {
             deferredPrompt = null;
             if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
-            // Bersihkan dismissal supaya kalau user uninstall nanti kartu tetap muncul
             try {
+                sessionStorage.removeItem('homeInstallCardDismissed');
                 localStorage.removeItem('homeInstallCardDismissed');
                 localStorage.removeItem('homeInstallCardDismissedUntil');
             } catch (e) {}
@@ -3641,7 +3651,7 @@
             }
         };
 
-        // ============ UPDATE TOMBOL INSTALL DI SETTINGS ============
+        // ============ TOMBOL INSTALL DI SETTINGS ============
         function updateSettingsInstallBtn() {
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
@@ -3679,7 +3689,7 @@
 
         setTimeout(hideSplash, 3500);
 
-        // ============ RE-CHECK SAAT TAB CHANGE / FOKUS KEMBALI ============
+        // ============ RE-CHECK SAAT KEMBALI KE TAB / FOKUS ============
         document.addEventListener('visibilitychange', function() {
             if (!document.hidden) {
                 updateHomeInstallCard();
@@ -3691,14 +3701,13 @@
             updateSettingsInstallBtn();
         });
 
-        // Watch display-mode changes (install/uninstall di background)
         try {
             var mq = window.matchMedia('(display-mode: standalone)');
             if (mq.addEventListener) mq.addEventListener('change', function() { updateHomeInstallCard(); updateSettingsInstallBtn(); });
             else if (mq.addListener) mq.addListener(function() { updateHomeInstallCard(); updateSettingsInstallBtn(); });
         } catch (e) {}
 
-        // Hook switchTab untuk update saat ke home/settings
+        // Hook switchTab
         var origSwitchTab = window.switchTab;
         if (typeof origSwitchTab === 'function') {
             window.switchTab = function(tabId) {
