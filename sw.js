@@ -1,5 +1,5 @@
-const CACHE_NAME = 'anti-anxiety-v2';
-const APP_SHELL = ['./', './index.html', './manifest.json'];
+const CACHE_NAME = 'anti-anxiety-v3';
+const APP_SHELL = ['./', './index.html'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
@@ -22,6 +22,10 @@ self.addEventListener('fetch', (event) => {
     if (req.method !== 'GET') return;
     const url = new URL(req.url);
     if (!url.protocol.startsWith('http')) return;
+
+    if (url.pathname.endsWith('/manifest.json')) {
+        return;
+    }
 
     if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
         event.respondWith(
