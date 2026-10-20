@@ -13,13 +13,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
 
-    <!-- [FIX] Deteksi multi-kondisi untuk skip splash -->
+    <!-- Deteksi multi-kondisi untuk skip splash -->
     <script>
     (function () {
         try {
             var skipSplash = false;
 
-            // (1) Reload → skip
             if (performance.getEntriesByType) {
                 var nav = performance.getEntriesByType('navigation');
                 if (nav && nav[0] && nav[0].type === 'reload') skipSplash = true;
@@ -28,7 +27,6 @@
                 skipSplash = true;
             }
 
-            // (2) Datang dari halaman sekunder (blog, about, dll) → skip
             if (!skipSplash) {
                 var ref = document.referrer || '';
                 if (ref) {
@@ -43,7 +41,6 @@
                 }
             }
 
-            // (3) App sudah aktif di sesi ini → skip
             if (!skipSplash) {
                 try {
                     if (sessionStorage.getItem('anti_anxiety_app_active') === 'true') {
@@ -277,7 +274,6 @@
         <p class="absolute bottom-10 text-xs text-slate-400 dark:text-slate-500">Hidup Selaras</p>
     </div>
 
-    <!-- Hapus splash dari DOM jika skip -->
     <script>
     (function () {
         if (window.__skipSplash) {
@@ -1621,7 +1617,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.0</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.1</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -3387,7 +3383,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.0,
+                version: 6.1,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3576,7 +3572,7 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6) ===================== -->
+    <!-- ===================== PWA LOGIC (v6.1) ===================== -->
     <script>
     (function () {
         'use strict';
@@ -3590,7 +3586,7 @@
             });
         }
 
-        // ============ STATE DETECTION ============
+        // ============ STATE ============
         var deferredPrompt = null;
         var isInstalling = false;
 
@@ -3608,8 +3604,9 @@
                 localStorage.setItem('anti_anxiety_pwa_installed', 'true');
                 localStorage.setItem('anti_anxiety_pwa_installed_at', String(Date.now()));
                 localStorage.setItem('anti_anxiety_last_standalone', String(Date.now()));
-                // Clear any "dismissed" flag so a future reinstall flow works cleanly
-                localStorage.removeItem('anti_anxiety_install_card_dismissed');
+                // Clean dismissal state so future uninstall flow starts fresh
+                try { sessionStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
+                try { localStorage.removeItem('anti_anxiety_install_card_dismissed'); } catch (e) {}
             } catch (e) {}
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
@@ -3627,8 +3624,12 @@
             } catch (e) {}
         }
 
+        // ===== Dismissal = sessionStorage (per-sesi tab) =====
+        // → Fresh launch (tab baru) = kartu muncul lagi
+        // → Klik close = hilang untuk sesi ini
+        // → Refresh = tetap hilang (bukan fresh launch)
         function isInstallCardDismissed() {
-            try { return localStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
+            try { return sessionStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
         }
 
         function shouldShowInstallCard() {
@@ -3648,27 +3649,22 @@
         window.dismissHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            try { localStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
+            // sessionStorage = hilang untuk sesi ini saja, muncul lagi saat fresh launch
+            try { sessionStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
         };
 
         // ============ UNINSTALL DETECTION ============
-        // Uses getInstalledRelatedApps() when available. If flag says installed
-        // but API returns empty array → user uninstalled PWA → clear flag.
         async function verifyUninstallStatus() {
-            // If in standalone → definitely installed, update timestamp
             if (isInstalled()) {
                 try { localStorage.setItem('anti_anxiety_last_standalone', String(Date.now())); } catch (e) {}
                 return;
             }
-            // In browser mode with no flag → nothing to verify
             if (!isPwaMarkedInstalled()) return;
 
-            // In browser mode WITH flag → check via OS
             if ('getInstalledRelatedApps' in navigator) {
                 try {
                     var apps = await navigator.getInstalledRelatedApps();
                     if (Array.isArray(apps) && apps.length === 0) {
-                        // PWA no longer installed → user uninstalled it
                         clearPwaInstalledFlag();
                         if (typeof showToast === 'function') {
                             showToast('ℹ️ Aplikasi telah dilepas. Anda dapat memasangnya kembali.');
@@ -3677,25 +3673,27 @@
                         updateSettingsInstallBtn();
                     }
                 } catch (e) {
-                    // API error → don't touch flag (be safe)
                     console.warn('getInstalledRelatedApps failed:', e);
                 }
             }
-            // If API not supported (e.g. Safari) → keep flag, don't guess
         }
 
-        // Clean up old keys from previous versions
+        // Clean up legacy keys (v5 and older) that were stored in localStorage
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
             localStorage.removeItem('installBannerDismissed');
+            // Migrate: if old dismissal flag exists in localStorage, remove it
+            // so fresh launch behavior kicks in immediately
+            if (localStorage.getItem('anti_anxiety_install_card_dismissed') === 'true') {
+                localStorage.removeItem('anti_anxiety_install_card_dismissed');
+            }
         } catch (e) {}
 
         // ============ BROWSER EVENTS ============
         window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
-            // If event fires while flag is set but we're in browser → verify
             if (isPwaMarkedInstalled() && !isInstalled()) {
                 verifyUninstallStatus();
             }
@@ -3797,7 +3795,6 @@
             updateSettingsInstallBtn();
             if (!window.__skipSplash) setTimeout(hideSplash, 1500);
 
-            // Verify uninstall after delay
             setTimeout(verifyUninstallStatus, 1200);
             setTimeout(verifyUninstallStatus, 3000);
         });
