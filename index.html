@@ -12,6 +12,27 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
+
+    <!-- [FIX #2] Deteksi refresh: skip splash hanya saat reload -->
+    <script>
+      (function () {
+        try {
+          var isReload = false;
+          if (performance.getEntriesByType) {
+            var nav = performance.getEntriesByType('navigation');
+            if (nav && nav[0] && nav[0].type === 'reload') isReload = true;
+          }
+          if (!isReload && performance.navigation) {
+            if (performance.navigation.type === 1) isReload = true;
+          }
+          if (isReload) {
+            window.__skipSplash = true;
+            document.documentElement.classList.add('skip-splash');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
 
@@ -74,6 +95,9 @@
         @keyframes icon-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         #splash-screen { transition: opacity 0.6s ease-in-out; }
         #splash-screen.fade-out { opacity: 0; pointer-events: none; }
+        /* [FIX #2] Sembunyikan splash saat refresh */
+        .skip-splash #splash-screen { display: none !important; }
+
         .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
         .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
 
@@ -224,6 +248,16 @@
         <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-3 animate-pulse">Menyiapkan ruang aman Anda...</p>
         <p class="absolute bottom-10 text-xs text-slate-400 dark:text-slate-500">Hidup Selaras</p>
     </div>
+
+    <!-- [FIX #2] Hapus splash dari DOM jika ini reload -->
+    <script>
+      (function () {
+        if (window.__skipSplash) {
+          var s = document.getElementById('splash-screen');
+          if (s && s.parentNode) s.parentNode.removeChild(s);
+        }
+      })();
+    </script>
 
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 sm:py-3 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
@@ -3514,15 +3548,15 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v4 - persistent install flag) ===================== -->
+    <!-- ===================== PWA LOGIC (v5) ===================== -->
     <script>
-    (function() {
+    (function () {
         'use strict';
 
         // ============ SERVICE WORKER ============
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function(err) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function (err) {
                     console.warn('SW registration failed:', err);
                 });
             });
@@ -3541,7 +3575,6 @@
             } catch (e) { return false; }
         }
 
-        // ============ FLAG PERSISTEN "SUDAH INSTALL" ============
         function markPwaInstalled() {
             try {
                 localStorage.setItem('anti_anxiety_pwa_installed', 'true');
@@ -3549,73 +3582,37 @@
             } catch (e) {}
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            try { sessionStorage.removeItem('homeInstallCardDismissed'); } catch (e) {}
         }
 
         function isPwaMarkedInstalled() {
             try { return localStorage.getItem('anti_anxiety_pwa_installed') === 'true'; } catch (e) { return false; }
         }
 
-        function clearPwaInstalledFlag() {
-            try {
-                localStorage.removeItem('anti_anxiety_pwa_installed');
-                localStorage.removeItem('anti_anxiety_pwa_installed_at');
-            } catch (e) {}
+        function isInstallCardDismissed() {
+            try { return localStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
         }
 
-        // ============ CEK UNINSTALL VIA getInstalledRelatedApps ============
-        async function checkReallyInstalled() {
-            if (!('getInstalledRelatedApps' in navigator)) return null;
-            try {
-                const apps = await navigator.getInstalledRelatedApps();
-                return apps && apps.length > 0;
-            } catch (e) {
-                return null;
-            }
-        }
-
-        // ============ LOGIKA KARTU ============
         function shouldShowInstallCard() {
             if (isInstalled()) return false;
             if (isPwaMarkedInstalled()) return false;
-            try {
-                if (sessionStorage.getItem('homeInstallCardDismissed') === 'true') return false;
-            } catch (e) {}
+            if (isInstallCardDismissed()) return false;
             return true;
         }
 
-        window.updateHomeInstallCard = function() {
+        window.updateHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (!card) return;
-            if (isInstalled()) {
-                card.classList.add('hidden');
-                return;
-            }
-            if (shouldShowInstallCard()) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
+            if (shouldShowInstallCard()) card.classList.remove('hidden');
+            else card.classList.add('hidden');
         };
 
-        async function verifyInstallStatusAsync() {
-            if (isInstalled()) return;
-            if (!isPwaMarkedInstalled()) return;
-            var reallyInstalled = await checkReallyInstalled();
-            if (reallyInstalled === false) {
-                clearPwaInstalledFlag();
-                updateHomeInstallCard();
-                updateSettingsInstallBtn();
-            }
-        }
-
-        window.dismissHomeInstallCard = function() {
+        window.dismissHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
-            try { sessionStorage.setItem('homeInstallCardDismissed', 'true'); } catch (e) {}
+            try { localStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
         };
 
-        // ============ BERSIHKAN KEY LAMA ============
+        // Bersihkan key lama
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
@@ -3623,17 +3620,14 @@
         } catch (e) {}
 
         // ============ EVENT BROWSER ============
-        // ⚠️ beforeinstallprompt TIDAK menandakan PWA belum terinstal!
-        //    Event ini fire meskipun PWA sudah terinstal (asal installable).
-        //    JANGAN clear flag di sini. Hanya simpan deferredPrompt.
-        window.addEventListener('beforeinstallprompt', function(e) {
+        window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
 
-        window.addEventListener('appinstalled', function() {
+        window.addEventListener('appinstalled', function () {
             deferredPrompt = null;
             isInstalling = false;
             markPwaInstalled();
@@ -3643,7 +3637,7 @@
         });
 
         // ============ PROMPT INSTALL ============
-        window.promptInstall = function() {
+        window.promptInstall = function () {
             if (isInstalling) return;
 
             if (isInstalled() || isPwaMarkedInstalled()) {
@@ -3655,10 +3649,8 @@
                 var prompt = deferredPrompt;
                 deferredPrompt = null;
                 isInstalling = true;
-
                 try { prompt.prompt(); } catch (e) { isInstalling = false; return; }
-
-                prompt.userChoice.then(function(choice) {
+                prompt.userChoice.then(function (choice) {
                     isInstalling = false;
                     if (choice && choice.outcome === 'accepted') {
                         markPwaInstalled();
@@ -3666,9 +3658,7 @@
                     }
                     updateHomeInstallCard();
                     updateSettingsInstallBtn();
-                }).catch(function() {
-                    isInstalling = false;
-                });
+                }).catch(function () { isInstalling = false; });
                 return;
             }
 
@@ -3691,7 +3681,7 @@
                 if (toast && msgEl) {
                     msgEl.innerHTML = '<span class="leading-snug">' + msg + '</span>';
                     toast.classList.remove('translate-y-20', 'opacity-0');
-                    setTimeout(function() { toast.classList.add('translate-y-20', 'opacity-0'); }, 7000);
+                    setTimeout(function () { toast.classList.add('translate-y-20', 'opacity-0'); }, 7000);
                 } else { alert(msg); }
             } else { alert(msg); }
         };
@@ -3701,11 +3691,7 @@
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
             if (!btn || !txt) return;
-            if (isInstalled()) {
-                txt.textContent = 'Aplikasi Sudah Terpasang';
-                btn.disabled = true;
-                btn.classList.add('opacity-60', 'cursor-not-allowed');
-            } else if (isPwaMarkedInstalled() && !deferredPrompt) {
+            if (isInstalled() || (isPwaMarkedInstalled() && !deferredPrompt)) {
                 txt.textContent = 'Aplikasi Sudah Terpasang';
                 btn.disabled = true;
                 btn.classList.add('opacity-60', 'cursor-not-allowed');
@@ -3716,7 +3702,7 @@
             }
         }
 
-        // ============ SPLASH ============
+        // ============ SPLASH AUTO-HIDE (hanya jika splash masih ada) ============
         var splashHidden = false;
         function hideSplash() {
             if (splashHidden) return;
@@ -3724,50 +3710,50 @@
             var splash = document.getElementById('splash-screen');
             if (splash) {
                 splash.classList.add('fade-out');
-                setTimeout(function() {
+                setTimeout(function () {
                     if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
                 }, 700);
             }
         }
 
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             updateHomeInstallCard();
             updateSettingsInstallBtn();
-            setTimeout(hideSplash, 1500);
-
-            setTimeout(verifyInstallStatusAsync, 500);
-            setTimeout(verifyInstallStatusAsync, 2500);
+            if (!window.__skipSplash) setTimeout(hideSplash, 1500);
         });
 
-        setTimeout(hideSplash, 3500);
+        if (!window.__skipSplash) setTimeout(hideSplash, 3500);
 
-        document.addEventListener('visibilitychange', function() {
+        // ============ KEMBALI KE APLIKASI → HOME ============
+        function goHome() {
+            try {
+                if (typeof window.switchTab === 'function') window.switchTab('home');
+            } catch (e) {}
+        }
+
+        document.addEventListener('visibilitychange', function () {
             if (!document.hidden) {
+                goHome();
                 updateHomeInstallCard();
                 updateSettingsInstallBtn();
-                verifyInstallStatusAsync();
             }
         });
-        window.addEventListener('focus', function() {
+
+        window.addEventListener('pageshow', function (e) {
+            if (e.persisted) goHome();
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
 
-        try {
-            var mq = window.matchMedia('(display-mode: standalone)');
-            if (mq.addEventListener) mq.addEventListener('change', function() {
-                updateHomeInstallCard();
-                updateSettingsInstallBtn();
-            });
-            else if (mq.addListener) mq.addListener(function() {
-                updateHomeInstallCard();
-                updateSettingsInstallBtn();
-            });
-        } catch (e) {}
+        window.addEventListener('focus', function () {
+            updateHomeInstallCard();
+            updateSettingsInstallBtn();
+        });
 
+        // ============ WRAP switchTab ============
         var origSwitchTab = window.switchTab;
         if (typeof origSwitchTab === 'function') {
-            window.switchTab = function(tabId) {
+            window.switchTab = function (tabId) {
                 origSwitchTab.apply(this, arguments);
                 if (tabId === 'home') setTimeout(updateHomeInstallCard, 50);
                 if (tabId === 'settings') setTimeout(updateSettingsInstallBtn, 50);
