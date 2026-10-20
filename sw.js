@@ -1,5 +1,5 @@
-const CACHE_NAME = 'anti-anxiety-v3';
-const APP_SHELL = ['./', './index.html'];
+const CACHE_NAME = 'anti-anxiety-v4';
+const APP_SHELL = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
@@ -23,10 +23,7 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(req.url);
     if (!url.protocol.startsWith('http')) return;
 
-    if (url.pathname.endsWith('/manifest.json')) {
-        return;
-    }
-
+    // HTML: network-first (selalu dapat versi terbaru)
     if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
         event.respondWith(
             fetch(req).then((res) => {
@@ -40,16 +37,31 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Manifest: network-first, fallback ke cache (agar install tetap berfungsi offline)
+    if (url.pathname.endsWith('/manifest.json') || url.pathname.endsWith('manifest.json')) {
+        event.respondWith(
+            fetch(req).then((res) => {
+                if (res.ok) {
+                    const clone = res.clone();
+                    caches.open(CACHE_NAME).then((c) => c.put(req, clone));
+                }
+                return res;
+            }).catch(() => caches.match(req))
+        );
+        return;
+    }
+
+    // Asset lain: cache-first, update di background
     event.respondWith(
         caches.match(req).then((cached) => {
-            if (cached) return cached;
-            return fetch(req).then((res) => {
+            const fetchPromise = fetch(req).then((res) => {
                 if (res.ok || res.type === 'opaque') {
                     const clone = res.clone();
                     caches.open(CACHE_NAME).then((c) => c.put(req, clone));
                 }
                 return res;
             }).catch(() => cached);
+            return cached || fetchPromise;
         })
     );
 });
