@@ -143,8 +143,9 @@
         .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease; pointer-events: none; }
         .breath-visual.visual-hidden { opacity: 0; transform: scale(0.9); pointer-events: none; }
         .breath-visual.visual-active { opacity: 1; transform: scale(1); pointer-events: auto; }
+        /* [FIX BUG DOBEL VISUAL] Scope .paused hanya untuk visual yang aktif */
+        .breath-visual.visual-active.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
-        .breath-visual.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7; }
         #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
@@ -1620,7 +1621,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.2</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.3</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -2339,15 +2340,23 @@
             if (!VISUAL_IDS.includes(visualId)) visualId = 'circle';
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
+            const wasPaused = isPaused; // [FIX] simpan state paused
             document.querySelectorAll('.breath-visual').forEach(el => {
-                if (el.dataset.visual === visualId) { el.classList.remove('visual-hidden'); el.classList.add('visual-active'); }
-                else { el.classList.remove('visual-active'); el.classList.add('visual-hidden'); }
+                el.classList.remove('paused'); // [FIX] bersihkan paused dari semua visual
+                if (el.dataset.visual === visualId) {
+                    el.classList.remove('visual-hidden');
+                    el.classList.add('visual-active');
+                    if (wasPaused) el.classList.add('paused'); // [FIX] pertahankan paused di visual baru
+                } else {
+                    el.classList.remove('visual-active');
+                    el.classList.add('visual-hidden');
+                }
             });
             resetVisualScale();
         }
         function resetVisualScale() {
             const mainCircle = document.getElementById('breathMainCircle');
-            if (mainCircle) { mainCircle.style.transform = 'scale(1)'; mainCircle.classList.remove('paused'); }
+            if (mainCircle) { mainCircle.style.transform = 'scale(1)'; }
             const candle = document.getElementById('candleFlame');
             if (candle) candle.style.transform = 'scale(1)';
             const bloom = document.getElementById('bloomSvg');
@@ -2469,8 +2478,8 @@
             updateBreathingUI('stopped');
             if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             resetVisualScale();
-            const active = document.querySelector('.breath-visual.visual-active');
-            if (active) active.classList.remove('paused');
+            // [FIX] bersihkan paused dari SEMUA visual (bukan hanya yang aktif)
+            document.querySelectorAll('.breath-visual.paused').forEach(el => el.classList.remove('paused'));
             updateVisualInstruction({ label: 'SIAP', duration: 4 });
         }
         function updateBreathingUI(state) {
@@ -3386,7 +3395,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.2,
+                version: 6.3,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3575,12 +3584,11 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6.2) ===================== -->
+    <!-- ===================== PWA LOGIC (v6.3) ===================== -->
     <script>
     (function () {
         'use strict';
 
-        // ============ SERVICE WORKER ============
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function (err) {
@@ -3589,7 +3597,6 @@
             });
         }
 
-        // ============ STATE ============
         var deferredPrompt = null;
         var isInstalling = false;
 
@@ -3623,15 +3630,14 @@
             } catch (e) {}
         }
 
-        // Dismissal = sessionStorage (per-sesi tab)
         function isInstallCardDismissed() {
             try { return sessionStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
         }
 
         function shouldShowInstallCard() {
-            if (isInstalled()) return false;           // 1. Standalone → pasti sudah install
-            if (isPwaMarkedInstalled()) return false;  // 2. Flag → sudah install
-            if (isInstallCardDismissed()) return false; // 3. Closed this session
+            if (isInstalled()) return false;
+            if (isPwaMarkedInstalled()) return false;
+            if (isInstallCardDismissed()) return false;
             return true;
         }
 
@@ -3648,7 +3654,6 @@
             try { sessionStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
         };
 
-        // Reset manual — dipakai untuk memunculkan kartu lagi setelah uninstall
         window.resetInstallFlag = function () {
             if (isInstalled()) {
                 if (typeof showToast === 'function') showToast('Aplikasi sedang berjalan sebagai PWA terpasang');
@@ -3662,18 +3667,15 @@
             if (typeof showToast === 'function') showToast('✅ Pengingat install direset. Kartu akan muncul kembali di Beranda.');
         };
 
-        // Bersihkan key legacy
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
             localStorage.removeItem('installBannerDismissed');
         } catch (e) {}
 
-        // ============ EVENT BROWSER ============
         window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
-            // PENTING: JANGAN clear flag di sini. Flag adalah sumber kebenaran.
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
@@ -3687,7 +3689,6 @@
             updateSettingsInstallBtn();
         });
 
-        // ============ INSTALL PROMPT ============
         window.promptInstall = function () {
             if (isInstalling) return;
 
@@ -3737,12 +3738,10 @@
             } else { alert(msg); }
         };
 
-        // ============ SETTINGS INSTALL BUTTON ============
         function updateSettingsInstallBtn() {
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
             if (!btn || !txt) return;
-            // Trust flag: jika standalone ATAU flag set → sudah terpasang
             if (isInstalled() || isPwaMarkedInstalled()) {
                 txt.textContent = 'Aplikasi Sudah Terpasang';
                 btn.disabled = true;
@@ -3754,7 +3753,6 @@
             }
         }
 
-        // ============ SPLASH AUTO-HIDE ============
         var splashHidden = false;
         function hideSplash() {
             if (splashHidden) return;
@@ -3776,7 +3774,6 @@
 
         if (!window.__skipSplash) setTimeout(hideSplash, 3500);
 
-        // ============ RETURN TO APP → HOME ============
         function goHome() {
             try {
                 if (typeof window.switchTab === 'function') window.switchTab('home');
@@ -3802,7 +3799,6 @@
             updateSettingsInstallBtn();
         });
 
-        // ============ WRAP switchTab ============
         var origSwitchTab = window.switchTab;
         if (typeof origSwitchTab === 'function') {
             window.switchTab = function (tabId) {
