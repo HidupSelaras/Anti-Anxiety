@@ -1559,7 +1559,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.7</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 5.8</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -3325,7 +3325,7 @@
         }
         function exportData() {
             const data = {
-                version: 5.7,
+                version: 5.8,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3514,7 +3514,7 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v2 - sessionStorage dismissal) ===================== -->
+    <!-- ===================== PWA LOGIC (v3 - persistent install flag) ===================== -->
     <script>
     (function() {
         'use strict';
@@ -3540,15 +3540,37 @@
             } catch (e) { return false; }
         }
 
+        // ============ FLAG PERSISTEN "SUDAH INSTALL" ============
+        // Tujuan: kartu langsung hilang SETELAH user klik "Pasang" & accept,
+        // TANPA harus tutup tab. Flag dibersihkan saat beforeinstallprompt
+        // muncul lagi (= user sudah uninstall PWA).
+        function markPwaInstalled() {
+            try { localStorage.setItem('anti_anxiety_pwa_installed', 'true'); } catch (e) {}
+            // Sembunyikan kartu SEKETIKA (sinkron)
+            var card = document.getElementById('homeInstallCard');
+            if (card) card.classList.add('hidden');
+            // Bersihkan dismissal sesi
+            try { sessionStorage.removeItem('homeInstallCardDismissed'); } catch (e) {}
+        }
+
+        function isPwaMarkedInstalled() {
+            try { return localStorage.getItem('anti_anxiety_pwa_installed') === 'true'; } catch (e) { return false; }
+        }
+
+        function clearPwaInstalledFlag() {
+            try { localStorage.removeItem('anti_anxiety_pwa_installed'); } catch (e) {}
+        }
+
         // ============ KARTU INSTALL ============
-        // ATURAN:
-        //  - Terinstal → kartu hilang
-        //  - Belum install → kartu tampil
+        // ATURAN LENGKAP:
+        //  - Terinstal (standalone mode) → kartu hilang
+        //  - Sudah install (flag localStorage) → kartu hilang, walau di tab browser
         //  - Klik "Nanti" → kartu hilang SAMPAI TAB/APP DITUTUP (sessionStorage)
-        //  - Buka ulang tab/app → sessionStorage bersih → kartu muncul lagi
-        //  - Uninstall PWA → isInstalled() false → kartu muncul lagi
+        //  - Buka ulang tab → sessionStorage bersih → kartu muncul lagi
+        //  - Uninstall PWA → beforeinstallprompt fire → flag dibersihkan → kartu muncul lagi
         function shouldShowInstallCard() {
             if (isInstalled()) return false;
+            if (isPwaMarkedInstalled()) return false;
             try {
                 if (sessionStorage.getItem('homeInstallCardDismissed') === 'true') return false;
             } catch (e) {}
@@ -3576,7 +3598,7 @@
             try { sessionStorage.setItem('homeInstallCardDismissed', 'true'); } catch (e) {}
         };
 
-        // ============ BERSIHKAN KEY LAMA (migrasi dari versi sebelumnya) ============
+        // ============ BERSIHKAN KEY LAMA (migrasi) ============
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
@@ -3584,27 +3606,27 @@
         } catch (e) {}
 
         // ============ EVENT BROWSER ============
+        // beforeinstallprompt = PWA BELUM terinstall → clear flag lama
         window.addEventListener('beforeinstallprompt', function(e) {
             e.preventDefault();
             deferredPrompt = e;
+            // Kalau event ini muncul = PWA belum terinstall (mungkin baru di-uninstall)
+            // → hapus flag & tampilkan kartu
+            clearPwaInstalledFlag();
             updateHomeInstallCard();
+            updateSettingsInstallBtn();
         });
 
         window.addEventListener('appinstalled', function() {
             deferredPrompt = null;
+            markPwaInstalled(); // ⚡ KARTU LANGSUNG HILANG
             if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
-            try {
-                sessionStorage.removeItem('homeInstallCardDismissed');
-                localStorage.removeItem('homeInstallCardDismissed');
-                localStorage.removeItem('homeInstallCardDismissedUntil');
-            } catch (e) {}
-            updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
 
         // ============ PROMPT INSTALL UNIVERSAL ============
         window.promptInstall = function() {
-            if (isInstalled()) {
+            if (isInstalled() || isPwaMarkedInstalled()) {
                 if (typeof showToast === 'function') showToast('Aplikasi sudah terpasang 👍');
                 return;
             }
@@ -3613,6 +3635,7 @@
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then(function(choice) {
                     if (choice && choice.outcome === 'accepted') {
+                        markPwaInstalled(); // ⚡ KARTU LANGSUNG HILANG
                         if (typeof showToast === 'function') showToast('✅ Aplikasi berhasil dipasang!');
                     }
                     deferredPrompt = null;
@@ -3656,7 +3679,7 @@
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
             if (!btn || !txt) return;
-            if (isInstalled()) {
+            if (isInstalled() || isPwaMarkedInstalled()) {
                 txt.textContent = 'Aplikasi Sudah Terpasang';
                 btn.disabled = true;
                 btn.classList.add('opacity-60', 'cursor-not-allowed');
