@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kebijakan Privasi - Anti Anxiety</title>
+
+    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('aa_theme');
+            if (saved === null) {
+                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
+                if (legacy !== null) {
+                    saved = legacy;
+                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                }
+            }
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -84,7 +106,7 @@
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-6 mb-2">5. Donasi Pihak Ketiga</h3>
                 <p>Jika Anda memilih untuk memberikan dukungan (donasi) melalui tombol yang tersedia di aplikasi, transaksi tersebut diproses sepenuhnya oleh <b>platform pihak ketiga</b> (seperti Saweria, Trakteer, atau Bank). Kami <b>tidak menyimpan, melihat, atau memiliki akses</b> ke data pembayaran, nomor kartu, atau informasi perbankan Anda. Kebijakan privasi platform tersebut berlaku untuk setiap transaksi.</p>
 
-                <p class="text-xs text-slate-500 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">Terakhir diperbarui: Versi 6.5. Jika ada pertanyaan mengenai privasi, silakan hubungi kami melalui halaman Kontak.</p>
+                <p class="text-xs text-slate-500 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">Terakhir diperbarui: Versi 5.6. Jika ada pertanyaan mengenai privasi, silakan hubungi kami melalui halaman Kontak.</p>
             </div>
         </div>
     </main>
@@ -96,20 +118,28 @@
     </footer>
 
     <script>
-        lucide.createIcons();
-        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            document.getElementById('themeIcon').setAttribute('data-lucide', 'sun');
-            lucide.createIcons();
-        }
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark'); localStorage.setItem('theme', 'light'); icon.setAttribute('data-lucide', 'moon');
-            } else {
-                html.classList.add('dark'); localStorage.setItem('theme', 'dark'); icon.setAttribute('data-lucide', 'sun');
+        (function () {
+            var icon = document.getElementById('themeIcon');
+            if (icon && document.documentElement.classList.contains('dark')) {
+                icon.setAttribute('data-lucide', 'sun');
             }
+        })();
+        lucide.createIcons();
+
+        function toggleDarkMode() {
+            var html = document.documentElement;
+            var icon = document.getElementById('themeIcon');
+            var isDark;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                isDark = false;
+                if (icon) icon.setAttribute('data-lucide', 'moon');
+            } else {
+                html.classList.add('dark');
+                isDark = true;
+                if (icon) icon.setAttribute('data-lucide', 'sun');
+            }
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
             lucide.createIcons();
         }
     </script>
