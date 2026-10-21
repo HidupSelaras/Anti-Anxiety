@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mengenal Grounding 5-4-3-2-1: Teknik Jangkar Saat Cemas - Anti Anxiety</title>
     <meta name="description" content="Cara menggunakan panca indera untuk membawa pikiran kembali ke masa sekarang saat panik.">
+
+    <!-- Persistensi Tema — wajib paling atas sebelum Tailwind render -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('aa_theme');
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { calm: { 500: '#14b8a6', 600: '#0d9488' } } } } }</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
