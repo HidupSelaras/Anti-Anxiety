@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog & Edukasi - Anti Anxiety</title>
     <meta name="description" content="Kumpulan artikel edukasi seputar kecemasan, latihan napas, grounding, dan kesehatan mental.">
+
+    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('aa_theme');
+            if (saved === null) {
+                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
+                if (legacy !== null) {
+                    saved = legacy;
+                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                }
+            }
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { darkMode: 'class', theme: { extend: { colors: { calm: { 500: '#14b8a6', 600: '#0d9488' } } } } }
