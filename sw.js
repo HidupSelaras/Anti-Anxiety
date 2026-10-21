@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anti-anxiety-v11';
+const CACHE_NAME = 'anti-anxiety-v12';
 const APP_SHELL = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
@@ -15,6 +15,21 @@ self.addEventListener('activate', (event) => {
         )
     );
     self.clients.claim();
+});
+
+// ===== Handler: laporkan versi cache ke halaman (dipanggil dari index.html) =====
+// index.html mengirim { type: 'GET_VERSION' } via MessageChannel,
+// lalu kita balas { type: 'CACHE_VERSION', version: CACHE_NAME }.
+// Ini memungkinkan Pengaturan menampilkan versi cache tanpa hardcode di index.html.
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'GET_VERSION') {
+        var port = event.ports && event.ports[0];
+        if (port) {
+            port.postMessage({ type: 'CACHE_VERSION', version: CACHE_NAME });
+        } else if (event.source && event.source.postMessage) {
+            event.source.postMessage({ type: 'CACHE_VERSION', version: CACHE_NAME });
+        }
+    }
 });
 
 self.addEventListener('fetch', (event) => {
