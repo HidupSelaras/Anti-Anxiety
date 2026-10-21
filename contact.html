@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hubungi Kami - Anti Anxiety</title>
     <meta name="description" content="Hubungi Anti Anxiety App melalui email atau media sosial.">
+
+    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('aa_theme');
+            if (saved === null) {
+                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
+                if (legacy !== null) {
+                    saved = legacy;
+                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                }
+            }
+            if (saved === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else if (saved === 'light') {
+                document.documentElement.classList.remove('dark');
+            }
+        } catch (e) {}
+    })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -173,10 +195,6 @@
 
     <script>
         lucide.createIcons();
-        if (localStorage.getItem('anti_anxiety_theme') === 'dark' ||
-            (!localStorage.getItem('anti_anxiety_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        }
     </script>
 </body>
 </html>
