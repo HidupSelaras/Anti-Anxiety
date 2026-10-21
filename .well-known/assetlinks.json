@@ -1,1 +1,8 @@
-
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "hidupselaras.antianxiety",
+    "sha256_cert_fingerprints": ["D5:D9:F1:05:92:95:91:CF:D1:A5:89:88:72:C3:DE:7C:B0:5F:D9:B2:B2:0A:E9:A6:22:CF:80:69:D1:E2:4E:A9"]
+  }
+}]
