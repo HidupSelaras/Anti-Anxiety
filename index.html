@@ -141,7 +141,7 @@
 
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
         
-        /* --- PERBAIKAN CSS: Gunakan visibility agar anti-gagal --- */
+        /* PERBAIKAN CSS: Gunakan visibility agar anti-gagal */
         .breath-visual { 
             position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; 
             transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s; 
@@ -1641,7 +1641,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.4</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.5</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -2699,7 +2699,16 @@
             let status = "Rendah (Tenang)";
             if (val > 7) status = "Sangat Tinggi (Panik/Cemas)";
             else if (val > 4) status = "Sedang (Waspada)";
-            const newLog = { id: Date.now(), date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), score: parseInt(val, 10), status: status };
+            
+            // PERBAIKAN: Tambahkan dateKey untuk statistik mingguan yang akurat
+            const newLog = { 
+                id: Date.now(), 
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), 
+                dateKey: getTodayKey(), 
+                score: parseInt(val, 10), 
+                status: status 
+            };
+            
             logs.unshift(newLog);
             try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             loadMoodHistory();
@@ -2805,22 +2814,41 @@
             const now = new Date();
             const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
             const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
-            const parseDate = (dateStr) => {
-                const parts = dateStr.split(' ');
-                try {
-                    const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
-                    const day = parseInt(parts[0], 10); const month = months[parts[1]];
-                    if (month === undefined || isNaN(day)) return null;
-                    return new Date(now.getFullYear(), month, day);
-                } catch(e) { return null; }
+            
+            // PERBAIKAN: Fungsi pembaca tanggal yang kebal terhadap tanda baca (koma/titik)
+            const parseDate = (log) => {
+                if (!log) return null;
+                
+                // 1. Jika data baru (punya dateKey "YYYY-MM-DD"), langsung baca
+                if (log.dateKey) {
+                    const parts = log.dateKey.split('-');
+                    return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                }
+                
+                // 2. Fallback untuk data lama (bersihkan karakter aneh seperti koma)
+                if (!log.date) return null;
+                const parts = String(log.date).split(' ');
+                if (parts.length < 2) return null;
+                
+                const day = parseInt(parts[0], 10);
+                const monthStr = parts[1].replace(/[^a-zA-Z]/g, ''); // Menghapus koma/titik
+                const months = {Jan:0,Feb:1,Mar:2,Apr:3,Mei:4,Jun:5,Jul:6,Agu:7,Sep:8,Okt:9,Nov:10,Des:11};
+                const month = months[monthStr];
+                
+                if (month === undefined || isNaN(day)) return null;
+                return new Date(now.getFullYear(), month, day);
             };
-            const thisWeekLogs = logs.filter(l => { const d = parseDate(l.date); return d && d >= startOfThisWeek && d <= now; });
-            const lastWeekLogs = logs.filter(l => { const d = parseDate(l.date); return d && d >= startOfLastWeek && d < startOfThisWeek; });
+
+            const thisWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfThisWeek && d <= now; });
+            const lastWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfLastWeek && d < startOfThisWeek; });
+            
             const thisAvg = thisWeekLogs.length > 0 ? (thisWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/thisWeekLogs.length) : 0;
             const lastAvg = lastWeekLogs.length > 0 ? (lastWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/lastWeekLogs.length) : 0;
+            
             document.getElementById('weekMoodCount').innerText = thisWeekLogs.length;
             document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
             document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
+            
             const trendEl = document.getElementById('weekTrend');
             if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) { trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1'; }
             else {
@@ -3414,7 +3442,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.4,
+                version: 6.5,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3603,7 +3631,7 @@
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6.4) ===================== -->
+    <!-- ===================== PWA LOGIC (v6.5) ===================== -->
     <script>
     (function () {
         'use strict';
