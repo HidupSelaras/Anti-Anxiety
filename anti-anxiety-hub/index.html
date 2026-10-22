@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anti Anxiety App — Mulai di Sini</title>
+<style>
+  :root {
+    --primary: #3d8b8b;
+    --primary-dark: #2a6666;
+    --accent: #7bc4a4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; color: #1a1a1a;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px 26px 24px;
+    max-width: 420px; width: 100%;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+
+  /* === LOGO ATAS === */
+  .logo {
+    width: 76px; height: 76px;
+    border-radius: 18px;
+    margin: 0 auto 12px;
+    background: #eaf5f1;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .logo img { width: 100%; height: 100%; object-fit: contain; }
+
+  h1 { font-size: 20px; color: var(--primary); margin-bottom: 4px; }
+  .tagline { font-size: 12px; color: #666; margin-bottom: 22px; }
+
+  /* === BASE BUTTON — grid agar teks sejajar === */
+  .btn {
+    display: grid;
+    grid-template-columns: 46px 1fr;   /* kolom ikon SAMA untuk semua */
+    gap: 12px;
+    align-items: center;
+    border-radius: 10px; text-decoration: none; color: #fff;
+    font-weight: bold;
+    text-align: left;
+    transition: transform .15s, box-shadow .15s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 14px rgba(0,0,0,0.2); }
+  .btn .ic {
+    border-radius: 10px;
+    background: rgba(255,255,255,0.22);
+    display: flex; align-items: center; justify-content: center;
+    justify-self: start;
+  }
+  .btn .txt { min-width: 0; }
+  .btn small { display: block; font-weight: normal; opacity: .9; margin-top: 3px; }
+
+  /* === TOMBOL UTAMA — KOTAK LEBIH BESAR === */
+  .btn-primary {
+    background: var(--primary);
+    padding: 20px 18px;
+    margin-bottom: 12px;
+    font-size: 17px;
+    position: relative;
+  }
+  .btn-primary .ic { width: 46px; height: 46px; font-size: 24px; }
+  .btn-primary small { font-size: 12px; }
+  .btn-primary::after {
+    content: "MULAI DI SINI";
+    position: absolute; top: -8px; right: 14px;
+    background: #e6a94a; color: #fff;
+    font-size: 8px; font-weight: bold; letter-spacing: 1px;
+    padding: 3px 9px; border-radius: 10px;
+  }
+
+  /* === TOMBOL SEKUNDER — KOTAK LEBIH RENDAH === */
+  .btn-secondary, .btn-tertiary {
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    opacity: 0.94;
+  }
+  .btn-secondary .ic, .btn-tertiary .ic {
+    width: 30px; height: 30px;
+    font-size: 15px;
+    border-radius: 8px;
+  }
+  .btn-secondary small, .btn-tertiary small { font-size: 10px; }
+  .btn-secondary { background: var(--accent); }
+  .btn-tertiary  { background: #e6a94a; }
+
+  .info {
+    margin-top: 16px; padding: 9px 12px;
+    background: #eaf5f1; border-radius: 8px;
+    font-size: 11px; color: #444; line-height: 1.5;
+    text-align: left;
+  }
+  .info b { color: var(--primary); }
+
+  .footer {
+    margin-top: 14px; padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 10px; color: #999;
+  }
+  .footer a { color: var(--primary); text-decoration: none; }
+
+  @media (max-width: 400px) {
+    .card { padding: 26px 18px 20px; }
+    h1 { font-size: 18px; }
+    .logo { width: 68px; height: 68px; }
+    .btn-primary { padding: 18px 16px; font-size: 16px; }
+    .btn-primary .ic { width: 42px; height: 42px; font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <img src="logoaa.png" alt="Logo Anti Anxiety App">
+  </div>
+  <h1>Anti Anxiety App</h1>
+  <div class="tagline">Ruang tenang dalam genggaman</div>
+
+  <a href="https://anti-anxiety.pages.dev/" class="btn btn-primary">
+    <div class="ic">🚀</div>
+    <div class="txt">Buka Aplikasi<small>Langsung pakai — tanpa unduh</small></div>
+  </a>
+
+  <a href="profil-aplikasi.pdf" class="btn btn-secondary" target="_blank" rel="noopener">
+    <div class="ic">📄</div>
+    <div class="txt">Profil Aplikasi<small>PDF 4 halaman — fitur & keunggulan</small></div>
+  </a>
+
+  <a href="panduan-install.pdf" class="btn btn-tertiary" target="_blank" rel="noopener">
+    <div class="ic">📥</div>
+    <div class="txt">Panduan Instalasi<small>PDF 1 halaman — cara pasang di HP</small></div>
+  </a>
+
+  <div class="info">
+    💡 <b>Tips:</b> Setelah aplikasi terbuka, tekan tombol <b>"Pasang"</b>, atau pilih menu browser → <b>"Add to Home Screen"</b> agar muncul seperti aplikasi biasa di HP Anda.
+  </div>
+
+  <div class="footer">
+    Butuh bantuan? <a href="mailto:admin.hidupselaras@gmail.com">admin.hidupselaras@gmail.com</a><br>
+    Versi awal 6.5 • SW v12
+  </div>
+</div>
+
+</body>
+</html>
