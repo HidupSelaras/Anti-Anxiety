@@ -13,20 +13,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
 
-    <!-- Persistensi Tema (Dark/Light) — Anti FOWT. HARUS di paling atas sebelum render. -->
-    <script>
-    (function () {
-        try {
-            var saved = localStorage.getItem('aa_theme');
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
-        } catch (e) {}
-    })();
-    </script>
-
     <!-- Deteksi multi-kondisi untuk skip splash -->
     <script>
     (function () {
@@ -73,8 +59,8 @@
     })();
     </script>
 
-    <link rel="icon" type="image/png" href="logoaa.png">
-    <link rel="apple-touch-icon" href="logoaa.png">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%232dd4bf%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2399f6e4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22url(%23g)%22%2F%3E%3Cg%20transform%3D%22translate(80%2080)%20scale(14.6)%22%20fill%3D%22none%22%20stroke%3D%22%23134e4a%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M19%2014c1.49-1.46%203-3.21%203-5.5A5.5%205.5%200%200%200%2016.5%203c-1.76%200-3%20.5-4.5%202-1.5-1.5-2.74-2-4.5-2A5.5%205.5%200%200%200%202%208.5c0%202.3%201.5%204.05%203%205.5l7%207Z%22%2F%3E%3Cpath%20d%3D%22M12%205%209.04%207.96a2.17%202.17%200%200%200%200%203.08c.82.82%202.13.85%203%20.07l2.07-1.9a2.82%202.82%200%200%201%203.79%200l2.96%202.66%22%2F%3E%3Cpath%20d%3D%22m18%2015-2-2%22%2F%3E%3Cpath%20d%3D%22m15%2018-2-2%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -154,33 +140,52 @@
         }
 
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
-        .breath-visual { 
-            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; 
-            transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s; 
-            pointer-events: none; 
+
+        /* PERBAIKAN CSS: Gunakan visibility agar anti-gagal */
+        .breath-visual {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
+            pointer-events: none;
         }
-        .breath-visual.visual-hidden { 
-            opacity: 0 !important; 
-            visibility: hidden !important; 
-            transform: scale(0.9); 
-            pointer-events: none; 
+        .breath-visual.visual-hidden {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: scale(0.9);
+            pointer-events: none;
         }
-        .breath-visual.visual-active { 
-            opacity: 1 !important; 
-            visibility: visible !important; 
-            transform: scale(1); 
-            pointer-events: auto; 
+        .breath-visual.visual-active {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: scale(1);
+            pointer-events: auto;
         }
-        .breath-visual.visual-active.paused { 
-            filter: grayscale(0.4) brightness(0.9); 
-            opacity: 0.7 !important; 
+        .breath-visual.visual-active.paused {
+            filter: grayscale(0.4) brightness(0.9);
+            opacity: 0.7 !important;
         }
+        /* ------------------------------------------------------- */
 
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
-        #bloomSvg { transition: transform 4s ease-in-out; will-change: transform; }
+        /* PERBAIKAN BUNGA: SVG luar hanya untuk overflow, grup dalam yang diskalakan */
+        #bloomSvg { overflow: visible; }
+        #bloomFlowerGroup {
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: transform 4s ease-in-out;
+            will-change: transform;
+        }
+        /* ------------------------------------------------------------------ */
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
+
+        /* Aksesibilitas: kurangi durasi animasi bagi pengguna yang sensitif gerakan */
+        @media (prefers-reduced-motion: reduce) {
+            .breath-visual, .breath-circle, #bloomFlowerGroup,
+            #candleFlame, #balloonBody, #starShape {
+                transition-duration: 0.3s !important;
+            }
+        }
 
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
@@ -816,17 +821,19 @@
                                             <stop offset="100%" stop-color="#be185d"/>
                                         </radialGradient>
                                     </defs>
-                                    <g transform="translate(100,100)">
-                                        <g id="bloomPetals">
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9"/>
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(60)"/>
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(120)"/>
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(180)"/>
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(240)"/>
-                                            <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(300)"/>
+                                    <g id="bloomFlowerGroup">
+                                        <g transform="translate(100,100)">
+                                            <g id="bloomPetals">
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9"/>
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(60)"/>
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(120)"/>
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(180)"/>
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(240)"/>
+                                                <ellipse cx="0" cy="-50" rx="22" ry="50" fill="url(#petalGradient)" opacity="0.9" transform="rotate(300)"/>
+                                            </g>
+                                            <circle cx="0" cy="0" r="20" fill="#fbbf24"/>
+                                            <circle cx="0" cy="0" r="12" fill="#f59e0b"/>
                                         </g>
-                                        <circle cx="0" cy="0" r="20" fill="#fbbf24"/>
-                                        <circle cx="0" cy="0" r="12" fill="#f59e0b"/>
                                     </g>
                                 </svg>
                                 <div class="text-center mt-3">
@@ -1653,7 +1660,6 @@
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
                     <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.5</p>
-                    <p id="cacheVersionText" class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">Cache: memuat…</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1900,60 +1906,20 @@
             const html = document.documentElement;
             const iconMobile = document.getElementById('themeIconMobile');
             const iconDesktop = document.getElementById('themeIconDesktop');
-            let isDark;
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
-                isDark = false;
                 if (iconMobile) iconMobile.setAttribute('data-lucide', 'moon');
                 if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'moon');
             } else {
                 html.classList.add('dark');
-                isDark = true;
                 if (iconMobile) iconMobile.setAttribute('data-lucide', 'sun');
                 if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'sun');
             }
-            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
             lucide.createIcons();
             if (typeof renderMoodChart === 'function') renderMoodChart();
             if (typeof renderGratitudeChart === 'function') renderGratitudeChart();
             if (typeof renderLuckChart === 'function') renderLuckChart();
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
-        }
-
-        function syncThemeIcons() {
-            const isDark = document.documentElement.classList.contains('dark');
-            const iconName = isDark ? 'sun' : 'moon';
-            const iconMobile = document.getElementById('themeIconMobile');
-            const iconDesktop = document.getElementById('themeIconDesktop');
-            if (iconMobile) iconMobile.setAttribute('data-lucide', iconName);
-            if (iconDesktop) iconDesktop.setAttribute('data-lucide', iconName);
-        }
-
-        async function loadCacheVersion() {
-            const el = document.getElementById('cacheVersionText');
-            if (!el) return;
-            if (!('serviceWorker' in navigator)) {
-                el.textContent = 'Cache: tidak tersedia';
-                return;
-            }
-            try {
-                const reg = await navigator.serviceWorker.ready;
-                const sw = reg.active || navigator.serviceWorker.controller;
-                if (!sw) { el.textContent = 'Cache: —'; return; }
-                const channel = new MessageChannel();
-                const timeout = setTimeout(() => { el.textContent = 'Cache: —'; }, 2500);
-                channel.port1.onmessage = function (event) {
-                    clearTimeout(timeout);
-                    if (event.data && event.data.type === 'CACHE_VERSION') {
-                        el.textContent = 'Cache: ' + event.data.version;
-                    } else {
-                        el.textContent = 'Cache: —';
-                    }
-                };
-                sw.postMessage({ type: 'GET_VERSION' }, [channel.port2]);
-            } catch (e) {
-                el.textContent = 'Cache: —';
-            }
         }
 
         function toggleDownloadMenu(event) {
@@ -2101,7 +2067,7 @@
             if (tabId === 'insights') { renderStreakCalendar(); renderInsights(); renderDailyTip(); }
             if (tabId === 'gratitude') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
             if (tabId === 'luck') { loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart(); }
-            if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); loadCacheVersion(); }
+            if (tabId === 'settings') { loadEmergencyContacts(); updateLastBackupInfo(); }
         }
 
         function toggleInfoMenu() {
@@ -2412,14 +2378,14 @@
             if (!VISUAL_IDS.includes(visualId)) visualId = 'circle';
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
-            const wasPaused = isPaused;
-            
+            const wasPaused = isPaused; // simpan state paused
+
             document.querySelectorAll('.breath-visual').forEach(el => {
-                el.classList.remove('paused');
+                el.classList.remove('paused'); // Bersihkan paused dari semua visual
                 if (el.dataset.visual === visualId) {
                     el.classList.remove('visual-hidden');
                     el.classList.add('visual-active');
-                    if (wasPaused) el.classList.add('paused');
+                    if (wasPaused) el.classList.add('paused'); // Pertahankan paused di visual baru
                 } else {
                     el.classList.remove('visual-active');
                     el.classList.add('visual-hidden');
@@ -2432,8 +2398,13 @@
             if (mainCircle) { mainCircle.style.transform = 'scale(1)'; }
             const candle = document.getElementById('candleFlame');
             if (candle) candle.style.transform = 'scale(1)';
-            const bloom = document.getElementById('bloomSvg');
-            if (bloom) bloom.style.transform = 'scale(1)';
+            // PERBAIKAN BUNGA: reset grup bunga (bukan SVG, bukan petals)
+            const bloomGroup = document.getElementById('bloomFlowerGroup');
+            if (bloomGroup) {
+                bloomGroup.style.transition = 'transform 0.4s ease-out';
+                bloomGroup.style.transform = 'scale(1) rotate(0deg)';
+            }
+            // ---------------------------------------------------------
             const balloon = document.getElementById('balloonBody');
             if (balloon) balloon.style.transform = 'scale(1)';
             const star = document.getElementById('starShape');
@@ -2455,10 +2426,15 @@
                 candle.style.transform = `scale(${flameScale})`;
                 candle.style.filter = step.scale > 1.2 ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)' : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
             }
-            const bloom = document.getElementById('bloomSvg');
-            const petals = document.getElementById('bloomPetals');
-            if (bloom) { const bloomScale = step.scale > 1.2 ? 1.15 : 0.85; bloom.style.transition = `transform ${step.duration}s ease-in-out`; bloom.style.transform = `scale(${bloomScale}) rotate(${step.scale > 1.2 ? 30 : 0}deg)`; }
-            if (petals) { petals.style.transition = `transform ${step.duration}s ease-in-out`; petals.style.transform = step.scale > 1.2 ? 'scale(1.15)' : 'scale(0.85)'; petals.style.transformOrigin = '100px 100px'; }
+            // PERBAIKAN BUNGA: hanya scale grup bunga (semua bagian ikut bergerak proporsional)
+            const bloomGroup = document.getElementById('bloomFlowerGroup');
+            if (bloomGroup) {
+                const bloomScale = step.scale > 1.2 ? 1.15 : 0.85;
+                const bloomRotate = step.scale > 1.2 ? 20 : 0;
+                bloomGroup.style.transition = `transform ${step.duration}s ease-in-out`;
+                bloomGroup.style.transform = `scale(${bloomScale}) rotate(${bloomRotate}deg)`;
+            }
+            // ---------------------------------------------------------
             const balloon = document.getElementById('balloonBody');
             if (balloon) { const bScale = step.scale > 1.2 ? 1.25 : 0.85; balloon.style.transition = `transform ${step.duration}s ease-in-out`; balloon.style.transform = `scale(${bScale})`; balloon.style.transformOrigin = '60px 150px'; }
             const star = document.getElementById('starShape');
@@ -2751,15 +2727,15 @@
             let status = "Rendah (Tenang)";
             if (val > 7) status = "Sangat Tinggi (Panik/Cemas)";
             else if (val > 4) status = "Sedang (Waspada)";
-            
-            const newLog = { 
-                id: Date.now(), 
-                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), 
-                dateKey: getTodayKey(), 
-                score: parseInt(val, 10), 
-                status: status 
+
+            const newLog = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+                dateKey: getTodayKey(),
+                score: parseInt(val, 10),
+                status: status
             };
-            
+
             logs.unshift(newLog);
             try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             loadMoodHistory();
@@ -2865,7 +2841,7 @@
             const now = new Date();
             const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
             const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
-            
+
             const parseDate = (log) => {
                 if (!log) return null;
                 if (log.dateKey) {
@@ -2885,14 +2861,14 @@
 
             const thisWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfThisWeek && d <= now; });
             const lastWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfLastWeek && d < startOfThisWeek; });
-            
+
             const thisAvg = thisWeekLogs.length > 0 ? (thisWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/thisWeekLogs.length) : 0;
             const lastAvg = lastWeekLogs.length > 0 ? (lastWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/lastWeekLogs.length) : 0;
-            
+
             document.getElementById('weekMoodCount').innerText = thisWeekLogs.length;
             document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
             document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
-            
+
             const trendEl = document.getElementById('weekTrend');
             if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) { trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1'; }
             else {
@@ -3494,7 +3470,7 @@
                 contacts: safeParse('anti_anxiety_contacts', {}),
                 gratitude: safeParse('anti_anxiety_gratitude', []),
                 luck: safeParse('anti_anxiety_luck', []),
-                settings: { breathVisual: safeParse('anti_anxiety_breath_visual', 'circle'), moodSlider: safeParse('anti_anxiety_mood_slider', 5), theme: safeParse('aa_theme', 'light') }
+                settings: { breathVisual: safeParse('anti_anxiety_breath_visual', 'circle'), moodSlider: safeParse('anti_anxiety_mood_slider', 5) }
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -3530,12 +3506,6 @@
                     if (data.settings) {
                         if (data.settings.breathVisual) try { localStorage.setItem('anti_anxiety_breath_visual', data.settings.breathVisual); } catch(e){}
                         if (data.settings.moodSlider) try { localStorage.setItem('anti_anxiety_mood_slider', data.settings.moodSlider); } catch(e){}
-                        if (data.settings.theme === 'dark' || data.settings.theme === 'light') {
-                            try { localStorage.setItem('aa_theme', data.settings.theme); } catch(e){}
-                            if (data.settings.theme === 'dark') document.documentElement.classList.add('dark');
-                            else document.documentElement.classList.remove('dark');
-                            syncThemeIcons();
-                        }
                     }
                     loadJournals(); loadMoodHistory(); updateStreak();
                     renderSosContacts(); loadEmergencyContacts();
@@ -3553,9 +3523,7 @@
         function resetAllData() {
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
-            ['anti_anxiety_moods','anti_anxiety_journals','anti_anxiety_activities','anti_anxiety_contacts','anti_anxiety_gratitude','anti_anxiety_luck','anti_anxiety_last_backup','anti_anxiety_backup_snooze','anti_anxiety_breath_visual','anti_anxiety_mood_slider','aa_theme'].forEach(k => localStorage.removeItem(k));
-            document.documentElement.classList.remove('dark');
-            syncThemeIcons();
+            ['anti_anxiety_moods','anti_anxiety_journals','anti_anxiety_activities','anti_anxiety_contacts','anti_anxiety_gratitude','anti_anxiety_luck','anti_anxiety_last_backup','anti_anxiety_backup_snooze','anti_anxiety_breath_visual','anti_anxiety_mood_slider'].forEach(k => localStorage.removeItem(k));
             loadJournals(); loadMoodHistory(); updateStreak();
             renderSosContacts(); loadEmergencyContacts();
             if (typeof loadGratitudeHistory === 'function') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
@@ -3678,11 +3646,6 @@
 
             const homeFab = document.getElementById('homeFab');
             if (homeFab) homeFab.classList.remove('visible');
-
-            // Sinkronisasi ikon tema dengan tema yang tersimpan/aktif
-            syncThemeIcons();
-            // Muat versi cache (Opsi 2: postMessage ke Service Worker)
-            loadCacheVersion();
 
             lucide.createIcons();
         });
