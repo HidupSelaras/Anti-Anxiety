@@ -1,4 +1,4 @@
-const CACHE_NAME = 'anti-anxiety-v13';
+const CACHE_NAME = 'anti-anxiety-v14';
 const APP_SHELL = ['./', './index.html', './manifest.json'];
 
 self.addEventListener('install', (event) => {
