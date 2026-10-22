@@ -42,10 +42,10 @@
   h1 { font-size: 20px; color: var(--primary); margin-bottom: 4px; }
   .tagline { font-size: 12px; color: #666; margin-bottom: 22px; }
 
-  /* === BASE BUTTON — grid agar teks sejajar === */
+  /* === BASE BUTTON === */
   .btn {
     display: grid;
-    grid-template-columns: 46px 1fr;   /* kolom ikon SAMA untuk semua */
+    grid-template-columns: 46px 1fr;
     gap: 12px;
     align-items: center;
     border-radius: 10px; text-decoration: none; color: #fff;
@@ -64,7 +64,7 @@
   .btn .txt { min-width: 0; }
   .btn small { display: block; font-weight: normal; opacity: .9; margin-top: 3px; }
 
-  /* === TOMBOL UTAMA — KOTAK LEBIH BESAR === */
+  /* === TOMBOL UTAMA === */
   .btn-primary {
     background: var(--primary);
     padding: 20px 18px;
@@ -82,7 +82,7 @@
     padding: 3px 9px; border-radius: 10px;
   }
 
-  /* === TOMBOL SEKUNDER — KOTAK LEBIH RENDAH === */
+  /* === TOMBOL SEKUNDER === */
   .btn-secondary, .btn-tertiary {
     padding: 12px 16px;
     margin-bottom: 8px;
@@ -106,8 +106,33 @@
   }
   .info b { color: var(--primary); }
 
+  /* === SOSIAL MEDIA === */
+  .social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 18px;
+    margin-bottom: 4px;
+  }
+  .social a {
+    color: var(--primary);
+    background: #f0f7f6;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+  .social a:hover {
+    background: var(--primary);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(61, 139, 139, 0.3);
+  }
+  .social svg { width: 20px; height: 20px; fill: currentColor; }
+
   .footer {
-    margin-top: 14px; padding-top: 10px;
+    margin-top: 16px; padding-top: 12px;
     border-top: 1px solid #eee;
     font-size: 10px; color: #999;
   }
@@ -148,6 +173,16 @@
 
   <div class="info">
     💡 <b>Tips:</b> Setelah aplikasi terbuka, tekan tombol <b>"Pasang"</b>, atau pilih menu browser → <b>"Add to Home Screen"</b> agar muncul seperti aplikasi biasa di HP Anda.
+  </div>
+
+  <!-- === SOSIAL MEDIA === -->
+  <div class="social">
+    <a href="https://tiktok.com/@hidup.selaras.ku" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@hidup.selaras" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
   </div>
 
   <div class="footer">
