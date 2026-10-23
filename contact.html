@@ -8,16 +8,16 @@
 
     <!-- ============================================================
          DARK MODE INIT — HARUS PALING AWAL
-         Key standar: anti_anxiety_theme (SAMA dengan index.html & blog.html)
-         Migrasi otomatis dari key lama: aa_theme / theme
+         Key standar: aa_theme
+         Migrasi otomatis dari key lama: anti_anxiety_theme / theme
          ============================================================ -->
     <script>
     (function () {
         try {
-            var KEY = 'anti_anxiety_theme';
+            var KEY = 'aa_theme';
             var saved = localStorage.getItem(KEY);
             if (saved === null) {
-                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                var legacy = localStorage.getItem('anti_anxiety_theme') || localStorage.getItem('theme');
                 if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
                     try { localStorage.setItem(KEY, legacy); } catch (e) {}
@@ -217,11 +217,11 @@
             const html = document.documentElement;
             const isDark = !html.classList.contains('dark');
             html.classList.toggle('dark', isDark);
-            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
             updateThemeIcon();
         }
         window.addEventListener('storage', function (e) {
-            if (e.key === 'anti_anxiety_theme') {
+            if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
                 document.documentElement.classList.toggle('dark', isDark);
                 updateThemeIcon();
