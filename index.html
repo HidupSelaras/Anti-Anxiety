@@ -3920,5 +3920,21 @@
         }
     })();
     </script>
+<script>
+(function () {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'VERSION_INFO') {
+                console.log('Versi SW aktif:', event.data.version);
+            }
+        });
+        navigator.serviceWorker.ready.then(function(registration) {
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
+            }
+        });
+    }
+})();
+</script>
 </body>
 </html>
