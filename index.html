@@ -6,6 +6,25 @@
     <title>Anti Anxiety - Ruang Tenang & Kendali Kecemasan</title>
     <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi.">
 
+    <!-- ============================================================
+         DARK MODE INIT — HARUS PALING AWAL
+         Menerapkan class 'dark' sebelum Tailwind CDN memproses style.
+         Mencegah flash mode terang (FOUC) saat refresh.
+         ============================================================ -->
+    <script>
+    (function () {
+        try {
+            var saved = localStorage.getItem('anti_anxiety_theme');
+            var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = prefersDark;
+            if (shouldBeDark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+    })();
+    </script>
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#14b8a6">
     <meta name="mobile-web-app-capable" content="yes">
@@ -141,7 +160,6 @@
 
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
 
-        /* PERBAIKAN CSS: Gunakan visibility agar anti-gagal */
         .breath-visual {
             position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
             transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
@@ -163,10 +181,8 @@
             filter: grayscale(0.4) brightness(0.9);
             opacity: 0.7 !important;
         }
-        /* ------------------------------------------------------- */
 
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
-        /* PERBAIKAN BUNGA: SVG luar hanya untuk overflow, grup dalam yang diskalakan */
         #bloomSvg { overflow: visible; }
         #bloomFlowerGroup {
             transform-box: fill-box;
@@ -174,12 +190,10 @@
             transition: transform 4s ease-in-out;
             will-change: transform;
         }
-        /* ------------------------------------------------------------------ */
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
 
-        /* Aksesibilitas: kurangi durasi animasi bagi pengguna yang sensitif gerakan */
         @media (prefers-reduced-motion: reduce) {
             .breath-visual, .breath-circle, #bloomFlowerGroup,
             #candleFlame, #balloonBody, #starShape {
@@ -1902,25 +1916,48 @@
             else hint.style.opacity = '1';
         }
 
-        function toggleDarkMode() {
-            const html = document.documentElement;
+        /* ============================================================
+           DARK MODE — Simpan preferensi ke localStorage + sinkron ikon
+           ============================================================ */
+        function updateThemeIcons(isDark) {
             const iconMobile = document.getElementById('themeIconMobile');
             const iconDesktop = document.getElementById('themeIconDesktop');
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                if (iconMobile) iconMobile.setAttribute('data-lucide', 'moon');
-                if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'moon');
-            } else {
-                html.classList.add('dark');
-                if (iconMobile) iconMobile.setAttribute('data-lucide', 'sun');
-                if (iconDesktop) iconDesktop.setAttribute('data-lucide', 'sun');
-            }
+            const icon = isDark ? 'sun' : 'moon';
+            if (iconMobile) iconMobile.setAttribute('data-lucide', icon);
+            if (iconDesktop) iconDesktop.setAttribute('data-lucide', icon);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+
+            // ✅ Simpan preferensi agar bertahan setelah refresh
+            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+
+            updateThemeIcons(isDark);
             lucide.createIcons();
+
+            // Re-render chart agar warna ikut menyesuaikan
             if (typeof renderMoodChart === 'function') renderMoodChart();
             if (typeof renderGratitudeChart === 'function') renderGratitudeChart();
             if (typeof renderLuckChart === 'function') renderLuckChart();
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
+
+        // Sinkronisasi tema antar tab saat user toggle di tab lain
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'anti_anxiety_theme') {
+                const isDark = e.newValue === 'dark';
+                document.documentElement.classList.toggle('dark', isDark);
+                updateThemeIcons(isDark);
+                lucide.createIcons();
+                if (typeof renderMoodChart === 'function') renderMoodChart();
+                if (typeof renderGratitudeChart === 'function') renderGratitudeChart();
+                if (typeof renderLuckChart === 'function') renderLuckChart();
+                if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
+            }
+        });
 
         function toggleDownloadMenu(event) {
             if (event) event.stopPropagation();
@@ -2378,14 +2415,14 @@
             if (!VISUAL_IDS.includes(visualId)) visualId = 'circle';
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
-            const wasPaused = isPaused; // simpan state paused
+            const wasPaused = isPaused;
 
             document.querySelectorAll('.breath-visual').forEach(el => {
-                el.classList.remove('paused'); // Bersihkan paused dari semua visual
+                el.classList.remove('paused');
                 if (el.dataset.visual === visualId) {
                     el.classList.remove('visual-hidden');
                     el.classList.add('visual-active');
-                    if (wasPaused) el.classList.add('paused'); // Pertahankan paused di visual baru
+                    if (wasPaused) el.classList.add('paused');
                 } else {
                     el.classList.remove('visual-active');
                     el.classList.add('visual-hidden');
@@ -2398,13 +2435,11 @@
             if (mainCircle) { mainCircle.style.transform = 'scale(1)'; }
             const candle = document.getElementById('candleFlame');
             if (candle) candle.style.transform = 'scale(1)';
-            // PERBAIKAN BUNGA: reset grup bunga (bukan SVG, bukan petals)
             const bloomGroup = document.getElementById('bloomFlowerGroup');
             if (bloomGroup) {
                 bloomGroup.style.transition = 'transform 0.4s ease-out';
                 bloomGroup.style.transform = 'scale(1) rotate(0deg)';
             }
-            // ---------------------------------------------------------
             const balloon = document.getElementById('balloonBody');
             if (balloon) balloon.style.transform = 'scale(1)';
             const star = document.getElementById('starShape');
@@ -2426,7 +2461,6 @@
                 candle.style.transform = `scale(${flameScale})`;
                 candle.style.filter = step.scale > 1.2 ? 'drop-shadow(0 0 35px rgba(251, 191, 36, 1)) brightness(1.2)' : 'drop-shadow(0 0 12px rgba(251, 191, 36, 0.5)) brightness(0.9)';
             }
-            // PERBAIKAN BUNGA: hanya scale grup bunga (semua bagian ikut bergerak proporsional)
             const bloomGroup = document.getElementById('bloomFlowerGroup');
             if (bloomGroup) {
                 const bloomScale = step.scale > 1.2 ? 1.15 : 0.85;
@@ -2434,7 +2468,6 @@
                 bloomGroup.style.transition = `transform ${step.duration}s ease-in-out`;
                 bloomGroup.style.transform = `scale(${bloomScale}) rotate(${bloomRotate}deg)`;
             }
-            // ---------------------------------------------------------
             const balloon = document.getElementById('balloonBody');
             if (balloon) { const bScale = step.scale > 1.2 ? 1.25 : 0.85; balloon.style.transition = `transform ${step.duration}s ease-in-out`; balloon.style.transform = `scale(${bScale})`; balloon.style.transformOrigin = '60px 150px'; }
             const star = document.getElementById('starShape');
@@ -3590,6 +3623,13 @@
         });
 
         window.addEventListener('load', function() {
+            /* ============================================================
+               SINKRONISASI IKON DARK MODE SAAT LOAD
+               (class 'dark' sudah diterapkan oleh init script di <head>)
+               ============================================================ */
+            updateThemeIcons(document.documentElement.classList.contains('dark'));
+            lucide.createIcons();
+
             applyTabStyles();
             setGroundingStep(5);
             loadJournals();
