@@ -1,75 +1,73 @@
-const CACHE_NAME = 'anti-anxiety-v15';
-const APP_SHELL = ['./', './index.html', './manifest.json'];
+/* ============================================================
+   SERVICE WORKER — Anti Anxiety App
+   Versi: v16
+   ============================================================ */
 
+const CACHE_NAME = 'anti-anxiety-v16';
+const ASSETS = [
+    './',
+    './index.html',
+    './blog.html',
+    './about.html',
+    './contact.html',
+    './privacy.html',
+    './disclaimer.html',
+    './terms.html',
+    './manifest.json'
+];
+
+// 1. Install Service Worker & Simpan Aset ke Cache
 self.addEventListener('install', (event) => {
+    self.skipWaiting(); // Paksa SW baru langsung aktif
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL)).catch(() => {})
-    );
-    self.skipWaiting();
-});
-
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((keys) =>
-            Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
-        )
-    );
-    self.clients.claim();
-});
-
-self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'GET_VERSION') {
-        var port = event.ports && event.ports[0];
-        if (port) {
-            port.postMessage({ type: 'CACHE_VERSION', version: CACHE_NAME });
-        } else if (event.source && event.source.postMessage) {
-            event.source.postMessage({ type: 'CACHE_VERSION', version: CACHE_NAME });
-        }
-    }
-});
-
-self.addEventListener('fetch', (event) => {
-    const req = event.request;
-    if (req.method !== 'GET') return;
-    const url = new URL(req.url);
-    if (!url.protocol.startsWith('http')) return;
-
-    if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
-        event.respondWith(
-            fetch(req).then((res) => {
-                if (res.ok) {
-                    const clone = res.clone();
-                    caches.open(CACHE_NAME).then((c) => c.put(req, clone));
-                }
-                return res;
-            }).catch(() => caches.match(req).then((r) => r || caches.match('./index.html')))
-        );
-        return;
-    }
-
-    if (url.pathname.endsWith('/manifest.json') || url.pathname.endsWith('manifest.json')) {
-        event.respondWith(
-            fetch(req).then((res) => {
-                if (res.ok) {
-                    const clone = res.clone();
-                    caches.open(CACHE_NAME).then((c) => c.put(req, clone));
-                }
-                return res;
-            }).catch(() => caches.match(req))
-        );
-        return;
-    }
-
-    event.respondWith(
-        caches.match(req).then((cached) => {
-            const fetchPromise = fetch(req).then((res) => {
-                if (res.ok || res.type === 'opaque') {
-                    const clone = res.clone();
-                    caches.open(CACHE_NAME).then((c) => c.put(req, clone));
-                }
-                return res;
-            }).catch(() => cached);
-            return cached || fetchPromise;
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS).catch(err => console.log('Gagal cache aset:', err));
         })
     );
+});
+
+// 2. Aktivasi & Hapus Cache Lama
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName); // Hapus cache v15
+                    }
+                })
+            );
+        }).then(() => self.clients.claim()) // Langsung ambil kendali halaman
+    );
+});
+
+// 3. Strategi Fetch (Network First untuk HTML, Cache First untuk aset statis)
+self.addEventListener('fetch', (event) => {
+    // Jika request adalah navigasi halaman (HTML)
+    if (event.request.mode === 'navigate') {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                // Jika offline, tampilkan index.html dari cache
+                return caches.match('./index.html');
+            })
+        );
+        return;
+    }
+    
+    // Untuk aset statis lainnya
+    event.respondWith(
+        caches.match(event.request).then((response) => {
+            return response || fetch(event.request);
+        })
+    );
+});
+
+// 4. FITUR GET_VERSION (Menjawab panggilan dari index.html)
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'GET_VERSION') {
+        event.source.postMessage({ 
+            type: 'VERSION_INFO', 
+            version: CACHE_NAME 
+        });
+    }
 });
