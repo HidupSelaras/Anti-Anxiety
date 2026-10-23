@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kebijakan Privasi - Anti Anxiety</title>
 
-    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <!-- ============================================================
+         DARK MODE INIT — HARUS PALING AWAL
+         ============================================================ -->
     <script>
     (function () {
         try {
-            var saved = localStorage.getItem('aa_theme');
+            var KEY = 'anti_anxiety_theme';
+            var saved = localStorage.getItem(KEY);
             if (saved === null) {
-                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
-                if (legacy !== null) {
+                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
-                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                    try { localStorage.setItem(KEY, legacy); } catch (e) {}
                 }
             }
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (shouldBeDark) document.documentElement.classList.add('dark');
         } catch (e) {}
     })();
     </script>
@@ -68,7 +71,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                     <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
                 </button>
                 <a href="index.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold flex items-center gap-1.5 transition">
@@ -84,7 +87,7 @@
                 <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-sky-100 dark:bg-sky-900/50 text-sky-800 dark:text-sky-200 mb-3">Data & Privasi</span>
                 <h2 class="text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100">Kebijakan Privasi</h2>
             </div>
-            
+
             <div class="prose prose-slate dark:prose-invert max-w-none text-sm leading-relaxed text-slate-600 dark:text-slate-400 space-y-5">
                 <p>Kami sangat menghargai privasi Anda. Aplikasi Anti Anxiety dirancang dengan prinsip <b>Privasi Mutlak (Privacy by Design)</b>. Berikut adalah penjelasan bagaimana data Anda diperlakukan:</p>
 
@@ -101,12 +104,12 @@
                 <p>Aplikasi ini tidak menggunakan cookie pelacak pihak ketiga, tidak memiliki sistem analitik yang memata-matai perilaku Anda, dan tidak menampilkan iklan. Kami hanya menggunakan pustaka antarmuka (Tailwind CSS, Lucide Icons) serta pustaka grafik (Chart.js) yang diambil langsung dari CDN publik untuk membuat tampilan aplikasi berfungsi dengan baik.</p>
 
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-6 mb-2">4. Kontrol Penuh Ada di Tangan Anda</h3>
-                <p>Anda memiliki kendali penuh atas data Anda. Melalui menu <b>Pengaturan</b>, Anda dapat mengunduh seluruh data Anda dalam format file `.json` (Backup) atau menghapus seluruh data aplikasi secara permanen kapan saja.</p>
+                <p>Anda memiliki kendali penuh atas data Anda. Melalui menu <b>Pengaturan</b>, Anda dapat mengunduh seluruh data Anda dalam format file <code class="text-xs bg-slate-100 dark:bg-slate-900 px-1.5 py-0.5 rounded">.json</code> (Backup) atau menghapus seluruh data aplikasi secara permanen kapan saja.</p>
 
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-6 mb-2">5. Donasi Pihak Ketiga</h3>
                 <p>Jika Anda memilih untuk memberikan dukungan (donasi) melalui tombol yang tersedia di aplikasi, transaksi tersebut diproses sepenuhnya oleh <b>platform pihak ketiga</b> (seperti Saweria, Trakteer, atau Bank). Kami <b>tidak menyimpan, melihat, atau memiliki akses</b> ke data pembayaran, nomor kartu, atau informasi perbankan Anda. Kebijakan privasi platform tersebut berlaku untuk setiap transaksi.</p>
 
-                <p class="text-xs text-slate-500 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">Terakhir diperbarui: Versi 6.5. Jika ada pertanyaan mengenai privasi, silakan hubungi kami melalui halaman Kontak.</p>
+                <p class="text-xs text-slate-500 dark:text-slate-500 mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">Terakhir diperbarui: Versi 6.5. Jika ada pertanyaan mengenai privasi, silakan hubungi kami melalui halaman Kontak.</p>
             </div>
         </div>
     </main>
@@ -118,30 +121,29 @@
     </footer>
 
     <script>
-        (function () {
-            var icon = document.getElementById('themeIcon');
-            if (icon && document.documentElement.classList.contains('dark')) {
-                icon.setAttribute('data-lucide', 'sun');
-            }
-        })();
         lucide.createIcons();
-
-        function toggleDarkMode() {
-            var html = document.documentElement;
-            var icon = document.getElementById('themeIcon');
-            var isDark;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                isDark = false;
-                if (icon) icon.setAttribute('data-lucide', 'moon');
-            } else {
-                html.classList.add('dark');
-                isDark = true;
-                if (icon) icon.setAttribute('data-lucide', 'sun');
-            }
-            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
             lucide.createIcons();
         }
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            updateThemeIcon();
+        }
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'anti_anxiety_theme') {
+                const isDark = e.newValue === 'dark';
+                document.documentElement.classList.toggle('dark', isDark);
+                updateThemeIcon();
+            }
+        });
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
     </script>
 </body>
 </html>
