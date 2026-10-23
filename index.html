@@ -1933,7 +1933,7 @@
             html.classList.toggle('dark', isDark);
 
             // ✅ Simpan preferensi agar bertahan setelah refresh
-            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
 
             updateThemeIcons(isDark);
             lucide.createIcons();
@@ -1947,7 +1947,7 @@
 
         // Sinkronisasi tema antar tab saat user toggle di tab lain
         window.addEventListener('storage', function (e) {
-            if (e.key === 'anti_anxiety_theme') {
+            if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
                 document.documentElement.classList.toggle('dark', isDark);
                 updateThemeIcons(isDark);
