@@ -4,19 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kafein & Kecemasan: Apa Hubungannya? - Anti Anxiety</title>
+    
+    <!-- SEO Meta -->
+    <meta name="description" content="Pelajari hubungan antara konsumsi kafein dan tingkat kecemasan (anxiety). Ketahui batas aman kafein dan tips menguranginya untuk kesehatan mental.">
+    <link rel="canonical" href="https://anti-anxiety.pages.dev/artikel-13.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://anti-anxiety.pages.dev/artikel-13.html">
+    <meta property="og:title" content="Kafein & Kecemasan: Apa Hubungannya? - Anti Anxiety">
+    <meta property="og:description" content="Pelajari hubungan antara konsumsi kafein dan tingkat kecemasan (anxiety). Ketahui batas aman kafein dan tips menguranginya untuk kesehatan mental.">
+    <!-- Menggunakan gambar Unsplash -->
+    <meta property="og:image" content="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&h=630&q=80">
+    <meta property="og:site_name" content="Anti Anxiety">
+    <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kafein & Kecemasan: Apa Hubungannya? - Anti Anxiety">
+    <meta name="twitter:description" content="Pelajari hubungan antara konsumsi kafein dan tingkat kecemasan (anxiety). Ketahui batas aman kafein dan tips menguranginya untuk kesehatan mental.">
+    <!-- Menggunakan gambar Unsplash -->
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&h=630&q=80">
+
+    <!-- JSON-LD Schema (Article) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Kafein & Kecemasan: Apa Hubungannya?",
+      "description": "Pelajari hubungan antara konsumsi kafein dan tingkat kecemasan (anxiety). Ketahui batas aman kafein dan tips menguranginya untuk kesehatan mental.",
+      "image": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&h=630&q=80",
+      "datePublished": "2026-10-23",
+      "dateModified": "2026-10-23",
+      "author": {
+        "@type": "Organization",
+        "name": "Anti Anxiety"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Anti Anxiety",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://hidupselaras.github.io/Anti-Anxiety/logoaa.png"
+        }
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://anti-anxiety.pages.dev/artikel-13.html"
+      }
+    }
+    </script>
 
     <!-- ============================================================
          DARK MODE INIT — HARUS PALING AWAL
-         Key standar: anti_anxiety_theme
-         Migrasi otomatis dari key lama: aa_theme / theme
+         Key standar: aa_theme
+         Migrasi otomatis dari key lama: anti_anxiety_theme / theme
          ============================================================ -->
     <script>
     (function () {
         try {
-            var KEY = 'anti_anxiety_theme';
+            var KEY = 'aa_theme';
             var saved = localStorage.getItem(KEY);
             if (saved === null) {
-                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                var legacy = localStorage.getItem('anti_anxiety_theme') || localStorage.getItem('theme');
                 if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
                     try { localStorage.setItem(KEY, legacy); } catch (e) {}
@@ -45,7 +95,8 @@
                     <i data-lucide="heart-handshake" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent">Anti Anxiety</h1>
+                    <!-- H1 DIGANTI MENJADI DIV -->
+                    <div class="text-xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent">Anti Anxiety</div>
                 </div>
             </a>
             <div class="flex items-center gap-2">
@@ -61,6 +112,7 @@
     <main class="max-w-3xl mx-auto px-4 py-10 flex-1 w-full">
         <div class="bg-white/90 dark:bg-slate-800/90 p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
             <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2 block">Self-Care</span>
+            <!-- H1 UTAMA ARTIKEL -->
             <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-slate-100 mb-6 leading-tight">Kafein & Kecemasan: Apa Hubungannya?</h1>
             <div class="prose prose-slate dark:prose-invert max-w-none text-sm leading-relaxed text-slate-600 dark:text-slate-400 space-y-4">
                 <p>Bagi banyak orang, secangkir kopi di pagi hari adalah wajib hukumnya. Namun, jika Anda memiliki kecenderungan kecemasan, kafein bisa menjadi pedang bermata dua. Kafein adalah stimulan sistem saraf pusat yang bisa memicu gejala fisik yang sangat mirip dengan serangan panik.</p>
@@ -92,6 +144,9 @@
     <script>
         lucide.createIcons();
 
+        /* ============================================================
+           DARK MODE — Simpan preferensi ke localStorage + sinkron ikon
+           ============================================================ */
         function updateThemeIcon() {
             const icon = document.getElementById('themeIcon');
             if (!icon) return;
@@ -99,20 +154,25 @@
             icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
             lucide.createIcons();
         }
+
         function toggleDarkMode() {
             const html = document.documentElement;
             const isDark = !html.classList.contains('dark');
             html.classList.toggle('dark', isDark);
-            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
             updateThemeIcon();
         }
+
+        // Sinkronisasi tema antar tab
         window.addEventListener('storage', function (e) {
-            if (e.key === 'anti_anxiety_theme') {
+            if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
                 document.documentElement.classList.toggle('dark', isDark);
                 updateThemeIcon();
             }
         });
+
+        // Sinkronkan ikon dengan status tema saat halaman dimuat
         window.addEventListener('DOMContentLoaded', updateThemeIcon);
     </script>
 </body>
