@@ -6,23 +6,32 @@
     <title>Blog & Edukasi - Anti Anxiety</title>
     <meta name="description" content="Kumpulan artikel edukasi seputar kecemasan, latihan napas, grounding, dan kesehatan mental.">
 
-    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <!-- ============================================================
+         DARK MODE INIT — HARUS PALING AWAL
+         Key standar: anti_anxiety_theme (SAMA dengan index.html)
+         Migrasi otomatis dari key lama: aa_theme / theme
+         ============================================================ -->
     <script>
     (function () {
         try {
-            var saved = localStorage.getItem('aa_theme');
+            var KEY = 'anti_anxiety_theme';
+            var saved = localStorage.getItem(KEY);
+
+            // Migrasi dari key lama jika key standar belum ada
             if (saved === null) {
-                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
-                if (legacy !== null) {
+                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
-                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                    try { localStorage.setItem(KEY, legacy); } catch (e) {}
                 }
             }
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
+
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (shouldBeDark) document.documentElement.classList.add('dark');
         } catch (e) {}
     })();
     </script>
@@ -41,42 +50,146 @@
 <body class="text-slate-800 dark:text-slate-100 min-h-screen flex flex-col">
 
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
             <a href="index.html" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900"><i data-lucide="heart-handshake" class="w-5 h-5"></i></div>
-                <div><h1 class="text-xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 bg-clip-text text-transparent">Anti Anxiety</h1></div>
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900">
+                    <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent">Anti Anxiety</h1>
+                </div>
             </a>
-            <a href="index.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold flex items-center gap-1.5"><i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali</a>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
+                </button>
+                <a href="index.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold flex items-center gap-1.5 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                </a>
+            </div>
         </div>
     </header>
 
     <main class="max-w-5xl mx-auto px-4 py-10 flex-1 w-full">
         <div class="text-center mb-10">
             <span class="px-3 py-1 bg-calm-100 dark:bg-calm-900/50 text-calm-700 dark:text-calm-300 text-xs font-bold rounded-full">Ruang Edukasi</span>
-            <h2 class="text-3xl font-bold mt-2">Artikel & Panduan</h2>
+            <h2 class="text-3xl font-bold mt-2 text-slate-800 dark:text-slate-100">Artikel & Panduan</h2>
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Pelajari lebih lanjut tentang kecemasan dan cara mengelolanya.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- 1 --><a href="artikel-1.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-calm-600 uppercase mb-2 block">Edukasi Dasar</span><h3 class="text-base font-bold mb-2">Apa Itu Anxiety? Panduan Lengkap untuk Pemula</h3></a>
-            <!-- 2 --><a href="artikel-2.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-sky-600 uppercase mb-2 block">Latihan Napas</span><h3 class="text-base font-bold mb-2">7 Teknik Pernapasan untuk Meredakan Panik</h3></a>
-            <!-- 3 --><a href="artikel-3.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-teal-600 uppercase mb-2 block">Grounding</span><h3 class="text-base font-bold mb-2">Mengenal Grounding 5-4-3-2-1</h3></a>
-            <!-- 4 --><a href="artikel-4.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-calm-600 uppercase mb-2 block">Edukasi Dasar</span><h3 class="text-base font-bold mb-2">Bagaimana Cara Mengenali Gejala Anxiety?</h3></a>
-            <!-- 5 --><a href="artikel-5.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-calm-600 uppercase mb-2 block">Edukasi Dasar</span><h3 class="text-base font-bold mb-2">Kapan Harus Mencari Bantuan Profesional?</h3></a>
-            <!-- 6 --><a href="artikel-6.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-pink-600 uppercase mb-2 block">Syukur</span><h3 class="text-base font-bold mb-2">Jurnal Syukur: Sains di Baliknya & Cara Memulai</h3></a>
-            <!-- 7 --><a href="artikel-7.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-sky-600 uppercase mb-2 block">Latihan Napas</span><h3 class="text-base font-bold mb-2">Latihan Napas 4-7-8: Panduan Praktis Tidur Nyenyak</h3></a>
-            <!-- 8 --><a href="artikel-8.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-calm-600 uppercase mb-2 block">Edukasi Dasar</span><h3 class="text-base font-bold mb-2">Perbedaan Cemas Biasa vs Gangguan Kecemasan</h3></a>
-            <!-- 9 --><a href="artikel-9.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-emerald-600 uppercase mb-2 block">Self-Care</span><h3 class="text-base font-bold mb-2">5 Kebiasaan Kecil yang Bisa Menurunkan Kecemasan</h3></a>
-            <!-- 10 --><a href="artikel-10.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-indigo-600 uppercase mb-2 block">Praktis</span><h3 class="text-base font-bold mb-2">Mengelola Anxiety di Tempat Kerja</h3></a>
-            <!-- 11 --><a href="artikel-11.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-indigo-600 uppercase mb-2 block">Praktis</span><h3 class="text-base font-bold mb-2">Anxiety pada Mahasiswa: Penyebab & Solusi</h3></a>
-            <!-- 12 --><a href="artikel-12.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-purple-600 uppercase mb-2 block">Sosial</span><h3 class="text-base font-bold mb-2">Cara Membantu Teman yang Mengalami Anxiety</h3></a>
-            <!-- 13 --><a href="artikel-13.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-emerald-600 uppercase mb-2 block">Self-Care</span><h3 class="text-base font-bold mb-2">Kafein & Kecemasan: Apa Hubungannya?</h3></a>
-            <!-- 14 --><a href="artikel-14.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-sky-600 uppercase mb-2 block">Jurnal</span><h3 class="text-base font-bold mb-2">Jurnal CBT: Mengubah Pikiran Negatif</h3></a>
-            <!-- 15 --><a href="artikel-15.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm"><span class="text-[10px] font-bold text-emerald-600 uppercase mb-2 block">Self-Care</span><h3 class="text-base font-bold mb-2">Membangun Rutinitas Pagi Anti-Cemas</h3></a>
+            <!-- 1 -->
+            <a href="artikel-1.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Apa Itu Anxiety? Panduan Lengkap untuk Pemula</h3>
+            </a>
+            <!-- 2 -->
+            <a href="artikel-2.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Latihan Napas</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">7 Teknik Pernapasan untuk Meredakan Panik</h3>
+            </a>
+            <!-- 3 -->
+            <a href="artikel-3.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase mb-2 block">Grounding</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Mengenal Grounding 5-4-3-2-1</h3>
+            </a>
+            <!-- 4 -->
+            <a href="artikel-4.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Bagaimana Cara Mengenali Gejala Anxiety?</h3>
+            </a>
+            <!-- 5 -->
+            <a href="artikel-5.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Kapan Harus Mencari Bantuan Profesional?</h3>
+            </a>
+            <!-- 6 -->
+            <a href="artikel-6.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase mb-2 block">Syukur</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Jurnal Syukur: Sains di Baliknya & Cara Memulai</h3>
+            </a>
+            <!-- 7 -->
+            <a href="artikel-7.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Latihan Napas</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Latihan Napas 4-7-8: Panduan Praktis Tidur Nyenyak</h3>
+            </a>
+            <!-- 8 -->
+            <a href="artikel-8.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Perbedaan Cemas Biasa vs Gangguan Kecemasan</h3>
+            </a>
+            <!-- 9 -->
+            <a href="artikel-9.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">5 Kebiasaan Kecil yang Bisa Menurunkan Kecemasan</h3>
+            </a>
+            <!-- 10 -->
+            <a href="artikel-10.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 block">Praktis</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Mengelola Anxiety di Tempat Kerja</h3>
+            </a>
+            <!-- 11 -->
+            <a href="artikel-11.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 block">Praktis</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Anxiety pada Mahasiswa: Penyebab & Solusi</h3>
+            </a>
+            <!-- 12 -->
+            <a href="artikel-12.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase mb-2 block">Sosial</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Cara Membantu Teman yang Mengalami Anxiety</h3>
+            </a>
+            <!-- 13 -->
+            <a href="artikel-13.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Kafein & Kecemasan: Apa Hubungannya?</h3>
+            </a>
+            <!-- 14 -->
+            <a href="artikel-14.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Jurnal</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Jurnal CBT: Mengubah Pikiran Negatif</h3>
+            </a>
+            <!-- 15 -->
+            <a href="artikel-15.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
+                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Membangun Rutinitas Pagi Anti-Cemas</h3>
+            </a>
         </div>
     </main>
 
-    <footer class="py-6 text-center text-xs text-slate-500 border-t border-slate-200 dark:border-slate-800"><p>© 2026 Anti Anxiety App.</p></footer>
-    <script>lucide.createIcons();</script>
+    <footer class="py-6 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
+        <p>© 2026 Anti Anxiety App.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            updateThemeIcon();
+        }
+
+        // Sinkron antar tab: jika user toggle di tab lain, update di sini juga
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'anti_anxiety_theme') {
+                const isDark = e.newValue === 'dark';
+                document.documentElement.classList.toggle('dark', isDark);
+                updateThemeIcon();
+            }
+        });
+
+        // Sinkronkan ikon dengan status tema saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
+    </script>
 </body>
 </html>
