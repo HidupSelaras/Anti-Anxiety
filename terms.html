@@ -8,14 +8,16 @@
 
     <!-- ============================================================
          DARK MODE INIT — HARUS PALING AWAL
+         Key standar: aa_theme
+         Migrasi otomatis dari key lama: anti_anxiety_theme / theme
          ============================================================ -->
     <script>
     (function () {
         try {
-            var KEY = 'anti_anxiety_theme';
+            var KEY = 'aa_theme';
             var saved = localStorage.getItem(KEY);
             if (saved === null) {
-                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                var legacy = localStorage.getItem('anti_anxiety_theme') || localStorage.getItem('theme');
                 if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
                     try { localStorage.setItem(KEY, legacy); } catch (e) {}
@@ -178,7 +180,7 @@
                 <section>
                     <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">11. Hubungi Kami</h2>
                     <p>Jika Anda memiliki pertanyaan tentang Syarat & Ketentuan ini:</p>
-                    <p class="mt-2"><strong>Email:</strong> <a href="mailto:admin.hidupselaras@gmail.com" class="text-calm-600 dark:text-calm-400 underline">admin.hidupselaras@gmail.com</a></p>
+                    <p class="mt-2"><strong>Email:</strong> <a href="mailto:admin.hidup.selaras@gmail.com" class="text-calm-600 dark:text-calm-400 underline">admin.hidupselaras@gmail.com</a></p>
                 </section>
 
             </div>
@@ -207,11 +209,11 @@
             const html = document.documentElement;
             const isDark = !html.classList.contains('dark');
             html.classList.toggle('dark', isDark);
-            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
             updateThemeIcon();
         }
         window.addEventListener('storage', function (e) {
-            if (e.key === 'anti_anxiety_theme') {
+            if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
                 document.documentElement.classList.toggle('dark', isDark);
                 updateThemeIcon();
