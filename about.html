@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tentang Kami - Anti Anxiety</title>
 
-    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <!-- ============================================================
+         DARK MODE INIT — HARUS PALING AWAL
+         Key standar: anti_anxiety_theme (SAMA dengan index.html & blog.html)
+         Migrasi otomatis dari key lama: aa_theme / theme
+         ============================================================ -->
     <script>
     (function () {
         try {
-            var saved = localStorage.getItem('aa_theme');
+            var KEY = 'anti_anxiety_theme';
+            var saved = localStorage.getItem(KEY);
+
+            // Migrasi dari key lama jika key standar belum ada
             if (saved === null) {
-                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
-                if (legacy !== null) {
+                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
-                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                    try { localStorage.setItem(KEY, legacy); } catch (e) {}
                 }
             }
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
+
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (shouldBeDark) document.documentElement.classList.add('dark');
         } catch (e) {}
     })();
     </script>
@@ -70,7 +79,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
                     <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
                 </button>
                 <a href="index.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-sm font-bold flex items-center gap-1.5 transition">
@@ -86,10 +95,10 @@
                 <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-calm-100 dark:bg-calm-900/50 text-calm-800 dark:text-calm-200 mb-3">Tentang Aplikasi</span>
                 <h2 class="text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100">Misi Kami</h2>
             </div>
-            
+
             <div class="prose prose-slate dark:prose-invert max-w-none text-sm leading-relaxed text-slate-600 dark:text-slate-400 space-y-4">
                 <p>Anti Anxiety App lahir dari sebuah keyakinan sederhana: <b>setiap orang berhak memiliki ruang aman untuk menenangkan pikirannya.</b> Di tengah dunia yang serba cepat dan penuh tekanan, sering kali kita lupa untuk berhenti, menarik napas, dan memproses apa yang kita rasakan.</p>
-                
+
                 <p>Aplikasi ini dirancang sebagai teman digital yang dapat diakses kapan saja, di mana saja, tanpa perlu biaya. Kami menggabungkan berbagai teknik berbasis bukti (seperti pernapasan, <i>grounding</i>, dan jurnal CBT) ke dalam antarmuka yang sederhana dan menenangkan.</p>
 
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-8 mb-3">Fitur Utama</h3>
@@ -118,10 +127,10 @@
 
                 <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100 mt-8 mb-3">Pengembang</h3>
                 <p>Aplikasi ini dikembangkan secara mandiri sebagai alat bantu swadaya (self-help). Kami percaya bahwa teknologi sederhana, jika digunakan dengan tepat, dapat memberikan dampak yang besar bagi kesehatan mental.</p>
-                
+
                 <div class="mt-8 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 text-center">
                     <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Anti Anxiety App — Versi 6.5</p>
-                    <p class="text-[11px] text-slate-500 mt-1">Dibuat dengan niat baik untuk kesehatan mental yang lebih baik.</p>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-500 mt-1">Dibuat dengan niat baik untuk kesehatan mental yang lebih baik.</p>
                 </div>
             </div>
         </div>
@@ -134,31 +143,38 @@
     </footer>
 
     <script>
-        // Sinkronisasi ikon toggle dengan tema aktif
-        (function () {
-            var icon = document.getElementById('themeIcon');
-            if (icon && document.documentElement.classList.contains('dark')) {
-                icon.setAttribute('data-lucide', 'sun');
-            }
-        })();
         lucide.createIcons();
 
-        function toggleDarkMode() {
-            var html = document.documentElement;
-            var icon = document.getElementById('themeIcon');
-            var isDark;
-            if (html.classList.contains('dark')) {
-                html.classList.remove('dark');
-                isDark = false;
-                if (icon) icon.setAttribute('data-lucide', 'moon');
-            } else {
-                html.classList.add('dark');
-                isDark = true;
-                if (icon) icon.setAttribute('data-lucide', 'sun');
-            }
-            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+        /* ============================================================
+           DARK MODE — Simpan preferensi ke localStorage + sinkron ikon
+           ============================================================ */
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
             lucide.createIcons();
         }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            updateThemeIcon();
+        }
+
+        // Sinkronisasi tema antar tab
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'anti_anxiety_theme') {
+                const isDark = e.newValue === 'dark';
+                document.documentElement.classList.toggle('dark', isDark);
+                updateThemeIcon();
+            }
+        });
+
+        // Sinkronkan ikon dengan status tema saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
     </script>
 </body>
 </html>
