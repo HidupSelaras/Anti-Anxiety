@@ -6,23 +6,28 @@
     <title>Hubungi Kami - Anti Anxiety</title>
     <meta name="description" content="Hubungi Anti Anxiety App melalui email atau media sosial.">
 
-    <!-- Persistensi Tema — wajib di atas sebelum CSS/scripts render -->
+    <!-- ============================================================
+         DARK MODE INIT — HARUS PALING AWAL
+         Key standar: anti_anxiety_theme (SAMA dengan index.html & blog.html)
+         Migrasi otomatis dari key lama: aa_theme / theme
+         ============================================================ -->
     <script>
     (function () {
         try {
-            var saved = localStorage.getItem('aa_theme');
+            var KEY = 'anti_anxiety_theme';
+            var saved = localStorage.getItem(KEY);
             if (saved === null) {
-                var legacy = localStorage.getItem('theme') || localStorage.getItem('anti_anxiety_theme');
-                if (legacy !== null) {
+                var legacy = localStorage.getItem('aa_theme') || localStorage.getItem('theme');
+                if (legacy === 'dark' || legacy === 'light') {
                     saved = legacy;
-                    try { localStorage.setItem('aa_theme', legacy); } catch (e) {}
+                    try { localStorage.setItem(KEY, legacy); } catch (e) {}
                 }
             }
-            if (saved === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark');
-            }
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (shouldBeDark) document.documentElement.classList.add('dark');
         } catch (e) {}
     })();
     </script>
@@ -70,7 +75,7 @@
 <body class="min-h-full text-slate-800 dark:text-slate-100">
 
     <header class="sticky top-0 z-30 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
-        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
             <a href="index.html" class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900">
                     <i data-lucide="heart-handshake" class="w-6 h-6"></i>
@@ -80,9 +85,14 @@
                     <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">Teman Tenang Anda</p>
                 </div>
             </a>
-            <a href="index.html" class="text-xs font-semibold px-3 py-2 rounded-xl bg-calm-500 hover:bg-calm-600 text-white transition flex items-center gap-1.5">
-                <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Kembali ke App
-            </a>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <i data-lucide="moon" id="themeIcon" class="w-4 h-4"></i>
+                </button>
+                <a href="index.html" class="text-xs font-semibold px-3 py-2 rounded-xl bg-calm-500 hover:bg-calm-600 text-white transition flex items-center gap-1.5">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Kembali
+                </a>
+            </div>
         </div>
     </header>
 
@@ -156,7 +166,7 @@
                         </summary>
                         <p class="text-xs text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">Ya, aplikasi Anti Anxiety sepenuhnya gratis. Tidak ada iklan yang mengganggu pengalaman Anda.</p>
                     </details>
-                    
+
                     <details class="group bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-700 p-4">
                         <summary class="flex items-center justify-between cursor-pointer list-none">
                             <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">Bagaimana cara mendukung aplikasi ini?</span>
@@ -195,6 +205,29 @@
 
     <script>
         lucide.createIcons();
+
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+            try { localStorage.setItem('anti_anxiety_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            updateThemeIcon();
+        }
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'anti_anxiety_theme') {
+                const isDark = e.newValue === 'dark';
+                document.documentElement.classList.toggle('dark', isDark);
+                updateThemeIcon();
+            }
+        });
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
     </script>
 </body>
 </html>
