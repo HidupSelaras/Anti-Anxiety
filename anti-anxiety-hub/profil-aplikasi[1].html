@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Aplikasi - Anti Anxiety</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #525659;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            background: white;
+            padding: 20mm 18mm;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .cover-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #10b981 100%);
+            z-index: 0;
+        }
+
+        @media print {
+            @page { size: A4; margin: 0; }
+            body { background-color: #ffffff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none !important; }
+            .page { 
+                margin: 0 !important; box-shadow: none !important; border: none !important;
+                height: 297mm; min-height: 297mm; max-height: 297mm; overflow: hidden;
+                page-break-after: always; break-after: page;
+            }
+            .page:last-of-type { page-break-after: avoid !important; break-after: avoid !important; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="no-print fixed top-6 right-6 z-50">
+        <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-full shadow-2xl flex items-center gap-2 transition transform hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Cetak / Simpan PDF
+        </button>
+    </div>
+
+    <!-- PAGE 1: COVER -->
+    <div class="page" style="padding: 0; overflow: hidden;">
+        <div class="cover-bg"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" style="transform: translate(30%, -30%);"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-teal-900/20 rounded-full blur-3xl" style="transform: translate(-30%, 30%);"></div>
+        <div class="absolute top-1/2 left-1/2 w-full h-[1px] bg-white/20" style="transform: translate(-50%, -50%) rotate(-45deg);"></div>
+
+        <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-10">
+            <div class="w-28 h-28 bg-white/10 backdrop-blur-lg rounded-[2rem] flex items-center justify-center mb-8 border border-white/30 shadow-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+            </div>
+            <h1 class="text-6xl font-extrabold text-white tracking-tight mb-4 shadow-sm">Anti Anxiety</h1>
+            <h2 class="text-2xl font-light text-teal-50 tracking-widest uppercase mb-10">Aplikasi Kesehatan Mental</h2>
+            <div class="w-24 h-1 bg-white/40 rounded-full mb-10"></div>
+            <p class="text-xl font-medium text-white mb-2">"Ruang Tenang & Kendali Diri dalam Genggaman."</p>
+            <p class="text-sm text-teal-100/80 max-w-md mx-auto leading-relaxed">
+                Solusi bantuan mandiri (self-help) yang mengedepankan privasi mutlak, aksesibilitas gratis, dan pendekatan holistik.
+            </p>
+            <div class="mt-20 pt-10 border-t border-white/20 w-full">
+                <p class="text-xs font-bold text-teal-100 uppercase tracking-widest mb-1">Profil Produk & Peluang Kemitraan</p>
+                <p class="text-sm text-white font-medium">Dipersembahkan oleh Hidup Selaras &copy; 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="page">
+        <div class="flex items-center gap-3 border-b-2 border-slate-100 pb-4 mb-8">
+            <div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center font-bold text-xl shadow-md">1</div>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Misi & Ekosistem Fitur</h2>
+                <p class="text-sm text-slate-500 font-medium">Mengapa Aplikasi Ini Hadir</p>
+            </div>
+        </div>
+        <div class="mb-10 flex-1">
+            <h3 class="text-lg font-bold text-teal-800 mb-3">Latar Belakang & Misi</h3>
+            <p class="text-base text-slate-600 leading-relaxed mb-4 text-justify">
+                Di Indonesia, akses terhadap layanan kesehatan mental masih terkendala oleh biaya, jarak, dan stigma. <b>Anti Anxiety App</b> hadir sebagai solusi bantuan mandiri digital yang menekankan pada <b>privasi mutlak</b>, <b>aksesibilitas gratis</b>, dan <b>pendekatan holistik</b>.
+            </p>
+            <div class="p-5 bg-teal-50 rounded-2xl border border-teal-100">
+                <p class="text-base text-teal-900 font-medium leading-relaxed">
+                    <b>Misi Kami:</b> Memberikan "Ruang Aman" yang bisa diakses siapa saja, kapan saja, untuk mengelola kecemasan, merefleksikan diri, dan membangun kebiasaan mental yang lebih sehat, tanpa perlu takut data pribadinya bocor.
+                </p>
+            </div>
+        </div>
+        <div class="flex-1">
+            <h3 class="text-lg font-bold text-teal-800 mb-4">Fitur Inti: Regulasi & Pemrosesan</h3>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm flex gap-4">
+                    <div class="text-3xl">🌬️</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-1">Latihan Napas & Grounding Sensorik</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">3 teknik pernapasan (Box, 4-7-8, Seimbang) dengan 5 animasi visual menenangkan. Dilengkapi panduan interaktif <b>Grounding 5-4-3-2-1</b> untuk menjangkar diri saat panik.</p>
+                    </div>
+                </div>
+                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm flex gap-4">
+                    <div class="text-3xl">📝</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-1">Jurnal CBT & Ruang Pelepasan</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed"><b>Jurnal CBT</b> membantu mereframing pikiran negatif. <b>Ruang Pelepasan</b> adalah media ekspresif trauma/emosi yang <i>sangat privat</i>—tulisan langsung dihancurkan seketika dan tidak disimpan di mana pun.</p>
+                    </div>
+                </div>
+                <div class="border border-slate-200 p-5 rounded-2xl bg-white shadow-sm flex gap-4">
+                    <div class="text-3xl">✨</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-1">Psikologi Positif (Syukur & Keberuntungan)</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed"><b>Jurnal Syukur</b> (mencatat 3 hal baik + kalender aktivitas) dan <b>Jurnal Keberuntungan</b> (mencatat gain harian berdasarkan kategori). Membangun mindset positif secara konsisten.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs text-slate-400 mt-6 pt-4 border-t border-slate-100">Halaman 1 dari 3 &bull; Anti Anxiety App</div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page">
+        <div class="flex items-center gap-3 border-b-2 border-slate-100 pb-4 mb-8">
+            <div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center font-bold text-xl shadow-md">2</div>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Fitur Lanjutan & Keunggulan</h2>
+                <p class="text-sm text-slate-500 font-medium">Nilai Tambah Bagi Pengguna</p>
+            </div>
+        </div>
+        <div class="mb-8 flex-none">
+            <h3 class="text-lg font-bold text-teal-800 mb-4">Fitur Lanjutan</h3>
+            <div class="grid grid-cols-1 gap-4">
+                <div class="border border-slate-200 p-4 rounded-2xl bg-white shadow-sm flex gap-4 items-center">
+                    <div class="text-3xl flex-shrink-0">🎧</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-1">Audio Ajaib & Kartu Afirmasi</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed">Afirmasi suara (pagi/siang/sore/malam), 27 Kartu Afirmasi 3D, dan <i>Ambient Sounds</i> (hujan, ombak, hutan).</p>
+                    </div>
+                </div>
+                <div class="border border-slate-200 p-4 rounded-2xl bg-white shadow-sm flex gap-4 items-center">
+                    <div class="text-3xl flex-shrink-0">📊</div>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm mb-1">Pelacakan, Gamifikasi & Utilitas</h4>
+                        <p class="text-sm text-slate-600 leading-relaxed"><b>Tracker Mood</b> (grafik 1-10), <b>Insight Personal</b>, kalender <i>streak</i>, <b>SOS Panik</b>, serta Backup (JSON) & Export (CSV).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 mt-4">
+            <h3 class="text-lg font-bold text-teal-800 mb-4">Mengapa Anti Anxiety Berbeda?</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">🔒 Privasi 100% Lokal</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Tanpa server database. Data (jurnal, mood) tersimpan di HP pengguna (LocalStorage).</p>
+                </div>
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">🆓 Gratis & Bebas Iklan</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Dikembangkan mandiri, tanpa biaya langganan, dan bebas dari iklan pop-up.</p>
+                </div>
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">🌙 Mode Gelap & Terang</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Mendukung tema gelap/terang untuk kenyamanan mata di segala kondisi pencahayaan.</p>
+                </div>
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">📶 Bisa Diakses Offline</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Berbasis PWA. Bisa diinstal di layar utama HP dan diakses tanpa internet.</p>
+                </div>
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">⚡ Ringan & Cepat</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Tailwind & Vanilla JS. Ringan, tidak membebani RAM, optimal untuk HP menengah.</p>
+                </div>
+                <div class="p-4 rounded-xl border border-emerald-100 bg-emerald-50">
+                    <h4 class="font-bold text-emerald-900 text-sm mb-1">📱 Responsif Multi-Perangkat</h4>
+                    <p class="text-xs text-emerald-800 leading-relaxed">Tampilan adaptif sempurna di HP, tablet, dan desktop tanpa mengurangi kualitas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs text-slate-400 mt-4 pt-4 border-t border-slate-100">Halaman 2 dari 3 &bull; Anti Anxiety App</div>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div class="page">
+        <div class="flex items-center gap-3 border-b-2 border-slate-100 pb-4 mb-8">
+            <div class="w-10 h-10 rounded-xl bg-teal-500 text-white flex items-center justify-center font-bold text-xl shadow-md">3</div>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Komitmen & Kolaborasi</h2>
+                <p class="text-sm text-slate-500 font-medium">Tumbuh Bersama, Menebar Manfaat</p>
+            </div>
+        </div>
+        <div class="mb-10">
+            <h3 class="text-lg font-bold text-teal-800 mb-3">Komitmen Pengembangan Berkelanjutan</h3>
+            <p class="text-base text-slate-600 leading-relaxed mb-4 text-justify">
+                <b>Anti Anxiety App bukan proyek statis.</b> Kami berkomitmen untuk terus memperbarui dan mengembangkan fitur secara berkala berdasarkan <b>feedback pengguna</b>, <b>riset kesehatan mental terbaru</b>, dan <b>perkembangan teknologi</b>.
+            </p>
+            <div class="p-5 rounded-2xl bg-amber-50 border border-amber-200">
+                <p class="text-sm text-amber-900 leading-relaxed text-justify">
+                    <b>💡 Catatan Teknis:</b> Berkat teknologi <b>Progressive Web App (Service Worker)</b>, setiap pembaruan fitur akan langsung diterima oleh pengguna secara otomatis saat mereka membuka aplikasi. Pengguna <b>tidak perlu menginstal ulang</b> APK untuk mendapatkan versi terbaru. Ini menjamin pengalaman yang selalu <i>up-to-date</i>.
+                </p>
+            </div>
+        </div>
+        <div class="mb-10 flex-1">
+            <h3 class="text-lg font-bold text-teal-800 mb-3">Mari Berkolaborasi</h3>
+            <p class="text-base text-slate-600 leading-relaxed mb-4 text-justify">
+                Kami terbuka untuk kemitraan strategis dengan para <b>Kreator Konten</b>, <b>Psikolog/Klinik</b>, maupun <b>Brand Peduli Mental Health</b>. Kami percaya dampak besar lahir dari kolaborasi yang tulus.
+            </p>
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                <ul class="text-base text-slate-700 space-y-3">
+                    <li class="flex items-start gap-3">
+                        <span class="bg-teal-100 text-teal-700 rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">1</span>
+                        <span><b>Perkenalan & Review Jujur:</b> Kami mengundang Anda untuk mencoba dan mereview aplikasi ini secara jujur ke audiens Anda.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="bg-teal-100 text-teal-700 rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">2</span>
+                        <span><b>Cross-Promotion:</b> Kami siap mempromosikan channel/media sosial Anda di dalam aplikasi atau blog kami.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="bg-teal-100 text-teal-700 rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs flex-shrink-0 mt-0.5">3</span>
+                        <span><b>Konten Kolaborasi:</b> Pembuatan artikel/video bersama seputar edukasi kesehatan mental.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-8 border-t-2 border-slate-100 mt-auto">
+            <h3 class="text-xl font-bold text-slate-800 mb-2">Mari Terhubung!</h3>
+            <p class="text-sm text-slate-500 mb-6">Menebar manfaat, membangun kesejahteraan.</p>
+            <div class="inline-flex flex-col sm:flex-row gap-4 justify-center items-center text-sm font-semibold text-slate-700">
+                <div class="flex items-center gap-2 bg-slate-100 px-5 py-3 rounded-xl border border-slate-200">
+                    ✉️ admin.hidupselaras@gmail.com
+                </div>
+                <div class="flex items-center gap-2 bg-slate-100 px-5 py-3 rounded-xl border border-slate-200">
+                    🌐 anti-anxiety.pages.dev
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-8">© 2026 Anti Anxiety App. Alat bantu relaksasi mandiri. Bukan pengganti terapi profesional.</p>
+        </div>
+    </div>
+
+</body>
+</html>
