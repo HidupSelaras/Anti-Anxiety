@@ -8,8 +8,6 @@
 
     <!-- ============================================================
          DARK MODE INIT — HARUS PALING AWAL
-         Key standar: aa_theme
-         Migrasi otomatis dari key lama: anti_anxiety_theme / theme
          ============================================================ -->
     <script>
     (function () {
@@ -17,7 +15,6 @@
             var KEY = 'aa_theme';
             var saved = localStorage.getItem(KEY);
 
-            // Migrasi dari key lama jika key standar belum ada
             if (saved === null) {
                 var legacy = localStorage.getItem('anti_anxiety_theme') || localStorage.getItem('theme');
                 if (legacy === 'dark' || legacy === 'light') {
@@ -77,82 +74,10 @@
             <p class="text-sm text-slate-600 dark:text-slate-400 mt-2">Pelajari lebih lanjut tentang kecemasan dan cara mengelolanya.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- 1 -->
-            <a href="artikel-1.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Apa Itu Anxiety? Panduan Lengkap untuk Pemula</h3>
-            </a>
-            <!-- 2 -->
-            <a href="artikel-2.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Latihan Napas</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">7 Teknik Pernapasan untuk Meredakan Panik</h3>
-            </a>
-            <!-- 3 -->
-            <a href="artikel-3.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-teal-600 dark:text-teal-400 uppercase mb-2 block">Grounding</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Mengenal Grounding 5-4-3-2-1</h3>
-            </a>
-            <!-- 4 -->
-            <a href="artikel-4.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Bagaimana Cara Mengenali Gejala Anxiety?</h3>
-            </a>
-            <!-- 5 -->
-            <a href="artikel-5.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Kapan Harus Mencari Bantuan Profesional?</h3>
-            </a>
-            <!-- 6 -->
-            <a href="artikel-6.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase mb-2 block">Syukur</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Jurnal Syukur: Sains di Baliknya & Cara Memulai</h3>
-            </a>
-            <!-- 7 -->
-            <a href="artikel-7.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Latihan Napas</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Latihan Napas 4-7-8: Panduan Praktis Tidur Nyenyak</h3>
-            </a>
-            <!-- 8 -->
-            <a href="artikel-8.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase mb-2 block">Edukasi Dasar</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Perbedaan Cemas Biasa vs Gangguan Kecemasan</h3>
-            </a>
-            <!-- 9 -->
-            <a href="artikel-9.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">5 Kebiasaan Kecil yang Bisa Menurunkan Kecemasan</h3>
-            </a>
-            <!-- 10 -->
-            <a href="artikel-10.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 block">Praktis</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Mengelola Anxiety di Tempat Kerja</h3>
-            </a>
-            <!-- 11 -->
-            <a href="artikel-11.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2 block">Praktis</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Anxiety pada Mahasiswa: Penyebab & Solusi</h3>
-            </a>
-            <!-- 12 -->
-            <a href="artikel-12.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase mb-2 block">Sosial</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Cara Membantu Teman yang Mengalami Anxiety</h3>
-            </a>
-            <!-- 13 -->
-            <a href="artikel-13.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Kafein & Kecemasan: Apa Hubungannya?</h3>
-            </a>
-            <!-- 14 -->
-            <a href="artikel-14.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2 block">Jurnal</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Jurnal CBT: Mengubah Pikiran Negatif</h3>
-            </a>
-            <!-- 15 -->
-            <a href="artikel-15.html" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
-                <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-2 block">Self-Care</span>
-                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">Membangun Rutinitas Pagi Anti-Cemas</h3>
-            </a>
+        <!-- Container ini akan diisi otomatis oleh JavaScript dari blog.json -->
+        <div id="daftar-blog" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Teks loading awal -->
+            <p class="text-center col-span-full text-slate-500 dark:text-slate-400 animate-pulse">Memuat daftar artikel...</p>
         </div>
     </main>
 
@@ -161,8 +86,10 @@
     </footer>
 
     <script>
+        // 1. Inisialisasi Ikon Lucide
         lucide.createIcons();
 
+        // 2. Logika Dark Mode
         function updateThemeIcon() {
             const icon = document.getElementById('themeIcon');
             if (!icon) return;
@@ -179,7 +106,6 @@
             updateThemeIcon();
         }
 
-        // Sinkron antar tab: jika user toggle di tab lain, update di sini juga
         window.addEventListener('storage', function (e) {
             if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
@@ -188,8 +114,55 @@
             }
         });
 
-        // Sinkronkan ikon dengan status tema saat halaman dimuat
         window.addEventListener('DOMContentLoaded', updateThemeIcon);
+
+        // 3. Logika Memuat Daftar Artikel dari blog.json
+        async function muatDaftarBlog() {
+            try {
+                // Mengambil data dari file blog.json
+                const response = await fetch('blog.json');
+                if (!response.ok) throw new Error('File blog.json tidak ditemukan');
+                
+                const dataBlog = await response.json();
+                const container = document.getElementById('daftar-blog');
+                
+                let htmlContent = '';
+                
+                // Looping data artikel
+                dataBlog.forEach(artikel => {
+                    // Pemetaan warna teks kategori berdasarkan isi file JSON
+                    let warnaTeks = 'text-calm-600 dark:text-calm-400'; // default
+                    if(artikel.warna === 'sky') warnaTeks = 'text-sky-600 dark:text-sky-400';
+                    if(artikel.warna === 'teal') warnaTeks = 'text-teal-600 dark:text-teal-400';
+                    if(artikel.warna === 'pink') warnaTeks = 'text-pink-600 dark:text-pink-400';
+                    if(artikel.warna === 'emerald') warnaTeks = 'text-emerald-600 dark:text-emerald-400';
+                    if(artikel.warna === 'indigo') warnaTeks = 'text-indigo-600 dark:text-indigo-400';
+                    if(artikel.warna === 'purple') warnaTeks = 'text-purple-600 dark:text-purple-400';
+
+                    // Membuat desain kartu (sama persis dengan aslinya)
+                    htmlContent += `
+                        <a href="${artikel.link}" class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+                            <span class="text-[10px] font-bold ${warnaTeks} uppercase mb-2 block">${artikel.kategori}</span>
+                            <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">${artikel.judul}</h3>
+                        </a>
+                    `;
+                });
+                
+                // Tampilkan ke layar
+                container.innerHTML = htmlContent;
+            } catch (error) {
+                console.error("Gagal memuat blog:", error);
+                document.getElementById('daftar-blog').innerHTML = `
+                    <div class="col-span-full text-center py-10">
+                        <p class="text-red-500 font-bold mb-2">Gagal memuat artikel.</p>
+                        <p class="text-sm text-slate-500">Pastikan file blog.json sudah diunggah dengan benar.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Jalankan fungsi memuat blog saat halaman dibuka
+        muatDaftarBlog();
     </script>
 </body>
 </html>
