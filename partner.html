@@ -32,21 +32,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #eaf5ef; background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.6) 0%, rgba(214, 236, 226, 0.7) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center; background-attachment: fixed; }
-        html.dark body { background-color: #0a1b17; background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.8) 0%, rgba(12, 35, 30, 0.9) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); }
-        
-        /* Efek Bayangan Teks agar terbaca di atas background tanpa perlu kotak */
-        .text-readable {
-            text-shadow: 
-                0px 0px 8px rgba(255, 255, 255, 1), 
-                0px 0px 12px rgba(255, 255, 255, 0.8), 
-                0px 1px 2px rgba(255, 255, 255, 1);
+        /* Overlay background dibuat sedikit lebih pekat agar teks tetap terbaca tanpa bayangan */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #eaf5ef; 
+            background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.85) 0%, rgba(214, 236, 226, 0.9) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed; 
         }
-        html.dark .text-readable {
-            text-shadow: 
-                0px 0px 8px rgba(0, 0, 0, 1), 
-                0px 0px 12px rgba(0, 0, 0, 0.8), 
-                0px 1px 2px rgba(0, 0, 0, 1);
+        html.dark body { 
+            background-color: #0a1b17; 
+            background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.9) 0%, rgba(12, 35, 30, 0.95) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); 
         }
     </style>
 </head>
@@ -75,43 +72,43 @@
     </header>
 
     <!-- ================= MAIN CONTENT ================= -->
-    <main class="max-w-4xl mx-auto px-4 py-10 flex-1 w-full">
+    <main class="max-w-4xl mx-auto px-4 py-8 flex-1 w-full">
         
-        <!-- HERO SECTION (Tanpa Kotak, Hanya Teks dengan Bayangan) -->
-        <div class="text-center mb-10 pt-4">
-            <span class="inline-block px-3 py-1 bg-calm-500/90 text-white text-xs font-bold rounded-full mb-3 uppercase tracking-wider backdrop-blur-sm shadow-sm">Apresiasi</span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight text-readable">Partner & Supporters</h2>
-            <p class="text-sm sm:text-base text-slate-800 dark:text-slate-200 mt-3 max-w-2xl mx-auto leading-relaxed font-bold text-readable">
-                Terima kasih kepada para kreator, profesional, dan pendukung awal yang telah menjadi bagian dari perjalanan Anti Anxiety App.
+        <!-- HERO SECTION (Tanpa Kotak & Tanpa Bayangan) -->
+        <div class="text-center mb-6 pt-2">
+            <span class="inline-block px-3 py-1 bg-calm-600 text-white text-[10px] font-bold rounded-full mb-3 uppercase tracking-wider shadow-sm">Apresiasi</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Partner & Supporters</h2>
+            <p class="text-sm font-medium text-slate-700 dark:text-slate-300 mt-2 max-w-2xl mx-auto leading-relaxed">
+                Terima kasih kepada para kreator dan pendukung awal yang telah menjadi bagian dari perjalanan Anti Anxiety App.
             </p>
         </div>
 
-        <!-- TRANSPARANSI NOTE (Tanpa Kotak, Hanya Garis Tepi & Teks Bayangan) -->
-        <div class="border-l-4 border-calm-600 dark:border-calm-400 pl-4 py-2 mb-10 ml-1 sm:ml-0">
-            <p class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 flex items-start gap-3 leading-relaxed text-readable">
-                <i data-lucide="shield-check" class="w-6 h-6 text-calm-600 dark:text-calm-400 flex-shrink-0 mt-0.5 drop-shadow-md"></i>
-                <span>Semua nama dan logo ditampilkan dengan persetujuan. Daftar ini memuat pihak yang telah mendukung pengembangan aplikasi. Anti Anxiety App berkomitmen untuk tidak mempromosikan produk yang bertentangan dengan nilai kesehatan mental.</span>
+        <!-- TRANSPARANSI NOTE (Diringkas & Diperkecil) -->
+        <div class="border-l-2 border-calm-600 dark:border-calm-400 pl-3 mb-8">
+            <p class="text-[11px] font-medium text-slate-600 dark:text-slate-400 leading-relaxed">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 inline-block mr-1 text-calm-600 dark:text-calm-400 -mt-0.5"></i>
+                Semua nama dan logo ditampilkan dengan persetujuan. Kami berkomitmen untuk tidak mempromosikan produk yang bertentangan dengan misi kesehatan mental.
             </p>
         </div>
 
-        <!-- CONTAINER DINAMIS (Akan diisi oleh JavaScript) -->
+        <!-- CONTAINER DINAMIS -->
         <div id="daftar-partner" class="space-y-8">
             <div class="text-center py-10">
-                <p class="text-sm font-bold text-slate-800 dark:text-slate-200 animate-pulse flex items-center justify-center gap-2 text-readable">
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400 animate-pulse flex items-center justify-center gap-2">
                     <i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Memuat data partner...
                 </p>
             </div>
         </div>
 
         <!-- CALL TO ACTION (CTA) -->
-        <div class="mt-16 bg-gradient-to-br from-calm-500 to-teal-600 p-8 rounded-3xl shadow-lg text-center relative overflow-hidden">
+        <div class="mt-12 bg-gradient-to-br from-calm-500 to-teal-600 p-6 sm:p-8 rounded-3xl shadow-lg text-center relative overflow-hidden">
             <div class="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-white/20 blur-2xl pointer-events-none"></div>
             <div class="relative z-10">
-                <h3 class="text-xl font-bold text-white mb-2 drop-shadow-md">Ingin menjadi bagian dari perjalanan kami?</h3>
-                <p class="text-sm font-medium text-calm-50 mb-6 max-w-lg mx-auto drop-shadow-sm">
+                <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Ingin menjadi bagian dari perjalanan kami?</h3>
+                <p class="text-xs sm:text-sm font-medium text-calm-50 mb-5 max-w-lg mx-auto">
                     Mari berkolaborasi untuk menyebarkan kesadaran tentang kesehatan mental dan membantu lebih banyak orang.
                 </p>
-                <a href="contact.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-calm-700 hover:bg-slate-100 font-bold rounded-xl shadow-md transition w-full sm:w-auto">
+                <a href="contact.html" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white text-calm-700 hover:bg-slate-100 font-bold text-sm rounded-xl shadow-md transition w-full sm:w-auto">
                     <i data-lucide="mail" class="w-4 h-4"></i> Hubungi Kami
                 </a>
             </div>
@@ -120,7 +117,7 @@
     </main>
 
     <!-- ================= FOOTER ================= -->
-    <footer class="py-6 text-center text-xs font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto backdrop-blur-sm bg-white/30 dark:bg-black/30">
+    <footer class="py-6 text-center text-[11px] font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 mt-auto">
         <p>© 2026 Anti Anxiety App. Semua nama dan logo ditampilkan dengan persetujuan.</p>
     </footer>
 
@@ -164,38 +161,38 @@
                 let htmlKreator = '';
 
                 dataPartner.forEach(data => {
-                    // 1. DESAIN UNTUK SPONSOR (Bentuk Banner Lebar - Tetap Pakai Kotak)
+                    // 1. DESAIN UNTUK SPONSOR
                     if (data.tipe === 'sponsor') {
                         htmlSponsor += `
-                            <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-1 shadow-lg relative overflow-hidden mt-4">
-                                <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-[22px] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6">
-                                    <div class="w-24 h-24 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-center p-2 flex-shrink-0">
+                            <div class="bg-gradient-to-r from-teal-500 to-emerald-600 rounded-3xl p-1 shadow-lg relative overflow-hidden">
+                                <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-[22px] p-5 sm:p-6 flex flex-col sm:flex-row items-center gap-5">
+                                    <div class="w-20 h-20 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-center p-2 flex-shrink-0">
                                         <img src="${data.foto}" alt="Logo ${data.nama}" class="w-full h-full object-contain rounded-xl">
                                     </div>
                                     <div class="text-center sm:text-left flex-1">
-                                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300 text-[10px] font-extrabold rounded-full uppercase tracking-wider mb-2">⭐ Official Sponsor</span>
-                                        <h3 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100">${data.nama}</h3>
-                                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">${data.deskripsi}</p>
+                                        <span class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300 text-[9px] font-extrabold rounded-full uppercase tracking-wider mb-1.5">⭐ Official Sponsor</span>
+                                        <h3 class="text-lg sm:text-xl font-bold text-slate-800 dark:text-slate-100">${data.nama}</h3>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">${data.deskripsi}</p>
                                     </div>
-                                    <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold rounded-xl transition w-full sm:w-auto text-center whitespace-nowrap shadow-md flex items-center justify-center gap-2">
-                                        <i data-lucide="external-link" class="w-4 h-4"></i> Kunjungi Website
+                                    <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white text-xs font-bold rounded-xl transition w-full sm:w-auto text-center whitespace-nowrap shadow-md flex items-center justify-center gap-2">
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Kunjungi Website
                                     </a>
                                 </div>
                             </div>
                         `;
                     } 
-                    // 2. DESAIN UNTUK KREATOR / SUPPORTER (Bentuk Kartu Grid - Tetap Pakai Kotak)
+                    // 2. DESAIN UNTUK KREATOR / SUPPORTER
                     else if (data.tipe === 'kreator') {
                         htmlKreator += `
-                            <div class="bg-white/95 dark:bg-slate-800/95 rounded-3xl p-6 shadow-md border border-slate-200/60 dark:border-slate-700/60 flex flex-col items-center text-center hover:-translate-y-1 transition duration-300">
-                                <img src="${data.foto}" alt="Foto ${data.nama}" class="w-20 h-20 rounded-full object-cover mb-4 border-4 border-calm-50 dark:border-slate-700 shadow-md">
-                                <h3 class="text-lg font-bold text-slate-800 dark:text-slate-100">${data.nama}</h3>
-                                <span class="text-[11px] font-bold text-calm-600 dark:text-calm-400 uppercase tracking-wide mb-3">${data.peran}</span>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-5 flex-1 leading-relaxed">${data.deskripsi}</p>
+                            <div class="bg-white/95 dark:bg-slate-800/95 rounded-3xl p-5 shadow-sm border border-slate-200/60 dark:border-slate-700/60 flex flex-col items-center text-center hover:-translate-y-1 transition duration-300">
+                                <img src="${data.foto}" alt="Foto ${data.nama}" class="w-16 h-16 rounded-full object-cover mb-3 border-4 border-calm-50 dark:border-slate-700 shadow-md">
+                                <h3 class="text-base font-bold text-slate-800 dark:text-slate-100">${data.nama}</h3>
+                                <span class="text-[10px] font-bold text-calm-600 dark:text-calm-400 uppercase tracking-wide mb-2">${data.peran}</span>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mb-4 flex-1 leading-relaxed">${data.deskripsi}</p>
                                 
-                                <div class="flex flex-col w-full gap-2 mt-auto">
-                                    <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 bg-calm-50 dark:bg-slate-700 hover:bg-calm-100 dark:hover:bg-slate-600 rounded-xl text-xs font-bold text-calm-700 dark:text-calm-300 transition flex items-center justify-center gap-2 border border-calm-100 dark:border-slate-600">
-                                        <i data-lucide="link" class="w-4 h-4"></i> Kunjungi Karya
+                                <div class="flex flex-col w-full mt-auto">
+                                    <a href="${data.link}" target="_blank" rel="noopener noreferrer" class="px-4 py-2 bg-calm-50 dark:bg-slate-700 hover:bg-calm-100 dark:hover:bg-slate-600 rounded-xl text-xs font-bold text-calm-700 dark:text-calm-300 transition flex items-center justify-center gap-2 border border-calm-100 dark:border-slate-600">
+                                        <i data-lucide="link" class="w-3.5 h-3.5"></i> Kunjungi Karya
                                     </a>
                                 </div>
                             </div>
@@ -203,13 +200,13 @@
                     }
                 });
                 
-                // Gabungkan hasilnya (Judul Section Tanpa Kotak, Hanya Teks Bayangan)
+                // Gabungkan hasilnya
                 let finalHTML = '';
                 
                 if (htmlSponsor) {
                     finalHTML += `
                         <div>
-                            <h3 class="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-widest mb-4 text-center text-readable">Didukung Oleh</h3>
+                            <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 text-center">Didukung Oleh</h3>
                             <div class="space-y-4">${htmlSponsor}</div>
                         </div>
                     `;
@@ -218,23 +215,23 @@
                 if (htmlKreator) {
                     finalHTML += `
                         <div>
-                            <h3 class="text-base font-extrabold text-slate-900 dark:text-white uppercase tracking-widest mb-4 text-center text-readable mt-8">Kreator & Supporter Awal</h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">${htmlKreator}</div>
+                            <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 text-center mt-6">Kreator & Supporter Awal</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${htmlKreator}</div>
                         </div>
                     `;
                 }
 
                 if (!finalHTML) {
-                    finalHTML = `<div class="text-center py-10"><p class="text-sm font-bold text-slate-800 dark:text-slate-200 text-readable">Belum ada partner yang terdaftar.</p></div>`;
+                    finalHTML = `<div class="text-center py-8"><p class="text-sm font-medium text-slate-600">Belum ada partner yang terdaftar.</p></div>`;
                 }
 
                 container.innerHTML = finalHTML;
-                lucide.createIcons(); // Refresh ikon
+                lucide.createIcons(); 
                 
             } catch (error) {
                 console.error("Gagal memuat partner:", error);
                 container.innerHTML = `
-                    <div class="text-center py-10 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-900/50">
+                    <div class="text-center py-8 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-900/50">
                         <i data-lucide="alert-circle" class="w-8 h-8 text-red-500 mx-auto mb-2"></i>
                         <p class="text-sm font-bold text-red-600 dark:text-red-400">Gagal memuat data partner.</p>
                         <p class="text-xs text-red-500 dark:text-red-300 mt-1">Pastikan file <b>partner.json</b> sudah diunggah dengan benar.</p>
