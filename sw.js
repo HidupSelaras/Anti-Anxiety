@@ -1,9 +1,9 @@
 /* ============================================================
    SERVICE WORKER — Anti Anxiety App
-   Versi: v18
+   Versi: v17
    ============================================================ */
 
-const CACHE_NAME = 'anti-anxiety-v18';
+const CACHE_NAME = 'anti-anxiety-v17';
 const ASSETS = [
     './',
     './index.html',
