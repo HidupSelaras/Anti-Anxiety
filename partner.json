@@ -1,0 +1,19 @@
+[
+  {
+    "tipe": "sponsor",
+    "nama": "Klinik Sehat Jiwa",
+    "peran": "Official Sponsor",
+    "deskripsi": "Mendukung penyediaan layanan edukasi kesehatan mental gratis untuk masyarakat.",
+    "link": "https://kliniksehatjiwa.com",
+    "foto": "https://ui-avatars.com/api/?name=Klinik+Sehat+Jiwa&background=0D9488&color=fff&size=200"
+  },
+  {
+    "tipe": "kreator",
+    "nama": "Budi Kreator",
+    "peran": "Kreator Konten Kesehatan Mental",
+    "deskripsi": "Telah mendukung penyebaran aplikasi melalui konten edukasi di Instagram.",
+    "link": "https://instagram.com/budi",
+    "foto": "https://ui-avatars.com/api/?name=Budi+Kreator&background=14b8a6&color=fff&size=200",
+    "link_ulasan": "blog.html"
+  }
+]
