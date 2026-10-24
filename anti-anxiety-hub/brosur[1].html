@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Panduan Instalasi Anti Anxiety App</title>
+<style>
+  @page { size: A4; margin: 10mm 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5pt; color: #1a1a1a; line-height: 1.32; }
+  h1 { font-size: 15pt; color: #2c5f7c; margin-bottom: 1px; }
+  .sub { font-size: 8.5pt; color: #666; margin-bottom: 7px; border-bottom: 2px solid #2c5f7c; padding-bottom: 4px; }
+  h2 { font-size: 10pt; color: #2c5f7c; margin: 8px 0 3px; display: flex; align-items: center; }
+  h2 .ic { display: inline-block; width: 15px; height: 15px; background: #2c5f7c; color: #fff;
+           border-radius: 50%; text-align: center; font-size: 8.5pt; line-height: 15px; margin-right: 5px; font-weight: bold; }
+  ol { margin-left: 20px; }
+  ol li { margin-bottom: 1px; }
+  .intro { background: #eaf2f7; border-left: 3px solid #2c5f7c; padding: 5px 8px; font-size: 8.5pt; margin-bottom: 5px; line-height: 1.32; }
+  .note { background: #fff4e5; border-left: 3px solid #f0a500; padding: 3px 6px; font-size: 8.5pt; margin-top: 3px; line-height: 1.3; }
+  .box { background: #f5f7f9; padding: 6px 9px; border-radius: 4px; margin-top: 6px; }
+  .box h3 { font-size: 9.5pt; color: #2c5f7c; margin-bottom: 3px; }
+  .box ul { list-style: none; padding: 0; font-size: 8.5pt; }
+  .box ul li { margin-bottom: 2px; padding-left: 11px; position: relative; line-height: 1.3; }
+  .box ul li:before { content: "•"; color: #2c5f7c; position: absolute; left: 0; font-weight: bold; }
+  .box .small { display: block; font-size: 7.5pt; color: #777; margin-left: 11px; margin-top: 1px; font-style: italic; }
+  .safe { background: #e8f5e9; border-left: 3px solid #43a047; padding: 5px 9px; font-size: 8.5pt; margin-top: 6px; line-height: 1.32; }
+  .contact { background: #2c5f7c; color: #fff; padding: 7px 10px; border-radius: 4px; margin-top: 6px; font-size: 9pt; text-align: center; }
+  .contact b { font-size: 9.5pt; }
+  .foot { margin-top: 5px; font-size: 7.5pt; color: #999; text-align: center; }
+  code { background: #eef2f5; padding: 0 3px; border-radius: 2px; font-size: 8pt; }
+
+  /* === CSS UNTUK GAMBAR PANDUAN === */
+  .img-container {
+    text-align: center;
+    margin: 10px 0;
+  }
+  .img-container img {
+    max-width: 100%;
+    max-height: 240px; /* Dibatasi agar tidak memakan 1 halaman penuh saat print A4 */
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  /* === TOMBOL DOWNLOAD PDF === */
+  .btn-pdf {
+    position: fixed; bottom: 20px; right: 20px;
+    background: #2c5f7c; color: #fff;
+    border: none; border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 11pt; font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    display: flex; align-items: center; gap: 8px;
+    transition: transform 0.15s, background 0.15s;
+    z-index: 999;
+  }
+  .btn-pdf:hover { background: #1f4659; transform: translateY(-2px); }
+  .btn-pdf:active { transform: translateY(0); }
+
+  /* Tombol hilang saat dicetak */
+  @media print {
+    .btn-pdf { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Panduan Instalasi Anti Anxiety App</h1>
+<div class="sub">Versi awal 6.5 &nbsp;|&nbsp; Service Worker v12 &nbsp;|&nbsp; Aplikasi PWA — cukup buka link, tanpa unduh file</div>
+
+<!-- GAMBAR DITAMBAHKAN DI SINI -->
+<div class="img-container">
+  <!-- Pastikan nama file gambar sesuai dengan yang ada di folder Anda -->
+  <img src="gambar-panduan.jpg" alt="Langkah-langkah Instalasi PWA (1-4)">
+</div>
+<!-- ============================= -->
+
+<div class="intro">
+  <b>Kenapa link, bukan APK/ZIP?</b> Anti Anxiety App berbasis <b>PWA</b>. Cukup buka URL di browser — aplikasi langsung jalan. Opsi "Install / Add to Home Screen" bersifat tambahan, bukan syarat wajib. Update otomatis, selalu versi terbaru, aman di Android, iOS, dan Desktop.
+</div>
+
+<h2><span class="ic">A</span>Android — Chrome</h2>
+<ol>
+  <li>Buka URL aplikasi di <b>Chrome</b>.</li>
+  <li>Tunggu banner <b>"Add to Home Screen"</b> muncul.</li>
+  <li>Jika tidak muncul: menu ⋮ → <b>Install app</b>.</li>
+  <li>Ketuk <b>Install</b> → ikon muncul di launcher.</li>
+</ol>
+<div class="note"><b>Keamanan:</b> Jika muncul "Site not secure" → <b>Details → Proceed</b>, hanya untuk URL resmi.</div>
+
+<h2><span class="ic">B</span>iOS — Safari</h2>
+<ol>
+  <li>Buka URL di <b>Safari</b> (wajib Safari, bukan browser lain).</li>
+  <li>Ketuk ikon <b>Share</b> (kotak dengan panah).</li>
+  <li>Pilih <b>Add to Home Screen</b>.</li>
+  <li>Beri nama → ketuk <b>Add</b>.</li>
+</ol>
+<div class="note"><b>Keamanan:</b> iOS tidak menampilkan prompt "untrusted" untuk PWA — aman secara default.</div>
+
+<h2><span class="ic">C</span>Desktop — Chrome / Edge</h2>
+<ol>
+  <li>Buka URL di Chrome atau Edge.</li>
+  <li>Klik ikon <b>Install</b> di address bar (ikon monitor dengan panah).</li>
+  <li>Atau: menu ⋮ → <b>Install Anti Anxiety App</b>.</li>
+  <li>Klik <b>Install</b> → aplikasi terbuka di jendela sendiri.</li>
+</ol>
+<div class="note"><b>Keamanan:</b> Windows SmartScreen → <b>More info → Run anyway</b>, hanya bila sumber terpercaya.</div>
+
+<div class="box">
+  <h3>🔧 Troubleshooting Cepat</h3>
+  <ul>
+    <li><b>Tombol install tak muncul:</b> buka menu <b>Pengaturan</b> → <b>Pasang sebagai Aplikasi</b>.
+      <span class="small">Jika masih tidak muncul, reset pengingat install dari menu yang sama (tautan kecil di bagian bawah).</span>
+    </li>
+    <li><b>Ikon tidak muncul di home:</b> restart browser, lalu cek izin storage.</li>
+    <li><b>Aplikasi crash / blank:</b> clear data browser, lalu buka ulang link.</li>
+  </ul>
+</div>
+
+<div class="safe">
+  <b>🔒 Checklist Keamanan:</b> Selalu akses dari URL resmi (HTTPS). Prompt verifikasi browser adalah fitur perlindungan, bukan error — baca teliti sebelum klik <b>Proceed / Run anyway</b>. Jangan pernah isi data pribadi pada verifikasi tak dikenal. Laporkan link mencurigakan ke admin.
+</div>
+
+<div class="safe" style="background:#eaf2f7;border-left-color:#2c5f7c;">
+  <b>✅ Setelah terpasang:</b> aplikasi mendukung <b>Mode Gelap/Terang</b>, tampilan <b>responsif</b> di semua ukuran layar, dan tetap bisa dibuka offline setelah pemakaian pertama (Service Worker v12). Data tersimpan lokal di perangkat.
+</div>
+
+<div class="contact">
+  <b>📩 Butuh Bantuan?</b><br>
+  Hubungi Admin: <b>admin.hidupselaras@gmail.com</b> &nbsp;•&nbsp; Sertakan tangkapan layar bila ada kendala.
+</div>
+
+<div class="foot">Anti Anxiety App &nbsp;•&nbsp; SW v12 &nbsp;•&nbsp; Bug mode gelap (aa_theme) telah diperbaiki &nbsp;•&nbsp; Panduan v1.2</div>
+
+<!-- Tombol Download PDF -->
+<button class="btn-pdf" onclick="window.print()">
+  ⬇️ Download PDF
+</button>
+
+</body>
+</html>
