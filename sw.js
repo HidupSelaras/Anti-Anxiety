@@ -1,9 +1,9 @@
 /* ============================================================
    SERVICE WORKER — Anti Anxiety App
-   Versi: v19
+   Versi: v18
    ============================================================ */
 
-const CACHE_NAME = 'anti-anxiety-v19';
+const CACHE_NAME = 'anti-anxiety-v18';
 const ASSETS = [
     './',
     './index.html',
@@ -33,7 +33,7 @@ self.addEventListener('activate', (event) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
                     if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName); // Hapus cache versi sebelumnya (v18)
+                        return caches.delete(cacheName); // Hapus cache versi sebelumnya (v17)
                     }
                 })
             );
