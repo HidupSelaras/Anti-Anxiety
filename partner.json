@@ -1,19 +1,26 @@
 [
   {
     "tipe": "sponsor",
-    "nama": "Klinik Sehat Jiwa",
+    "nama": "Sponsor Utama",
     "peran": "Official Sponsor",
     "deskripsi": "Mendukung penyediaan layanan edukasi kesehatan mental gratis untuk masyarakat.",
-    "link": "https://kliniksehatjiwa.com",
-    "foto": "https://ui-avatars.com/api/?name=Klinik+Sehat+Jiwa&background=0D9488&color=fff&size=200"
+    "link": "#",
+    "foto": "https://ui-avatars.com/api/?name=Sponsor+Utama&background=0D9488&color=fff&size=200"
   },
   {
     "tipe": "kreator",
-    "nama": "Budi Kreator",
+    "nama": "Kreator Pendukung 1",
     "peran": "Kreator Konten Kesehatan Mental",
-    "deskripsi": "Telah mendukung penyebaran aplikasi melalui konten edukasi di Instagram.",
-    "link": "https://instagram.com/budi",
-    "foto": "https://ui-avatars.com/api/?name=Budi+Kreator&background=14b8a6&color=fff&size=200",
-    "link_ulasan": "blog.html"
+    "deskripsi": "Telah mendukung penyebaran aplikasi melalui konten edukasi di media sosial.",
+    "link": "#",
+    "foto": "https://ui-avatars.com/api/?name=Kreator+1&background=14b8a6&color=fff&size=200"
+  },
+  {
+    "tipe": "kreator",
+    "nama": "Kreator Pendukung 2",
+    "peran": "Penulis & Podcaster",
+    "deskripsi": "Membantu memperkenalkan fitur jurnal syukur Anti Anxiety kepada audiensnya.",
+    "link": "#",
+    "foto": "https://ui-avatars.com/api/?name=Kreator+2&background=14b8a6&color=fff&size=200"
   }
 ]
