@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mengatasi Overthinking Sebelum Tidur - Anti Anxiety</title>
+    <meta name="description" content="Panduan praktis mengatasi overthinking di malam hari agar bisa tidur lebih tenang.">
+
+    <script>
+    (function () {
+        try {
+            var KEY = 'aa_theme';
+            var saved = localStorage.getItem(KEY);
+            if (saved === null) {
+                var legacy = localStorage.getItem('anti_anxiety_theme') || localStorage.getItem('theme');
+                if (legacy === 'dark' || legacy === 'light') {
+                    saved = legacy;
+                    try { localStorage.setItem(KEY, legacy); } catch (e) {}
+                }
+            }
+            var shouldBeDark;
+            if (saved === 'dark') shouldBeDark = true;
+            else if (saved === 'light') shouldBeDark = false;
+            else shouldBeDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (shouldBeDark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+    })();
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { calm: { 500: '#14b8a6', 600: '#0d9488' } } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #eaf5ef; background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.6) 0%, rgba(214, 236, 226, 0.7) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center; background-attachment: fixed; }
+        html.dark body { background-color: #0a1b17; background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.8) 0%, rgba(12, 35, 30, 0.9) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); }
+    </style>
+</head>
+<body class="text-slate-800 dark:text-slate-100 min-h-screen flex flex-col">
+
+    <header class="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-calm-400 to-teal-200 flex items-center justify-center text-teal-900">
+                    <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                </div>
+                <h1 class="text-xl font-extrabold bg-gradient-to-r from-teal-700 to-emerald-600 dark:from-teal-300 dark:to-emerald-400 bg-clip-text text-transparent">Anti Anxiety</h1>
+            </a>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleDarkMode()" aria-label="Ganti mode gelap" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition">
+                    <i data-lucide="moon" id="themeIcon" class="w-5 h-5"></i>
+                </button>
+                <a href="blog.html" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-sm font-bold flex items-center gap-1.5 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Blog
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-10 flex-1 w-full">
+        <!-- Kontainer Artikel -->
+        <article class="bg-white/90 dark:bg-slate-800/90 rounded-3xl p-6 md:p-10 shadow-sm backdrop-blur-sm border border-slate-200/60 dark:border-slate-700/60">
+            
+            <!-- Kategori & Judul -->
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-3 block">Praktis</span>
+            <h1 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 mb-4 leading-tight">Mengatasi Overthinking Sebelum Tidur</h1>
+            
+            <div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-8 border-b border-slate-200 dark:border-slate-700 pb-4">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                <span>24 Oktober 2026</span>
+            </div>
+
+            <!-- Isi Artikel -->
+            <div class="space-y-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                <p>Pernahkah Anda berbaring di kasur, tubuh sudah lelah, tetapi pikiran justru berlari kencang memikirkan hal-hal yang belum tentu terjadi? Kondisi ini sering disebut <em>overthinking</em>. Di malam hari, ketika tidak ada distraksi, pikiran kita cenderung lebih aktif dan membuat kita sulit tidur.</p>
+                
+                <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 mt-6 mb-2">Mengapa Overthinking Terjadi di Malam Hari?</h2>
+                <p>Saat malam tiba dan lingkungan menjadi sunyi, otak kita kehilangan stimulus eksternal. Akibatnya, otak mulai memproses emosi dan kekhawatiran yang tertunda di siang hari. Belum lagi jika Anda terbangun di tengah malam, rasa cemas bisa langsung mengambil alih.</p>
+
+                <h2 class="text-xl font-bold text-slate-800 dark:text-slate-100 mt-6 mb-2">3 Cara Menghentikannya</h2>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li><strong>Brain Dump (Tumpahkan Pikiran):</strong> Siapkan buku catatan di samping kasur. Sebelum tidur, tuliskan semua hal yang mengganggu pikiran Anda. Jangan diedit, tulis saja. Ini memberi sinyal ke otak bahwa "pesan" sudah tersimpan dan tidak perlu diingat terus-menerus.</li>
+                    <li><strong>Latihan Napas 4-7-8:</strong> Tarik napas melalui hidung selama 4 detik, tahan selama 7 detik, lalu buang melalui mulut selama 8 detik. Ulangi beberapa kali. Teknik ini merangsang sistem saraf parasimpatis yang menenangkan tubuh.</li>
+                    <li><strong>Grounding 5-4-3-2-1:</strong> Jika pikiran mulai melayang ke masa depan, tarik kembali ke masa kini. Sebutkan dalam hati: 5 benda yang bisa dilihat, 4 benda yang bisa disentuh, 3 suara yang didengar, 2 bau yang dicium, dan 1 rasa di mulut.</li>
+                </ul>
+
+                <p class="mt-4">Ingatlah bahwa tidak apa-apa jika Anda belum bisa langsung tidur. Cobalah untuk tidak memaksakan diri, karena memaksa diri untuk tidur justru akan menambah kecemasan. Fokuslah pada upaya menenangkan diri, bukan pada target untuk tidur.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
+        <p>© 2026 Anti Anxiety App.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            if (!icon) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+            lucide.createIcons();
+        }
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('dark');
+            html.classList.toggle('dark', isDark);
+            try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+            updateThemeIcon();
+        }
+        window.addEventListener('storage', function (e) {
+            if (e.key === 'aa_theme') {
+                document.documentElement.classList.toggle('dark', e.newValue === 'dark');
+                updateThemeIcon();
+            }
+        });
+        window.addEventListener('DOMContentLoaded', updateThemeIcon);
+    </script>
+</body>
+</html>
