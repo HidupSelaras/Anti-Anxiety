@@ -1947,7 +1947,7 @@
 
         /* ============================================================
            FIX: TAB NAV SCROLL
-           - updateScrollHint: kontrol hint "Geser →"
+           - updateScrollHint: hint "Geser →" HILANG saat sudah di ujung
            - scrollTabsToEnd: klik hint -> lompat ke ujung
            - initTabNavScroll: wheel vertical -> horizontal + drag mouse
            ============================================================ */
@@ -1956,15 +1956,16 @@
             const hint = document.getElementById('scrollHint');
             if (!nav || !hint) return;
 
+            const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
             const noOverflow = nav.scrollWidth <= nav.clientWidth + 5;
-            if (noOverflow) {
+
+            if (noOverflow || atEnd) {
                 hint.style.opacity = '0';
                 hint.style.pointerEvents = 'none';
-                return;
+            } else {
+                hint.style.opacity = '1';
+                hint.style.pointerEvents = 'auto';
             }
-            // Selama ada overflow, hint selalu terlihat & klik-able
-            hint.style.opacity = '1';
-            hint.style.pointerEvents = 'auto';
         }
 
         function scrollTabsToEnd() {
