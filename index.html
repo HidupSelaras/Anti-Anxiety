@@ -1578,7 +1578,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.6</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.7</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1731,6 +1731,106 @@
         </div>
     </footer>
 
+    <!-- ============================================================
+         🆕 FIX 1+2+8: INLINE SYNC SCRIPT
+         Dijalankan SEBELUM paint pertama → tidak ada flash ke Beranda,
+         nav langsung di posisi tab aktif, disclaimer langsung tersembunyi
+         ============================================================ -->
+    <script>
+    (function () {
+        try {
+            var TAB_IDS = ['home','breathing','grounding','journal','release','audio','affirmations','tracker','insights','gratitude','luck','settings'];
+            var TAB_BASE_CLASSES = ['tab-btn','px-4','py-2.5','rounded-xl','text-sm','font-semibold','flex','items-center','gap-2','whitespace-nowrap','transition'];
+            var TAB_INACTIVE_CLASSES = {
+                home:         ['bg-slate-100','dark:bg-slate-700','text-slate-700','dark:text-slate-300','hover:bg-slate-200','dark:hover:bg-slate-600'],
+                breathing:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
+                grounding:    ['bg-teal-100','dark:bg-teal-900/40','text-teal-800','dark:text-teal-200','hover:bg-teal-200','dark:hover:bg-teal-900/60'],
+                journal:      ['bg-sky-100','dark:bg-sky-900/40','text-sky-800','dark:text-sky-200','hover:bg-sky-200','dark:hover:bg-sky-900/60'],
+                release:      ['bg-orange-100','dark:bg-orange-900/40','text-orange-800','dark:text-orange-200','hover:bg-orange-200','dark:hover:bg-orange-900/60'],
+                audio:        ['bg-indigo-100','dark:bg-indigo-900/40','text-indigo-800','dark:text-indigo-200','hover:bg-indigo-200','dark:hover:bg-indigo-900/60'],
+                affirmations: ['bg-purple-100','dark:bg-purple-900/40','text-purple-800','dark:text-purple-200','hover:bg-purple-200','dark:hover:bg-purple-900/60'],
+                tracker:      ['bg-rose-100','dark:bg-rose-900/40','text-rose-800','dark:text-rose-200','hover:bg-rose-200','dark:hover:bg-rose-900/60'],
+                insights:     ['bg-amber-100','dark:bg-amber-900/40','text-amber-800','dark:text-amber-200','hover:bg-amber-200','dark:hover:bg-amber-900/60'],
+                gratitude:    ['bg-pink-100','dark:bg-pink-900/40','text-pink-800','dark:text-pink-200','hover:bg-pink-200','dark:hover:bg-pink-900/60'],
+                luck:         ['bg-emerald-100','dark:bg-emerald-900/40','text-emerald-800','dark:text-emerald-200','hover:bg-emerald-200','dark:hover:bg-emerald-900/60'],
+                settings:     ['bg-slate-100','dark:bg-slate-700','text-slate-700','dark:text-slate-300','hover:bg-slate-200','dark:hover:bg-slate-600']
+            };
+            var TAB_ACTIVE_CLASSES = ['bg-calm-500','text-white','shadow-sm'];
+
+            var savedTab = 'home';
+            try {
+                var raw = localStorage.getItem('aa_state_tab');
+                if (raw) {
+                    var parsed = JSON.parse(raw);
+                    if (parsed && TAB_IDS.indexOf(parsed) !== -1) savedTab = parsed;
+                }
+            } catch (e) {}
+
+            // Show correct section, hide others
+            TAB_IDS.forEach(function (id) {
+                var sec = document.getElementById('sec-' + id);
+                if (!sec) return;
+                if (id === savedTab) {
+                    sec.classList.remove('hidden');
+                    sec.classList.add('block');
+                } else {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('block');
+                }
+            });
+
+            // Set tab button styles
+            TAB_IDS.forEach(function (id) {
+                var btn = document.getElementById('tab-' + id);
+                if (!btn) return;
+                TAB_ACTIVE_CLASSES.forEach(function (c) { btn.classList.remove(c); });
+                Object.keys(TAB_INACTIVE_CLASSES).forEach(function (k) {
+                    TAB_INACTIVE_CLASSES[k].forEach(function (c) { btn.classList.remove(c); });
+                });
+                TAB_BASE_CLASSES.forEach(function (c) { if (!btn.classList.contains(c)) btn.classList.add(c); });
+                if (id === savedTab) {
+                    TAB_ACTIVE_CLASSES.forEach(function (c) { btn.classList.add(c); });
+                } else {
+                    TAB_INACTIVE_CLASSES[id].forEach(function (c) { btn.classList.add(c); });
+                }
+            });
+
+            // Scroll nav to active tab (deferred 2 frames to allow layout)
+            var nav = document.getElementById('tabNav');
+            var activeBtn = document.getElementById('tab-' + savedTab);
+            if (nav && activeBtn) {
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        try {
+                            var btnRect = activeBtn.getBoundingClientRect();
+                            var navRect = nav.getBoundingClientRect();
+                            if (btnRect.left < navRect.left || btnRect.right > navRect.right) {
+                                nav.scrollLeft = activeBtn.offsetLeft - (nav.clientWidth / 2) + (activeBtn.offsetWidth / 2);
+                            }
+                        } catch (e) {}
+                    });
+                });
+            }
+
+            // Hide disclaimer if previously dismissed
+            try {
+                if (localStorage.getItem('anti_anxiety_disclaimer_dismissed') === 'true') {
+                    var banner = document.getElementById('disclaimerBanner');
+                    if (banner) banner.style.display = 'none';
+                }
+            } catch (e) {}
+
+            // Hide install card if PWA already installed (fast guard, JS utama akan refine)
+            try {
+                if (localStorage.getItem('anti_anxiety_pwa_installed') === 'true') {
+                    var card = document.getElementById('homeInstallCard');
+                    if (card) card.classList.add('hidden');
+                }
+            } catch (e) {}
+        } catch (e) {}
+    })();
+    </script>
+
     <script>
         'use strict';
         lucide.createIcons();
@@ -1738,12 +1838,6 @@
         const BACKUP_REMINDER_DAYS = 7;
         const ACTIVITY_MAX_DAYS = 365;
 
-        /* ============================================================
-           STATE PERSISTENCE HELPER
-           - S  = localStorage (persist selamanya)
-           - SS = sessionStorage (hilang saat tab ditutup) — untuk
-                  modal SOS/Donasi & draft form yang sensitif
-           ============================================================ */
         const STATE_KEYS = {
             tab:          'aa_state_tab',
             breathTech:   'aa_state_breath_tech',
@@ -1771,9 +1865,6 @@
             del(k)      { try { sessionStorage.removeItem(STATE_KEYS[k]); } catch(e) {} }
         };
 
-        /* ============================================================
-           DRAFT FORM HELPERS
-           ============================================================ */
         function bindDraft(ids, key) {
             ids.forEach(id => {
                 const el = document.getElementById(id);
@@ -2078,7 +2169,6 @@
                 TAB_BASE_CLASSES.forEach(c => btn.classList.add(c));
                 TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.add(c));
             });
-            // Note: setActiveTab called in restore step, not here
         }
         function setActiveTab(tabId) {
             TAB_IDS.forEach(id => {
@@ -2093,6 +2183,16 @@
                 }
             });
         }
+        function scrollNavToActiveTab(tabId) {
+            const nav = document.getElementById('tabNav');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (!nav || !activeBtn) return;
+            const btnRect = activeBtn.getBoundingClientRect();
+            const navRect = nav.getBoundingClientRect();
+            if (btnRect.left < navRect.left || btnRect.right > navRect.right) {
+                nav.scrollTo({ left: activeBtn.offsetLeft - (nav.clientWidth / 2) + (activeBtn.offsetWidth / 2), behavior: 'smooth' });
+            }
+        }
         function switchTab(tabId) {
             if (!TAB_IDS.includes(tabId)) return;
             setActiveTab(tabId);
@@ -2100,6 +2200,10 @@
             document.querySelectorAll('.tab-content').forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
             const activeContent = document.getElementById(`sec-${tabId}`);
             if (activeContent) { activeContent.classList.remove('hidden'); activeContent.classList.add('block'); }
+            // FIX 2b: scroll nav ke tab aktif jika off-screen
+            setTimeout(() => {
+                try { scrollNavToActiveTab(tabId); } catch (e) {}
+            }, 50);
             setTimeout(updateScrollHint, 100);
             const homeFab = document.getElementById('homeFab');
             if (homeFab) {
@@ -2363,13 +2467,14 @@
                 }
             } else hint.classList.add('hidden');
         }
-        function toggleVoiceGuide(enabled) {
+        function toggleVoiceGuide(enabled, silent) {
             voiceGuideEnabled = enabled;
             S.set('voiceGuide', enabled);
             if (enabled) {
                 ensureVoicesLoaded(() => {
                     indonesianVoice = findIndonesianVoice();
                     updateVoiceStatusHint();
+                    if (silent === true) return;
                     if (indonesianVoice) speak("Panduan suara aktif. Mari kita mulai dengan tenang...");
                     else showToast("⚠️ Voice Indonesia tidak terdeteksi");
                 });
@@ -2746,7 +2851,6 @@
             { text: "Hari ini, saya memberi ruang untuk kedamaian di dalam diri.", sub: "Kedamaian sudah ada di dalam, menunggu ditemukan." }
         ];
 
-        // SEEDED SHUFFLE — kartu afirmasi tidak berubah tiap refresh
         let affirmSeed = null;
         function renderAffirmations(forceNew) {
             const grid = document.getElementById('affirmationCardsGrid');
@@ -3525,7 +3629,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.6,
+                version: 6.7,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3587,7 +3691,6 @@
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
             ['anti_anxiety_moods','anti_anxiety_journals','anti_anxiety_activities','anti_anxiety_contacts','anti_anxiety_gratitude','anti_anxiety_luck','anti_anxiety_last_backup','anti_anxiety_backup_snooze','anti_anxiety_breath_visual','anti_anxiety_mood_slider'].forEach(k => localStorage.removeItem(k));
-            // Clear state persistence juga
             Object.values(STATE_KEYS).forEach(k => { try { localStorage.removeItem(k); } catch(e){} try { sessionStorage.removeItem(k); } catch(e){} });
             loadJournals(); loadMoodHistory(); updateStreak();
             renderSosContacts(); loadEmergencyContacts();
@@ -3717,7 +3820,7 @@
             if (homeFab) homeFab.classList.remove('visible');
 
             /* ============================================================
-               RESTORE STATE — dipanggil di akhir load
+               RESTORE STATE
                ============================================================ */
             // 1. Teknik napas
             const savedTech = S.get('breathTech', null);
@@ -3729,10 +3832,10 @@
                 if (descEl) descEl.innerText = techniques[savedTech].desc;
                 document.querySelectorAll('input[name="breathTech"]').forEach(r => r.checked = (r.value === savedTech));
             }
-            // 2. Voice guide
+            // 2. Voice guide — SILENT restore (FIX 3: jangan speak saat restore)
             if (S.get('voiceGuide', false)) {
                 const tg = document.getElementById('voiceGuideToggle');
-                if (tg) { tg.checked = true; toggleVoiceGuide(true); }
+                if (tg) { tg.checked = true; toggleVoiceGuide(true, true); }
             }
             // 3. Grounding step
             setGroundingStep(S.get('groundStep', 5));
@@ -3745,24 +3848,24 @@
                 isAudioDrawerOpen = true;
                 if (drawer) drawer.classList.remove('hidden');
             }
-            // 6. Tab aktif (SEBELUM restore draft, karena switchTab settings memanggil loadEmergencyContacts)
+            // 6. Tab aktif (FIX 4: SELALU panggil switchTab, termasuk home)
             const savedTab = S.get('tab', 'home');
-            if (savedTab && TAB_IDS.includes(savedTab) && savedTab !== 'home') {
+            if (savedTab && TAB_IDS.includes(savedTab)) {
                 switchTab(savedTab);
             }
-            // 7. Drafts (restore SETELAH tab loaded, agar tidak ditimpa)
+            // 7. Drafts
             restoreDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
             restoreDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
             restoreDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
             restoreDraft(['luckInput'], 'draftLuck');
             restoreDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
-            // 8. Bind draft listeners (setelah restore, agar input berikut tersimpan)
+            // 8. Bind draft listeners
             bindDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
             bindDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
             bindDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
             bindDraft(['luckInput'], 'draftLuck');
             bindDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
-            // 9. Modal SOS & Donasi (dari sessionStorage)
+            // 9. Modal SOS & Donasi
             if (SS.get('sosOpen', false)) setTimeout(() => openSosModal(), 200);
             if (SS.get('donationOpen', false)) setTimeout(() => openDonationModal(), 200);
 
@@ -3934,8 +4037,6 @@
             if (!window.__skipSplash) setTimeout(hideSplash, 1500);
         });
         if (!window.__skipSplash) setTimeout(hideSplash, 3500);
-
-        // ❌ goHome() DIHAPUS — user tetap di tab-nya saat kembali ke app
         document.addEventListener('visibilitychange', function () {
             if (!document.hidden) {
                 updateHomeInstallCard();
