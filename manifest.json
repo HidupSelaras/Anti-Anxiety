@@ -17,19 +17,13 @@
   "icons": [
     {
       "src": "logoaa.png",
-      "sizes": "192x192",
+      "sizes": "1254x1254",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "logoaa.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "logoaa.png",
-      "sizes": "512x512",
+      "sizes": "1254x1254",
       "type": "image/png",
       "purpose": "maskable"
     }
