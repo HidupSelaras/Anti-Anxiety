@@ -6,11 +6,6 @@
     <title>Anti Anxiety - Ruang Tenang & Kendali Kecemasan</title>
     <meta name="description" content="Anti Anxiety App — aplikasi gratis untuk mengelola kecemasan dengan latihan napas, jurnal CBT, jurnal syukur, dan kartu afirmasi.">
 
-    <!-- ============================================================
-         DARK MODE INIT — HARUS PALING AWAL
-         Menerapkan class 'dark' sebelum Tailwind CDN memproses style.
-         Mencegah flash mode terang (FOUC) saat refresh.
-         ============================================================ -->
     <script>
     (function () {
         try {
@@ -32,42 +27,28 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Anti Anxiety">
 
-    <!-- Deteksi multi-kondisi untuk skip splash -->
     <script>
     (function () {
         try {
             var skipSplash = false;
-
             if (performance.getEntriesByType) {
                 var nav = performance.getEntriesByType('navigation');
                 if (nav && nav[0] && nav[0].type === 'reload') skipSplash = true;
             }
-            if (!skipSplash && performance.navigation && performance.navigation.type === 1) {
-                skipSplash = true;
-            }
-
+            if (!skipSplash && performance.navigation && performance.navigation.type === 1) skipSplash = true;
             if (!skipSplash) {
                 var ref = document.referrer || '';
                 if (ref) {
                     try {
                         var refUrl = new URL(ref);
                         var path = refUrl.pathname.toLowerCase();
-                        if (refUrl.hostname === location.hostname &&
-                            path !== '/' && path !== '/index.html') {
-                            skipSplash = true;
-                        }
+                        if (refUrl.hostname === location.hostname && path !== '/' && path !== '/index.html') skipSplash = true;
                     } catch (e) {}
                 }
             }
-
             if (!skipSplash) {
-                try {
-                    if (sessionStorage.getItem('anti_anxiety_app_active') === 'true') {
-                        skipSplash = true;
-                    }
-                } catch (e) {}
+                try { if (sessionStorage.getItem('anti_anxiety_app_active') === 'true') skipSplash = true; } catch (e) {}
             }
-
             if (skipSplash) {
                 window.__skipSplash = true;
                 document.documentElement.classList.add('skip-splash');
@@ -88,11 +69,7 @@
             theme: {
                 extend: {
                     colors: {
-                        calm: {
-                            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4',
-                            400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e',
-                            800: '#115e59', 900: '#134e4a',
-                        }
+                        calm: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a' }
                     },
                     fontFamily: { sans: ['Inter', 'sans-serif'] }
                 }
@@ -104,169 +81,68 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-        body {
-            font-family: 'Inter', sans-serif;
-            font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
-            letter-spacing: -0.005em;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            background-color: #eaf5ef;
-            background-image:
-                linear-gradient(180deg,
-                    rgba(232, 246, 240, 0.52) 0%,
-                    rgba(224, 242, 233, 0.55) 50%,
-                    rgba(214, 236, 226, 0.60) 100%),
-                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }
-        html.dark body {
-            background-color: #0a1b17;
-            background-image:
-                linear-gradient(180deg,
-                    rgba(10, 27, 24, 0.72) 0%,
-                    rgba(15, 31, 29, 0.76) 50%,
-                    rgba(12, 35, 30, 0.80) 100%),
-                url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85');
-        }
+        body { font-family: 'Inter', sans-serif; font-feature-settings: "kern" 1, "liga" 1, "calt" 1; letter-spacing: -0.005em; transition: background-color 0.4s ease, color 0.4s ease; background-color: #eaf5ef; background-image: linear-gradient(180deg, rgba(232, 246, 240, 0.52) 0%, rgba(224, 242, 233, 0.55) 50%, rgba(214, 236, 226, 0.60) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); background-size: cover; background-position: center; background-attachment: fixed; background-repeat: no-repeat; }
+        html.dark body { background-color: #0a1b17; background-image: linear-gradient(180deg, rgba(10, 27, 24, 0.72) 0%, rgba(15, 31, 29, 0.76) 50%, rgba(12, 35, 30, 0.80) 100%), url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2000&q=85'); }
         .text-sharp { text-shadow: 0 0 0.5px rgba(0, 0, 0, 0.08); }
         html.dark .text-sharp { text-shadow: 0 0 0.5px rgba(255, 255, 255, 0.10); }
         h1, h2, h3 { letter-spacing: -0.02em; }
         main { position: relative; isolation: isolate; }
         html, body { overflow-x: hidden; width: 100%; }
-
         @keyframes soft-breath { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.3); opacity: 0.6; } }
         @keyframes icon-breath { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         #splash-screen { transition: opacity 0.6s ease-in-out; }
         #splash-screen.fade-out { opacity: 0; pointer-events: none; }
         .skip-splash #splash-screen { display: none !important; }
-
         .animate-breath { animation: soft-breath 4s ease-in-out infinite; }
         .animate-icon { animation: icon-breath 4s ease-in-out infinite; }
-
-        .dashboard-welcome {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.55);
-        }
-        html.dark .dashboard-welcome {
-            background: linear-gradient(135deg, rgba(15, 31, 29, 0.65) 0%, rgba(19, 78, 74, 0.48) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(45, 212, 191, 0.15);
-        }
-
+        .dashboard-welcome { background: linear-gradient(135deg, rgba(255, 255, 255, 0.60) 0%, rgba(240, 253, 250, 0.50) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.55); }
+        html.dark .dashboard-welcome { background: linear-gradient(135deg, rgba(15, 31, 29, 0.65) 0%, rgba(19, 78, 74, 0.48) 100%); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(45, 212, 191, 0.15); }
         #breathVisualStage { position: relative; width: 280px; height: 280px; display: flex; align-items: center; justify-content: center; margin: 1rem auto; }
-
-        .breath-visual {
-            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s;
-            pointer-events: none;
-        }
-        .breath-visual.visual-hidden {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            transform: scale(0.9);
-            pointer-events: none;
-        }
-        .breath-visual.visual-active {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: scale(1);
-            pointer-events: auto;
-        }
-        .breath-visual.visual-active.paused {
-            filter: grayscale(0.4) brightness(0.9);
-            opacity: 0.7 !important;
-        }
-
+        .breath-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s; pointer-events: none; }
+        .breath-visual.visual-hidden { opacity: 0 !important; visibility: hidden !important; transform: scale(0.9); pointer-events: none; }
+        .breath-visual.visual-active { opacity: 1 !important; visibility: visible !important; transform: scale(1); pointer-events: auto; }
+        .breath-visual.visual-active.paused { filter: grayscale(0.4) brightness(0.9); opacity: 0.7 !important; }
         .breath-circle { transition: transform 4s ease-in-out, filter 0.4s ease, opacity 0.4s ease; will-change: transform; }
         #bloomSvg { overflow: visible; }
-        #bloomFlowerGroup {
-            transform-box: fill-box;
-            transform-origin: center;
-            transition: transform 4s ease-in-out;
-            will-change: transform;
-        }
+        #bloomFlowerGroup { transform-box: fill-box; transform-origin: center; transition: transform 4s ease-in-out; will-change: transform; }
         #candleFlame { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; transform-origin: center bottom; }
         #balloonBody { transition: transform 4s ease-in-out; will-change: transform; transform-origin: center bottom; }
         #starShape { transition: transform 4s ease-in-out, filter 0.4s ease; will-change: transform, filter; }
-
-        @media (prefers-reduced-motion: reduce) {
-            .breath-visual, .breath-circle, #bloomFlowerGroup,
-            #candleFlame, #balloonBody, #starShape {
-                transition-duration: 0.3s !important;
-            }
-        }
-
+        @media (prefers-reduced-motion: reduce) { .breath-visual, .breath-circle, #bloomFlowerGroup, #candleFlame, #balloonBody, #starShape { transition-duration: 0.3s !important; } }
         @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         #statusDot { animation: pulse-dot 1.5s ease-in-out infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
         .twinkle-star { animation: twinkle 2s ease-in-out infinite; }
-
         .perspective { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.5); }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* ============================================================
-           FIX: SCROLLBAR TAB NAV — hanya muncul di DESKTOP
-           Di mobile tetap tersembunyi (biar rapi, masih bisa swipe)
-           ============================================================ */
         @media (min-width: 769px) {
-            #tabNav.scrollbar-none {
-                -ms-overflow-style: auto !important;
-                scrollbar-width: thin !important;
-                scrollbar-color: rgba(148, 163, 184, 0.45) transparent !important;
-                padding-bottom: 10px !important;
-                cursor: grab;
-            }
-            #tabNav.scrollbar-none::-webkit-scrollbar {
-                display: block !important;
-                height: 6px !important;
-            }
-            #tabNav.scrollbar-none::-webkit-scrollbar-track {
-                background: transparent;
-                border-radius: 3px;
-                margin: 0 4px;
-            }
-            #tabNav.scrollbar-none::-webkit-scrollbar-thumb {
-                background: rgba(148, 163, 184, 0.45);
-                border-radius: 3px;
-            }
-            #tabNav.scrollbar-none::-webkit-scrollbar-thumb:hover {
-                background: rgba(148, 163, 184, 0.7);
-            }
-            #tabNav.scrollbar-none.dragging {
-                cursor: grabbing;
-                user-select: none;
-            }
+            #tabNav.scrollbar-none { -ms-overflow-style: auto !important; scrollbar-width: thin !important; scrollbar-color: rgba(148, 163, 184, 0.45) transparent !important; padding-bottom: 10px !important; cursor: grab; }
+            #tabNav.scrollbar-none::-webkit-scrollbar { display: block !important; height: 6px !important; }
+            #tabNav.scrollbar-none::-webkit-scrollbar-track { background: transparent; border-radius: 3px; margin: 0 4px; }
+            #tabNav.scrollbar-none::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.45); border-radius: 3px; }
+            #tabNav.scrollbar-none::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+            #tabNav.scrollbar-none.dragging { cursor: grabbing; user-select: none; }
         }
-
         @keyframes slide-hint { 0%, 100% { transform: translateX(0); opacity: 0.6; } 50% { transform: translateX(4px); opacity: 1; } }
         .slide-hint-icon { animation: slide-hint 1.6s ease-in-out infinite; }
-
         .streak-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .streak-active { background: #14b8a6; color: white; }
         .streak-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .streak-empty { background: rgba(148, 163, 184, 0.10); }
         .streak-today { outline: 2px solid #0d9488; outline-offset: 1px; }
-
         .grat-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 10px; font-weight: 700; transition: all 0.2s; }
         .grat-active { background: #ec4899; color: white; }
         .grat-empty { background: rgba(148, 163, 184, 0.15); color: transparent; }
         html.dark .grat-empty { background: rgba(148, 163, 184, 0.10); }
         .grat-today { outline: 2px solid #be185d; outline-offset: 1px; }
-
         .mood-slider-wrap { position: relative; width: 100%; height: 24px; }
         .mood-slider-track { position: absolute; top: 50%; left: 0; right: 0; height: 10px; transform: translateY(-50%); border-radius: 999px; overflow: hidden; display: flex; z-index: 1; }
         .mood-seg { flex: 1; transition: filter 0.2s ease, opacity 0.2s ease; }
@@ -277,7 +153,6 @@
         input[type="range"].mood-range::-webkit-slider-thumb:hover { transform: scale(1.1); }
         input[type="range"].mood-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #ffffff; border: 3px solid #14b8a6; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
         input[type="range"].mood-range::-moz-range-track { background: transparent; }
-
         #backupBubble { position: fixed; bottom: 24px; right: 24px; z-index: 45; transform: scale(0); opacity: 0; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; }
         #backupBubble.visible { transform: scale(1); opacity: 1; }
         #backupBubble.collapsed { transform: scale(0.22); opacity: 0.55; }
@@ -287,29 +162,24 @@
         @keyframes bubble-pulse { 0%, 100% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 0 rgba(249, 115, 22, 0.5); } 50% { box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4), 0 0 0 10px rgba(249, 115, 22, 0); } }
         #backupBubble .bubble-badge { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #dc2626; color: white; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
         html.dark #backupBubble .bubble-badge { border-color: #1e293b; }
-
         #backupPopup { position: fixed; bottom: 92px; right: 24px; z-index: 46; width: 300px; background: white; border-radius: 18px; box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), 0 4px 8px rgba(0, 0, 0, 0.08); padding: 16px; transform: scale(0.85) translateY(8px); opacity: 0; pointer-events: none; transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease; }
         #backupPopup.visible { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
         #backupPopup::after { content: ''; position: absolute; bottom: -8px; right: 24px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid white; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.05)); }
         html.dark #backupPopup { background: #1e293b; }
         html.dark #backupPopup::after { border-top-color: #1e293b; }
-
         #homeFab { position: fixed; bottom: 24px; left: 24px; z-index: 45; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); box-shadow: 0 4px 16px rgba(20, 184, 166, 0.45); display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; color: white; transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease; opacity: 0; pointer-events: none; }
         #homeFab.visible { opacity: 1; pointer-events: auto; }
         #homeFab:hover { transform: scale(1.08); box-shadow: 0 6px 20px rgba(20, 184, 166, 0.6); }
         #homeFab:active { transform: scale(0.95); }
         @media (max-width: 640px) { #homeFab { bottom: 16px; left: 16px; width: 48px; height: 48px; } }
-
         .sos-contact-btn { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: rgba(20, 184, 166, 0.15); border: 1px solid rgba(45, 212, 191, 0.4); transition: all 0.2s ease; text-decoration: none; }
         .sos-contact-btn:hover { background: rgba(20, 184, 166, 0.28); border-color: rgba(94, 234, 212, 0.7); transform: translateY(-1px); }
-
         .audio-stop-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; transition: all 0.2s ease; opacity: 0.45; pointer-events: none; }
         html.dark .audio-stop-btn { background: rgba(127, 29, 29, 0.4); color: #fca5a5; border-color: rgba(153, 27, 27, 0.6); }
         .audio-stop-btn.active { opacity: 1; pointer-events: auto; animation: pulse-soft 2s ease-in-out infinite; }
         .audio-stop-btn.active:hover { background: #fecaca; color: #991b1b; }
         html.dark .audio-stop-btn.active:hover { background: rgba(153, 27, 27, 0.6); }
         @keyframes pulse-soft { 0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); } }
-
         #downloadMenu { position: fixed; width: 260px; background: white; border-radius: 14px; box-shadow: 0 10px 28px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.06); border: 1px solid rgba(148, 163, 184, 0.3); padding: 6px; z-index: 9999; opacity: 0; transform: translateY(-8px) scale(0.98); pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease; display: none; }
         html.dark #downloadMenu { background: #1e293b; border-color: rgba(51, 65, 85, 0.8); }
         #downloadMenu.visible { display: block; opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
@@ -325,7 +195,6 @@
         html.dark #downloadMenu .menu-item .mi-sub { color: #64748b; }
         #downloadMenu .menu-divider { height: 1px; background: #e2e8f0; margin: 4px 6px; }
         html.dark #downloadMenu .menu-divider { background: #334155; }
-
         .home-stats-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
         @media (max-width: 640px) { .home-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         .home-stat-cell { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: white; border: 1px solid #e2e8f0; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.2s ease; min-width: 0; position: relative; overflow: hidden; }
@@ -339,14 +208,12 @@
         html.dark .home-stat-value { color: #f1f5f9; }
         .home-stat-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 1px; }
         html.dark .home-stat-label { color: #94a3b8; }
-
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .animate-in { animation: fadeInScale 0.2s ease-out; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
 
-    <!-- SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 z-[9999] bg-[#eaf5ef] dark:bg-[#0a1b17] flex flex-col items-center justify-center">
         <div class="relative flex items-center justify-center mb-6">
             <div class="absolute w-28 h-28 bg-calm-400 rounded-full animate-breath"></div>
@@ -1187,7 +1054,7 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto" id="affirmationCardsGrid"></div>
             <div class="text-center mt-8">
-                <button onclick="renderAffirmations()" class="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl border border-slate-300 dark:border-slate-700 transition inline-flex items-center gap-2">
+                <button onclick="renderAffirmations(true)" class="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl border border-slate-300 dark:border-slate-700 transition inline-flex items-center gap-2">
                     <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Acak Kartu Baru
                 </button>
             </div>
@@ -1711,7 +1578,7 @@
                         <i data-lucide="heart-handshake" class="w-6 h-6"></i>
                     </div>
                     <p class="text-sm font-bold text-slate-800 dark:text-slate-100">Anti Anxiety App</p>
-                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.5</p>
+                    <p class="text-xs font-medium text-slate-500 mt-1">Versi 6.6</p>
                     <p class="text-[10px] text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
                         Aplikasi ini bukan pengganti konseling medis profesional.
                     </p>
@@ -1871,6 +1738,63 @@
         const BACKUP_REMINDER_DAYS = 7;
         const ACTIVITY_MAX_DAYS = 365;
 
+        /* ============================================================
+           STATE PERSISTENCE HELPER
+           - S  = localStorage (persist selamanya)
+           - SS = sessionStorage (hilang saat tab ditutup) — untuk
+                  modal SOS/Donasi & draft form yang sensitif
+           ============================================================ */
+        const STATE_KEYS = {
+            tab:          'aa_state_tab',
+            breathTech:   'aa_state_breath_tech',
+            voiceGuide:   'aa_state_voice_guide',
+            groundStep:   'aa_state_ground_step',
+            chartRange:   'aa_state_chart_range',
+            audioDrawer:  'aa_state_audio_drawer',
+            sosOpen:      'aa_state_sos_open',
+            donationOpen: 'aa_state_donation_open',
+            affirmSeed:   'aa_state_affirm_seed',
+            draftCbt:     'aa_state_draft_cbt',
+            draftRelease: 'aa_state_draft_release',
+            draftGrat:    'aa_state_draft_grat',
+            draftLuck:    'aa_state_draft_luck',
+            draftContact: 'aa_state_draft_contact'
+        };
+        const S = {
+            get(k, def) { try { const v = localStorage.getItem(STATE_KEYS[k]); return v === null ? def : JSON.parse(v); } catch(e) { return def; } },
+            set(k, v)   { try { localStorage.setItem(STATE_KEYS[k], JSON.stringify(v)); } catch(e) {} },
+            del(k)      { try { localStorage.removeItem(STATE_KEYS[k]); } catch(e) {} }
+        };
+        const SS = {
+            get(k, def) { try { const v = sessionStorage.getItem(STATE_KEYS[k]); return v === null ? def : JSON.parse(v); } catch(e) { return def; } },
+            set(k, v)   { try { sessionStorage.setItem(STATE_KEYS[k], JSON.stringify(v)); } catch(e) {} },
+            del(k)      { try { sessionStorage.removeItem(STATE_KEYS[k]); } catch(e) {} }
+        };
+
+        /* ============================================================
+           DRAFT FORM HELPERS
+           ============================================================ */
+        function bindDraft(ids, key) {
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', () => {
+                    const data = {};
+                    ids.forEach(fid => { const f = document.getElementById(fid); if (f) data[fid] = f.value; });
+                    SS.set(key, data);
+                });
+            });
+        }
+        function restoreDraft(ids, key) {
+            const data = SS.get(key, null);
+            if (!data) return;
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && data[id]) el.value = data[id];
+            });
+        }
+        function clearDraft(key) { SS.del(key); }
+
         function escapeHtml(value) {
             if (value === null || value === undefined) return '';
             return String(value).replace(/[&<>"']/g, function(c) {
@@ -1921,12 +1845,14 @@
             document.getElementById('donationModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             setTimeout(() => lucide.createIcons(), 50);
+            SS.set('donationOpen', true);
         }
         function closeDonationModal() {
             document.getElementById('donationModal').classList.add('hidden');
             document.body.style.overflow = '';
             const bankBox = document.getElementById('bankInfoBox');
             if (bankBox) bankBox.classList.add('hidden');
+            SS.del('donationOpen');
         }
         function showBankInfo() {
             const box = document.getElementById('bankInfoBox');
@@ -1944,20 +1870,12 @@
             }
         });
 
-        /* ============================================================
-           FIX: TAB NAV SCROLL
-           - updateScrollHint: hint "Geser →" HILANG saat sudah di ujung
-           - scrollTabsToEnd: klik hint -> lompat ke ujung
-           - initTabNavScroll: wheel vertical -> horizontal + drag mouse
-           ============================================================ */
         function updateScrollHint() {
             const nav  = document.getElementById('tabNav');
             const hint = document.getElementById('scrollHint');
             if (!nav || !hint) return;
-
             const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
             const noOverflow = nav.scrollWidth <= nav.clientWidth + 5;
-
             if (noOverflow || atEnd) {
                 hint.style.opacity = '0';
                 hint.style.pointerEvents = 'none';
@@ -1966,19 +1884,15 @@
                 hint.style.pointerEvents = 'auto';
             }
         }
-
         function scrollTabsToEnd() {
             const nav = document.getElementById('tabNav');
             if (!nav) return;
             const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
             nav.scrollTo({ left: atEnd ? 0 : nav.scrollWidth, behavior: 'smooth' });
         }
-
         function initTabNavScroll() {
             const nav = document.getElementById('tabNav');
             if (!nav) return;
-
-            // 1) Wheel vertikal -> horizontal scroll
             nav.addEventListener('wheel', function (e) {
                 if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
                     const canRight = nav.scrollLeft < nav.scrollWidth - nav.clientWidth - 1;
@@ -1989,19 +1903,15 @@
                     }
                 }
             }, { passive: false });
-
-            // 2) Drag-to-scroll dengan mouse (desktop)
             let isDown = false, startX = 0, startScroll = 0, dragged = false;
-
             nav.addEventListener('mousedown', function (e) {
                 if (e.button !== 0) return;
-                if (e.target.closest('button')) return; // jangan ganggu klik tombol tab
+                if (e.target.closest('button')) return;
                 isDown = true; dragged = false;
                 startX = e.pageX - nav.offsetLeft;
                 startScroll = nav.scrollLeft;
                 nav.classList.add('dragging');
             });
-
             nav.addEventListener('mousemove', function (e) {
                 if (!isDown) return;
                 e.preventDefault();
@@ -2010,30 +1920,19 @@
                 if (Math.abs(walk) > 4) dragged = true;
                 nav.scrollLeft = startScroll - walk;
             });
-
-            function endDrag() {
-                isDown = false;
-                nav.classList.remove('dragging');
-            }
+            function endDrag() { isDown = false; nav.classList.remove('dragging'); }
             nav.addEventListener('mouseleave', endDrag);
             nav.addEventListener('mouseup', endDrag);
-
-            // Cegah klik tab jika user sebenarnya sedang drag
             nav.addEventListener('click', function (e) {
                 if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; }
             }, true);
         }
-
-        // Jalankan initTabNavScroll setelah DOM siap
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initTabNavScroll);
         } else {
             initTabNavScroll();
         }
 
-        /* ============================================================
-           DARK MODE — Simpan preferensi ke localStorage + sinkron ikon
-           ============================================================ */
         function updateThemeIcons(isDark) {
             const iconMobile = document.getElementById('themeIconMobile');
             const iconDesktop = document.getElementById('themeIconDesktop');
@@ -2041,26 +1940,18 @@
             if (iconMobile) iconMobile.setAttribute('data-lucide', icon);
             if (iconDesktop) iconDesktop.setAttribute('data-lucide', icon);
         }
-
         function toggleDarkMode() {
             const html = document.documentElement;
             const isDark = !html.classList.contains('dark');
             html.classList.toggle('dark', isDark);
-
-            // ✅ Simpan preferensi agar bertahan setelah refresh
             try { localStorage.setItem('aa_theme', isDark ? 'dark' : 'light'); } catch (e) {}
-
             updateThemeIcons(isDark);
             lucide.createIcons();
-
-            // Re-render chart agar warna ikut menyesuaikan
             if (typeof renderMoodChart === 'function') renderMoodChart();
             if (typeof renderGratitudeChart === 'function') renderGratitudeChart();
             if (typeof renderLuckChart === 'function') renderLuckChart();
             if (typeof renderLuckBarChart === 'function') renderLuckBarChart();
         }
-
-        // Sinkronisasi tema antar tab saat user toggle di tab lain
         window.addEventListener('storage', function (e) {
             if (e.key === 'aa_theme') {
                 const isDark = e.newValue === 'dark';
@@ -2187,7 +2078,7 @@
                 TAB_BASE_CLASSES.forEach(c => btn.classList.add(c));
                 TAB_INACTIVE_CLASSES[id].forEach(c => btn.classList.add(c));
             });
-            setActiveTab('home');
+            // Note: setActiveTab called in restore step, not here
         }
         function setActiveTab(tabId) {
             TAB_IDS.forEach(id => {
@@ -2205,6 +2096,7 @@
         function switchTab(tabId) {
             if (!TAB_IDS.includes(tabId)) return;
             setActiveTab(tabId);
+            try { S.set('tab', tabId); } catch (e) {}
             document.querySelectorAll('.tab-content').forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
             const activeContent = document.getElementById(`sec-${tabId}`);
             if (activeContent) { activeContent.classList.remove('hidden'); activeContent.classList.add('block'); }
@@ -2249,6 +2141,7 @@
             const drawer = document.getElementById('audioDrawer');
             isAudioDrawerOpen = !isAudioDrawerOpen;
             drawer.classList.toggle('hidden', !isAudioDrawerOpen);
+            S.set('audioDrawer', isAudioDrawerOpen);
         }
         function initAudioContext() {
             if (!audioCtx) {
@@ -2472,6 +2365,7 @@
         }
         function toggleVoiceGuide(enabled) {
             voiceGuideEnabled = enabled;
+            S.set('voiceGuide', enabled);
             if (enabled) {
                 ensureVoicesLoaded(() => {
                     indonesianVoice = findIndonesianVoice();
@@ -2531,7 +2425,6 @@
             currentVisual = visualId;
             try { localStorage.setItem('anti_anxiety_breath_visual', visualId); } catch (e) {}
             const wasPaused = isPaused;
-
             document.querySelectorAll('.breath-visual').forEach(el => {
                 el.classList.remove('paused');
                 if (el.dataset.visual === visualId) {
@@ -2562,8 +2455,10 @@
         }
         function selectTechnique(techKey) {
             currentTech = techKey;
+            S.set('breathTech', techKey);
             document.getElementById('breathTechniqueTitle').innerText = techniques[techKey].title;
             document.getElementById('breathTechniqueDesc').innerText = techniques[techKey].desc;
+            document.querySelectorAll('input[name="breathTech"]').forEach(r => r.checked = (r.value === techKey));
             stopBreathing();
         }
         function updateVisualForStep(step, tech) {
@@ -2715,6 +2610,7 @@
         };
         function setGroundingStep(stepNum) {
             currentGroundStep = stepNum;
+            S.set('groundStep', stepNum);
             [5, 4, 3, 2, 1].forEach(num => {
                 const btn = document.getElementById(`gstep-${num}`);
                 if (!btn) return;
@@ -2758,6 +2654,7 @@
             document.getElementById('cbtThought').value = '';
             document.getElementById('cbtEvidence').value = '';
             document.getElementById('cbtReframing').value = '';
+            clearDraft('draftCbt');
             loadJournals();
             markActivityToday();
             showToast("Jurnal berhasil disimpan!");
@@ -2802,6 +2699,7 @@
             document.getElementById('releaseEvent').value = '';
             document.getElementById('releaseEmotion').value = '';
             document.getElementById('releaseMessage').value = '';
+            clearDraft('draftRelease');
             markActivityToday();
             showToast("🕊️ Beban berhasil dilepaskan.");
         }
@@ -2810,6 +2708,7 @@
                 document.getElementById('releaseEvent').value = '';
                 document.getElementById('releaseEmotion').value = '';
                 document.getElementById('releaseMessage').value = '';
+                clearDraft('draftRelease');
             }
         }
         function resetReleaseModule() {
@@ -2846,9 +2745,28 @@
             { text: "Saya cukup hanya dengan menjadi diri saya saat ini.", sub: "Tidak perlu prestasi untuk layak dicintai." },
             { text: "Hari ini, saya memberi ruang untuk kedamaian di dalam diri.", sub: "Kedamaian sudah ada di dalam, menunggu ditemukan." }
         ];
-        function renderAffirmations() {
+
+        // SEEDED SHUFFLE — kartu afirmasi tidak berubah tiap refresh
+        let affirmSeed = null;
+        function renderAffirmations(forceNew) {
             const grid = document.getElementById('affirmationCardsGrid');
-            const picked = shuffle(affirmationsList).slice(0, 6);
+            if (!grid) return;
+            if (forceNew) {
+                affirmSeed = Date.now();
+                S.set('affirmSeed', affirmSeed);
+            } else if (!affirmSeed) {
+                const savedSeed = S.get('affirmSeed', null);
+                affirmSeed = savedSeed || Date.now();
+                if (!savedSeed) S.set('affirmSeed', affirmSeed);
+            }
+            let seed = affirmSeed;
+            const rand = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+            const arr = [...affirmationsList];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(rand() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            const picked = arr.slice(0, 6);
             grid.innerHTML = picked.map((card, idx) => `
                 <div class="perspective h-48 cursor-pointer" onclick="flipCard(this)">
                     <div class="card-inner relative w-full h-full transform-style-3d duration-500 rounded-3xl">
@@ -2875,7 +2793,6 @@
             let status = "Rendah (Tenang)";
             if (val > 7) status = "Sangat Tinggi (Panik/Cemas)";
             else if (val > 4) status = "Sedang (Waspada)";
-
             const newLog = {
                 id: Date.now(),
                 date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
@@ -2883,7 +2800,6 @@
                 score: parseInt(val, 10),
                 status: status
             };
-
             logs.unshift(newLog);
             try { localStorage.setItem('anti_anxiety_moods', JSON.stringify(logs)); } catch (err) { showToast("⚠️ Penyimpanan penuh atau gagal."); return; }
             loadMoodHistory();
@@ -2958,6 +2874,7 @@
         }
         function switchChartRange(range) {
             chartRange = range;
+            S.set('chartRange', range);
             [7, 14, 30].forEach(r => {
                 const btn = document.getElementById(`chartRange${r}`);
                 if (!btn) return;
@@ -2989,7 +2906,6 @@
             const now = new Date();
             const startOfThisWeek = new Date(now); startOfThisWeek.setDate(now.getDate() - now.getDay()); startOfThisWeek.setHours(0,0,0,0);
             const startOfLastWeek = new Date(startOfThisWeek); startOfLastWeek.setDate(startOfLastWeek.getDate() - 7);
-
             const parseDate = (log) => {
                 if (!log) return null;
                 if (log.dateKey) {
@@ -3006,17 +2922,13 @@
                 if (month === undefined || isNaN(day)) return null;
                 return new Date(now.getFullYear(), month, day);
             };
-
             const thisWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfThisWeek && d <= now; });
             const lastWeekLogs = logs.filter(l => { const d = parseDate(l); return d && d >= startOfLastWeek && d < startOfThisWeek; });
-
             const thisAvg = thisWeekLogs.length > 0 ? (thisWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/thisWeekLogs.length) : 0;
             const lastAvg = lastWeekLogs.length > 0 ? (lastWeekLogs.reduce((s,l)=>s+parseInt(l.score,10),0)/lastWeekLogs.length) : 0;
-
             document.getElementById('weekMoodCount').innerText = thisWeekLogs.length;
             document.getElementById('weekMoodAvg').innerText = thisWeekLogs.length ? thisAvg.toFixed(1) : '0';
             document.getElementById('lastWeekMoodAvg').innerText = lastWeekLogs.length ? lastAvg.toFixed(1) : '0';
-
             const trendEl = document.getElementById('weekTrend');
             if (thisWeekLogs.length === 0 || lastWeekLogs.length === 0) { trendEl.innerText = '—'; trendEl.className = 'text-2xl font-bold text-slate-500 mt-1'; }
             else {
@@ -3141,6 +3053,7 @@
             document.getElementById('gratitude1').value = '';
             document.getElementById('gratitude2').value = '';
             document.getElementById('gratitude3').value = '';
+            clearDraft('draftGrat');
             loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart();
             markActivityToday(); updateHomeStats();
             showToast("🌸 Syukur hari ini tersimpan!");
@@ -3269,6 +3182,7 @@
             document.getElementById('luckInput').value = '';
             const defaultRadio = document.querySelector('input[name="luckCat"][value="Lainnya"]');
             if (defaultRadio) defaultRadio.checked = true;
+            clearDraft('draftLuck');
             loadLuckHistory(); updateLuckStats(); renderLuckChart(); renderLuckBarChart();
             markActivityToday(); updateHomeStats();
             showToast("🍀 Keberuntungan hari ini tersimpan!");
@@ -3571,6 +3485,7 @@
                 c2Phone: sanitizePhone(document.getElementById('contact2Phone').value)
             };
             try { localStorage.setItem('anti_anxiety_contacts', JSON.stringify(contacts)); } catch (e) {}
+            clearDraft('draftContact');
             showToast("Kontak darurat disimpan.");
             renderSosContacts();
             document.getElementById('contact1Phone').value = contacts.c1Phone;
@@ -3610,7 +3525,7 @@
         }
         function exportData() {
             const data = {
-                version: 6.5,
+                version: 6.6,
                 exportedAt: new Date().toISOString(),
                 moods: safeParse('anti_anxiety_moods', []),
                 journals: safeParse('anti_anxiety_journals', []),
@@ -3672,6 +3587,8 @@
             if (!confirm('⚠️ SEMUA DATA akan dihapus permanen. Yakin?')) return;
             if (!confirm('Konfirmasi sekali lagi: hapus semua data aplikasi?')) return;
             ['anti_anxiety_moods','anti_anxiety_journals','anti_anxiety_activities','anti_anxiety_contacts','anti_anxiety_gratitude','anti_anxiety_luck','anti_anxiety_last_backup','anti_anxiety_backup_snooze','anti_anxiety_breath_visual','anti_anxiety_mood_slider'].forEach(k => localStorage.removeItem(k));
+            // Clear state persistence juga
+            Object.values(STATE_KEYS).forEach(k => { try { localStorage.removeItem(k); } catch(e){} try { sessionStorage.removeItem(k); } catch(e){} });
             loadJournals(); loadMoodHistory(); updateStreak();
             renderSosContacts(); loadEmergencyContacts();
             if (typeof loadGratitudeHistory === 'function') { loadGratitudeHistory(); updateGratitudeStats(); renderGratitudeCalendar(); renderGratitudeChart(); }
@@ -3695,10 +3612,12 @@
             document.getElementById('sosPrompt').innerText = `"${sosPrompts[sosPromptIdx]}"`;
             renderSosContacts();
             startSosPulse();
+            SS.set('sosOpen', true);
         }
         function closeSosModal() {
             document.getElementById('sosModal').classList.add('hidden');
             if (sosInterval) { clearInterval(sosInterval); sosInterval = null; }
+            SS.del('sosOpen');
         }
         function nextSosPrompt() {
             sosPromptIdx = (sosPromptIdx + 1) % sosPrompts.length;
@@ -3738,13 +3657,8 @@
         });
 
         window.addEventListener('load', function() {
-            /* ============================================================
-               SINKRONISASI IKON DARK MODE SAAT LOAD
-               (class 'dark' sudah diterapkan oleh init script di <head>)
-               ============================================================ */
             updateThemeIcons(document.documentElement.classList.contains('dark'));
             lucide.createIcons();
-
             applyTabStyles();
             setGroundingStep(5);
             loadJournals();
@@ -3802,15 +3716,63 @@
             const homeFab = document.getElementById('homeFab');
             if (homeFab) homeFab.classList.remove('visible');
 
+            /* ============================================================
+               RESTORE STATE — dipanggil di akhir load
+               ============================================================ */
+            // 1. Teknik napas
+            const savedTech = S.get('breathTech', null);
+            if (savedTech && techniques[savedTech]) {
+                currentTech = savedTech;
+                const titleEl = document.getElementById('breathTechniqueTitle');
+                const descEl = document.getElementById('breathTechniqueDesc');
+                if (titleEl) titleEl.innerText = techniques[savedTech].title;
+                if (descEl) descEl.innerText = techniques[savedTech].desc;
+                document.querySelectorAll('input[name="breathTech"]').forEach(r => r.checked = (r.value === savedTech));
+            }
+            // 2. Voice guide
+            if (S.get('voiceGuide', false)) {
+                const tg = document.getElementById('voiceGuideToggle');
+                if (tg) { tg.checked = true; toggleVoiceGuide(true); }
+            }
+            // 3. Grounding step
+            setGroundingStep(S.get('groundStep', 5));
+            // 4. Chart range
+            const savedRange = S.get('chartRange', 7);
+            if ([7,14,30].includes(savedRange)) switchChartRange(savedRange);
+            // 5. Audio drawer
+            if (S.get('audioDrawer', false)) {
+                const drawer = document.getElementById('audioDrawer');
+                isAudioDrawerOpen = true;
+                if (drawer) drawer.classList.remove('hidden');
+            }
+            // 6. Tab aktif (SEBELUM restore draft, karena switchTab settings memanggil loadEmergencyContacts)
+            const savedTab = S.get('tab', 'home');
+            if (savedTab && TAB_IDS.includes(savedTab) && savedTab !== 'home') {
+                switchTab(savedTab);
+            }
+            // 7. Drafts (restore SETELAH tab loaded, agar tidak ditimpa)
+            restoreDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
+            restoreDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
+            restoreDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
+            restoreDraft(['luckInput'], 'draftLuck');
+            restoreDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
+            // 8. Bind draft listeners (setelah restore, agar input berikut tersimpan)
+            bindDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
+            bindDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
+            bindDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
+            bindDraft(['luckInput'], 'draftLuck');
+            bindDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
+            // 9. Modal SOS & Donasi (dari sessionStorage)
+            if (SS.get('sosOpen', false)) setTimeout(() => openSosModal(), 200);
+            if (SS.get('donationOpen', false)) setTimeout(() => openDonationModal(), 200);
+
             lucide.createIcons();
         });
     </script>
 
-    <!-- ===================== PWA LOGIC (v6.5) ===================== -->
     <script>
     (function () {
         'use strict';
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
                 navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(function (err) {
@@ -3818,10 +3780,8 @@
                 });
             });
         }
-
         var deferredPrompt = null;
         var isInstalling = false;
-
         function isInstalled() {
             try {
                 return window.matchMedia('(display-mode: standalone)').matches ||
@@ -3830,7 +3790,6 @@
                        window.navigator.standalone === true;
             } catch (e) { return false; }
         }
-
         function markPwaInstalled() {
             try {
                 localStorage.setItem('anti_anxiety_pwa_installed', 'true');
@@ -3840,42 +3799,35 @@
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
         }
-
         function isPwaMarkedInstalled() {
             try { return localStorage.getItem('anti_anxiety_pwa_installed') === 'true'; } catch (e) { return false; }
         }
-
         function clearPwaInstalledFlag() {
             try {
                 localStorage.removeItem('anti_anxiety_pwa_installed');
                 localStorage.removeItem('anti_anxiety_pwa_installed_at');
             } catch (e) {}
         }
-
         function isInstallCardDismissed() {
             try { return sessionStorage.getItem('anti_anxiety_install_card_dismissed') === 'true'; } catch (e) { return false; }
         }
-
         function shouldShowInstallCard() {
             if (isInstalled()) return false;
             if (isPwaMarkedInstalled()) return false;
             if (isInstallCardDismissed()) return false;
             return true;
         }
-
         window.updateHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (!card) return;
             if (shouldShowInstallCard()) card.classList.remove('hidden');
             else card.classList.add('hidden');
         };
-
         window.dismissHomeInstallCard = function () {
             var card = document.getElementById('homeInstallCard');
             if (card) card.classList.add('hidden');
             try { sessionStorage.setItem('anti_anxiety_install_card_dismissed', 'true'); } catch (e) {}
         };
-
         window.resetInstallFlag = function () {
             if (isInstalled()) {
                 if (typeof showToast === 'function') showToast('Aplikasi sedang berjalan sebagai PWA terpasang');
@@ -3888,20 +3840,17 @@
             updateSettingsInstallBtn();
             if (typeof showToast === 'function') showToast('✅ Pengingat install direset. Kartu akan muncul kembali di Beranda.');
         };
-
         try {
             localStorage.removeItem('homeInstallCardDismissed');
             localStorage.removeItem('homeInstallCardDismissedUntil');
             localStorage.removeItem('installBannerDismissed');
         } catch (e) {}
-
         window.addEventListener('beforeinstallprompt', function (e) {
             e.preventDefault();
             deferredPrompt = e;
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
-
         window.addEventListener('appinstalled', function () {
             deferredPrompt = null;
             isInstalling = false;
@@ -3910,15 +3859,12 @@
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
-
         window.promptInstall = function () {
             if (isInstalling) return;
-
             if (isInstalled() || isPwaMarkedInstalled()) {
                 if (typeof showToast === 'function') showToast('Aplikasi sudah terpasang 👍');
                 return;
             }
-
             if (deferredPrompt) {
                 var prompt = deferredPrompt;
                 deferredPrompt = null;
@@ -3935,20 +3881,17 @@
                 }).catch(function () { isInstalling = false; });
                 return;
             }
-
             var ua = navigator.userAgent || '';
             var isIOS = /iphone|ipad|ipod/i.test(ua) && !window.MSStream;
             var isAndroid = /android/i.test(ua);
             var isFirefox = /firefox/i.test(ua);
             var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-
             var msg;
             if (isIOS) msg = "📱 iPhone/iPad: Tap ikon Share (kotak dengan panah ↑) → 'Add to Home Screen'";
             else if (isFirefox) msg = "🦊 Firefox: Menu ⋮ → 'Install' / 'Add to Home'";
             else if (isAndroid) msg = "🤖 Chrome Android: Menu ⋮ → 'Install app' / 'Add to Home screen'";
             else if (isSafari) msg = "🧭 Safari macOS: Menu File → 'Add to Dock'";
             else msg = "💡 Menu browser → 'Install' / 'Add to Home screen'";
-
             if (typeof showToast === 'function') {
                 var toast = document.getElementById('toast');
                 var msgEl = document.getElementById('toastMsg');
@@ -3959,7 +3902,6 @@
                 } else { alert(msg); }
             } else { alert(msg); }
         };
-
         function updateSettingsInstallBtn() {
             var btn = document.getElementById('settingsInstallBtn');
             var txt = document.getElementById('installBtnText');
@@ -3974,7 +3916,6 @@
                 btn.classList.remove('opacity-60', 'cursor-not-allowed');
             }
         }
-
         var splashHidden = false;
         function hideSplash() {
             if (splashHidden) return;
@@ -3987,40 +3928,28 @@
                 }, 700);
             }
         }
-
         window.addEventListener('load', function () {
             updateHomeInstallCard();
             updateSettingsInstallBtn();
             if (!window.__skipSplash) setTimeout(hideSplash, 1500);
         });
-
         if (!window.__skipSplash) setTimeout(hideSplash, 3500);
 
-        function goHome() {
-            try {
-                if (typeof window.switchTab === 'function') window.switchTab('home');
-            } catch (e) {}
-        }
-
+        // ❌ goHome() DIHAPUS — user tetap di tab-nya saat kembali ke app
         document.addEventListener('visibilitychange', function () {
             if (!document.hidden) {
-                goHome();
                 updateHomeInstallCard();
                 updateSettingsInstallBtn();
             }
         });
-
         window.addEventListener('pageshow', function (e) {
-            if (e.persisted) goHome();
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
-
         window.addEventListener('focus', function () {
             updateHomeInstallCard();
             updateSettingsInstallBtn();
         });
-
         var origSwitchTab = window.switchTab;
         if (typeof origSwitchTab === 'function') {
             window.switchTab = function (tabId) {
@@ -4035,21 +3964,21 @@
         }
     })();
     </script>
-<script>
-(function () {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.addEventListener('message', function(event) {
-            if (event.data && event.data.type === 'VERSION_INFO') {
-                console.log('Versi SW aktif:', event.data.version);
-            }
-        });
-        navigator.serviceWorker.ready.then(function(registration) {
-            if (navigator.serviceWorker.controller) {
-                navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
-            }
-        });
-    }
-})();
-</script>
+    <script>
+    (function () {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'VERSION_INFO') {
+                    console.log('Versi SW aktif:', event.data.version);
+                }
+            });
+            navigator.serviceWorker.ready.then(function(registration) {
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' });
+                }
+            });
+        }
+    })();
+    </script>
 </body>
 </html>
