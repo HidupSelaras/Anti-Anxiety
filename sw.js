@@ -1,19 +1,21 @@
 /* ============================================================
    SERVICE WORKER — Anti Anxiety App
-   Versi: v18
+   Versi: v19
    ============================================================ */
 
-const CACHE_NAME = 'anti-anxiety-v18';
+const CACHE_NAME = 'anti-anxiety-v19';
 const ASSETS = [
     './',
     './index.html',
     './blog.html',
     './about.html',
+    './partner.html',
     './contact.html',
     './privacy.html',
     './disclaimer.html',
     './terms.html',
-    './manifest.json'
+    './manifest.json',
+    './logoaa.png'
 ];
 
 // 1. Install Service Worker & Simpan Aset ke Cache
@@ -33,7 +35,7 @@ self.addEventListener('activate', (event) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
                     if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName); // Hapus cache versi sebelumnya (v17)
+                        return caches.delete(cacheName); // Hapus cache versi sebelumnya
                     }
                 })
             );
