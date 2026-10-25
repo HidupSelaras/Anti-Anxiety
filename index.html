@@ -218,6 +218,40 @@
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
+        /* ============================================================
+           FIX: SCROLLBAR TAB NAV — hanya muncul di DESKTOP
+           Di mobile tetap tersembunyi (biar rapi, masih bisa swipe)
+           ============================================================ */
+        @media (min-width: 769px) {
+            #tabNav.scrollbar-none {
+                -ms-overflow-style: auto !important;
+                scrollbar-width: thin !important;
+                scrollbar-color: rgba(148, 163, 184, 0.45) transparent !important;
+                padding-bottom: 10px !important;
+                cursor: grab;
+            }
+            #tabNav.scrollbar-none::-webkit-scrollbar {
+                display: block !important;
+                height: 6px !important;
+            }
+            #tabNav.scrollbar-none::-webkit-scrollbar-track {
+                background: transparent;
+                border-radius: 3px;
+                margin: 0 4px;
+            }
+            #tabNav.scrollbar-none::-webkit-scrollbar-thumb {
+                background: rgba(148, 163, 184, 0.45);
+                border-radius: 3px;
+            }
+            #tabNav.scrollbar-none::-webkit-scrollbar-thumb:hover {
+                background: rgba(148, 163, 184, 0.7);
+            }
+            #tabNav.scrollbar-none.dragging {
+                cursor: grabbing;
+                user-select: none;
+            }
+        }
+
         @keyframes slide-hint { 0%, 100% { transform: translateX(0); opacity: 0.6; } 50% { transform: translateX(4px); opacity: 1; } }
         .slide-hint-icon { animation: slide-hint 1.6s ease-in-out infinite; }
 
@@ -551,12 +585,14 @@
                 </button>
             </nav>
 
-            <div id="scrollHint" class="absolute right-0 top-0 bottom-2 flex items-center pointer-events-none opacity-0 transition-opacity duration-300 pr-1">
+            <!-- FIX: scrollHint dijadikan <button> agar bisa diklik di desktop -->
+            <button id="scrollHint" type="button" onclick="scrollTabsToEnd()" aria-label="Geser ke tab berikutnya"
+                class="absolute right-0 top-0 bottom-2 flex items-center pointer-events-none opacity-0 transition-opacity duration-300 pr-1 bg-transparent border-0">
                 <div class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-md">
                     <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Geser</span>
                     <i data-lucide="chevrons-right" class="w-3.5 h-3.5 text-calm-600 dark:text-calm-400 slide-hint-icon"></i>
                 </div>
-            </div>
+            </button>
         </div>
 
         <!-- HOME -->
@@ -1909,14 +1945,90 @@
             }
         });
 
+        /* ============================================================
+           FIX: TAB NAV SCROLL
+           - updateScrollHint: kontrol hint "Geser →"
+           - scrollTabsToEnd: klik hint -> lompat ke ujung
+           - initTabNavScroll: wheel vertical -> horizontal + drag mouse
+           ============================================================ */
         function updateScrollHint() {
-            const nav = document.getElementById('tabNav');
+            const nav  = document.getElementById('tabNav');
             const hint = document.getElementById('scrollHint');
             if (!nav || !hint) return;
-            const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
+
             const noOverflow = nav.scrollWidth <= nav.clientWidth + 5;
-            if (noOverflow || atEnd) { hint.style.opacity = '0'; hint.style.pointerEvents = 'none'; }
-            else hint.style.opacity = '1';
+            if (noOverflow) {
+                hint.style.opacity = '0';
+                hint.style.pointerEvents = 'none';
+                return;
+            }
+            // Selama ada overflow, hint selalu terlihat & klik-able
+            hint.style.opacity = '1';
+            hint.style.pointerEvents = 'auto';
+        }
+
+        function scrollTabsToEnd() {
+            const nav = document.getElementById('tabNav');
+            if (!nav) return;
+            const atEnd = nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 5;
+            nav.scrollTo({ left: atEnd ? 0 : nav.scrollWidth, behavior: 'smooth' });
+        }
+
+        function initTabNavScroll() {
+            const nav = document.getElementById('tabNav');
+            if (!nav) return;
+
+            // 1) Wheel vertikal -> horizontal scroll
+            nav.addEventListener('wheel', function (e) {
+                if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                    const canRight = nav.scrollLeft < nav.scrollWidth - nav.clientWidth - 1;
+                    const canLeft  = nav.scrollLeft > 0;
+                    if ((e.deltaY > 0 && canRight) || (e.deltaY < 0 && canLeft)) {
+                        e.preventDefault();
+                        nav.scrollLeft += e.deltaY;
+                    }
+                }
+            }, { passive: false });
+
+            // 2) Drag-to-scroll dengan mouse (desktop)
+            let isDown = false, startX = 0, startScroll = 0, dragged = false;
+
+            nav.addEventListener('mousedown', function (e) {
+                if (e.button !== 0) return;
+                if (e.target.closest('button')) return; // jangan ganggu klik tombol tab
+                isDown = true; dragged = false;
+                startX = e.pageX - nav.offsetLeft;
+                startScroll = nav.scrollLeft;
+                nav.classList.add('dragging');
+            });
+
+            nav.addEventListener('mousemove', function (e) {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - nav.offsetLeft;
+                const walk = x - startX;
+                if (Math.abs(walk) > 4) dragged = true;
+                nav.scrollLeft = startScroll - walk;
+            });
+
+            function endDrag() {
+                isDown = false;
+                nav.classList.remove('dragging');
+            }
+            nav.addEventListener('mouseleave', endDrag);
+            nav.addEventListener('mouseup', endDrag);
+
+            // Cegah klik tab jika user sebenarnya sedang drag
+            nav.addEventListener('click', function (e) {
+                if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; }
+            }, true);
+        }
+
+        // Jalankan initTabNavScroll setelah DOM siap
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTabNavScroll);
+        } else {
+            initTabNavScroll();
         }
 
         /* ============================================================
