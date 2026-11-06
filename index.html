@@ -3202,7 +3202,8 @@
             `).join('');
             lucide.createIcons();
         }
-        const dailyTips = [
+                const dailyTips = [
+            // ===== 10 TIPS LAMA (TETAP) =====
             "Minum air putih yang cukup. Dehidrasi ringan saja bisa memicu kecemasan.",
             "Jalan kaki 10 menit di luar ruangan bisa menurunkan kortisol.",
             "Batasi kafein setelah jam 2 siang — bisa mengganggu tidur.",
@@ -3212,7 +3213,30 @@
             "Coba teknik grounding 5-4-3-2-1 saat mulai merasa panik.",
             "Tulis 3 hal yang Anda syukuri hari ini sebelum tidur.",
             "Napas dalam 4-7-8 bisa menenangkan sistem saraf dalam 2 menit.",
-            "Mendengarkan musik favorit 15 menit dapat menurunkan hormon stres."
+            "Mendengarkan musik favorit 15 menit dapat menurunkan hormon stres.",
+
+            // ===== 21 TIPS BARU =====
+            "Berhenti 5 detik sebelum membalas pesan yang memicu emosi. Beri jeda antara stimulus dan respons.",
+            "Letakkan satu tangan di dada dan satu di perut. Bernapaslah dari perut, bukan dada — ini mengaktifkan saraf vagus.",
+            "Catat mood-mu minimal 4x sehari (pagi, siang, sore, malam) agar kamu mengenali pola emosimu.",
+            "Saat pikiran melayang, cukup katakan dalam hati: 'Oh, pikiranku sedang melayang,' lalu kembali ke napas.",
+            "Sebutkan 3 hal yang bisa kamu lihat dan 2 suara yang bisa kamu dengar — jangkar cepat ke saat ini.",
+            "Sebelum tidur, pindai tubuhmu dari ujung kepala hingga kaki. Sadari di mana ketegangan bersemayam.",
+            "Kurangi gula dan makanan olahan — lonjakan gula darah memicu kecemasan dan mood swing.",
+            "Berjemur 10-15 menit di pagi hari membantu mengatur ritme sirkadian dan suasana hati.",
+            "Tulis surat singkat untuk dirimu versi masa lalu. Maafkan dia karena belum tahu caranya.",
+            "Tanyakan pada pikiran cemasmu: 'Apakah ada bukti nyata, atau hanya asumsi?'",
+            "Lakukan Box Breathing 4-4-4-4 sebelum rapat atau presentasi untuk menenangkan sistem saraf.",
+            "Jangan menyelesaikan semua masalah hari ini. Pilih satu langkah kecil, selesaikan, lalu rayakan.",
+            "Beri nama emosimu: 'Ini kecemasan,' atau 'Ini kesal.' Menamai emosi menurunkan intensitasnya.",
+            "Saat overthinking, tanyakan: 'Apakah ini masalah nyata, atau hanya skenario di kepalaku?'",
+            "Batasi berita dan media sosial di pagi hari. Mulailah hari dengan ruang tenang, bukan badai informasi.",
+            "Lakukan 'Jeda Sadar': berhenti, tarik napas panjang, rasakan kaki berpijak, baru bertindak.",
+            "Tidur dengan suara latar (hujan/ombak) bisa membantu pikiran berhenti berputar.",
+            "Beri dirimu izin untuk beristirahat tanpa alasan. Istirahat bukan kemewahan, tapi kebutuhan biologis.",
+            "Saat merasa gagal, ingat: satu hari buruk hanyalah satu hari, bukan seluruh hidupmu.",
+            "Hubungi satu orang yang membuatmu merasa aman hari ini. Koneksi sosial menurunkan kortisol.",
+            "Rayakan satu hal kecil yang berhasil kamu lakukan hari ini — sekecil apa pun itu."
         ];
         function renderDailyTip() { const el = document.getElementById('dailyTipText'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
         function renderDailyTipHome() { const el = document.getElementById('dailyTipTextHome'); if (el) el.innerText = dailyTips[new Date().getDate() % dailyTips.length]; }
