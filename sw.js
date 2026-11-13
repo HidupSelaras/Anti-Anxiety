@@ -1,9 +1,9 @@
 /* ============================================================
    SERVICE WORKER — Anti Anxiety App
-   Versi: v20
+   Versi: v21
    ============================================================ */
 
-const CACHE_VERSION = 'v20';
+const CACHE_VERSION = 'v21';
 const CACHE_NAME = `anti-anxiety-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `anti-anxiety-runtime-${CACHE_VERSION}`;
 
@@ -18,7 +18,15 @@ const ASSETS = [
     './disclaimer.html',
     './terms.html',
     './manifest.json',
-    './logoaa.png'
+    './logoaa.png',
+    // ============================================================
+    // 🆕 File audio suara latar (v21)
+    // ============================================================
+    './audio/hujan.mp3',
+    './audio/ombak.mp3',
+    './audio/hutan.mp3',
+    './audio/whitenoise.mp3',
+    './audio/binaural.mp3'
 ];
 
 // CDN yang di-cache saat runtime (offline-friendly)
