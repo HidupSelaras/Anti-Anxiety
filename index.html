@@ -2200,7 +2200,6 @@
             document.querySelectorAll('.tab-content').forEach(c => { c.classList.add('hidden'); c.classList.remove('block'); });
             const activeContent = document.getElementById(`sec-${tabId}`);
             if (activeContent) { activeContent.classList.remove('hidden'); activeContent.classList.add('block'); }
-            // FIX 2b: scroll nav ke tab aktif jika off-screen
             setTimeout(() => {
                 try { scrollNavToActiveTab(tabId); } catch (e) {}
             }, 50);
@@ -2236,9 +2235,18 @@
             }
         });
 
-        let audioCtx = null;
-        let activeNodes = {};
-        let masterGain = null;
+        /* ============================================================
+           SUARA LATAR — Pakai file MP3 sendiri (stereo)
+           ============================================================ */
+        const SOUND_FILES = {
+            rain:     'audio/hujan.mp3',
+            waves:    'audio/ombak.mp3',
+            forest:   'audio/hutan.mp3',
+            white:    'audio/whitenoise.mp3',
+            binaural: 'audio/binaural.mp3'
+        };
+
+        const soundPlayers = {};
         let isAudioDrawerOpen = false;
 
         function toggleAudioDrawer() {
@@ -2247,100 +2255,91 @@
             drawer.classList.toggle('hidden', !isAudioDrawerOpen);
             S.set('audioDrawer', isAudioDrawerOpen);
         }
-        function initAudioContext() {
-            if (!audioCtx) {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) { showToast('Browser Anda tidak mendukung Web Audio.'); return; }
-                audioCtx = new AudioContext();
-                masterGain = audioCtx.createGain();
-                masterGain.gain.value = 0.5;
-                masterGain.connect(audioCtx.destination);
-            }
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        function updateAudioBadge(badge) {
+            if (!badge) return;
+            const anyPlaying = Object.values(soundPlayers).some(a => a && !a.paused);
+            badge.classList.toggle('hidden', !anyPlaying);
         }
-        function changeVolume(val) { if (masterGain) masterGain.gain.value = parseFloat(val); }
-        function toggleSound(type) {
-            initAudioContext();
-            if (!audioCtx) return;
+
+        function resetSoundBtn(type) {
             const btn = document.getElementById(`btn-${type}`);
+            if (!btn) return;
+            btn.classList.remove('bg-calm-500', 'text-slate-900', 'font-bold');
+            btn.classList.add('bg-emerald-800/60');
+        }
+
+        function activateSoundBtn(type) {
+            const btn = document.getElementById(`btn-${type}`);
+            if (!btn) return;
+            btn.classList.add('bg-calm-500', 'text-slate-900', 'font-bold');
+            btn.classList.remove('bg-emerald-800/60');
+        }
+
+        function toggleSound(type) {
+            const file = SOUND_FILES[type];
+            if (!file) return;
             const badge = document.getElementById('audioBadge');
-            if (activeNodes[type]) {
-                try { if (activeNodes[type].stop) activeNodes[type].stop(); } catch (e) {}
-                delete activeNodes[type];
-                btn.classList.remove('bg-calm-500', 'text-slate-900', 'font-bold');
-                btn.classList.add('bg-emerald-800/60');
-            } else {
-                let node = null;
-                if (type === 'rain') node = createRainNoise();
-                else if (type === 'waves') node = createOceanWaves();
-                else if (type === 'white') node = createWhiteNoise();
-                else if (type === 'forest') node = createForestNoise();
-                else if (type === 'binaural') node = createBinauralBeats();
-                if (node) {
-                    activeNodes[type] = node;
-                    btn.classList.add('bg-calm-500', 'text-slate-900', 'font-bold');
-                    btn.classList.remove('bg-emerald-800/60');
-                }
+            const volumeInput = document.getElementById('volumeControl');
+            const volume = volumeInput ? parseFloat(volumeInput.value || '0.5') : 0.5;
+
+            if (soundPlayers[type] && !soundPlayers[type].paused) {
+                soundPlayers[type].pause();
+                soundPlayers[type].currentTime = 0;
+                resetSoundBtn(type);
+                updateAudioBadge(badge);
+                return;
             }
-            if (badge) badge.classList.toggle('hidden', Object.keys(activeNodes).length === 0);
+
+            if (!soundPlayers[type]) {
+                const audio = new Audio(file);
+                audio.loop    = true;
+                audio.volume  = volume;
+                audio.preload = 'auto';
+                audio.addEventListener('error', () => {
+                    showToast('⚠️ Gagal memutar audio. Pastikan file ada di folder audio/.');
+                    resetSoundBtn(type);
+                    updateAudioBadge(badge);
+                });
+                audio.addEventListener('pause', () => {
+                    resetSoundBtn(type);
+                    updateAudioBadge(badge);
+                });
+                audio.addEventListener('play', () => {
+                    activateSoundBtn(type);
+                    updateAudioBadge(badge);
+                });
+                soundPlayers[type] = audio;
+            }
+
+            const audio = soundPlayers[type];
+            audio.volume = volume;
+            audio.currentTime = 0;
+            audio.play().then(() => {
+                activateSoundBtn(type);
+                updateAudioBadge(badge);
+            }).catch(err => {
+                console.warn('Play error:', err);
+                showToast('⚠️ Tap sekali lagi untuk memutar audio.');
+                resetSoundBtn(type);
+                updateAudioBadge(badge);
+            });
         }
-        function createWhiteNoise() {
-            const bufferSize = audioCtx.sampleRate * 2;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 800;
-            const gain = audioCtx.createGain(); gain.gain.value = 0.15;
-            src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start(); return { stop: () => src.stop() };
+
+        function changeVolume(val) {
+            const v = parseFloat(val);
+            Object.values(soundPlayers).forEach(a => { if (a) a.volume = v; });
         }
-        function createRainNoise() {
-            const bufferSize = audioCtx.sampleRate * 2;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 1200;
-            const gain = audioCtx.createGain(); gain.gain.value = 0.2;
-            src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start(); return { stop: () => src.stop() };
-        }
-        function createOceanWaves() {
-            const bufferSize = audioCtx.sampleRate * 3;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 400;
-            const gain = audioCtx.createGain(); gain.gain.value = 0.25;
-            const lfo = audioCtx.createOscillator(); lfo.frequency.value = 0.12;
-            const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 0.15;
-            lfo.connect(lfoGain); lfoGain.connect(gain.gain);
-            src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start(); lfo.start(); return { stop: () => { src.stop(); lfo.stop(); } };
-        }
-        function createForestNoise() {
-            const bufferSize = audioCtx.sampleRate * 2;
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-            const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true;
-            const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 500;
-            const gain = audioCtx.createGain(); gain.gain.value = 0.12;
-            src.connect(filter); filter.connect(gain); gain.connect(masterGain);
-            src.start(); return { stop: () => src.stop() };
-        }
-        function createBinauralBeats() {
-            const oscL = audioCtx.createOscillator(); const oscR = audioCtx.createOscillator();
-            const gainL = audioCtx.createGain(); const gainR = audioCtx.createGain();
-            const merger = audioCtx.createChannelMerger(2);
-            oscL.frequency.value = 200; oscR.frequency.value = 206;
-            gainL.gain.value = 0.08; gainR.gain.value = 0.08;
-            oscL.connect(gainL); gainL.connect(merger, 0, 0);
-            oscR.connect(gainR); gainR.connect(merger, 0, 1);
-            merger.connect(masterGain);
-            oscL.start(); oscR.start(); return { stop: () => { oscL.stop(); oscR.stop(); } };
+
+        function stopAllBackgroundSounds() {
+            Object.keys(soundPlayers).forEach(type => {
+                const a = soundPlayers[type];
+                if (a && !a.paused) {
+                    try { a.pause(); } catch (e) {}
+                }
+                resetSoundBtn(type);
+            });
+            updateAudioBadge(document.getElementById('audioBadge'));
         }
 
         const AFFIRMATION_AUDIO = [
@@ -3203,7 +3202,6 @@
             lucide.createIcons();
         }
                 const dailyTips = [
-            // ===== 10 TIPS LAMA (TETAP) =====
             "Minum air putih yang cukup. Dehidrasi ringan saja bisa memicu kecemasan.",
             "Jalan kaki 10 menit di luar ruangan bisa menurunkan kortisol.",
             "Batasi kafein setelah jam 2 siang — bisa mengganggu tidur.",
@@ -3214,8 +3212,6 @@
             "Tulis 3 hal yang Anda syukuri hari ini sebelum tidur.",
             "Napas dalam 4-7-8 bisa menenangkan sistem saraf dalam 2 menit.",
             "Mendengarkan musik favorit 15 menit dapat menurunkan hormon stres.",
-
-            // ===== 21 TIPS BARU =====
             "Berhenti 5 detik sebelum membalas pesan yang memicu emosi. Beri jeda antara stimulus dan respons.",
             "Letakkan satu tangan di dada dan satu di perut. Bernapaslah dari perut, bukan dada — ini mengaktifkan saraf vagus.",
             "Catat mood-mu minimal 4x sehari (pagi, siang, sore, malam) agar kamu mengenali pola emosimu.",
@@ -3853,6 +3849,7 @@
                 if (activeAudioEl && !activeAudioEl.paused) {
                     try { activeAudioEl.pause(); setAudioStopBtnState(activeAudioId, false); } catch (e) {}
                 }
+                stopAllBackgroundSounds();
             }
         });
 
@@ -3916,10 +3913,6 @@
             const homeFab = document.getElementById('homeFab');
             if (homeFab) homeFab.classList.remove('visible');
 
-            /* ============================================================
-               RESTORE STATE
-               ============================================================ */
-            // 1. Teknik napas
             const savedTech = S.get('breathTech', null);
             if (savedTech && techniques[savedTech]) {
                 currentTech = savedTech;
@@ -3929,40 +3922,32 @@
                 if (descEl) descEl.innerText = techniques[savedTech].desc;
                 document.querySelectorAll('input[name="breathTech"]').forEach(r => r.checked = (r.value === savedTech));
             }
-            // 2. Voice guide — SILENT restore (FIX 3: jangan speak saat restore)
             if (S.get('voiceGuide', false)) {
                 const tg = document.getElementById('voiceGuideToggle');
                 if (tg) { tg.checked = true; toggleVoiceGuide(true, true); }
             }
-            // 3. Grounding step
             setGroundingStep(S.get('groundStep', 5));
-            // 4. Chart range
             const savedRange = S.get('chartRange', 7);
             if ([7,14,30].includes(savedRange)) switchChartRange(savedRange);
-            // 5. Audio drawer
             if (S.get('audioDrawer', false)) {
                 const drawer = document.getElementById('audioDrawer');
                 isAudioDrawerOpen = true;
                 if (drawer) drawer.classList.remove('hidden');
             }
-            // 6. Tab aktif (FIX 4: SELALU panggil switchTab, termasuk home)
             const savedTab = S.get('tab', 'home');
             if (savedTab && TAB_IDS.includes(savedTab)) {
                 switchTab(savedTab);
             }
-            // 7. Drafts
             restoreDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
             restoreDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
             restoreDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
             restoreDraft(['luckInput'], 'draftLuck');
             restoreDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
-            // 8. Bind draft listeners
             bindDraft(['cbtThought','cbtEvidence','cbtReframing'], 'draftCbt');
             bindDraft(['releaseEvent','releaseEmotion','releaseMessage'], 'draftRelease');
             bindDraft(['gratitude1','gratitude2','gratitude3'], 'draftGrat');
             bindDraft(['luckInput'], 'draftLuck');
             bindDraft(['contact1Name','contact1Phone','contact2Name','contact2Phone'], 'draftContact');
-            // 9. Modal SOS & Donasi
             if (SS.get('sosOpen', false)) setTimeout(() => openSosModal(), 200);
             if (SS.get('donationOpen', false)) setTimeout(() => openDonationModal(), 200);
 
