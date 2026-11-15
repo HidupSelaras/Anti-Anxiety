@@ -210,6 +210,24 @@
         html.dark .home-stat-label { color: #94a3b8; }
         @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .animate-in { animation: fadeInScale 0.2s ease-out; }
+                /* --- Gaya untuk Badge Sejati Store --- */
+        @keyframes float-badge {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-4px) scale(1.02); }
+        }
+        .sejati-badge {
+            animation: float-badge 4s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+        .sejati-badge:hover {
+            transform: translateY(-4px) scale(1.06) !important;
+            box-shadow: 0 10px 25px -5px rgba(20, 184, 166, 0.4), 0 8px 10px -6px rgba(20, 184, 166, 0.2) !important;
+            background-color: rgba(255, 255, 255, 0.95) !important;
+        }
+        html.dark .sejati-badge:hover {
+            background-color: rgba(15, 31, 29, 0.95) !important;
+        }
+        /* --- End Badge Sejati Store --- */
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-full flex flex-col justify-between selection:bg-calm-200">
@@ -490,6 +508,17 @@
                         <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-calm-200/90 dark:bg-teal-900/70 text-teal-800 dark:text-teal-200 mb-2">
                             🌿 Ruang Aman Anda
                         </span>
+                                                <!-- Badge Sejati Store -->
+                        <a href="https://sejati-store.pages.dev/" target="_blank" rel="noopener noreferrer" 
+                           class="sejati-badge inline-flex items-center gap-2 px-3.5 py-1.5 mb-4 rounded-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-calm-200/80 dark:border-calm-700/50 shadow-sm shadow-calm-100/50 dark:shadow-none cursor-pointer group">
+                            <div class="w-5 h-5 rounded-full bg-gradient-to-br from-calm-400 to-teal-500 flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300">
+                                <i data-lucide="heart-handshake" class="w-3 h-3"></i>
+                            </div>
+                            <span class="text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 tracking-wide group-hover:text-calm-700 dark:group-hover:text-calm-300 transition-colors">
+                                Panduan 30 Hari <span class="text-calm-600 dark:text-calm-400">Mindfulness</span>
+                            </span>
+                            <i data-lucide="arrow-up-right" class="w-3 h-3 text-slate-400 group-hover:text-calm-500 transition-colors"></i>
+                        </a>
                         <h2 class="text-2xl sm:text-3xl font-bold text-sharp text-slate-800 dark:text-slate-100 tracking-tight">Bagaimana perasaanmu saat ini?</h2>
                         <p class="text-sm font-medium text-sharp text-slate-700 dark:text-slate-300 mt-1 max-w-xl">
                             Tarik napas perlahan. Perasaan cemas adalah respons alami tubuh yang pasti akan berlalu.
