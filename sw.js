@@ -1,9 +1,9 @@
 /* ============================================================
    SERVICE WORKER — Anti Anxiety App
-   Versi: v21
+   Versi: v22
    ============================================================ */
 
-const CACHE_VERSION = 'v21';
+const CACHE_VERSION = 'v22';
 const CACHE_NAME = `anti-anxiety-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `anti-anxiety-runtime-${CACHE_VERSION}`;
 
@@ -20,7 +20,7 @@ const ASSETS = [
     './manifest.json',
     './logoaa.png',
     // ============================================================
-    // 🆕 File audio suara latar (v21)
+    // 🆕 File audio suara latar (v22)
     // ============================================================
     './audio/hujan.mp3',
     './audio/ombak.mp3',
